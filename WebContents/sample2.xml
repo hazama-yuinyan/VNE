@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Scinario>
+	<header>
+		<variables>white : rgb(255, 255, 255); grey : rgb(128, 128, 128); black : rgb(0, 0, 0); snowman_fondness : 0; main_HP : 100; bear_HP : 30</variables>
+		<flags>is_fighting : false</flags>
+		<characters tags="自分, snowman, bear">あなた; Snowman; 熊</characters>
+		<colors tags="自分, snowman, bear">rgb(255, 30, 0); rgb(0, 30, 255); rgb(20, 20, 20)</colors>
+		<paths names="br_icon, cp_icon, select, item_get, win, got_down, in_danger, op_jingle, se_gasagasa, img_snowman, img_bear">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/clear2.mp3; sounds/clear1.mp3; 
+		sounds/jingle20.mp3; sounds/loop03.mp3; sounds/jingle19.mp3; sounds/gasagasa.ogg; images/snowman.png; images/bear.png</paths>
+		<settings names="br_icon, cp_icon, selected_se, is_debug">$paths.br_icon; $paths.cp_icon; $paths.select; true</settings>
+		<profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
+		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
+		<profile name="自分" style="border: outset 3px $自分.color; border-radius: 10px; color: $自分.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;"></profile>
+		<profile name="snowman" style="border: outset 3px $snowman.color; border-radius: 10px; color: $snowman.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
+		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
+		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント', serif;"/>
+		<style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
+		<style name="choices" x="centered" width="adjust" style="border: inset 10px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント', serif;"/>
+	</header>
+	
+	<scene title="main_menu" shows_title="false">
+		<menu initial_state="MainMenu">
+			<a x="centered" y="100" action="openNew" to="title:body">新しく始める</a>
+			<b x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</b>
+			<c x="centered" y="300" action="openOption" to="MenuOption">オプション</c>
+		</menu>
+	</scene>
+	
+	<scene title="body" shows_title="false">
+		<sound src="$paths.op_jingle" operation="once"/><title end_time="150">Snowman's Adventure</title>
+	</scene>
+	
+	<scene title="Prologue" shows_title="false">
+		<snowman>
+			<image id="snowman" src="$paths.img_snowman" frame="$snowman.normal" figure_pos="center"/>Hello!ボクはSnowmanデス。<br/>
+			実は画面の前にいるキミにちょっと手伝ってもらいたいことがあるんだ。<cp/>
+			ボクの住んでるSnowman's Islandのお姫様が何者かによってさらわれちゃったんだ。<br/>
+			だから、キミにはボクと一緒にそのお姫様を探して助ける手伝いをして欲しい。<cp/>
+			してくれるよね？<cp/>
+			<image id="snowman" operation="remove"/>
+		</snowman>
+		<choices>
+			<a to="title:Ending1">ヤダ</a>
+			<b to="title:Prologue, ids:refused1">え～</b>
+			<c to="title:Prologue, ids:ok">しょうがないな～</c>
+		</choices>
+		
+		<scene id="refused1">
+			<snowman>
+				<image id="snowman" src="$paths.img_snowman" frame="$snowman.normal" figure_pos="center"/>そういわずにさ～。そこを何とか頼むよ～。<br/>
+				もちろん、報酬は弾むよ！なにがいい？<br/>
+				キミの欲しい物を何でもあげるよ！<cp/>
+				<image id="snowman" operation="remove"/>
+			</snowman>
+			<choices>
+				<a to="title:Prologue, ids:IWantMoney">金だよ、金！</a>
+				<b to="title:Prologue, ids:IWantLove">そうだな・・・愛、がほしいかな・・・</b>
+				<c to="title:Prologue, ids:IWantNothing">なにもいらないよ</c>
+			</choices>
+		</scene>
+		
+		<scene id="IWantMoney">
+			<snowman>現実的だね・・・。キミはもうちょっと夢を持ったほうがいいと思うよ・・・<cp/></snowman>
+			<自分>
+				世の中結局金なんだよ。お前もわかってんだろ、そんなことぐらい。<br/>
+				わかったらさっさとよこせよ！雪坊主野郎！<cp/>
+			</自分>
+			<snowman>
+				お金をあげたら本当にボクの手伝いをしてくれるんだね？<br/>
+				絶対だよ？約束だからね？<cp/>
+			</snowman>
+			<自分>わかったから早くよこせよ！</自分>
+			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<var expr="$rand.int * 100"/>Gを手に入れた！</narrative>
+			<自分>
+				（ハッハッハ、ちょろいなこいつ。<br/>
+				無くさないようにポケットに入れておこう）<var expr="$snowman_fondness : $snowman_fondness - 5"/><cp/>
+				<log>Snowmanの好感度：<var expr="return $snowman_fondness"/></log>
+				<jump to="title:Prologue, ids:ok"/>
+			</自分>
+		</scene>
+		
+		<scene id="IWantLove">
+			<snowman>
+				愛・・・愛か・・・・・・・・・・・・<cp/>
+				ボクも欲しいかもしれない・・・<cp/>
+			</snowman>
+			<自分>（こいつも苦労してんのか？）</自分>
+			<snowman>
+				ボクで良ければ抱きしめてあげるよ。<br/>
+				ホラ！<cp/>
+			</snowman>
+			<自分>いや、遠慮しておくよ…</自分>
+			<snowman>遠慮しなくていいんだよ！ほら、C'mon!</snowman>
+			<自分>
+				マジでいいから！<cp/>
+				<jump to="title:Prologue, ids:ok"/>
+			</自分>
+		</scene>
+		
+		<scene id="IWantNothing">
+			<snowman>
+				それは困るな～。世の中、ギブアンドテイクで成り立ってるのだよ。<br/>
+				見返りに何が欲しいか言ってくれないと何もできないじゃないか～。<cp/>
+			</snowman>
+			<自分>そういわれても何も思い浮かばねえしな～。</自分>
+			<snowman>じゃあボクが何か良さそうなものを挙げるからその中から選んでよ。</snowman>
+			<choices>
+				<a to="title: Prologue, ids: IWantMoney">お金</a>
+				<b to="title: Prologue, ids: IWantLove">愛情</b>
+				<c to="title: Prologue, ids: 食べ物">食べ物</c>
+				<d to="title: Ending1">選べないから全部</d>
+			</choices>
+		</scene>
+		
+		<scene id="食べ物">
+			<snowman>
+				食べ物って言われても、今Snowman's Islandは飢饉に遭ってて雪以外何もないんだよ・・・<br/>
+				むしろボクたちが食べ物を恵んでもらいたいぐらいさ。<cp/>
+			</snowman>
+			<自分>いや、お前何でもくれるって言ったじゃん。</自分>
+			<snowman>そうはいっても限度ってものがあるよ。</snowman>
+			<自分>使えねえやつ！</自分>
+		</scene>
+		
+		<scene id="ok">
+			<snowman>よし、じゃあ早速出発しよう。</snowman>
+			<自分>は？出発するってどこへ。</自分>
+			<snowman>そんなの、お姫様がさらわれた敵の城に決まってるじゃないか！</snowman>
+			<自分>
+				（もうお姫様の居場所わかってんのかよ・・・<br/>
+				なら俺いらなくね？）<cp/>
+				もうお姫様の居場所わかってんの？<cp/>
+				お前確か、『一緒にお姫様の居場所を探して助ける手伝いをしてほしい』とかいってなかったっけか？<cp/>
+			</自分>
+			<snowman>
+				え？ああ、言ったよ。でも、まさかまったく当てもなく闇雲に探しに行くわけないじゃないか～。<br/>
+				キミにはお城の中のどこにお姫様がいるかを探す手伝いをしてほしいんだよ。<cp/>
+			</snowman>
+			<自分>
+				あ、ああ、そう・・・<cp/>
+				（なんか引っかかる言い方だな・・・<br/>
+				もしかしてこいつ、姫の居場所の見当が付いていなければ助けにいかないつもりだったのか？）<cp/>
+			</自分>
+			<narrative>
+				――――――<br/>
+				――――――<cp/>
+			</narrative>
+			<snowman>よし、じゃあ車に乗って！</snowman>
+			<自分>は？車？</自分>
+			<snowman>そうだよ、車。<pause time="250"/>Car。<pause time="500"/>もしかして知らない？</snowman>
+			<自分>
+				いや、知ってるけどさ・・・<cp/>
+				（世界観的に馬とかじゃねえの？）<cp/>
+			</自分>
+			<snowman>乗ったね？よし、出発～！</snowman>
+		</scene>
+	</scene>
+	
+	<scene title="OutsideOfTheCastle" shows_title="false">
+		<narrative>キキーッ</narrative>
+		<snowman>よし、着いた。</snowman>
+		<自分>
+			（いや、着いたけど、目の前に頑丈そうな城壁があるんだが・・・）<cp/>
+			で、こっからどうするわけ？<cp/>
+		</自分>
+		<snowman>え？なにが？</snowman>
+		<自分>
+			いや、まだここ城の外だろ？<br/>
+			姫を探すには中に入らなきゃダメだよな？<br/>
+			中にはどうやって入るんだって話。<cp/>
+		</自分>
+		<snowman>それはキミが見つけるんだよ。</snowman>
+		<自分>は？</自分>
+		<snowman>
+			そのためにキミを連れてきたんだからね。<br/>
+			ただ付いてきただけなんて許さないよ。<cp/>
+		</snowman>
+		<自分>（いや、別に俺は付いてきたくて付いてきたんじゃないんだけど・・・）</自分>
+		<snowman>なんだいその顔は？不満そうだね？</snowman>
+		<自分>いや、別にそういうわけじゃ・・・</自分>
+		<snowman>
+			そう。じゃあ、早く探してよ。<br/>
+			早く探さないと日が暮れちゃうよ。<cp/>
+			あ、そうだ！<br/>
+			どこかに隠し通路とかあるかもしれないから、<br/>
+			二人で手分けして探そう。<cp/>
+		</snowman>
+		<自分>
+			それはありがたい提案だ。<cp/>
+			（なんで俺がこんな事しなきゃいけないんだ・・・）<cp/>
+		</自分>
+		<snowman>じゃあ、ボクはあっちを探してくるからキミはこっちの方をお願い。</snowman>
+		<自分>あいよ。</自分>
+		<narrative>
+			――――――<br/>
+			――――――<cp/>
+		</narrative>
+		<自分>
+			アイツと別れてから１時間近く経つが、隠し通路どころか城内に通じる門すら見つからないぞ。<br/>
+			一体この城はどういう構造をしてるんだ。<cp/>
+			そもそも、この城、いわゆるキャッスルじゃなくて日本の城みたいだし・・・<br/>
+			それも高い城壁のせいで天守閣すら見えないんだがな。<br/>
+			これも世界観的には某ネズミの王国のアニメーションに出てくるような女王様が住んでそうな城じゃないのかよ・・・<cp/>
+			ん？分かれ道だ。どっちへ行こうか。<cp/>
+		</自分>
+		<scene id="AtCrossRoads">
+			<choices>
+				<a to="title:OutsideOfTheCastle, ids:ToLeft">左の道へ</a>
+				<b to="title:OutsideOfTheCastle, ids:ToCenter">真ん中の道へ</b>
+				<c to="title:OutsideOfTheCastle, ids:ToRight">右の道へ</c>
+			</choices>
+		</scene>
+		
+		<scene id="ToLeft">
+			<narrative>
+				左手の道を城壁を右側に見ながら歩いて行く。<br/>
+				その反対側には鬱蒼とした森が広がっているようだ。<br/>
+				今にもその木々の間から獰猛な狼か何かが襲いかかってきそうな雰囲気だ。<cp/>
+				そして、今の時間帯はちょうど太陽が城壁の向こう側に位置している関係上<br/>
+				日がほとんど当たらずあたりは薄暗い。<br/>
+				意識していないと今が夜だと勘違いしてしまいそうになるぐらいだ。<cp/>
+				と、その時だった。<cp/>
+				<sound src="$paths.se_gasagasa" operation="once"/>ガサガサ<br/>
+				ガサガサ<cp/>
+			</narrative>
+			<自分>・・ん？なんだ？</自分>
+			<narrative>
+				<sound id="BGM" src="$paths.in_danger" operation="loop" is_bgm="true"/><sound src="$paths.se_gasagasa" operation="once"/>ガサガサ<br/>
+				ガサガサ<cp/>
+				<image id="bear" src="$paths.img_bear" frame="$bear.normal" figure_pos="center"/><effect name="RandomVibration" target="display" end_time="10" amplitude_x="10" amplitude_y="10" max_rate="3" sync="true"/>バッ！<cp/>
+			</narrative>
+			<bear>がおー<cp/></bear>
+			<自分>うっわ、熊だ！</自分>
+			<narrative>野生の熊が襲いかかってきた！</narrative>
+			<scene id="FightWithBear">
+				<narrative>あなたはどうしますか？</narrative>
+				<choices>
+					<a to="title:OutsideOfTheCastle, ids:ToLeft, Attack">戦う</a>
+					<b to="title:OutsideOfTheCastle, ids:ToLeft, Defence">防御する</b>
+					<c enable_if="$main_HP &lt;= 50 or $bear_HP &lt;= 5" to="title:OutsideOfTheCastle, ids:ToLeft, Run">逃げる</c>
+				</choices>
+			</scene>
+			
+			<scene id="Attack">
+				<narrative>
+					あなたは素手で熊に襲いかかった！<br/>
+					熊に<var expr="$bear_HP : $bear_HP - $rand.int; $rand.int"/>のダメージ！<cp/>
+					<log>熊の体力:<var expr="$bear_HP"/></log>
+					<jump enable_if="$bear_HP &lt; 0" to="title:OutsideOfTheCastle, ids:ToLeft, Win"/>
+					熊の反撃！<br/>
+					あなたは<var expr="$main_HP : $main_HP - $rand.int % 10; $rand.int % 10"/>のダメージを受けた！<cp/>
+				</narrative>
+				<scene id="lose" enable_if="$main_HP &lt; 0">
+					<sound id="BGM" operation="stop"/>
+					<image id="bear" operation="remove"/>
+					<jump to="title:DeadEnd"/>
+				</scene>
+				<自分 enable_if="$bear_HP &gt; 5">どうだ！やったか？</自分>
+				<bear enable_if="$bear_HP &gt; 5">ガオー！</bear>
+				<自分 enable_if="$bear_HP &gt; 5">まだか</自分>
+				<jump to="title:OutsideOfTheCastle, ids:ToLeft, FightWithBear"/>
+			</scene>
+			
+			<scene id="Defence">
+				<自分>（ここは防御だ。次のターンの攻撃にかけよう）</自分>
+				<narrative>
+					熊の攻撃！<br/>
+					あなたは<var expr="$main_HP : $main_HP - $rand.int % 2; $rand.int % 2"/>のダメージを受けた！<cp/>
+					<log>自分の体力:<var expr="$main_HP"/></log>
+					<scene id="lose" enable_if="$main_HP &lt; 0">
+						<sound id="BGM" operation="stop"/>
+						<image id="bear" operation="remove"/>
+						<jump to="title:DeadEnd"/>
+					</scene>
+					<jump to="title:OutsideOfTheCastle, ids:ToLeft, FightWithBear"/>
+				</narrative>
+			</scene>
+			
+			<scene id="Run">
+				<自分>（くっ・・・もうだめだ。逃げよう！）</自分>
+				<jump enable_if="$rand.double &gt; 0.3" to="title:OutsideOfTheCastle, ids:ToLeft, RunAway!"/>
+				<narrative>逃げ切れなかった。</narrative>
+				<自分>くそっ・・こいつ思った以上に素早い・・・！</自分>
+				<bear>がおーーーーー！</bear>
+				<narrative>
+					熊の攻撃！<br/>
+					あなたは<var expr="$main_HP : $main_HP - $rand.int; $main_HP"/>のダメージを受けた！<cp/>
+					<jump enable_if="$main_HP &lt; 0" to="title:DeadEnd"/>
+				</narrative>
+				<自分>くそっ、まともに食らっちまったぜ・・・</自分>
+				<jump to="title:OutsideOfTheCastle, ids:ToLeft, FightWithBear"/>
+			</scene>
+			
+			<scene id="Win">
+				<自分>
+					<sound id="BGM" operation="stop"/><sound src="$paths.win" operation="once" sync="true"/><image id="bear" operation="remove"/>ふっ、口ほどにもないやつめ。<br/>
+					俺様の強さを思い知ったか！わっはっは<cp/>
+				</自分>
+				<narrative>
+					誇らしげな気持ちのままどこまでも続く一本道を闊歩していると、最初の分かれ道まで戻ってきていた。<cp/>
+					<jump to="title:OutsideOfTheCastle, ids:AtCrossRoads"/>
+				</narrative>
+			</scene>
+			
+			<scene id="RunAway!">
+				<自分>
+					<sound id="BGM" operation="stop"/><image id="bear" operation="remove"/><text speed="0.5">はあ・・はあ・・</text><cp/>
+					何とか逃げ切れたみたいだな。だが、熊ごとき相手に尻尾を巻いて逃げ出すなんて俺様としたことが・・<br/>
+					不覚だった・・！<cp/>
+					くそう、俺にも伝説の剣さえあればあんな野郎、赤子の手をひねる勢いで倒せるというのに・・・<br/>
+					あるいは頬の赤い黄色いネズミさえいれば・・・<br/>
+					はたまた、青いオーバーオールと赤い帽子を身に着けてさえいれば勝てたかもしれないというのに・・・<cp/>
+					<text speed="0.5">ブツブツ・・・ブツブツ・・・</text><cp/>
+				</自分>
+				<narrative>
+					そうしてぶつぶつとひとりごとをつぶやいているうちに最初の分かれ道まで戻ってきてしまっていた。<cp/>
+					<jump to="title:OutsideOfTheCastle, ids:AtCrossRoads"/>
+				</narrative>
+			</scene>
+		</scene>
+		
+		<scene id="ToCenter">
+		</scene>
+		
+		<scene id="ToRight">
+			<narrative>
+				右手の道を城壁を左に見ながら歩いて行く。<br/>
+				右手には、視線のはるか先、地平線の彼方まで続くほどの草原が広がっている。<br/>
+				そして、その果てにはわずかに霞んだ山々の稜線が地平線に這いつくばるように広がっている。<cp/>
+				最初、訳もわからずSnowmanとかいう怪しい奴にあって、そのまま成り行きでここまで来てしまったけど、<br/>
+				この雄大な光景を目の当たりにしたら、アイツのことをちょっと許してしまいそうになる。<cp/>
+				そんなことをぼんやりとした頭で考えている自分に気づいて苦笑してしまった。<br/>
+				なんだかんだ言って、この状況を楽しんでいる自分がいるのだ。<br/>
+				いや、この訳のわからん世界でやけになってこの状況を楽しもうとしているだけかもしれないが・・<cp/>
+				
+			</narrative>
+		</scene>
+	</scene>
+	
+	<scene title="Ending1" shows_title="false">
+		<snowman>
+			キミに頼もうとしたボクが馬鹿だったよ。<br/>
+			他の人を探すことにしよう。<cp/>
+		</snowman>
+		<narrative>
+			そう言い残してSnowmanは俺の前から姿を消した。<br/>
+			それ以来、あの憎たらしくも可愛らしい姿を見かけたことはない。<cp/>
+		</narrative>
+		<effect name="VisibilityChange" target="msg_window" is_visible="false"/>
+		<label x="centered" y="centered" width="adjust" style="color: rgb(255, 30, 0); font: bold xx-large 'うずらフォント', sans-serif;" end_time="240" sync="true">終わり</label>
+		<jump to="title:main_menu"/>
+	</scene>
+	
+	<scene title="DeadEnd" shows_title="false">
+		<自分>
+			<sound src="$paths.got_down" operation="once"/>あれ、おかしいな・・なんだか意識が朦朧と・・・<br/>
+			・・・・・・・・・・・<br/>
+			・・・・・・・・・・・<cp/>
+		</自分>
+		<effect name="VisibilityChange" target="msg_window" is_visible="false"/>
+		<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="color: $black; font: bold xx-large sans-serif" end_time="240" sync="true">The end</label>
+		<jump to="title:main_menu"/>
+	</scene>
+	
+	<scene title="menu" shows_title="false">
+		<menu initial_state="Menu">
+			<a x="$display.width - 200" y="100" action="openSave" to="MenuSave">セーブ</a>
+			<b x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</b>
+			<c x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</c>
+		</menu>
+	</scene>
+</Scinario>
