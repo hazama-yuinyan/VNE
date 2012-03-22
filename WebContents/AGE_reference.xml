@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<Scinario>
+	<header>
+		<variables>white : rgb(255, 255, 255); grey : rgb(128, 128, 128); black : rgb(0, 0, 0); snowman_fondness : 0; main_HP : 100; bear_HP : 30</variables>
+		<flags>has_fight_with_bear : false</flags>
+		<characters tags="you, snowman, bear">あなた; Snowman; 熊</characters>
+		<colors tags="you, snowman, bear">rgb(255, 30, 0); rgb(0, 30, 255); rgb(20, 20, 20)</colors>
+		<paths names="br_icon, cp_icon, select, item_get, win, got_down, in_danger, op_jingle, se_gasagasa, img_snowman, img_bear">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/clear2.mp3; sounds/clear1.mp3; 
+		sounds/jingle20.mp3; sounds/loop03.mp3; sounds/jingle19.mp3; sounds/gasagasa.ogg; images/snowman.png; images/bear.png</paths>
+		<settings names="br_icon, cp_icon, selected_se, is_debug">$paths.br_icon; $paths.cp_icon; $paths.select; true</settings>
+		<profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
+		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
+		<profile name="you" style="border: outset 3px $自分.color; border-radius: 10px; color: $自分.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;"></profile>
+		<profile name="snowman" style="border: outset 3px $snowman.color; border-radius: 10px; color: $snowman.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
+		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
+		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント', serif;"/>
+		<style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
+		<style name="choices" x="centered" width="adjust" style="border: inset 10px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント', serif;"/>
+	</header>
+	
+	<scene title="main_menu" shows_title="false">
+		<menu initial_state="MainMenu">
+			<a x="centered" y="100" action="openNew" to="title:body">最初から読む</a>
+			<b x="centered" y="200" action="openLoad" to="MenuLoad">途中から読む</b>
+			<c x="centered" y="300" action="openOption" to="MenuOption">オプション</c>
+			<d x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</d>
+		</menu>
+	</scene>
+	
+	<scene title="body" shows_title="false">
+		<title>AGEの解説</title>
+	</scene>
+	
+	<scene title="はじめに">
+		<narrative>
+			まずはじめに、こちらの解説ファイルをご覧いただきありがとうございます。<br/>
+			このファイルでは、拙作のアドベンチャーゲーム用ゲームエンジン「AGE」の<br/>
+			機能やその使い方を解説していきたいと思います。<cp/>
+			
+		</narrative>
+	</scene>
+	
+	<scene title="AGEとは？">
+		<narrative>
+			
+		</narrative>
+	</scene>
+	
+	<scene title="スクリプトファイルの定義">
+		<narrative>
+			AGEにおけるスクリプトファイル（ストーリーやその中でのイベントを定義するファイル）は<br/>
+			XMLという形式のファイルで定義します。<cp/>
+			XMLとは、<label id="xml_label" x="centered" y="centered" width="adjust" style="font: normal xx-large serif;">eXtensible Markup Language</label>eXtensible Markup Languageという頭字語であり、<br/>
+			HTMLのようにデータの並び方を記述する汎用言語となっています。<cp/>
+			AGEではこのXMLの特性を生かして、AGEのスクリプトファイル用のタグをプログラム側で定義して<br/>
+			そのタグの組み合わせでストーリー展開やイベントの制御を行います。<label id="xml_label" operation="remove"/><cp/>
+			そのため、基本的にストーリーを作る人にはプログラミングの知識はいりません。<br/>
+			XMLの書き方さえわかっていれば、ある程度のノベルゲームがあっという間にできてしまうのです。<cp/>
+		</narrative>
+	</scene>
+	
+	<scene title="">
+	</scene>
+	
+	<scene title="menu" shows_title="false">
+		<menu initial_state="Menu">
+			<a x="$display.width - 200" y="100" action="openSave" to="MenuSave">セーブ</a>
+			<b x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</b>
+			<c x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</c>
+			<d x="$display.width - 200" y="250" action="returnToMenu">メニューへ戻る</d>
+		</menu>
+	</scene>
+</Scinario>

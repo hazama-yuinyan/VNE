@@ -3,13 +3,12 @@ var MenuStates = enchant.Class.create({
 		var MainMenu = enchant.Class.create({
 			initialize : function(system){
 				this.system = system;
-				this.xml_manager = null;
 				this.tag_manager = null;
 				this.menu = null;
 			},
 			
 			prepare : function(tag_obj){
-				if(!this.xml_manager){this.xml_manager = this.system.getManager("xml");}
+				this.xml_manager = this.system.getManager("xml");
 				if(!this.tag_manager){this.tag_manager = this.system.getManager("tag");} 
 				this.menu = tag_obj;
 			},
@@ -18,7 +17,7 @@ var MenuStates = enchant.Class.create({
 				operator.inner_operator.operateA();
 				this.system.getManager("choices").clear();
 				var selected_menu = this.menu.children[operator.inner_operator.cur_index];
-				this[selected_menu.action](operator, selected_menu);
+				if(selected_menu.action){this[selected_menu.action](operator, selected_menu);}
 			},
 			
 			operateUp : function(operator){
@@ -50,6 +49,15 @@ var MenuStates = enchant.Class.create({
 			
 			openOption : function(operator, selected_menu){
 				operator.setState(selected_menu.to);
+			},
+			
+			openFile : function(operator, selected_menu){
+				var paths = this.xml_manager.getVarStore().getVar("file_paths"), children = [];
+				for(var i = 0; i < paths.length; ++i){
+					children.push({type : ["file", i].join(""), title : paths[i].title, description : paths[i].description,
+						text : paths[i].title, file_name : paths[i].file_name});
+				}
+				operator.setState(selected_menu.to, {type : "choices", children : children});
 			}
 		});
 		
@@ -109,7 +117,12 @@ var MenuStates = enchant.Class.create({
 			
 			openOption : function(operator, selected_menu){
 				operator.setState(selected_menu.to);
-			}
+			},
+            
+            returnToMenu : function(operator){
+                this.system.reset();
+                operator.clearMenu();
+            }
 		});
 		
 		var MenuSave = enchant.Class.create({
@@ -210,6 +223,10 @@ var MenuStates = enchant.Class.create({
 					this.menu = tag_obj;
 					this.system.addChild(info_window);
 					this.updateInfoWindow(operator);
+                    var self = this;
+                    operator.setEventHandlerToChoices("Clicked", function(){
+                        self.updateInfoWindow(operator);
+                    });
 				};
 				
 				this.dispose = function(){
@@ -245,7 +262,6 @@ var MenuStates = enchant.Class.create({
 			initialize : function(system){
 				this.options = new enchant.Label("");
 				this.system = system;
-				this.xml_manager = null;
 				this.sound_manager = null;
 				this.success_se_path = null;
 				this.operator = null;
@@ -257,14 +273,14 @@ var MenuStates = enchant.Class.create({
 			},
 			
 			prepare : function(tag, operator){
-				if(!this.xml_manager){this.xml_manager = operator.system.getManager("xml");}
+				var xml_manager = operator.system.getManager("xml");
 				if(!this.sound_manager){this.sound_manager = operator.system.getManager("sound");}
-				if(!this.success_se_path){this.success_se_path = this.xml_manager.getHeader("settings")["success_se"];}
+				if(!this.success_se_path){this.success_se_path = xml_manager.getHeader("settings")["success_se"];}
 				if(!this.operator){this.operator = operator;}
 				
 				this.system.addChild(this.options);
 				
-				var options = this.inner_options, var_store = this.xml_manager.getVarStore();
+				var options = this.inner_options, var_store = xml_manager.getVarStore();
 				for(var i = 0; i < options.length; ++i){
 					options[i].onchange = function(){
 						var parent = this.parentNode;
@@ -280,8 +296,8 @@ var MenuStates = enchant.Class.create({
 					for(var i = 0; i < options.length; ++i){
 						options_values.push({name : options[i].name, value : options[i].valueAsNumber || options[i].value})
 					}
-					self.xml_manager.updateOptions(options_values);
-					self.xml_manager.saveOptions();		//変更したオプションを保存しておく
+					xml_manager.updateOptions(options_values);
+					xml_manager.saveOptions();		//変更したオプションを保存しておく
 					
 					if(self.success_se_path){self.sound_manager.add({src : self.success_se_path, operation : "once", sync : "true"});}
                 	var notice_label = {x : "centered", y : self.operator.msg_manager.msg_window._element.clientTop.toString(), end_time : 60,
@@ -291,7 +307,7 @@ var MenuStates = enchant.Class.create({
 			},
 			
 			dispose : function(){
-				this.system.getManager("tag").text_speed = this.xml_manager.getVarStore().getVar("options.text_speed");
+				this.system.getManager("tag").text_speed = this.system.getManager("xml").getVarStore().getVar("options.text_speed");
 				this.system.removeChild(this.options);
 			},
 			
@@ -300,11 +316,79 @@ var MenuStates = enchant.Class.create({
 			}
 		});
 		
+		var MenuFile = enchant.Class.create({
+			initialize : function(system){
+				this.system = system;
+				this.menu = null;
+				this.success_se_path = null;
+				
+				var info_window = new enchant.Label("");
+				info_window.x = 25;
+				info_window.y = game.height / 2;
+				info_window.font = "bold x-large serif";
+				
+				this.updateInfoWindow = function(operator){
+					while(info_window._element.firstChild){info_window._element.removeChild(info_window._element.firstChild);}
+					var cur_menu = this.menu.children[operator.inner_operator.cur_index], title_node = document.createElement("p");
+					var description_node = document.createElement("p");
+					title_node.appendChild(document.createTextNode(["タイトル:", cur_menu.title.replace(/\\s/g, " ")].join("")));
+					description_node.appendChild(document.createTextNode(cur_menu.description));
+					info_window._element.appendChild(title_node), info_window._element.appendChild(description_node);
+				};
+				
+				this.prepare = function(tag_obj, operator){
+					var xml_manager = this.system.getManager("xml");
+					if(!this.success_se_path){this.success_se_path = xml_manager.getHeader("settings")["success_se"];}
+					this.menu = tag_obj;
+				
+					this.system.addChild(info_window);
+					this.updateInfoWindow(operator);
+                    var self = this;
+                    operator.setEventHandlerToChoices("Clicked", function(){
+                        self.updateInfoWindow(operator);
+                    });
+				}
+				
+				this.dispose = function(){
+					this.system.removeChild(info_window);
+				}
+			},
+			
+			operateA : function(operator){
+				var xml_manager = this.system.getManager("xml");
+				xml_manager.saveOptions();
+				var selected_file = this.menu.children[operator.inner_operator.cur_index];
+				this.system.setManager("xml", new XmlManager(selected_file.file_name, this.system));
+				xml_manager = this.system.getManager("xml");
+				xml_manager.tag_manager = this.system.getManager("tag");
+				if(this.success_se_path){this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});}
+                xml_manager.getVarStore().addVar("file_paths", this.menu.children, true);
+                this.system.reset();
+				operator.clearMenu();
+				var path_header = xml_manager.getHeader("paths"), paths = xml_manager.getVarStore().getVar("paths");
+				this.system.loadResources(path_header, paths);
+				var notice_label = {x : "centered", y : operator.msg_manager.msg_window._element.clientTop.toString(), end_time : 60,
+                    width : "adjust", style : "font: bold large serif;"};
+                this.system.showNoticeLabel("ファイル変更完了", notice_label);
+			},
+			
+			operateUp : function(operator){
+				operator.inner_operator.operateUp();
+				this.updateInfoWindow(operator);
+			},
+			
+			operateDown : function(operator){
+				operator.inner_operator.operateDown();
+				this.updateInfoWindow(operator);
+			}
+		});
+		
 		this.MainMenu = new MainMenu(system);
 		this.Menu = new Menu(system);
 		this.MenuSave = new MenuSave(system);
 		this.MenuLoad = new MenuLoad(system);
 		this.MenuOption = new MenuOption(system);
+		this.MenuFile = new MenuFile(system);
 	}
 });
 

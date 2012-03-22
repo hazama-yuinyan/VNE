@@ -4,7 +4,7 @@
 <Scinario>
 	<header>
 		<variables>white : rgb(255, 255, 255); grey : rgb(128, 128, 128); black : rgb(0, 0, 0); snowman_fondness : 0; main_HP : 100; bear_HP : 30</variables>
-		<flags>is_fighting : false</flags>
+		<flags>has_fight_with_bear : false</flags>
 		<characters tags="自分, snowman, bear">あなた; Snowman; 熊</characters>
 		<colors tags="自分, snowman, bear">rgb(255, 30, 0); rgb(0, 30, 255); rgb(20, 20, 20)</colors>
 		<paths names="br_icon, cp_icon, select, item_get, win, got_down, in_danger, op_jingle, se_gasagasa, img_snowman, img_bear">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/clear2.mp3; sounds/clear1.mp3; 
@@ -25,6 +25,7 @@
 			<a x="centered" y="100" action="openNew" to="title:body">新しく始める</a>
 			<b x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</b>
 			<c x="centered" y="300" action="openOption" to="MenuOption">オプション</c>
+			<d x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</d>
 		</menu>
 	</scene>
 	
@@ -72,7 +73,7 @@
 				絶対だよ？約束だからね？<cp/>
 			</snowman>
 			<自分>わかったから早くよこせよ！</自分>
-			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<var expr="$rand.int * 100"/>Gを手に入れた！</narrative>
+			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<var expr="$rand.int % 100 * 100"/>Gを手に入れた！</narrative>
 			<自分>
 				（ハッハッハ、ちょろいなこいつ。<br/>
 				無くさないようにポケットに入れておこう）<var expr="$snowman_fondness : $snowman_fondness - 5"/><cp/>
@@ -233,7 +234,7 @@
 			</narrative>
 			<bear>がおー<cp/></bear>
 			<自分>うっわ、熊だ！</自分>
-			<narrative>野生の熊が襲いかかってきた！</narrative>
+			<narrative>野生の熊が襲いかかってきた！<var expr="$has_fight_with_bear : true"/></narrative>
 			<scene id="FightWithBear">
 				<narrative>あなたはどうしますか？</narrative>
 				<choices>
@@ -322,6 +323,9 @@
 		</scene>
 		
 		<scene id="ToCenter">
+			<narrative>
+				
+			</narrative>
 		</scene>
 		
 		<scene id="ToRight">
@@ -334,8 +338,9 @@
 				そんなことをぼんやりとした頭で考えている自分に気づいて苦笑してしまった。<br/>
 				なんだかんだ言って、この状況を楽しんでいる自分がいるのだ。<br/>
 				いや、この訳のわからん世界でやけになってこの状況を楽しもうとしているだけかもしれないが・・<cp/>
-				
+				と、突然左手の城壁が途切れ小さな閂が備わった門が現れた。<br/>
 			</narrative>
+			<自分></自分>
 		</scene>
 	</scene>
 	
@@ -369,6 +374,7 @@
 			<a x="$display.width - 200" y="100" action="openSave" to="MenuSave">セーブ</a>
 			<b x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</b>
 			<c x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</c>
+			<d x="$display.width - 200" y="250" action="returnToMenu">メニューへ戻る</d>
 		</menu>
 	</scene>
 </Scinario>

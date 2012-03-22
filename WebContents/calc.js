@@ -45,9 +45,9 @@ var VarStore = enchant.Class.create({
 		this.removeVar = function(name){
 			if(name.search(/\./) != -1){
 				var elems = name.split(/\./);
-				delete store[elems[0]][elems[1]];
+				if(store[elems[0]] && store[elems[0]][elems[1]]){delete store[elems[0]][elems[1]];}
 			}else{
-				delete store[name];
+				if(store[name]){delete store[name];}
 			}
 		};
 	}

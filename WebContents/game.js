@@ -120,16 +120,19 @@ window.onload = function(){
 	game = new enchant.Game(window.innerWidth - 20, window.innerHeight - 20);
 	game.fps = 30;
 	game.onload = function(){
-		var display = new Display("./sample.xml");
-		game.pushScene(display);
+		var display = new Display([{file_name : "./sample.xml", title : "ノベルゲームサンプル", description : "ゆるゆりのSSを原作としたノベルゲームのサンプルです"},
+		{file_name : "./sample2.xml", title : "アドベンチャーゲームサンプル", description : "オリジナルキャラクターを使用した簡単なアドベンチャーゲームのサンプルです"},
+		{file_name : "./AGE_reference.xml", title : "AGEリファレンス", description : "AGEの紹介や特徴、使い方などが解説されています"}]);
 	};
 	
 	game.keybind(13, 'a');		//Enterキー
 	game.keybind(32, 'b');		//スペースキー
 	game.keybind(65, 'c');		//aキー
 	game.keybind(77, 'd');		//mキー
+	game.keybind(76, 'e');		//lキー
+	game.keybind(27, 'f');		//ESCキー
 	
-	['c', 'd'].forEach(function(type){
+	['c', 'd', 'e', 'f'].forEach(function(type){
 		this.addEventListener(type + 'buttondown', function(e) {
 			if (!this.input[type]) {
 				this.input[type] = true;

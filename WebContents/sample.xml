@@ -8,16 +8,16 @@
 		<characters tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">あかり; ちなつ; あかね; 京子; 結衣; 櫻子; 向日葵</characters>
 		<colors tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">rgb(233, 109, 140); rgb(252, 209, 219); rgb(233, 109, 140);
 			rgb(234, 223, 186); rgb(84, 61, 70); rgb(232, 205, 182); rgb(103, 122, 157)</colors>
-		<paths names="br_icon, cp_icon, select, bgm1, bgm2, ed, se_door, se_dosun, se_heart_beat, se_croud, se_strong_wind_l, se_strong_wind_s, se_mp_vibe, se_mp_close, img_kyouko, img_akari">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/christmas time for you-m.ogg;
-		 sounds/tampi01.mp3; sounds/tamhe06.mp3; sounds/doorclose1.ogg; sounds/dosun.ogg; sounds/HeartSingle@8.ogg; sounds/city-background_loop.mp3; sounds/WindA@08.ogg; sounds/WindD@11.ogg; sounds/vibrator_mono.mp3; sounds/MobileA@08.ogg; images/kyouko.jpg; images/akari.jpg</paths>
+		<paths names="br_icon, cp_icon, select, bgm1, bgm2, bgm3, ed, se_door, se_dosun, se_heart_beat, se_croud, se_strong_wind_l, se_strong_wind_s, se_mp_vibe, se_mp_close, se_switch, se_chime, img_kyouko, img_akari">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/christmas time for you-m.ogg;
+		 sounds/tampi01.mp3; sounds/tamsugisa.mp3; sounds/tamhe06.mp3; sounds/doorclose1.ogg; sounds/dosun.ogg; sounds/HeartSingle@8.ogg; sounds/city-background_loop.mp3; sounds/WindA@08.ogg; sounds/WindD@11.ogg; sounds/vibrator_mono.mp3; sounds/MobileA@08.ogg; sounds/SwitchF00@11.ogg; sounds/chime1s.mp3; images/kyouko.jpg; images/akari.jpg</paths>
 		<settings names="br_icon, cp_icon, selected_se, is_debug">$paths.br_icon; $paths.cp_icon; $paths.select; true</settings>
 		<profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
 		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
-		<profile name="akari" style="border: inset 5px $akari.color; border-radius: 15px; background-color: $white; color: $akari.color; font: normal large 'うずらフォント';" frame_width="300">ガビーン : 0; normal_in_winter : 1; かかってきなさい : 2; ふふっ : 3; ちょっ！？ : 4; serious : 5;
+		<profile src="$paths.img_akari" name="akari" style="border: inset 5px $akari.color; border-radius: 15px; background-color: $white; color: $akari.color; font: normal large 'うずらフォント';" frame_width="300">ガビーン : 0; normal_in_winter : 1; かかってきなさい : 2; ふふっ : 3; ちょっ！？ : 4; serious : 5;
 		 うそー : 6; shocked : 7; へへっ : 8; normal : 9; ｷﾗｰﾝ : 10; sleeping : 11; うわーん : 12; ん？ : 13</profile>
 		<profile name="chinatsu" style="border: inset 5px $chinatsu.color; border-radius: 15px; background-color: $grey; color: $chinatsu.color; font: normal large 'うずらフォント';"/>
 		<profile name="akane" style="border: outset 5px $akane.color; border-radius: 15px; background-color: $white; color: $akane.color; font: normal large 'うずらフォント'"/>
-		<profile name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $grey; color: $kyouko.color; font: normal large 'うずらフォント'" frame_width="300">ぐおお : 0; normal : 1; ｷﾗﾝ : 2; V! : 3; embarrassed : 4</profile>
+		<profile src="$paths.img_kyouko" name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $grey; color: $kyouko.color; font: normal large 'うずらフォント'" frame_width="300">ぐおお : 0; normal : 1; ｷﾗﾝ : 2; V! : 3; embarrassed : 4</profile>
 		<profile name="yui" style="border: inset 5px $yui.color; border-radius: 15px; background-color: $white; color: $yui.color; font: normal large 'うずらフォント'"/>
 		<profile name="sakurako" style="border: inset 5px $sakurako.color; border-radius: 15px; background-color: $white; color: $sakurako.color; font: normal large 'うずらフォント'"/>
 		<profile name="himawari" style="border: inset 5px $himawari.color; border-radius: 15px; background-color: $light_grey; color: $himawari.color; font: normal large 'うずらフォント'"/>
@@ -31,6 +31,7 @@
 			<a x="centered" y="100" action="openNew" to="title:body">新しく始める</a>
 			<b x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</b>
 			<c x="centered" y="300" action="openOption" to="MenuOption">オプション</c>
+			<d x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</d>
 		</menu>
 	</scene>
 
@@ -82,7 +83,7 @@
 			</narrative>
 			<akari>「結衣ちゃんとどうやってクリスマスを一緒に過ごすか、って」<cp/></akari>
 			<chinatsu>「あ、ちゃんとわかってるんだ」<cp/></chinatsu>
-			<akari><image id="akari" target="akari" src="$paths.img_akari" frame="$akari.ふふっ" figure_pos="center"/>「えへへ……」<cp/></akari>
+			<akari><image target="akari" frame="$akari.ふふっ" figure_pos="center"/>「えへへ……」<cp/></akari>
 			<narrative>
 				わかってるとは程遠い気もするけれど。<br/>
 				私は笑って誤魔化した。<cp/>
@@ -329,16 +330,16 @@
 		</narrative>
 		<akari>「……」<cp/></akari>
 		<narrative>
-			今ちなつちゃんに電話してしまったら、迷惑がられるかもしれない。<br/>
+			<sound src="$paths.se_mp_close" operation="once" sync="true"/>今ちなつちゃんに電話してしまったら、迷惑がられるかもしれない。<br/>
 			それよりなにより、まだ結衣ちゃんと電話してるのかも。<br/>
 			そう思うと、私は開けた携帯を閉じるしかなかった。<cp/>
 			おやすみ。<br/>
-			誰にともなくそう呟くと、私は部屋の電気を消した。<cp/>
+			<sound src="$paths.se_switch" operation="once"/>誰にともなくそう呟くと、私は部屋の電気を消した。<cp/>
 			真っ暗な部屋、布団にもぐりこんで。<br/>
 			身体を丸めて、声が聞きたいとか、そんな衝動を押さえ込んだ。<cp/>
 			―――――<br/>
 			―――――<cp/>
-			結衣ちゃんのことが好きだと言われたのは、たぶん夏休みだったと思う。<br/>
+			<sound id="bgm" src="$paths.bgm3" operation="loop" is_bgm="true"/>結衣ちゃんのことが好きだと言われたのは、たぶん夏休みだったと思う。<br/>
 			その時はまだ、その好きという意味が友達としての好きなのだと、先輩への憧れとしての<br/>
 			好きなのだと、そう思っていた。<cp/>
 			けれどきっと、本当はそうじゃなくって、ちなつちゃんは本気なのだと。<br/>
@@ -348,7 +349,7 @@
 			それでも、ちなつちゃんの笑顔を見るには、結衣ちゃんが必要だ。<br/>
 			それに私は嘘吐きになんてなりたくないから。<cp/>
 			ちなつちゃんが、結衣ちゃんへの想いを叶えられるように。<br/>
-			私はちゃんと、ちなつちゃんに気付かれないように笑わなきゃ。<cp/>
+			私はちゃんと、ちなつちゃんに気付かれないように笑わなきゃ。<sound id="bgm" operation="stop"/><cp/>
 		</narrative>
 	</scene>
 
@@ -464,7 +465,7 @@
 			そうだ、ちなつちゃんは私といたいわけじゃない。<br/>
 			ちなつちゃんがいたいのは私ではなくって結衣ちゃんで、だから私は、そんなちなつちゃんを<br/>
 			応援しなくちゃ。<cp/>
-			チャイムが鳴った。<cp/>
+			<sound src="$paths.se_chime" operation="once" sync="true"/>チャイムが鳴った。<cp/>
 		</narrative>
 	</scene>
 	<narrative>
@@ -537,7 +538,7 @@
 			ちなつちゃんは相変わらずぼんやりとしていた。<br/>
 			声をかけるのを躊躇い、結局先生が来て何も言えなくなってしまった。<br/>
 			妙な罪悪感でいっぱいだった。<cp/>
-			――――― ――<cp/>
+			――――― ――<sound src="$paths.se_chime" operation="once" sync="true"/><cp/>
 			放課後のチャイムが鳴る。<br/>
 			私はちなつちゃんの様子も見ずに、帰りの用意を済ませて前に立った。<br/>
 			そこでようやくちなつちゃんの顔をまっすぐ見て。<cp/>
@@ -1461,8 +1462,8 @@
 				きっと結衣先輩自身は気付いていないだろうけど、ずっと見ていた私は、結衣先輩が<br/>
 				無意識のうちに京子先輩ばかりを見ていることは、ちゃんとわかっていた。<br/>
 				<text speed="0.5" style="color: $akari.color; font: italic large serif">だけど。</text><cp/>
-				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" sync="true">『ちなつちゃんなら大丈夫だよぉ』</label>
-				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" sync="true">『結衣ちゃんだって、ちなつちゃんのこと大好きだもん』</label>
+				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『ちなつちゃんなら大丈夫だよぉ』</label>
+				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『結衣ちゃんだって、ちなつちゃんのこと大好きだもん』</label>
 				あかりちゃんがそう言ってくれるから、私は信じていられた。<br/>
 				結衣先輩のこと。<br/>
 				結衣先輩が好きな自分のことを。<cp/>
@@ -1871,6 +1872,7 @@
 			<a x="$display.width - 200" y="100" action="openSave" to="MenuSave">セーブ</a>
 			<b x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</b>
 			<c x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</c>
+            <d x="$display.width - 200" y="250" action="returnToMenu">メニューへ戻る</d>
 		</menu>
 	</scene>
 </Scinario>
