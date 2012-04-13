@@ -182,7 +182,7 @@ var SystemManager = enchant.Class.create(Group, {
 			var result;
 			if(result = str.match(/^[ \t]+/)){
 
-			}else if(result = str.match(/^([\w\-]+)\s*:\s*([^;]+);?/)){
+			}else if((result = str.match(/^([\w\-]+)\s*:\s*([^;]+);?/)) && result[1] != "position"){
 				styles.push({name : result[1], content : result[2]});
 			}
 
@@ -237,11 +237,11 @@ var XmlManager = enchant.Class.create(Manager, {
 
 		var http_obj = new XMLHttpRequest();
 		var contents = [], headers = [], jump_table = {};
-		var variable_store = new VarStore(), now = new Date(), expr_evaluator = new ExpressionEvaluator(variable_store);
+		var variable_store = new VarStore(), now = new Date(), expr_evaluator = new ExpressoEvaluator(variable_store);
 		variable_store.addVar("time", {year : now.getFullYear(), month : now.getMonth() + 1, date : now.getDate(),	//predefined変数を追加しておく
-			day : now.getDay(), hour : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds(), milis : now.getTime()}, true);
+			day : now.getDay(), hours : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds(), millis : now.getTime()}, true);
 		variable_store.addVar("now", {year : now.getFullYear(), month : now.getMonth() + 1, date : now.getDate(),
-			day : now.getDay(), hour : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds(), milis : now.getTime()}, true);
+			day : now.getDay(), hours : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds(), millis : now.getTime()}, true);
 		variable_store.addVar("display", {width : game.width, height : game.height}, true);
 		variable_store.addVar("rand", {double : 0.0, int : 0}, true);
 		variable_store.addVar("cur_frame", 0, true);
@@ -412,17 +412,6 @@ var XmlManager = enchant.Class.create(Manager, {
 			return header_obj;
 		};
 
-		this.getFilePaths = function(){
-			var path_header = this.getHeader("paths"), results = [];
-			for(var name in path_header){
-				if(name != "type" && path_header.hasOwnProperty(name)){
-					results.push(path_header[name]);
-				}
-			}
-
-			return results;
-		};
-
 		this.getVarStore = function(){
 			return variable_store;
 		};
@@ -442,13 +431,13 @@ var XmlManager = enchant.Class.create(Manager, {
 		};
 
 		this.setCurrentTimeToVarStore = function(){
-			if(game.currentTime >= this.next_updating_time){	//$now.milis以外はほぼ1秒ごとに更新する
+			if(game.currentTime >= this.next_updating_time){	//$now.millis以外はほぼ1秒ごとに更新する
 				var now = new Date();
 				variable_store.addVar("now", {year : now.getFullYear(), month : now.getMonth() + 1, date : now.getDate(),
-					day : now.getDay(), hour : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds()}, true);
+					day : now.getDay(), hours : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds()}, true);
 				this.next_updating_time = game.currentTime + 1000;
 			}
-			variable_store.addVar("now.milis", game.currentTime, true);
+			variable_store.addVar("now.millis", game.currentTime, true);
 			variable_store.addVar("cur_frame", game.frame, true);
 		};
 
@@ -1300,10 +1289,11 @@ var TagManager = enchant.Class.create(Manager, {
 
 		var br_cp_interpreter = new BrCpInterpreter(this, msg_manager);
 		var title_scene_interpreter = new TitleSceneInterpreter(this);
-		this.interpreters = {title : title_scene_interpreter, br : br_cp_interpreter, cp : br_cp_interpreter, pause : new PauseInterpreter(this), text : new TextInterpreter(this),
-				"var" : new VarInterpreter(this), choices : new ChoiceInterpreter(this), label : new LabelInterpreter(this), image : new ImageInterpreter(this), sound : new SoundInterpreter(this),
-				effect : new EffectInterpreter(this), jump : new JumpInterpreter(this), log : new LogInterpreter(this), menu : new MenuInterpreter(this), scene : title_scene_interpreter,
-				minigame : new MinigameInterpreter(this)
+		this.interpreters = {
+			title : title_scene_interpreter, br : br_cp_interpreter, cp : br_cp_interpreter, pause : new PauseInterpreter(this), text : new TextInterpreter(this),
+			"var" : new VarInterpreter(this), choices : new ChoiceInterpreter(this), label : new LabelInterpreter(this), image : new ImageInterpreter(this), sound : new SoundInterpreter(this),
+			effect : new EffectInterpreter(this), jump : new JumpInterpreter(this), log : new LogInterpreter(this), menu : new MenuInterpreter(this), scene : title_scene_interpreter,
+			minigame : new MinigameInterpreter(this)
 		};
 	},
 

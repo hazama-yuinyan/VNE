@@ -4,7 +4,7 @@
 
 <Scinario>
 	<header>
-		<variables>black : rgb(0, 0, 0); white : rgb(255, 255, 255); light_grey : rgb(192, 192, 192); grey : rgb(128, 128, 128)</variables>
+		<variables>black : rgb(0, 0, 0); white : rgb(255, 255, 255); light_gray : rgb(192, 192, 192); gray : rgb(128, 128, 128)</variables>
 		<characters tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">あかり; ちなつ; あかね; 京子; 結衣; 櫻子; 向日葵</characters>
 		<colors tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">rgb(233, 109, 140); rgb(252, 209, 219); rgb(233, 109, 140);
 			rgb(234, 223, 186); rgb(84, 61, 70); rgb(232, 205, 182); rgb(103, 122, 157)</colors>
@@ -15,12 +15,12 @@
 		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
 		<profile src="$paths.img_akari" name="akari" style="border: inset 5px $akari.color; border-radius: 15px; background-color: $white; color: $akari.color; font: normal large 'うずらフォント';" frame_width="300">ガビーン : 0; normal_in_winter : 1; かかってきなさい : 2; ふふっ : 3; ちょっ！？ : 4; serious : 5;
 		 うそー : 6; shocked : 7; へへっ : 8; normal : 9; ｷﾗｰﾝ : 10; sleeping : 11; うわーん : 12; ん？ : 13</profile>
-		<profile name="chinatsu" style="border: inset 5px $chinatsu.color; border-radius: 15px; background-color: $grey; color: $chinatsu.color; font: normal large 'うずらフォント';"/>
+		<profile name="chinatsu" style="border: inset 5px $chinatsu.color; border-radius: 15px; background-color: $gray; color: $chinatsu.color; font: normal large 'うずらフォント';"/>
 		<profile name="akane" style="border: outset 5px $akane.color; border-radius: 15px; background-color: $white; color: $akane.color; font: normal large 'うずらフォント'"/>
-		<profile src="$paths.img_kyouko" name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $grey; color: $kyouko.color; font: normal large 'うずらフォント'" frame_width="300">ぐおお : 0; normal : 1; ｷﾗﾝ : 2; V! : 3; embarrassed : 4</profile>
+		<profile src="$paths.img_kyouko" name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント'" frame_width="300">ぐおお : 0; normal : 1; ｷﾗﾝ : 2; V! : 3; embarrassed : 4</profile>
 		<profile name="yui" style="border: inset 5px $yui.color; border-radius: 15px; background-color: $white; color: $yui.color; font: normal large 'うずらフォント'"/>
 		<profile name="sakurako" style="border: inset 5px $sakurako.color; border-radius: 15px; background-color: $white; color: $sakurako.color; font: normal large 'うずらフォント'"/>
-		<profile name="himawari" style="border: inset 5px $himawari.color; border-radius: 15px; background-color: $light_grey; color: $himawari.color; font: normal large 'うずらフォント'"/>
+		<profile name="himawari" style="border: inset 5px $himawari.color; border-radius: 15px; background-color: $light_gray; color: $himawari.color; font: normal large 'うずらフォント'"/>
 		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント';"/>
 		<style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
 		<style name="choices" x="centered" width="adjust" style="border: outset 5px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント';"/>
@@ -585,7 +585,8 @@
 			きっと、結衣ちゃんだって嫌いになんてなってないよ。<br/>
 			京子ちゃんだってちなつちゃんにならなに言われても嬉しそうにすると思うなぁ。<br/>
 			ちなつちゃんが笑ってくれるなら、そんな言葉だってすらすら出てきてしまう。<cp/>
-			本当に怒られなきゃいけないのは、嫌われたってしかたないのは、きっとあかりのほうだ。<cp/>
+			本当に怒られなきゃいけないのは、<br/>
+			嫌われたってしかたないのは、きっとあかりのほうだ。<cp/>
 		</narrative>
 	</scene>
 
@@ -599,8 +600,8 @@
 			部室を覗き込むと、京子ちゃんの姿はなかった。<br/>
 			先に中に入ったちなつちゃんが、テーブルに置いてあった紙を取り上げた。<br/>
 			私もその後ろから覗き込む。<cp/>
-			<text style="background-color: $grey; color: $kyouko.color; font: normal large 'うずらフォント';">『一年生諸君へ！</text><br/>
-			<text style="background-color: $grey; color: $kyouko.color; font: normal large 'うずらフォント';">結衣のお見舞い行って来るよんっ☆ちなつちゃんたちも来たかったらおいで！』</text><cp/>
+			<text style="background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント';">『一年生諸君へ！</text><br/>
+			<text style="background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント';">結衣のお見舞い行って来るよんっ☆ちなつちゃんたちも来たかったらおいで！』</text><cp/>
 		</narrative>
 		<akari>「あー、京子ちゃんからだぁ」<cp/></akari>
 		<narrative>
@@ -630,7 +631,7 @@
 		<chinatsu>「……あかりちゃん、私、結衣先輩のお見舞い行く」<cp/></chinatsu>
 		<akari>「……」<cp/></akari>
 		<narrative>
-			うん、と頷くには少し時間かかって。<br/>
+			<pause time="500"/>うん、と頷くには少し時間かかって。<br/>
 			これでちなつちゃんが笑ってくれると思うと嬉しかったけれど、それとは逆の気持ちも<br/>
 			溢れ出てきて、私の顔がへんになってないか心配になってしまった。<cp/>
 			<sound src="$paths.se_strong_wind_l" operation="once" sync="true"/><sound id="wind" src="$paths.se_strong_wind_s" operation="loop" vol="0.5"/>

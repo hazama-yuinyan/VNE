@@ -54,9 +54,9 @@ var VarStore = enchant.Class.create({
 });
 
 /**
- * 数式ライクなExpressionを解析して評価するクラス
+ * 数式ライクな独自言語Expressoを解析して評価するクラス
  */
-var ExpressionEvaluator = enchant.Class.create({
+var ExpressoEvaluator = enchant.Class.create({
 	initialize : function(var_store){
 		var parser = new Parse.Parser();
 		parser.variable_store = var_store;

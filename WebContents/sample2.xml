@@ -3,18 +3,18 @@
 
 <Scinario>
 	<header>
-		<variables>white : rgb(255, 255, 255); grey : rgb(128, 128, 128); black : rgb(0, 0, 0); snowman_fondness : 0; main_HP : 100; bear_HP : 30</variables>
+		<variables>white : rgb(255, 255, 255); gray : rgb(128, 128, 128); black : rgb(0, 0, 0); snowman_fondness : 0; main_HP : 100; bear_HP : 30</variables>
 		<flags>has_fight_with_bear : false</flags>
 		<characters tags="自分, snowman, bear">あなた; Snowman; 熊</characters>
 		<colors tags="自分, snowman, bear">rgb(255, 30, 0); rgb(0, 30, 255); rgb(20, 20, 20)</colors>
-		<paths names="br_icon, cp_icon, select, item_get, win, got_down, in_danger, op_jingle, se_gasagasa, img_snowman, img_bear">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/clear2.mp3; sounds/clear1.mp3; 
-		sounds/jingle20.mp3; sounds/loop03.mp3; sounds/jingle19.mp3; sounds/gasagasa.ogg; images/snowman.png; images/bear.png</paths>
+		<paths names="br_icon, cp_icon, select, item_get, win, got_down, in_danger, op_jingle, se_gasagasa, se_falling, se_explo_b, se_explo_s, img_snowman, img_bear">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/clear2.mp3; sounds/clear1.mp3; 
+		sounds/jingle20.mp3; sounds/loop03.mp3; sounds/jingle19.mp3; sounds/gasagasa.ogg; sounds/FallA@11.ogg; sounds/ExplosionB@11St.ogg; sounds/ExplosionC@11.ogg; images/snowman.png; images/bear.png</paths>
 		<settings names="br_icon, cp_icon, selected_se, is_debug">$paths.br_icon; $paths.cp_icon; $paths.select; true</settings>
 		<profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
 		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
-		<profile name="自分" style="border: outset 3px $自分.color; border-radius: 10px; color: $自分.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;"></profile>
-		<profile name="snowman" style="border: outset 3px $snowman.color; border-radius: 10px; color: $snowman.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
-		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
+		<profile name="自分" style="border: outset 3px $自分.color; border-radius: 10px; color: $自分.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;"></profile>
+		<profile name="snowman" style="border: outset 3px $snowman.color; border-radius: 10px; color: $snowman.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
+		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
 		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント', serif;"/>
 		<style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
 		<style name="choices" x="centered" width="adjust" style="border: inset 10px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント', serif;"/>
@@ -247,7 +247,7 @@
 			<scene id="Attack">
 				<narrative>
 					あなたは素手で熊に襲いかかった！<br/>
-					熊に<var expr="$bear_HP : $bear_HP - $rand.int; $rand.int"/>のダメージ！<cp/>
+					熊に<var expr="$bear_HP : $bear_HP - $rand.int % 100; $rand.int % 100"/>のダメージ！<cp/>
 					<log>熊の体力:<var expr="$bear_HP"/></log>
 					<jump enable_if="$bear_HP &lt; 0" to="title:OutsideOfTheCastle, ids:ToLeft, Win"/>
 					熊の反撃！<br/>
@@ -324,8 +324,45 @@
 		
 		<scene id="ToCenter">
 			<narrative>
-				
+				真ん中の道を城壁を両手に見ながら進んでいく。<br/>
+				前を向いても横を向いてもそこにあるのは城壁だけ。<br/>
+				おまけに、この城壁はどちらも優に20mはありそうな代物で、そのせいで日光は遮られまだ真昼間だというのに薄暗い。<cp/>
 			</narrative>
+			<自分>
+				（このクソ高い城壁のせいでものすごい圧迫感を感じる・・・<br/>
+				仮にこの道が正解だとしても、城内に入る前に萎縮して逃げ出しちまいそうな雰囲気だぜ…）<cp/>	
+			</自分>
+			<narrative>
+				あのへんな雪だるまと別れてから1時間弱。<br/>
+				この異質な世界で唯一頼れそうな仲間(?)とわかれた寂寥感とこの異様な雰囲気とが相まって孤独感を促進していた。<br/>
+				あんな変な奴でも、いなければいないで寂しいもんなんだな。<cp/>
+				と、そのときだった。<cp/>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドカーン<sound src="$paths.se_explo_b" operation="once"/>
+			</narrative>
+			<自分>うえええ、ちょっ！爆発なんて聞いてねえよ！…え、なんなの？マジで命かけなきゃいけない系でぃすか、これは！</自分>
+			<narrative>ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/></narrative>
+			<自分>やばいやばいやばいって！こんな時にあいつは何してんだよ、くそ・・！</自分>
+			<narrative>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
+				<pause time="1000"/>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
+				ドカーン<sound src="$paths.se_explo_b" operation="once"/>
+				<pause time="1000"/>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
+				<pause time="1000"/>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
+				ドカーン<sound src="$paths.se_explo_b" operation="once"/>
+				<text speed="0.25">…………</text>
+				ドーン<sound src="$paths.se_explo_s" operation="once"/>
+			</narrative>
+			<自分>ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</自分>
+			<snowman>遅れちゃってごめん！他の用事が立て込んじゃっててなかなかこっちに来れなかったんだよ</snowman>
+			<自分>ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</自分>
+			<snowman>……大丈夫？</snowman>
+			<自分>ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</自分>
+			<snowman>……どうやら大丈夫じゃなさそうだね。そう言えばこっちの方で花火みたいな音がしてたけどあれは一体--</snowman>
+			<narrative>ドカーン<sound src="$paths.se_explo_b" operation="once"/></narrative>
+			<snowman>なるほど、これのせいか。こいつの直撃を受けて放心状態に陥っちゃってるわけか。まあ無理もないよね。</snowman>
 		</scene>
 		
 		<scene id="ToRight">
@@ -340,7 +377,26 @@
 				いや、この訳のわからん世界でやけになってこの状況を楽しもうとしているだけかもしれないが・・<cp/>
 				と、突然左手の城壁が途切れ小さな閂が備わった門が現れた。<br/>
 			</narrative>
-			<自分></自分>
+			<自分>お、これは俺の時代が来た予感</自分>
+			<narrative>
+				今にもスキップしだしそうなほど高揚した気分を何とか抑えつつ、<br/>
+				巨大な秘密を内に秘めた頑健なベールを解き放つべく閂に手をかけたら・・・<cp/>
+			</narrative>
+			<自分>ぐぬ・・・ぐぬぬぬ・・・</自分>
+			<narrative>
+				いくら踏ん張って渾身の力を込めて閂を引っ張ってみた所でそいつはびくともしなかった。<br/>
+				まるで俺をあざ笑うかのようにそこに鎮座するだけだ。<br/>
+				どうしても諦め切れない俺は、何度も何度も果敢に閂に挑戦を挑んだが、そのたびに無慈悲に突っぱねられるだけだった。<cp/>
+			</narrative>
+			<自分>くっそ、他を探せって言うのかよ・・・</自分>
+			<narrative>
+				10分ばかりの閂との格闘の末、握力がなくなりかけて不戦敗を喫した俺はついに元きた道を戻ることにした。<br/>
+				その道中も目に入るのは地の果てまで続くような真っ白な城壁だけ。覗き穴の一つすら見当たらない。<br/>
+				ねずみ一匹すら、城内へ侵入するのは容易いことではないだろう。<cp/>
+				ましてや、人間一人とあのわけわからん雪だるま１体だ。<br/>
+				そろそろ本気でドリルでも持ちだしてどこかここらへんの壁に穴を空けるしかないんじゃないかって気がしてきた。<cp/>
+				<jump to="title:OutsideOfTheCastle, ids:AtCrossRoads"/>
+			</narrative>
 		</scene>
 	</scene>
 	
@@ -367,6 +423,9 @@
 		<effect name="VisibilityChange" target="msg_window" is_visible="false"/>
 		<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="color: $black; font: bold xx-large sans-serif" end_time="240" sync="true">The end</label>
 		<jump to="title:main_menu"/>
+	</scene>
+	
+	<scene title="GoodEnd(Temp)" shows_title="true">
 	</scene>
 	
 	<scene title="menu" shows_title="false">

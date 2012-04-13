@@ -157,7 +157,7 @@ var RETINA_DISPLAY = (function() {
 })();
 var USE_FLASH_SOUND = (function() {
     var ua = navigator.userAgent;
-    var vendor = navigator.vendor;
+    var vendor = navigator.vendor || "";
     if(location.href.indexOf('http') == 0 && ua.indexOf('Mobile') == -1 && vendor.indexOf('Apple') != -1){
         return true;
     }
@@ -771,6 +771,7 @@ enchant.Game = enchant.Class.create(enchant.EventTarget, {
         }, this);
                 
         if (initial) {
+            var stage = enchant.Game.instance._element;
             document.addEventListener('keydown', function(e) {
                 game.dispatchEvent(new enchant.Event('keydown'));
                 if ((37 <= e.keyCode && e.keyCode <= 40) || e.keyCode == 32) {
@@ -794,19 +795,28 @@ enchant.Game = enchant.Class.create(enchant.EventTarget, {
                 }
             }, true);
             if (TOUCH_ENABLED) {
-                document.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
+                stage.addEventListener('touchstart', function(e) {
+                    var tagName = (e.target.tagName).toLowerCase();
+                    if(tagName !== "input" && tagName !== "textarea"){
+                        e.preventDefault();
+                    }
                 }, true);
-                document.addEventListener('touchmove', function(e) {
-                    e.preventDefault();
-                    if (!game.running) e.stopPropagation();
+                stage.addEventListener('touchmove', function(e) {
+                    var tagName = (e.target.tagName).toLowerCase();
+                    if(tagName !== "input" && tagName !== "textarea"){
+                        e.preventDefault();
+                        if (!game.running) e.stopPropagation();
+                    }
                 }, true);
-                document.addEventListener('touchend', function(e) {
-                    e.preventDefault();
-                    if (!game.running) e.stopPropagation();
+                stage.addEventListener('touchend', function(e) {
+                    var tagName = (e.target.tagName).toLowerCase();
+                    if(tagName !== "input" && tagName !== "textarea"){
+                        e.preventDefault();
+                        if (!game.running) e.stopPropagation();
+                    }
                 }, true);
             } else {
-                document.addEventListener('mousedown', function(e) {
+                stage.addEventListener('mousedown', function(e) {
                     var tagName = (e.target.tagName).toLowerCase();
                     if(tagName !== "input" && tagName !== "textarea"){
                         e.preventDefault();
@@ -814,14 +824,14 @@ enchant.Game = enchant.Class.create(enchant.EventTarget, {
                         if (!game.running) e.stopPropagation();
                     }
                 }, true);
-                document.addEventListener('mousemove', function(e) {
+                stage.addEventListener('mousemove', function(e) {
                     var tagName = (e.target.tagName).toLowerCase();
                     if(tagName !== "input" && tagName !== "textarea"){
                         e.preventDefault();
                         if (!game.running) e.stopPropagation();
                     }
                 }, true);
-                document.addEventListener('mouseup', function(e) {
+                stage.addEventListener('mouseup', function(e) {
                     var tagName = (e.target.tagName).toLowerCase();
                     if(tagName !== "input" && tagName !== "textarea"){
                         e.preventDefault();
@@ -873,8 +883,10 @@ enchant.Game = enchant.Class.create(enchant.EventTarget, {
 
         switch (ext) {
             case 'jpg':
+            case 'jpeg':
             case 'gif':
             case 'png':
+            case 'bmp':
                 game.assets[src] = enchant.Surface.load(src);
                 game.assets[src].addEventListener('load', callback);
                 break;
@@ -2539,7 +2551,7 @@ enchant.Surface = enchant.Class.create(enchant.EventTarget, {
         pixel.data[1] = g;
         pixel.data[2] = b;
         pixel.data[3] = a;
-        this.context.putImageData(pixel, x, y, 1, 1);
+        this.context.putImageData(pixel, x, y);
     },
     /**
      * Surfaceの全ピクセルをクリアし透明度0の黒に設定する.
