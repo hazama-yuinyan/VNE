@@ -2,1878 +2,1881 @@
 
 
 
-<Scinario>
-	<header>
-		<variables>black : rgb(0, 0, 0); white : rgb(255, 255, 255); light_gray : rgb(192, 192, 192); gray : rgb(128, 128, 128)</variables>
-		<characters tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">あかり; ちなつ; あかね; 京子; 結衣; 櫻子; 向日葵</characters>
-		<colors tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">rgb(233, 109, 140); rgb(252, 209, 219); rgb(233, 109, 140);
-			rgb(234, 223, 186); rgb(84, 61, 70); rgb(232, 205, 182); rgb(103, 122, 157)</colors>
-		<paths names="br_icon, cp_icon, select, bgm1, bgm2, bgm3, ed, se_door, se_dosun, se_heart_beat, se_croud, se_strong_wind_l, se_strong_wind_s, se_mp_vibe, se_mp_close, se_switch, se_chime, img_kyouko, img_akari">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/christmas time for you-m.ogg;
-		 sounds/tampi01.mp3; sounds/tamsugisa.mp3; sounds/tamhe06.mp3; sounds/doorclose1.ogg; sounds/dosun.ogg; sounds/HeartSingle@8.ogg; sounds/city-background_loop.mp3; sounds/WindA@08.ogg; sounds/WindD@11.ogg; sounds/vibrator_mono.mp3; sounds/MobileA@08.ogg; sounds/SwitchF00@11.ogg; sounds/chime1s.mp3; images/kyouko.jpg; images/akari.jpg</paths>
-		<settings names="br_icon, cp_icon, selected_se, is_debug">$paths.br_icon; $paths.cp_icon; $paths.select; true</settings>
-		<profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
-		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
-		<profile src="$paths.img_akari" name="akari" style="border: inset 5px $akari.color; border-radius: 15px; background-color: $white; color: $akari.color; font: normal large 'うずらフォント';" frame_width="300">ガビーン : 0; normal_in_winter : 1; かかってきなさい : 2; ふふっ : 3; ちょっ！？ : 4; serious : 5;
-		 うそー : 6; shocked : 7; へへっ : 8; normal : 9; ｷﾗｰﾝ : 10; sleeping : 11; うわーん : 12; ん？ : 13</profile>
-		<profile name="chinatsu" style="border: inset 5px $chinatsu.color; border-radius: 15px; background-color: $gray; color: $chinatsu.color; font: normal large 'うずらフォント';"/>
-		<profile name="akane" style="border: outset 5px $akane.color; border-radius: 15px; background-color: $white; color: $akane.color; font: normal large 'うずらフォント'"/>
-		<profile src="$paths.img_kyouko" name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント'" frame_width="300">ぐおお : 0; normal : 1; ｷﾗﾝ : 2; V! : 3; embarrassed : 4</profile>
-		<profile name="yui" style="border: inset 5px $yui.color; border-radius: 15px; background-color: $white; color: $yui.color; font: normal large 'うずらフォント'"/>
-		<profile name="sakurako" style="border: inset 5px $sakurako.color; border-radius: 15px; background-color: $white; color: $sakurako.color; font: normal large 'うずらフォント'"/>
-		<profile name="himawari" style="border: inset 5px $himawari.color; border-radius: 15px; background-color: $light_gray; color: $himawari.color; font: normal large 'うずらフォント'"/>
-		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント';"/>
-		<style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
-		<style name="choices" x="centered" width="adjust" style="border: outset 5px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント';"/>
-	</header>
-	
-	<scene title="main_menu" shows_title="false">
-		<menu initial_state="MainMenu">
-			<a x="centered" y="100" action="openNew" to="title:body">新しく始める</a>
-			<b x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</b>
-			<c x="centered" y="300" action="openOption" to="MenuOption">オプション</c>
-			<d x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</d>
-		</menu>
-	</scene>
+<Scinario xmlns="http://funprogramming.ojaru.jp/namespaces/AGE">
+  <header>
+    <variables>black : rgb(0, 0, 0); white : rgb(255, 255, 255); light_gray : rgb(192, 192, 192); gray : rgb(128, 128, 128)</variables>
+    <characters tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">あかり; ちなつ; あかね; 京子; 結衣; 櫻子; 向日葵</characters>
+    <colors tags="akari, chinatsu, akane, kyouko, yui, sakurako, himawari">rgb(233, 109, 140); rgb(252, 209, 219); rgb(233, 109, 140);
+     rgb(234, 223, 186); rgb(84, 61, 70); rgb(232, 205, 182); rgb(103, 122, 157)</colors>
+    <paths names="br_icon, cp_icon, select, bgm1, bgm2, bgm3, ed, se_door, se_dosun, se_heart_beat, se_croud, se_strong_wind_l, se_strong_wind_s, se_mp_vibe, se_mp_close, se_switch, se_chime, img_kyouko, img_akari, img_chinatsu, img_yui, img_himawari, img_sakurako">images/br_icon.png; images/cp_icon.png; sounds/select.ogg; sounds/christmas time for you-m.ogg;
+     sounds/tampi01.mp3; sounds/tamsugisa.mp3; sounds/tamhe06.mp3; sounds/doorclose1.ogg; sounds/dosun.ogg; sounds/HeartSingle@8.ogg; sounds/city-background_loop.mp3; sounds/WindA@08.ogg; sounds/WindD@11.ogg; sounds/vibrator_mono.mp3; sounds/MobileA@08.ogg; sounds/SwitchF00@11.ogg; sounds/chime1s.mp3; images/kyouko.jpg; images/akari.jpg;
+     images/chinatsu.jpg; images/yui.jpg; images/himawari.jpg; images/sakurako.jpg  
+    </paths>
+    <settings names="br_icon, cp_icon, selected_se, is_debug">$paths.br_icon; $paths.cp_icon; $paths.select; true</settings>
+    <profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
+    <profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
+    <profile src="$paths.img_akari" name="akari" style="border: inset 5px $akari.color; border-radius: 15px; background-color: $white; color: $akari.color; font: normal large 'うずらフォント';" frame_width="300">ガビーン : 0; normal_in_winter : 1; かかってきなさい : 2; ふふっ : 3; ちょっ！？ : 4; serious : 5;
+     うそー : 6; shocked : 7; へへっ : 8; normal : 9; ｷﾗｰﾝ : 10; sleeping : 11; うわーん : 12; ん？ : 13</profile>
+    <profile src="$paths.img_chinatsu" name="chinatsu" style="border: inset 5px $chinatsu.color; border-radius: 15px; background-color: $gray; color: $chinatsu.color; font: normal large 'うずらフォント';">ぎゃー : 0; しょうがないなぁ : 1; しょんぼり : 2; a_bit_serious : 3; 腹黒天使 : 4; ぐいっ : 5; ちょいとセクシー？ : 6; キラキラん : 7; normal : 8;
+     バチコン : 9; イメージ映像です : 10; あかりちゃ〜ん : 11</profile>
+    <profile name="akane" style="border: outset 5px $akane.color; border-radius: 15px; background-color: $white; color: $akane.color; font: normal large 'うずらフォント'"/>
+    <profile src="$paths.img_kyouko" name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント'" frame_width="300">embarrassed : 0; V! : 1; どやっ : 2; 横顔 : 3; じとー : 4; あいたたた : 5; normal : 4; ぐいっ : 5; じゃーん : 6; バチコン : 7;
+     キラン : 8; ファイトー！ : 9</profile>
+    <profile src="$paths.img_yui" name="yui" style="border: inset 5px $yui.color; border-radius: 15px; background-color: $white; color: $yui.color; font: normal large 'うずらフォント'">横顔 : 0; normal : 1; いやいや : 2; normal2 : 3; normal3 : 4;</profile>
+    <profile src="$paths.img_sakurako" name="sakurako" style="border: inset 5px $sakurako.color; border-radius: 15px; background-color: $white; color: $sakurako.color; font: normal large 'うずらフォント'">normal : 0; マジマジ！ : 1; vs 向日葵 : 2;</profile>
+    <profile src="$paths.img_himawari" name="himawari" style="border: inset 5px $himawari.color; border-radius: 15px; background-color: $light_gray; color: $himawari.color; font: normal large 'うずらフォント'">呆れましたわ : 0; vs 櫻子 : 1; normal : 2</profile>
+    <style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント';"/>
+    <style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
+    <style name="choice" x="centered" width="adjust" style="border: outset 5px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント';"/>
+  </header>
+  
+  <scene title="main_menu" shows_title="false">
+    <menu initial_state="MainMenu">
+      <item x="centered" y="100" action="openNew" to="title:body">新しく始める</item>
+      <item x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</item>
+      <item x="centered" y="300" action="openOption" to="MenuOption">オプション</item>
+      <item x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</item>
+    </menu>
+  </scene>
 
-	<scene title="body" shows_title="false">
-		<title>あかり「君と好きな人が百年続きますように」</title>
-	</scene>
+  <scene title="body" shows_title="false">
+    <title>あかり「君と好きな人が百年続きますように」</title>
+  </scene>
 
-	<scene title="プロローグ">
-		<narrative>
-			ちなつちゃんは結衣ちゃんが好き。<br/>
-			私はちなつちゃんが好き。<cp/>
-			その好きが、ただの好きと違うことに気付いたのは、恥ずかしながらつい最近のこと。<cp/>
-			あかりはほんっと疎いよなあ、と京子ちゃんにも言われるくらいには、<br/>
-			私はそういうことに関してまったくと言っていいほどなにも知らなかった。<cp/>
-			応援しているはずの友達を好きになることがこんなにも辛いことなのだとも、<br/>
-			なにも、知らなかったから。<cp/>
-		</narrative>
-		<choices enable_if="$settings.is_debug = true">
-			<o to="title:プロローグ, ids:content">そのまま先へ進む</o>
-			<a to="title:みんなと外で">「みんなと外で」へ</a>
-			<b to="title:些細な異変">「些細な異変」へ</b>
-            <c to="title:いざ、結衣の部屋へ">「いざ、結衣の部屋へ」へ</c>
-			<d to="title:あかりの決意">「あかりの決意」へ</d>
-			<e to="title:ファーストデート, ids:ホワイトクリスマス">「ファーストデート」へ</e>
-			<f to="title:エピローグ, ids:走れちなつ！">「エピローグ」へ</f>
-			<g to="title:エンドロール">「エンドロール」へ</g>
-		</choices>
-		<scene id="content">
-			<chinatsu>「あかりちゃん、聞いてる？」<cp/></chinatsu>
-			<akari><image id="akari" target="akari" src="$paths.img_akari" frame="$akari.うそー" figure_pos="center"/>「へ！？」<cp/></akari>
-			<narrative>
-				ぽんっと肩に置かれたちなつちゃんの手。<br/>
-				戸惑ったように覗き込まれる瞳が、私の心をさわさわと騒ぎ立てる。<cp/>
-			</narrative>
-			<akari><image id="akari" operation="change" frame="$akari.normal" figure_pos="left"/>「き、聞いてるよぉ」<cp/></akari>
-			<chinatsu>「そう？ならいいんだけど……」<cp/></chinatsu>
-			<narrative>
-				<image id="akari" operation="remove"/>
-				私は小さく笑いながら、ちなつちゃんの淹れたお茶に手を伸ばした。<cp/>
-				熱いお茶で冷えた手を温めながら、なんとかかんとか、バクバクしている心臓を落ち着ける。
-			</narrative>
-			<chinatsu>「なんかボーっとしてたから」<cp/></chinatsu>
-			<akari>「……ごめんねぇ」<cp/></akari>
-			<chinatsu>「ほんとだよもー！せっかく大事な話してたのにー」<cp/></chinatsu>
-			<narrative>
-				膨れるちなつちゃん。<cp/>
-				そんなちなつちゃんを見ながら、可愛いなぁ、と思ったことはもちろんひた隠しにして、<br/>
-				「く、クリスマスのことだよね！」とさっきの会話の断片を繋ぎ合せてなんとか思い出した話題について触れてみる。<cp/>
-			</narrative>
-			<akari>「結衣ちゃんとどうやってクリスマスを一緒に過ごすか、って」<cp/></akari>
-			<chinatsu>「あ、ちゃんとわかってるんだ」<cp/></chinatsu>
-			<akari><image target="akari" frame="$akari.ふふっ" figure_pos="center"/>「えへへ……」<cp/></akari>
-			<narrative>
-				わかってるとは程遠い気もするけれど。<br/>
-				私は笑って誤魔化した。<cp/>
-				ついでに、自分の口をついて出た「結衣ちゃん」という名前にずきりとした痛みを感じたのも、
-				一緒に誤魔化して。<cp/>
-			</narrative>
-			<chinatsu>「で、その作戦は？」<cp/></chinatsu>
-			<akari>「へ！？」<cp/></akari>
-			<chinatsu>「ほら、やっぱりなにも聞いてないー」<cp/></chinatsu>
-			<akari>「……うぅ」<cp/></akari>
-			<chinatsu>「なんて、嘘だけどね」<cp/></chinatsu>
-			<narrative>
-				えっ、と俯かせかけていた顔を上げた。<br/>
-				ちなつちゃんは「だって」と笑う。<cp/>
-			</narrative>
-			<chinatsu>「まだなにも決めてないし」<cp/></chinatsu>
-			<akari>「なんだぁ……」<cp/></akari>
-			<chinatsu>「でもあかりちゃんがなにも聞いてなかったことに関しての証拠にはなっちゃったね！」<cp/></chinatsu>
-			<akari>「あぁっ！」<cp/></akari>
-			<chinatsu>「よってあかりちゃんにはマッサージの刑！」<cp/></chinatsu>
-			<narrative>
-				ちなつちゃんのマッサージ！<cp/>
-				身体がびくんと反応したものの、いつのまにか私はちなつちゃんに捕らえられてしまっていた。<cp/>
-			</narrative>
-			<akari>「ち、ちなつちゃん……」<cp/></akari>
-			<chinatsu>「今日こそはやめたげないんだからー！」<cp/></chinatsu>
-			<narrative>
-				がしっと肩を掴まれ、そのまま部室の畳に横にされる。<br/>
-				ちなつちゃんが「大丈夫、優しくするから」と私を見下ろしながら笑う。<cp/>
-			</narrative>
-			<akari>「うっ……」<cp/></akari>
-			<narrative>
-				この間に逃げられなかったのは、私がそんなちなつちゃんに見惚れてしまったから。<cp/>
-				それから、ちなつちゃんに触れられることが、少し、嬉しかったから。<cp/>
-			</narrative>
-			<chinatsu>「さあ、覚悟してねあかりちゃん」<cp/></chinatsu>
-			<narrative>
-				ギュッと目を閉じる。<br/>
-				ちなつちゃんの手が伸びてくるのがわかって――<cp/>
-			</narrative>
-			<kyouko>「あー寒かった！」<cp/></kyouko>
-			<narrative>
-				<effect name="RandomVibration" target="display" end_time="10" amplitude_x="10" amplitude_y="10" max_rate="3" sync="true"/><sound src="$paths.se_door" operation="once"/>ガタンッ<cp/>
-				勢い良くドアが開かれて、京子ちゃんの声がした。きっとその横には結衣ちゃんもいるのだろう。<cp/>
-				なんとなくほっとした気もするし、もう少し遅くに来てくれたらよかったのにと思う気もするけれど、<br/>
-				とりあえずちなつちゃんの魔の手から解放される。<cp/>
-			</narrative>
-			<chinatsu>「あー残念。また今度ね」<cp/></chinatsu>
-			<narrative>
-				京子ちゃんたちが部室の襖を開ける直前、囁かれたちなつちゃんの言葉。<cp/>
-				もうそれだけで私はちなつちゃんに触れられる以上にドキドキとしてしまった。<cp/>
-			</narrative>
-			<kyouko>「さて、今日もちなつちゃんを……」<cp/></kyouko>
-			<yui>「おいこら」<cp/></yui>
-			<kyouko>「って、あかりなに赤くなってんの？」<cp/></kyouko>
-			<narrative>
-				いつもは部室に入ってくるなり、ちなつちゃんに一目散に駆けて行く京子ちゃんが<br/>
-				先に私を見つけて驚くくらいには、きっと私の顔はひどいことになっていた。<cp/>
-			</narrative>
-			<chinatsu>「あ、ほんとだ」<cp/></chinatsu>
-			<yui>「おたふく？」<cp/></yui>
-			<akari>「ち、違うよぉ！」<cp/></akari>
-			<narrative>
-				結衣ちゃんに言われて首を振る。<br/>
-				うぅ、あかりってばみんなにどんなふうに思われてるんだろう。<cp/>
-			</narrative>
-			<kyouko>「そうだな、あかりは昔おたふくかかったことあるし！」<cp/></kyouko>
-			<yui>「それで私たちも移されたんだっけ」<cp/></yui>
-			<chinatsu>「えぇー！私も結衣先輩に移されたかったです！」<cp/></chinatsu>
-			<yui>「いや、私たちがあかりに移されて……」<cp/></yui>
-			<chinatsu>「結衣先輩に移されたのを私が移されるんです！」<cp/></chinatsu>
-			<kyouko>「なら私が移したげるよちなつちゃん！」<cp/></kyouko>
-			<chinatsu>「京子先輩はいらないです」<cp/></chinatsu>
-			<kyouko>「えっ」<cp/></kyouko>
-			<narrative>
-				私に注目されていたのが違う方向にかわって私はふうと息を吐いた。<cp/>
-				まだちょっとだけ皆に構って欲しかった気もするけれど、私はやっぱりこんなふうなみんなを眺めているのが楽しい。<cp/>
-			</narrative>
-			<akari>「……」<cp/></akari>
-			<narrative>
-				いいなぁ、とか。<br/>
-				そんなふうに思わないわけでもないけど。<cp/>
-				ちなつちゃんが一番楽しそうに笑っているのは、きっと結衣ちゃんがいるからだ。<br/>
-				私だけじゃ、ちなつちゃんのあんな笑顔を見ることはできないから。<cp/>
-			</narrative>
-		</scene>
-	</scene>
+  <scene title="プロローグ">
+    <narrative>
+      ちなつちゃんは結衣ちゃんが好き。<br/>
+      私はちなつちゃんが好き。<cp/>
+      その好きが、ただの好きと違うことに気付いたのは、恥ずかしながらつい最近のこと。<cp/>
+      あかりはほんっと疎いよなあ、と京子ちゃんにも言われるくらいには、<br/>
+      私はそういうことに関してまったくと言っていいほどなにも知らなかった。<cp/>
+      応援しているはずの友達を好きになることがこんなにも辛いことなのだとも、<br/>
+      なにも、知らなかったから。<cp/>
+    </narrative>
+    <choice enable_if="$settings.is_debug = true">
+      <option to="title:プロローグ, ids:content">そのまま先へ進む</option>
+      <option to="title:みんなと外で">「みんなと外で」へ</option>
+      <option to="title:些細な異変">「些細な異変」へ</option>
+      <option to="title:いざ、結衣の部屋へ">「いざ、結衣の部屋へ」へ</option>
+      <option to="title:あかりの決意">「あかりの決意」へ</option>
+      <option to="title:ファーストデート, ids:ホワイトクリスマス">「ファーストデート」へ</option>
+      <option to="title:エピローグ, ids:走れちなつ！">「エピローグ」へ</option>
+      <option to="title:エンドロール">「エンドロール」へ</option>
+    </choice>
+    <scene id="content">
+      <chinatsu><image id="chinatsu" frame="$chinatsu.a_bit_serious" figure_pos="center"/>「あかりちゃん、聞いてる？」<cp/></chinatsu>
+      <akari>「へ！？」<cp/></akari>
+      <narrative>
+        ぽんっと肩に置かれたちなつちゃんの手。<br/>
+        戸惑ったように覗き込まれる瞳が、私の心をさわさわと騒ぎ立てる。<cp/>
+      </narrative>
+      <akari>「き、聞いてるよぉ」<cp/></akari>
+      <chinatsu>「そう？ならいいんだけど……」<image id="chinatsu" operation="change" frame="$chinatsu.normal"/><cp/></chinatsu>
+      <narrative>
+        私は小さく笑いながら、ちなつちゃんの淹れたお茶に手を伸ばした。<cp/>
+        熱いお茶で冷えた手を温めながら、なんとかかんとか、バクバクしている心臓を落ち着ける。
+      </narrative>
+      <chinatsu>「なんかボーっとしてたから」<cp/></chinatsu>
+      <akari>「……ごめんねぇ」<cp/></akari>
+      <chinatsu><image id="chinatsu" operation="change" frame="$chinatsu.ぐいっ"/>「ほんとだよもー！せっかく大事な話してたのにー」<cp/></chinatsu>
+      <narrative>
+        膨れるちなつちゃん。<cp/>
+        そんなちなつちゃんを見ながら、可愛いなぁ、と思ったことはもちろんひた隠しにして、<br/>
+        「く、クリスマスのことだよね！」とさっきの会話の断片を繋ぎ合せてなんとか思い出した話題について触れてみる。<cp/>
+      </narrative>
+      <akari>「結衣ちゃんとどうやってクリスマスを一緒に過ごすか、って」<cp/></akari>
+      <chinatsu><image id="chinatsu" operation="change" frame="$chinatsu.normal"/>「あ、ちゃんとわかってるんだ」<cp/></chinatsu>
+      <akari>「えへへ……」<cp/></akari>
+      <narrative>
+        わかってるとは程遠い気もするけれど。<br/>
+        私は笑って誤魔化した。<cp/>
+        ついでに、自分の口をついて出た「結衣ちゃん」という名前にずきりとした痛みを感じたのも、
+        一緒に誤魔化して。<cp/>
+      </narrative>
+      <chinatsu>「で、その作戦は？」<cp/></chinatsu>
+      <akari>「へ！？」<cp/></akari>
+      <chinatsu>「ほら、やっぱりなにも聞いてないー」<cp/></chinatsu>
+      <akari>「……うぅ」<cp/></akari>
+      <chinatsu>「なんて、嘘だけどね」<cp/></chinatsu>
+      <narrative>
+        えっ、と俯かせかけていた顔を上げた。<br/>
+        ちなつちゃんは「だって」と笑う。<cp/>
+      </narrative>
+      <chinatsu>「まだなにも決めてないし」<cp/></chinatsu>
+      <akari>「なんだぁ……」<cp/></akari>
+      <chinatsu>「でもあかりちゃんがなにも聞いてなかったことに関しての証拠にはなっちゃったね！」<cp/></chinatsu>
+      <akari>「あぁっ！」<cp/></akari>
+      <chinatsu><image id="chinatsu" operation="change" frame="$chinatsu.ぐいっ"/>「よってあかりちゃんにはマッサージの刑！」<cp/></chinatsu>
+      <narrative>
+        ちなつちゃんのマッサージ！<cp/>
+        身体がびくんと反応したものの、いつのまにか私はちなつちゃんに捕らえられてしまっていた。<cp/>
+      </narrative>
+      <akari>「ち、ちなつちゃん……」<cp/></akari>
+      <chinatsu>「今日こそはやめたげないんだからー！」<cp/></chinatsu>
+      <narrative>
+        がしっと肩を掴まれ、そのまま部室の畳に横にされる。<br/>
+        <image id="chinatsu" target="chinatsu" operation="change" frame="$chinatsu.あかりちゃ〜ん"/>ちなつちゃんが「大丈夫、優しくするから」と私を見下ろしながら笑う。<cp/>
+      </narrative>
+      <akari>「うっ……」<cp/></akari>
+      <narrative>
+        この間に逃げられなかったのは、私がそんなちなつちゃんに見惚れてしまったから。<cp/>
+        それから、ちなつちゃんに触れられることが、少し、嬉しかったから。<cp/>
+      </narrative>
+      <chinatsu>「さあ、覚悟してねあかりちゃん」<cp/></chinatsu>
+      <narrative>
+        ギュッと目を閉じる。<br/>
+        ちなつちゃんの手が伸びてくるのがわかって――<cp/>
+      </narrative>
+      <kyouko>「あー寒かった！」<cp/></kyouko>
+      <narrative>
+        <image id="chinatsu" operation="remove"/><effect name="RandomVibration" target="display" end_time="10" amplitude_x="10" amplitude_y="10" max_rate="3" sync="true"/><sound src="$paths.se_door" operation="once"/>ガタンッ<cp/>
+        勢い良くドアが開かれて、京子ちゃんの声がした。きっとその横には結衣ちゃんもいるのだろう。<cp/>
+        なんとなくほっとした気もするし、もう少し遅くに来てくれたらよかったのにと思う気もするけれど、<br/>
+        とりあえずちなつちゃんの魔の手から解放される。<cp/>
+      </narrative>
+      <chinatsu><image id="chinatsu" frame="$chinatsu.バチコン" figure_pos="center">「あー残念。また今度ね」<image id="chinatsu" operation="remove"><cp/></chinatsu>
+      <narrative>
+        京子ちゃんたちが部室の襖を開ける直前、囁かれたちなつちゃんの言葉。<cp/>
+        もうそれだけで私はちなつちゃんに触れられる以上にドキドキとしてしまった。<cp/>
+      </narrative>
+      <kyouko><image id="kyouko" frame="">「さて、今日もちなつちゃんを……」<cp/></kyouko>
+      <yui>「おいこら」<cp/></yui>
+      <kyouko>「って、あかりなに赤くなってんの？」<cp/></kyouko>
+      <narrative>
+        いつもは部室に入ってくるなり、ちなつちゃんに一目散に駆けて行く京子ちゃんが<br/>
+        先に私を見つけて驚くくらいには、きっと私の顔はひどいことになっていた。<cp/>
+      </narrative>
+      <chinatsu>「あ、ほんとだ」<cp/></chinatsu>
+      <yui>「おたふく？」<cp/></yui>
+      <akari>「ち、違うよぉ！」<cp/></akari>
+      <narrative>
+        結衣ちゃんに言われて首を振る。<br/>
+        うぅ、あかりってばみんなにどんなふうに思われてるんだろう。<cp/>
+      </narrative>
+      <kyouko>「そうだな、あかりは昔おたふくかかったことあるし！」<cp/></kyouko>
+      <yui>「それで私たちも移されたんだっけ」<cp/></yui>
+      <chinatsu>「えぇー！私も結衣先輩に移されたかったです！」<cp/></chinatsu>
+      <yui>「いや、私たちがあかりに移されて……」<cp/></yui>
+      <chinatsu>「結衣先輩に移されたのを私が移されるんです！」<cp/></chinatsu>
+      <kyouko>「なら私が移したげるよちなつちゃん！」<cp/></kyouko>
+      <chinatsu>「京子先輩はいらないです」<cp/></chinatsu>
+      <kyouko>「えっ」<cp/></kyouko>
+      <narrative>
+        私に注目されていたのが違う方向にかわって私はふうと息を吐いた。<cp/>
+        まだちょっとだけ皆に構って欲しかった気もするけれど、私はやっぱりこんなふうなみんなを眺めているのが楽しい。<cp/>
+      </narrative>
+      <akari>「……」<cp/></akari>
+      <narrative>
+        いいなぁ、とか。<br/>
+        そんなふうに思わないわけでもないけど。<cp/>
+        ちなつちゃんが一番楽しそうに笑っているのは、きっと結衣ちゃんがいるからだ。<br/>
+        私だけじゃ、ちなつちゃんのあんな笑顔を見ることはできないから。<cp/>
+      </narrative>
+    </scene>
+  </scene>
 
-	<scene title="みんなと外で">
-		<kyouko>「ほんっと寒くなっちゃったなあ」<cp/></kyouko>
-		<narrative>
-			外に出るなり呟いた京子ちゃんの声に、私たちまで思わず震えてしまった。<br/>
-			もうマフラーをしていない生徒のほうが少ないくらいのこの時期、結衣ちゃんが<br/>
-			「もうすぐ冬休みかー」とぽつりと言う。<cp/>
-		</narrative>
-		<akari>「中学生になってからはじめての冬休みだからすっごく楽しみ！」<cp/></akari>
-		<yui>「べつに変わったことはなにもないけどな」<cp/></yui>
-		<kyouko>「お年玉が増えるとか？」<cp/></kyouko>
-		<yui>「あー、それはうちあったなあ」<cp/></yui>
-		<chinatsu>「結衣先輩羨ましいです！」<cp/></chinatsu>
-		<yui>「えっ、そう？」<cp/></yui>
-		<narrative>
-			四人で並んで校門をくぐりながら、いつものように流れていく会話。<br/>
-			私はこんな時間がすごく好きだった。<cp/>
-			一番端っこ、ちなつちゃんの隣。ちなつちゃんの結衣ちゃんに向けた一生懸命な言葉を、その表情を<br/>
-			そっと盗み見ることがいつのまにか習慣になっていて。<cp/>
-			それで、きっとあかりは、もうずっと前からちなつちゃんのことを好きだったんだなぁと<br/>
-			感じるのだ。<cp/>
-		</narrative>
-		<kyouko>「あかりは？」<cp/></kyouko>
-		<narrative>
-			突然話を振られて、はっとする。<br/>
-			みんなの視線が私に向けられていた。<cp/>
-		</narrative>
-		<akari>「えっ、なにが？」<cp/></akari>
-		<chinatsu>「あー、またあかりちゃん話聞いてなかったな」<cp/></chinatsu>
-		<narrative>
-			ちなつちゃんに言われて、私は曖昧に笑った。<br/>
-			今日はなんだか、こんなことばかりだ。<cp/>
-		</narrative>
-		<yui>「冬休み、どこか行こうかって話」<cp/></yui>
-		<akari>「あ、行く行く！あかり行きたい！」<cp/></akari>
-		<kyouko>「さすがあかりだ！食いつきがいいな！」<cp/></kyouko>
-		<akari>「あかり犬じゃないよ！？」<cp/></akari>
-		<kyouko>「私は犬とは言ってない」<cp/></kyouko>
-		<akari>「あっ」<cp/></akari>
-		<narrative>
-			自覚あるんだ、と結衣ちゃんとちなつちゃんが苦笑する。<br/>
-			自覚があるというよりも、誰だってそんな言い方されれば……うぅ、どうなんだろう。<cp/>
-		</narrative>
-		<yui>「それでどこ行くんだ？」<cp/></yui>
-		<narrative>
-			一人悶々としていると、助け舟を出すように、結衣ちゃんが話題を変えてくれた。<br/>
-			京子ちゃんが「うーん」と腕を組む。<cp/>
-			結衣ちゃんは優しいなぁと思う。<cp/>
-			優しいからこそ、ちなつちゃんはそんな結衣ちゃんのことが好きで。<br/>
-			わかっているから、よけいに結衣ちゃんの優しさにどんな気持ちを抱けばいいのか<br/>
-			わからなくなる。<cp/>
-		</narrative>
-		<kyouko>「どこか行きたいとこある？」<cp/></kyouko>
-		<chinatsu>「なにも考えてなかったんですね……さすが京子先輩」<cp/></chinatsu>
-		<kyouko>「よしちなつちゃんに褒められた！」<cp/></kyouko>
-		<yui>「いやどう考えても褒めてないから」<cp/></yui>
-		<narrative>
-			私はそっと、ちなつちゃんの隣から一歩、離れてみた。<br/>
-			ちなつちゃんはきっと、なにも気付いていないから大丈夫。<cp/>
-			私の気持ちが落ち着いてくれるまでちなつちゃんから離れなきゃ、私はたぶん、<br/>
-			いつものあかりじゃいられなくなる。<cp/>
-		</narrative>
-		<kyouko>「ていうかうち、今年はあんまり遊べる時間ないんだよな……」<cp/></kyouko>
-		<yui>「あぁ、おばあちゃんとこ行くんだっけ？」<cp/></yui>
-		<kyouko>「なんか体調崩したっぽくてさー、行かなきゃなんないみたい」<cp/></kyouko>
-		<chinatsu>「なら四人でどこか行くのって無理じゃないですか？」<cp/></chinatsu>
-		<kyouko>「……なんだよなー」<cp/></kyouko>
-		<yui>「なら最初からどっか行こうぜなんてこと言うなよ」<cp/></yui>
-		<kyouko>「忘れてた」<cp/></kyouko>
-		<chinatsu>「忘れないで下さいよ」<cp/></chinatsu>
-		<narrative>
-			ね、あかりちゃん。<br/>
-			そう声をかけられて、私は顔を上げた。<cp/>
-			まさかちなつちゃんが私に話を振ってくるとは思わなくて、<br/>
-			「う、うん……！」とただこくこくと頷くことしかできなかったけど。<cp/>
-			あかりって単純なのかなぁ。<br/>
-			そんなことを思った。<cp/>
-			結衣ちゃんに助けられたら、ちなつちゃんへの気持ちと結衣ちゃんへの気持ちがごちゃ混ぜになって苦しかったのに、<br/>
-			ちなつちゃんに少しでも優しくされてしまえば、<br/>
-			こんなふうにもう、どうだってよくなってしまう。<cp/>
-		</narrative>
-		<kyouko>「あ、あかりまでそんなこと言うなんて……三対一で私の負けだと……！」<cp/></kyouko>
-		<yui>「別に勝負なんかしてねえよ」<cp/></yui>
-		<narrative>
-			結局、冬休みのことはなにも決まらずじまいでいつもの別れ道。<br/>
-			私たちはそれぞれ別れて家へ帰っていく。<br/>
-			最後までみんなに手を振りながら、私は「だめだなぁ」と小さく溜息を吐いた。<cp/>
-		</narrative>
-	</scene>
+  <scene title="みんなと外で">
+    <kyouko>「ほんっと寒くなっちゃったなあ」<cp/></kyouko>
+    <narrative>
+      外に出るなり呟いた京子ちゃんの声に、私たちまで思わず震えてしまった。<br/>
+      もうマフラーをしていない生徒のほうが少ないくらいのこの時期、結衣ちゃんが<br/>
+      「もうすぐ冬休みかー」とぽつりと言う。<cp/>
+    </narrative>
+    <akari>「中学生になってからはじめての冬休みだからすっごく楽しみ！」<cp/></akari>
+    <yui>「べつに変わったことはなにもないけどな」<cp/></yui>
+    <kyouko>「お年玉が増えるとか？」<cp/></kyouko>
+    <yui>「あー、それはうちあったなあ」<cp/></yui>
+    <chinatsu>「結衣先輩羨ましいです！」<cp/></chinatsu>
+    <yui>「えっ、そう？」<cp/></yui>
+    <narrative>
+      四人で並んで校門をくぐりながら、いつものように流れていく会話。<br/>
+      私はこんな時間がすごく好きだった。<cp/>
+      一番端っこ、ちなつちゃんの隣。ちなつちゃんの結衣ちゃんに向けた一生懸命な言葉を、その表情を<br/>
+      そっと盗み見ることがいつのまにか習慣になっていて。<cp/>
+      それで、きっとあかりは、もうずっと前からちなつちゃんのことを好きだったんだなぁと<br/>
+      感じるのだ。<cp/>
+    </narrative>
+    <kyouko>「あかりは？」<cp/></kyouko>
+    <narrative>
+      突然話を振られて、はっとする。<br/>
+      みんなの視線が私に向けられていた。<cp/>
+    </narrative>
+    <akari>「えっ、なにが？」<cp/></akari>
+    <chinatsu>「あー、またあかりちゃん話聞いてなかったな」<cp/></chinatsu>
+    <narrative>
+      ちなつちゃんに言われて、私は曖昧に笑った。<br/>
+      今日はなんだか、こんなことばかりだ。<cp/>
+    </narrative>
+    <yui>「冬休み、どこか行こうかって話」<cp/></yui>
+    <akari>「あ、行く行く！あかり行きたい！」<cp/></akari>
+    <kyouko>「さすがあかりだ！食いつきがいいな！」<cp/></kyouko>
+    <akari>「あかり犬じゃないよ！？」<cp/></akari>
+    <kyouko>「私は犬とは言ってない」<cp/></kyouko>
+    <akari>「あっ」<cp/></akari>
+    <narrative>
+      自覚あるんだ、と結衣ちゃんとちなつちゃんが苦笑する。<br/>
+      自覚があるというよりも、誰だってそんな言い方されれば……うぅ、どうなんだろう。<cp/>
+    </narrative>
+    <yui>「それでどこ行くんだ？」<cp/></yui>
+    <narrative>
+      一人悶々としていると、助け舟を出すように、結衣ちゃんが話題を変えてくれた。<br/>
+      京子ちゃんが「うーん」と腕を組む。<cp/>
+      結衣ちゃんは優しいなぁと思う。<cp/>
+      優しいからこそ、ちなつちゃんはそんな結衣ちゃんのことが好きで。<br/>
+      わかっているから、よけいに結衣ちゃんの優しさにどんな気持ちを抱けばいいのか<br/>
+      わからなくなる。<cp/>
+    </narrative>
+    <kyouko>「どこか行きたいとこある？」<cp/></kyouko>
+    <chinatsu>「なにも考えてなかったんですね……さすが京子先輩」<cp/></chinatsu>
+    <kyouko>「よしちなつちゃんに褒められた！」<cp/></kyouko>
+    <yui>「いやどう考えても褒めてないから」<cp/></yui>
+    <narrative>
+      私はそっと、ちなつちゃんの隣から一歩、離れてみた。<br/>
+      ちなつちゃんはきっと、なにも気付いていないから大丈夫。<cp/>
+      私の気持ちが落ち着いてくれるまでちなつちゃんから離れなきゃ、私はたぶん、<br/>
+      いつものあかりじゃいられなくなる。<cp/>
+    </narrative>
+    <kyouko>「ていうかうち、今年はあんまり遊べる時間ないんだよな……」<cp/></kyouko>
+    <yui>「あぁ、おばあちゃんとこ行くんだっけ？」<cp/></yui>
+    <kyouko>「なんか体調崩したっぽくてさー、行かなきゃなんないみたい」<cp/></kyouko>
+    <chinatsu>「なら四人でどこか行くのって無理じゃないですか？」<cp/></chinatsu>
+    <kyouko>「……なんだよなー」<cp/></kyouko>
+    <yui>「なら最初からどっか行こうぜなんてこと言うなよ」<cp/></yui>
+    <kyouko>「忘れてた」<cp/></kyouko>
+    <chinatsu>「忘れないで下さいよ」<cp/></chinatsu>
+    <narrative>
+      ね、あかりちゃん。<br/>
+      そう声をかけられて、私は顔を上げた。<cp/>
+      まさかちなつちゃんが私に話を振ってくるとは思わなくて、<br/>
+      「う、うん……！」とただこくこくと頷くことしかできなかったけど。<cp/>
+      あかりって単純なのかなぁ。<br/>
+      そんなことを思った。<cp/>
+      結衣ちゃんに助けられたら、ちなつちゃんへの気持ちと結衣ちゃんへの気持ちがごちゃ混ぜになって苦しかったのに、<br/>
+      ちなつちゃんに少しでも優しくされてしまえば、<br/>
+      こんなふうにもう、どうだってよくなってしまう。<cp/>
+    </narrative>
+    <kyouko>「あ、あかりまでそんなこと言うなんて……三対一で私の負けだと……！」<cp/></kyouko>
+    <yui>「別に勝負なんかしてねえよ」<cp/></yui>
+    <narrative>
+      結局、冬休みのことはなにも決まらずじまいでいつもの別れ道。<br/>
+      私たちはそれぞれ別れて家へ帰っていく。<br/>
+      最後までみんなに手を振りながら、私は「だめだなぁ」と小さく溜息を吐いた。<cp/>
+    </narrative>
+  </scene>
 
-	<narrative>
-		―――――<br/>
-		―――――<cp/>
-	</narrative>
+  <narrative>
+    ―――――<br/>
+    ―――――<cp/>
+  </narrative>
 
-	<scene title="あかりの家にて 1">
-		<akane>「おかえりなさい、あかり」<cp/></akane>
-		<akari>「あ、お姉ちゃんただいま！」<cp/></akari>
-		<narrative>
-			家に着くと、待っていたようにお姉ちゃんが玄関のドアを開けて中へ入れてくれた。<br/>
-			のんびり歩いていたせいかいつのまにか周囲は真っ暗で、冷え冷えとしていた。<br/>
-			手袋をしていない手がかちこちと痛かった。<cp/>
-		</narrative>
-		<akane>「中学生になってからは帰りがちょっと遅くて心配しちゃうわー」<cp/></akane>
-		<akari>「えへへ、ごめんねお姉ちゃん」<cp/></akari>
-		<narrative>
-			そんなふうに心配されてしまうと、なんだか少しだけでも大人になった気分だ。<br/>
-			私が謝ると、お姉ちゃんは「ちゃんと帰って来てくれるだけで充分だけど」と<br/>
-			慌てたように言って。<cp/>
-		</narrative>
-		<akane>「悪い虫でもついちゃったら大変だから」<cp/></akane>
-		<narrative>
-			ふふっとお姉ちゃんが笑う。<br/>
-			恋愛ごとに関して疎いとは言っても、その言葉の意味くらいはわかるから、<br/>
-			ちなつちゃんのことが頭に浮かんで私はなんだかお姉ちゃんと目を合わせ辛くなってしまった。<cp/>
-			ちなつちゃんが悪い虫だなんて、そんなわけはないけれど。<cp/>
-		</narrative>
-		<akari>「お、お姉ちゃんは心配しすぎだよぉ」<cp/></akari>
-		<akane>「そう？」<cp/></akane>
-		<narrative>
-			首を傾げるお姉ちゃんの横を、私は慌ててすり抜けた。<br/>
-			すり抜けざまに、お姉ちゃんが「あかりったらもう」とおかしそうに笑ったのが見えた。<cp/>
-			<text speed="0.75">――――― ――</text><cp/>
-			ご飯とお風呂を先に済ませて、私はようやく部屋に落ち着いた。<br/>
-			ベッドにぼふんとダイブすると、「はーあ」と大きく息を吐く。<cp/>
-			お母さんかお姉ちゃんのどちらかが洗濯してくれていたのか、くらげのまくらが<br/>
-			ふわふわと気持ちよかった。<br/>
-			ごろんと寝返りをうって、仰向けに寝転ぶ。<cp/>
-			天井をじっと見上げながら、私はぼんやりと物思いに沈む。<br/>
-			ちなつちゃん、今どうしてるかなぁ、とかそんなこと。<cp/>
-			私はきっと、一度好きになってしまえばその人のことしか見えなくなってしまうのだ。<br/>
-			もちろん、他の友達のことだって大好きなことには変わり無いのに。<cp/>
-		</narrative>
-		<akari>「……」<cp/></akari>
-		<narrative>
-			今日はちなつちゃん、結衣ちゃんと電話する日だって昼休みに言っていた様な気がする。<br/>
-			だったらあかりはもう寝ちゃおうかな。<br/>
-			そう思って目を閉じたとき、「あかりー」とお姉ちゃんの声がした。<cp/>
-			ぱっと身体を起こして、「なあにー？」と返事を返す。<br/>
-			お姉ちゃんが部屋に入ってきてにこにことうさぎさんのリンゴを差し出してきた。<cp/>
-		</narrative>
-		<akari>「あ……」<cp/></akari>
-		<narrative>
-			一瞬、ちなつちゃんからの電話なんかを期待してしまっていた自分に気付いて、<br/>
-			私は恥ずかしくなって「ありがとぉ」と俯いてリンゴを受取った。<cp/>
-			お姉ちゃんが「もう寝るならちゃんと布団かけて寝るのよ」とお母さんみたいなことを言って<br/>
-			部屋を出て行くのを見送る。<cp/>
-			カリッ<br/>
-			齧ったリンゴは少しぬるかった。<cp/>
-		</narrative>
-		<akari>「……」<cp/></akari>
-		<narrative>
-			ウサギさんの頭まで全部を食べてしまうと、私は机の上に無造作に置いてあった携帯を<br/>
-			そっと手にとってみた。<cp/>
-			携帯を開けて、時間を確認。<br/>
-			もうすぐ9時だ。寝なくちゃいけない時間帯。<cp/>
-		</narrative>
-		<akari>「……」<cp/></akari>
-		<narrative>
-			<sound src="$paths.se_mp_close" operation="once" sync="true"/>今ちなつちゃんに電話してしまったら、迷惑がられるかもしれない。<br/>
-			それよりなにより、まだ結衣ちゃんと電話してるのかも。<br/>
-			そう思うと、私は開けた携帯を閉じるしかなかった。<cp/>
-			おやすみ。<br/>
-			<sound src="$paths.se_switch" operation="once"/>誰にともなくそう呟くと、私は部屋の電気を消した。<cp/>
-			真っ暗な部屋、布団にもぐりこんで。<br/>
-			身体を丸めて、声が聞きたいとか、そんな衝動を押さえ込んだ。<cp/>
-			―――――<br/>
-			―――――<cp/>
-			<sound id="bgm" src="$paths.bgm3" operation="loop" is_bgm="true"/>結衣ちゃんのことが好きだと言われたのは、たぶん夏休みだったと思う。<br/>
-			その時はまだ、その好きという意味が友達としての好きなのだと、先輩への憧れとしての<br/>
-			好きなのだと、そう思っていた。<cp/>
-			けれどきっと、本当はそうじゃなくって、ちなつちゃんは本気なのだと。<br/>
-			そう気付いたのはちなつちゃんがふとしたときに見せた泣き顔だった。<cp/>
-			ちなつちゃんが泣いているところを見て、私もちなつちゃんのことが普通とは違う好きなのだと<br/>
-			気付いてしまった。<cp/>
-			それでも、ちなつちゃんの笑顔を見るには、結衣ちゃんが必要だ。<br/>
-			それに私は嘘吐きになんてなりたくないから。<cp/>
-			ちなつちゃんが、結衣ちゃんへの想いを叶えられるように。<br/>
-			私はちゃんと、ちなつちゃんに気付かれないように笑わなきゃ。<sound id="bgm" operation="stop"/><cp/>
-		</narrative>
-	</scene>
+  <scene title="あかりの家にて 1">
+    <akane>「おかえりなさい、あかり」<cp/></akane>
+    <akari>「あ、お姉ちゃんただいま！」<cp/></akari>
+    <narrative>
+      家に着くと、待っていたようにお姉ちゃんが玄関のドアを開けて中へ入れてくれた。<br/>
+      のんびり歩いていたせいかいつのまにか周囲は真っ暗で、冷え冷えとしていた。<br/>
+      手袋をしていない手がかちこちと痛かった。<cp/>
+    </narrative>
+    <akane>「中学生になってからは帰りがちょっと遅くて心配しちゃうわー」<cp/></akane>
+    <akari>「えへへ、ごめんねお姉ちゃん」<cp/></akari>
+    <narrative>
+      そんなふうに心配されてしまうと、なんだか少しだけでも大人になった気分だ。<br/>
+      私が謝ると、お姉ちゃんは「ちゃんと帰って来てくれるだけで充分だけど」と<br/>
+      慌てたように言って。<cp/>
+    </narrative>
+    <akane>「悪い虫でもついちゃったら大変だから」<cp/></akane>
+    <narrative>
+      ふふっとお姉ちゃんが笑う。<br/>
+      恋愛ごとに関して疎いとは言っても、その言葉の意味くらいはわかるから、<br/>
+      ちなつちゃんのことが頭に浮かんで私はなんだかお姉ちゃんと目を合わせ辛くなってしまった。<cp/>
+      ちなつちゃんが悪い虫だなんて、そんなわけはないけれど。<cp/>
+    </narrative>
+    <akari>「お、お姉ちゃんは心配しすぎだよぉ」<cp/></akari>
+    <akane>「そう？」<cp/></akane>
+    <narrative>
+      首を傾げるお姉ちゃんの横を、私は慌ててすり抜けた。<br/>
+      すり抜けざまに、お姉ちゃんが「あかりったらもう」とおかしそうに笑ったのが見えた。<cp/>
+      <text speed="0.75">――――― ――</text><cp/>
+      ご飯とお風呂を先に済ませて、私はようやく部屋に落ち着いた。<br/>
+      ベッドにぼふんとダイブすると、「はーあ」と大きく息を吐く。<cp/>
+      お母さんかお姉ちゃんのどちらかが洗濯してくれていたのか、くらげのまくらが<br/>
+      ふわふわと気持ちよかった。<br/>
+      ごろんと寝返りをうって、仰向けに寝転ぶ。<cp/>
+      天井をじっと見上げながら、私はぼんやりと物思いに沈む。<br/>
+      ちなつちゃん、今どうしてるかなぁ、とかそんなこと。<cp/>
+      私はきっと、一度好きになってしまえばその人のことしか見えなくなってしまうのだ。<br/>
+      もちろん、他の友達のことだって大好きなことには変わり無いのに。<cp/>
+    </narrative>
+    <akari>「……」<cp/></akari>
+    <narrative>
+      今日はちなつちゃん、結衣ちゃんと電話する日だって昼休みに言っていた様な気がする。<br/>
+      だったらあかりはもう寝ちゃおうかな。<br/>
+      そう思って目を閉じたとき、「あかりー」とお姉ちゃんの声がした。<cp/>
+      ぱっと身体を起こして、「なあにー？」と返事を返す。<br/>
+      お姉ちゃんが部屋に入ってきてにこにことうさぎさんのリンゴを差し出してきた。<cp/>
+    </narrative>
+    <akari>「あ……」<cp/></akari>
+    <narrative>
+      一瞬、ちなつちゃんからの電話なんかを期待してしまっていた自分に気付いて、<br/>
+      私は恥ずかしくなって「ありがとぉ」と俯いてリンゴを受取った。<cp/>
+      お姉ちゃんが「もう寝るならちゃんと布団かけて寝るのよ」とお母さんみたいなことを言って<br/>
+      部屋を出て行くのを見送る。<cp/>
+      カリッ<br/>
+      齧ったリンゴは少しぬるかった。<cp/>
+    </narrative>
+    <akari>「……」<cp/></akari>
+    <narrative>
+      ウサギさんの頭まで全部を食べてしまうと、私は机の上に無造作に置いてあった携帯を<br/>
+      そっと手にとってみた。<cp/>
+      携帯を開けて、時間を確認。<br/>
+      もうすぐ9時だ。寝なくちゃいけない時間帯。<cp/>
+    </narrative>
+    <akari>「……」<cp/></akari>
+    <narrative>
+      <sound src="$paths.se_mp_close" operation="once" sync="true"/>今ちなつちゃんに電話してしまったら、迷惑がられるかもしれない。<br/>
+      それよりなにより、まだ結衣ちゃんと電話してるのかも。<br/>
+      そう思うと、私は開けた携帯を閉じるしかなかった。<cp/>
+      おやすみ。<br/>
+      <sound src="$paths.se_switch" operation="once"/>誰にともなくそう呟くと、私は部屋の電気を消した。<cp/>
+      真っ暗な部屋、布団にもぐりこんで。<br/>
+      身体を丸めて、声が聞きたいとか、そんな衝動を押さえ込んだ。<cp/>
+      ―――――<br/>
+      ―――――<cp/>
+      <sound id="bgm" src="$paths.bgm3" operation="loop" is_bgm="true"/>結衣ちゃんのことが好きだと言われたのは、たぶん夏休みだったと思う。<br/>
+      その時はまだ、その好きという意味が友達としての好きなのだと、先輩への憧れとしての<br/>
+      好きなのだと、そう思っていた。<cp/>
+      けれどきっと、本当はそうじゃなくって、ちなつちゃんは本気なのだと。<br/>
+      そう気付いたのはちなつちゃんがふとしたときに見せた泣き顔だった。<cp/>
+      ちなつちゃんが泣いているところを見て、私もちなつちゃんのことが普通とは違う好きなのだと<br/>
+      気付いてしまった。<cp/>
+      それでも、ちなつちゃんの笑顔を見るには、結衣ちゃんが必要だ。<br/>
+      それに私は嘘吐きになんてなりたくないから。<cp/>
+      ちなつちゃんが、結衣ちゃんへの想いを叶えられるように。<br/>
+      私はちゃんと、ちなつちゃんに気付かれないように笑わなきゃ。<sound id="bgm" operation="stop"/><cp/>
+    </narrative>
+  </scene>
 
-	<scene title="些細な異変">
-		<akari>「おはよー」<cp/></akari>
-		<kyouko>「お、きたきた」<cp/></kyouko>
-		<narrative>
-			いつもどおりの時間。<br/>
-			いつもの恰好で、いつもの待ち合わせ場所。<br/>
-			ただ、今日はいつもと違うことが一つだけ。<cp/>
-		</narrative>
-		<chinatsu>「おはよ、あかりちゃん」<cp/></chinatsu>
-		<akari>「うん、おはよぉ」<cp/></akari>
-		<kyouko>「んじゃあ行こっか」<cp/></kyouko>
-		<narrative>
-			そう言って京子ちゃんが歩き出そうとするのを、私は「えっ」と引きとめた。<br/>
-			「なんだよー？」と京子ちゃんが振り向く。<cp/>
-		</narrative>
-		<akari>「だ、だって結衣ちゃんは？」<cp/></akari>
-		<chinatsu>「今日休みなんだって……」<cp/></chinatsu>
-		<narrative>
-			はあ、とちなつちゃんが溜息を吐いて言った。<br/>
-			京子ちゃんが「熱あるらしくてさ」とちなつちゃんの言葉を引き継ぐ。<cp/>
-		</narrative>
-		<kyouko>「道端に落ちてた舐めかけの飴なんて食べるから……」<cp/></kyouko>
-		<chinatsu>「それするのは京子先輩でしょ」<cp/></chinatsu>
-		<kyouko>「さすがに私もそこまではやらないし！」<cp/></kyouko>
-		<narrative>
-			すたすたとちなつちゃんが歩き始めて、私たちは慌ててその後を追う。<br/>
-			いつもの朝なのに、結衣ちゃんがいないだけでなんだか少し、私たちのバランスが<br/>
-			崩れたような気がした。<cp/>
-			教室に着くと、ちなつちゃんが「あーもう！」とどかっと自分の席に座り込んだ。<br/>
-			私もその後ろの席に鞄を置くと、「あの、ちなつちゃん？」と声をかける。<br/>
-			なんだかすごくイライラしてるみたいだった。<cp/>
-		</narrative>
-		<chinatsu>「なによー」<cp/></chinatsu>
-		<akari>「ど、どうかしたのかなぁって」<cp/></akari>
-		<chinatsu>「……どうかしたっていうか」<cp/></chinatsu>
-		<narrative>
-			突然ちなつちゃんは大人しくなると、机に突っ伏した。<br/>
-			そのまま脱力したように動かなくなる。<cp/>
-		</narrative>
-		<chinatsu>「……失敗しちゃった」<cp/></chinatsu>
-		<akari>「へ？」<cp/></akari>
-		<narrative>
-			昨日、結衣先輩に電話するって言ったでしょ。<br/>
-			ちなつちゃんが言う。<br/>
-			私はちなつちゃんの髪に触れようとして、やめておいた。<cp/>
-		</narrative>
-		<chinatsu>「……冬休みのこと、なにも決まってないし、結衣先輩も決まってなかったみたいだから」<cp/></chinatsu>
-		<akari>「うん……」<cp/></akari>
-		<chinatsu>「クリスマスも空いてるかなって思って」<cp/></chinatsu>
-		<narrative>
-			その先はちなつちゃんはなにも言わなかったけど、きっとちなつちゃんのことだから<br/>
-			結衣ちゃんを誘おうとしたのだろう。<cp/>
-		</narrative>
-		<akari>「断られちゃったの……？」<cp/></akari>
-		<narrative>
-			聞いていいのかだめなのかわからないままに、けれど何も言わないちなつちゃんに<br/>
-			聞くしかなくて、私は控えめにそう訊ねた。<cp/>
-		</narrative>
-		<chinatsu>「……ううん」<cp/></chinatsu>
-		<akari>「へ？」<cp/></akari>
-		<chinatsu>「断られたっていうか、怒られちゃった」<cp/></chinatsu>
-		<narrative>
-			結衣ちゃんに？<br/>
-			きょとんと訊ねると、ちなつちゃんは今度はこくんと頷く。<cp/>
-		</narrative>
-		<chinatsu>「怒られちゃったというより、京子先輩のことをそんなふうに言わないでって」<cp/></chinatsu>
-		<akari>「……え」<cp/></akari>
-		<chinatsu>「最初は二人でどこか行こうってうまくいってたのにさ、結衣先輩が京子先輩や<br/>
-		あかりちゃんも誘おうかって言うから、つい、京子先輩の不満とか、ぶつけちゃったの」<cp/></chinatsu>
-		<narrative>
-			結衣ちゃん、ひどいね。<br/>
-			そう言おうとしたけど、言えなかった。<cp/>
-			結衣ちゃんがちなつちゃんに京子ちゃんのことを悪く言ってほしくなかったみたいに、<br/>
-			きっとちなつちゃんだって私に結衣ちゃんのことを<br/>
-			悪く言ってほしくなんてないはずだ。<cp/>
-			それにたぶん、結衣ちゃんは熱があって心が不安定になっていたりもしただろうから――<br/>
-			そうは思っても。<cp/>
-			やっぱり私が結衣ちゃんに対して抱く気持ちはぐちゃぐちゃだった。<cp/>
-		</narrative>
-		<chinatsu>「やな子だって思われちゃったよね、きっと」<cp/></chinatsu>
-		<narrative>
-			ようやく顔を上げたちなつちゃんが、「失敗しちゃったなあ」と弱弱しく笑った。<br/>
-			ちなつちゃんは私の前じゃ、どうしても結衣ちゃんたちの前みたいな笑顔は見せてくれない。<cp/>
-		</narrative>
-		<akari>「……ちなつちゃん」<cp/></akari>
-		<narrative>
-			こういうときになんと声をかければいいのか、あいにく私にはどんな言葉も持ち合わせていなかった。<cp/>
-			だから私は、ちなつちゃんと一緒に悲しくなることしかできない。<br/>
-			ちなつちゃんにとっては、必要の無いことでも。<cp/>
-		</narrative>
-		<chinatsu>「せっかくのクリスマスだったのになあ」<cp/></chinatsu>
-		<akari>「……うん」<cp/></akari>
-		<chinatsu>「……ねえ、あかりちゃん」<cp/></chinatsu>
-		<narrative>
-			ふいに、ちなつちゃんがじっと私を見た。「うん？」と返事を返す。<br/>
-			教室は、だんだんと登校してきたクラスメイトたちでいっぱいになる。<cp/>
-			運んでくる冷気よりも、みんなの体温が教室全体の温度を高くしていって、ストーブもついていないはずなのに<br/>
-			なんだかぼっと暑かった。<cp/>
-			<pause time="1000"/>あかり、期待しちゃってるのかな。<cp/>
-		</narrative>
-		<chinatsu>「こうなったらもう、クリスマス二人で過ごしちゃおっか」<cp/></chinatsu>
-		<akari>「……え？」<cp/></akari>
-		<narrative>
-			私はきょとんとちなつちゃんを見た。<br/>
-			「なんてね」と笑ったちなつちゃんに。<cp/>
-		</narrative>
-		<akari>「……えへへ、そうだよね」<cp/></akari>
-		<narrative>
-			笑い返す。<cp/>
-			そうだ、ちなつちゃんは私といたいわけじゃない。<br/>
-			ちなつちゃんがいたいのは私ではなくって結衣ちゃんで、だから私は、そんなちなつちゃんを<br/>
-			応援しなくちゃ。<cp/>
-			<sound src="$paths.se_chime" operation="once" sync="true"/>チャイムが鳴った。<cp/>
-		</narrative>
-	</scene>
-	<narrative>
-		―――――<br/>
-		―――――<cp/>
-	</narrative>
-	<scene title="落ち込んだちなつとあかりと">
-		<sakurako>「ねえ、あかりちゃんあかりちゃん」<cp/></sakurako>
-		<akari>「うん、どうしたの？」<cp/></akari>
-		<himawari>「吉川さん、どうかされたんですの……？」<cp/></himawari>
-		<narrative>
-			昼休みになっても、ちなつちゃんの元気は回復するわけなんてなくって、むしろ放課後が<br/>
-			近付くにつれてずーんと重くなっていく一方だった。<br/>
-			さすがの櫻子ちゃんたちもちなつちゃんの様子に気付いたのか、こそこそと訊ねてくる。<cp/>
-		</narrative>
-		<sakurako>「もしかしてお腹痛いとか？道端に落ちてた舐めかけの飴なんて食べるから……」<cp/></sakurako>
-		<himawari>「それをするのは櫻子、あなたでしょ」<cp/></himawari>
-		<sakurako>「はあ！？私がするわけねーし！」<cp/></sakurako>
-		<narrative>
-			京子ちゃんと同じこと言ってるよぉ、と内心で笑いを堪えながらも、私はちらっとちなつちゃんのほうに目を向けた。<cp/>
-			給食を食べ終えてからは、朝と同じようにじっと机に突っ伏したまま動かない。<br/>
-			きっとまだ、結衣ちゃんのことを気にしているのだ。<cp/>
-		</narrative>
-		<himawari>「……それにしても本当に、どうされたのかしら」<cp/></himawari>
-		<sakurako>「あかりちゃん、なにか知らないの？」<cp/></sakurako>
-		<akari>「えっ」<cp/></akari>
-		<sakurako>「だってほら、あかりちゃんって一番ちなつちゃんと仲いいじゃん？」<cp/></sakurako>
-		<narrative>
-			私は「そうかなぁ」と笑ってみる。<cp/>
-			周囲の人に、そう思われるくらい私たちの仲がいいのだとしたら、とっても嬉しい。<br/>
-			実際、私たちはそれくらい仲がいいと思うし、これはあかりの自意識過剰なんかじゃない。<br/>
-			ちなつちゃんだって、私のことを誰よりも信頼してくれている。<cp/>
-			でも、そのことがたまに、私の気分を重くさせてしまう。<br/>
-			それでもちなつちゃんと一番仲のいい友達でいられることは、幸せなのだ。<br/>
-			贅沢なんて、言ってられないのに。<cp/>
-		</narrative>
-		<sakurako>「そうそう、だから自信持ちなよ！」<cp/></sakurako>
-		<himawari>「なんの自信ですの……」<cp/></himawari>
-		<akari>「えへへ……ありがとー」<cp/></akari>
-		<narrative>
-			そう言ったとき、ちなつちゃんがぴくっと肩を揺らした。<br/>
-			そのままのろのろと顔を上げてきょろきょろ辺りを見回す。<cp/>
-		</narrative>
-		<sakurako>「あれ、寝てただけ……？」<cp/></sakurako>
-		<himawari>「櫻子じゃあるまいし」<cp/></himawari>
-		<sakurako>「またそんなこと言うー！」<cp/></sakurako>
-		<himawari>「本当のことでしょ」<cp/></himawari>
-		<akari>「あ、あのね！」<cp/></akari>
-		<narrative>
-			言い合う二人に、私はそう声をかけていた。<br/>
-			少し遠くのほうでちなつちゃんがぼんやりしているのを横目に、<br/>
-			私は「ちなつちゃん、今日は疲れてるみたいなんだぁ」と。<cp/>
-		</narrative>
-		<himawari>「え？」<cp/></himawari>
-		<sakurako>「そうなの？」<cp/></sakurako>
-		<narrative>
-			嘘吐きにはなりたくない。<br/>
-			だけど、それ以上に「結衣ちゃんがいないから寂しいんじゃないかなぁ」とか、そんなことを<br/>
-			二人に説明したくなんかなかった。<cp/>
-			ちなつちゃんが落ち込んでいる理由を、あかりだけが知っていたい。<br/>
-			そんなふうに、思ってしまって。<cp/>
-		</narrative>
-		<akari>「うん、だからそっとしておいてあげてくれないかな」<cp/></akari>
-		<sakurako>「そっかー、なにか落ち込んでるんなら励ましてあげようと思ったのになー」<cp/></sakurako>
-		<himawari>「櫻子に励まされたって吉川さんもなにも嬉しくなんてないでしょうけど」<cp/></himawari>
-		<sakurako>「なんだとー！」<cp/></sakurako>
-		<narrative>
-			ちょうどそのときチャイムも鳴って、櫻子ちゃんたちが自分の席に戻っていく。<br/>
-			それを見送りながら、私もちなつちゃんの後ろの席に腰を下ろした。<cp/>
-			ちなつちゃんは相変わらずぼんやりとしていた。<br/>
-			声をかけるのを躊躇い、結局先生が来て何も言えなくなってしまった。<br/>
-			妙な罪悪感でいっぱいだった。<cp/>
-			――――― ――<sound src="$paths.se_chime" operation="once" sync="true"/><cp/>
-			放課後のチャイムが鳴る。<br/>
-			私はちなつちゃんの様子も見ずに、帰りの用意を済ませて前に立った。<br/>
-			そこでようやくちなつちゃんの顔をまっすぐ見て。<cp/>
-		</narrative>
-		<chinatsu>「あかりちゃん……」<cp/></chinatsu>
-		<narrative>
-			ちなつちゃんは戸惑ったような顔をして私を見上げていた。<br/>
-			私は精一杯の笑顔を浮かべて、「ちなつちゃん、部室行こー」と声をかける。<br/>
-			すると、ちなつちゃんは。<cp/>
-		</narrative>
-		<chinatsu>「……すっごい自己嫌悪」<cp/></chinatsu>
-		<akari>「へ？」<cp/></akari>
-		<chinatsu>「あかりちゃんって、どうしてそんなに優しいのかなあ」<cp/></chinatsu>
-		<narrative>
-			心の奥のほうが、小さく、ほんの小さく軋んだ。<cp/>
-			あかりは、優しくなんてないよ。だってさっき、櫻子ちゃんたちに嘘吐いちゃった。<br/>
-			もちろんそんなこと、ちなつちゃんに言えるはずもなくて。<cp/>
-		</narrative>
-		<chinatsu>「私、京子先輩のこと、ほんとにひどいこと言っちゃったんだよ」<cp/></chinatsu>
-		<akari>「……」<cp/></akari>
-		<chinatsu>「幼馴染の結衣先輩が、怒らないわけなんてないよ」<cp/></chinatsu>
-		<narrative>
-			京子ちゃんにもどんな顔すればいいかわからないと、ちなつちゃんは言った。<br/>
-			戸惑ったような表情から、今にも泣き出しそうな顔へと変わっていく。<cp/>
-		</narrative>
-		<akari>「……あかりだって、怒れるわけないもん」<cp/></akari>
-		<chinatsu>「……あかりちゃん」<cp/></chinatsu>
-		<akari>「だって、実際にちなつちゃんの言葉、聞いたわけじゃないし」<cp/></akari>
-		<narrative>
-			それになにより、ちなつちゃん自身が自分自身の言葉によってこんなにも傷付いてしまっている。<cp/>
-			ちなつちゃんだって本心で言ったわけじゃないのだ。<br/>
-			そんなちなつちゃんを怒れるわけないし、嫌いになれるわけなんてない。<cp/>
-		</narrative>
-		<akari>「あかりはどんなことがあってもちなつちゃんを嫌いにならないよ」<cp/></akari>
-		<chinatsu>「……それはさすがに言いすぎだよ、あかりちゃん」<cp/></chinatsu>
-		<narrative>
-			ようやく、ちなつちゃんがぷっと笑ってくれた。<br/>
-			私も「えへへ」と笑い返す。<br/>
-			きっと、言いすぎでもなんでもないのだろうけど。ちなつちゃんが笑ってくれて、よかった。<cp/>
-		</narrative>
-		<chinatsu>「……ありがと、あかりちゃん」<cp/></chinatsu>
-		<akari>「……ううん」<cp/></akari>
-		<narrative>
-			きっと、結衣ちゃんだって嫌いになんてなってないよ。<br/>
-			京子ちゃんだってちなつちゃんにならなに言われても嬉しそうにすると思うなぁ。<br/>
-			ちなつちゃんが笑ってくれるなら、そんな言葉だってすらすら出てきてしまう。<cp/>
-			本当に怒られなきゃいけないのは、<br/>
-			嫌われたってしかたないのは、きっとあかりのほうだ。<cp/>
-		</narrative>
-	</scene>
+  <scene title="些細な異変">
+    <akari>「おはよー」<cp/></akari>
+    <kyouko>「お、きたきた」<cp/></kyouko>
+    <narrative>
+      いつもどおりの時間。<br/>
+      いつもの恰好で、いつもの待ち合わせ場所。<br/>
+      ただ、今日はいつもと違うことが一つだけ。<cp/>
+    </narrative>
+    <chinatsu>「おはよ、あかりちゃん」<cp/></chinatsu>
+    <akari>「うん、おはよぉ」<cp/></akari>
+    <kyouko>「んじゃあ行こっか」<cp/></kyouko>
+    <narrative>
+      そう言って京子ちゃんが歩き出そうとするのを、私は「えっ」と引きとめた。<br/>
+      「なんだよー？」と京子ちゃんが振り向く。<cp/>
+    </narrative>
+    <akari>「だ、だって結衣ちゃんは？」<cp/></akari>
+    <chinatsu>「今日休みなんだって……」<cp/></chinatsu>
+    <narrative>
+      はあ、とちなつちゃんが溜息を吐いて言った。<br/>
+      京子ちゃんが「熱あるらしくてさ」とちなつちゃんの言葉を引き継ぐ。<cp/>
+    </narrative>
+    <kyouko>「道端に落ちてた舐めかけの飴なんて食べるから……」<cp/></kyouko>
+    <chinatsu>「それするのは京子先輩でしょ」<cp/></chinatsu>
+    <kyouko>「さすがに私もそこまではやらないし！」<cp/></kyouko>
+    <narrative>
+      すたすたとちなつちゃんが歩き始めて、私たちは慌ててその後を追う。<br/>
+      いつもの朝なのに、結衣ちゃんがいないだけでなんだか少し、私たちのバランスが<br/>
+      崩れたような気がした。<cp/>
+      教室に着くと、ちなつちゃんが「あーもう！」とどかっと自分の席に座り込んだ。<br/>
+      私もその後ろの席に鞄を置くと、「あの、ちなつちゃん？」と声をかける。<br/>
+      なんだかすごくイライラしてるみたいだった。<cp/>
+    </narrative>
+    <chinatsu>「なによー」<cp/></chinatsu>
+    <akari>「ど、どうかしたのかなぁって」<cp/></akari>
+    <chinatsu>「……どうかしたっていうか」<cp/></chinatsu>
+    <narrative>
+      突然ちなつちゃんは大人しくなると、机に突っ伏した。<br/>
+      そのまま脱力したように動かなくなる。<cp/>
+    </narrative>
+    <chinatsu>「……失敗しちゃった」<cp/></chinatsu>
+    <akari>「へ？」<cp/></akari>
+    <narrative>
+      昨日、結衣先輩に電話するって言ったでしょ。<br/>
+      ちなつちゃんが言う。<br/>
+      私はちなつちゃんの髪に触れようとして、やめておいた。<cp/>
+    </narrative>
+    <chinatsu>「……冬休みのこと、なにも決まってないし、結衣先輩も決まってなかったみたいだから」<cp/></chinatsu>
+    <akari>「うん……」<cp/></akari>
+    <chinatsu>「クリスマスも空いてるかなって思って」<cp/></chinatsu>
+    <narrative>
+      その先はちなつちゃんはなにも言わなかったけど、きっとちなつちゃんのことだから<br/>
+      結衣ちゃんを誘おうとしたのだろう。<cp/>
+    </narrative>
+    <akari>「断られちゃったの……？」<cp/></akari>
+    <narrative>
+      聞いていいのかだめなのかわからないままに、けれど何も言わないちなつちゃんに<br/>
+      聞くしかなくて、私は控えめにそう訊ねた。<cp/>
+    </narrative>
+    <chinatsu>「……ううん」<cp/></chinatsu>
+    <akari>「へ？」<cp/></akari>
+    <chinatsu>「断られたっていうか、怒られちゃった」<cp/></chinatsu>
+    <narrative>
+      結衣ちゃんに？<br/>
+      きょとんと訊ねると、ちなつちゃんは今度はこくんと頷く。<cp/>
+    </narrative>
+    <chinatsu>「怒られちゃったというより、京子先輩のことをそんなふうに言わないでって」<cp/></chinatsu>
+    <akari>「……え」<cp/></akari>
+    <chinatsu>「最初は二人でどこか行こうってうまくいってたのにさ、結衣先輩が京子先輩や<br/>
+    あかりちゃんも誘おうかって言うから、つい、京子先輩の不満とか、ぶつけちゃったの」<cp/></chinatsu>
+    <narrative>
+      結衣ちゃん、ひどいね。<br/>
+      そう言おうとしたけど、言えなかった。<cp/>
+      結衣ちゃんがちなつちゃんに京子ちゃんのことを悪く言ってほしくなかったみたいに、<br/>
+      きっとちなつちゃんだって私に結衣ちゃんのことを<br/>
+      悪く言ってほしくなんてないはずだ。<cp/>
+      それにたぶん、結衣ちゃんは熱があって心が不安定になっていたりもしただろうから――<br/>
+      そうは思っても。<cp/>
+      やっぱり私が結衣ちゃんに対して抱く気持ちはぐちゃぐちゃだった。<cp/>
+    </narrative>
+    <chinatsu>「やな子だって思われちゃったよね、きっと」<cp/></chinatsu>
+    <narrative>
+      ようやく顔を上げたちなつちゃんが、「失敗しちゃったなあ」と弱弱しく笑った。<br/>
+      ちなつちゃんは私の前じゃ、どうしても結衣ちゃんたちの前みたいな笑顔は見せてくれない。<cp/>
+    </narrative>
+    <akari>「……ちなつちゃん」<cp/></akari>
+    <narrative>
+      こういうときになんと声をかければいいのか、あいにく私にはどんな言葉も持ち合わせていなかった。<cp/>
+      だから私は、ちなつちゃんと一緒に悲しくなることしかできない。<br/>
+      ちなつちゃんにとっては、必要の無いことでも。<cp/>
+    </narrative>
+    <chinatsu>「せっかくのクリスマスだったのになあ」<cp/></chinatsu>
+    <akari>「……うん」<cp/></akari>
+    <chinatsu>「……ねえ、あかりちゃん」<cp/></chinatsu>
+    <narrative>
+      ふいに、ちなつちゃんがじっと私を見た。「うん？」と返事を返す。<br/>
+      教室は、だんだんと登校してきたクラスメイトたちでいっぱいになる。<cp/>
+      運んでくる冷気よりも、みんなの体温が教室全体の温度を高くしていって、ストーブもついていないはずなのに<br/>
+      なんだかぼっと暑かった。<cp/>
+      <pause time="1000"/>あかり、期待しちゃってるのかな。<cp/>
+    </narrative>
+    <chinatsu>「こうなったらもう、クリスマス二人で過ごしちゃおっか」<cp/></chinatsu>
+    <akari>「……え？」<cp/></akari>
+    <narrative>
+      私はきょとんとちなつちゃんを見た。<br/>
+      「なんてね」と笑ったちなつちゃんに。<cp/>
+    </narrative>
+    <akari>「……えへへ、そうだよね」<cp/></akari>
+    <narrative>
+      笑い返す。<cp/>
+      そうだ、ちなつちゃんは私といたいわけじゃない。<br/>
+      ちなつちゃんがいたいのは私ではなくって結衣ちゃんで、だから私は、そんなちなつちゃんを<br/>
+      応援しなくちゃ。<cp/>
+      <sound src="$paths.se_chime" operation="once" sync="true"/>チャイムが鳴った。<cp/>
+    </narrative>
+  </scene>
+  <narrative>
+    ―――――<br/>
+    ―――――<cp/>
+  </narrative>
+  <scene title="落ち込んだちなつとあかりと">
+    <sakurako>「ねえ、あかりちゃんあかりちゃん」<cp/></sakurako>
+    <akari>「うん、どうしたの？」<cp/></akari>
+    <himawari>「吉川さん、どうかされたんですの……？」<cp/></himawari>
+    <narrative>
+      昼休みになっても、ちなつちゃんの元気は回復するわけなんてなくって、むしろ放課後が<br/>
+      近付くにつれてずーんと重くなっていく一方だった。<br/>
+      さすがの櫻子ちゃんたちもちなつちゃんの様子に気付いたのか、こそこそと訊ねてくる。<cp/>
+    </narrative>
+    <sakurako>「もしかしてお腹痛いとか？道端に落ちてた舐めかけの飴なんて食べるから……」<cp/></sakurako>
+    <himawari>「それをするのは櫻子、あなたでしょ」<cp/></himawari>
+    <sakurako>「はあ！？私がするわけねーし！」<cp/></sakurako>
+    <narrative>
+      京子ちゃんと同じこと言ってるよぉ、と内心で笑いを堪えながらも、私はちらっとちなつちゃんのほうに目を向けた。<cp/>
+      給食を食べ終えてからは、朝と同じようにじっと机に突っ伏したまま動かない。<br/>
+      きっとまだ、結衣ちゃんのことを気にしているのだ。<cp/>
+    </narrative>
+    <himawari>「……それにしても本当に、どうされたのかしら」<cp/></himawari>
+    <sakurako>「あかりちゃん、なにか知らないの？」<cp/></sakurako>
+    <akari>「えっ」<cp/></akari>
+    <sakurako>「だってほら、あかりちゃんって一番ちなつちゃんと仲いいじゃん？」<cp/></sakurako>
+    <narrative>
+      私は「そうかなぁ」と笑ってみる。<cp/>
+      周囲の人に、そう思われるくらい私たちの仲がいいのだとしたら、とっても嬉しい。<br/>
+      実際、私たちはそれくらい仲がいいと思うし、これはあかりの自意識過剰なんかじゃない。<br/>
+      ちなつちゃんだって、私のことを誰よりも信頼してくれている。<cp/>
+      でも、そのことがたまに、私の気分を重くさせてしまう。<br/>
+      それでもちなつちゃんと一番仲のいい友達でいられることは、幸せなのだ。<br/>
+      贅沢なんて、言ってられないのに。<cp/>
+    </narrative>
+    <sakurako>「そうそう、だから自信持ちなよ！」<cp/></sakurako>
+    <himawari>「なんの自信ですの……」<cp/></himawari>
+    <akari>「えへへ……ありがとー」<cp/></akari>
+    <narrative>
+      そう言ったとき、ちなつちゃんがぴくっと肩を揺らした。<br/>
+      そのままのろのろと顔を上げてきょろきょろ辺りを見回す。<cp/>
+    </narrative>
+    <sakurako>「あれ、寝てただけ……？」<cp/></sakurako>
+    <himawari>「櫻子じゃあるまいし」<cp/></himawari>
+    <sakurako>「またそんなこと言うー！」<cp/></sakurako>
+    <himawari>「本当のことでしょ」<cp/></himawari>
+    <akari>「あ、あのね！」<cp/></akari>
+    <narrative>
+      言い合う二人に、私はそう声をかけていた。<br/>
+      少し遠くのほうでちなつちゃんがぼんやりしているのを横目に、<br/>
+      私は「ちなつちゃん、今日は疲れてるみたいなんだぁ」と。<cp/>
+    </narrative>
+    <himawari>「え？」<cp/></himawari>
+    <sakurako>「そうなの？」<cp/></sakurako>
+    <narrative>
+      嘘吐きにはなりたくない。<br/>
+      だけど、それ以上に「結衣ちゃんがいないから寂しいんじゃないかなぁ」とか、そんなことを<br/>
+      二人に説明したくなんかなかった。<cp/>
+      ちなつちゃんが落ち込んでいる理由を、あかりだけが知っていたい。<br/>
+      そんなふうに、思ってしまって。<cp/>
+    </narrative>
+    <akari>「うん、だからそっとしておいてあげてくれないかな」<cp/></akari>
+    <sakurako>「そっかー、なにか落ち込んでるんなら励ましてあげようと思ったのになー」<cp/></sakurako>
+    <himawari>「櫻子に励まされたって吉川さんもなにも嬉しくなんてないでしょうけど」<cp/></himawari>
+    <sakurako>「なんだとー！」<cp/></sakurako>
+    <narrative>
+      ちょうどそのときチャイムも鳴って、櫻子ちゃんたちが自分の席に戻っていく。<br/>
+      それを見送りながら、私もちなつちゃんの後ろの席に腰を下ろした。<cp/>
+      ちなつちゃんは相変わらずぼんやりとしていた。<br/>
+      声をかけるのを躊躇い、結局先生が来て何も言えなくなってしまった。<br/>
+      妙な罪悪感でいっぱいだった。<cp/>
+      ――――― ――<sound src="$paths.se_chime" operation="once" sync="true"/><cp/>
+      放課後のチャイムが鳴る。<br/>
+      私はちなつちゃんの様子も見ずに、帰りの用意を済ませて前に立った。<br/>
+      そこでようやくちなつちゃんの顔をまっすぐ見て。<cp/>
+    </narrative>
+    <chinatsu>「あかりちゃん……」<cp/></chinatsu>
+    <narrative>
+      ちなつちゃんは戸惑ったような顔をして私を見上げていた。<br/>
+      私は精一杯の笑顔を浮かべて、「ちなつちゃん、部室行こー」と声をかける。<br/>
+      すると、ちなつちゃんは。<cp/>
+    </narrative>
+    <chinatsu>「……すっごい自己嫌悪」<cp/></chinatsu>
+    <akari>「へ？」<cp/></akari>
+    <chinatsu>「あかりちゃんって、どうしてそんなに優しいのかなあ」<cp/></chinatsu>
+    <narrative>
+      心の奥のほうが、小さく、ほんの小さく軋んだ。<cp/>
+      あかりは、優しくなんてないよ。だってさっき、櫻子ちゃんたちに嘘吐いちゃった。<br/>
+      もちろんそんなこと、ちなつちゃんに言えるはずもなくて。<cp/>
+    </narrative>
+    <chinatsu>「私、京子先輩のこと、ほんとにひどいこと言っちゃったんだよ」<cp/></chinatsu>
+    <akari>「……」<cp/></akari>
+    <chinatsu>「幼馴染の結衣先輩が、怒らないわけなんてないよ」<cp/></chinatsu>
+    <narrative>
+      京子ちゃんにもどんな顔すればいいかわからないと、ちなつちゃんは言った。<br/>
+      戸惑ったような表情から、今にも泣き出しそうな顔へと変わっていく。<cp/>
+    </narrative>
+    <akari>「……あかりだって、怒れるわけないもん」<cp/></akari>
+    <chinatsu>「……あかりちゃん」<cp/></chinatsu>
+    <akari>「だって、実際にちなつちゃんの言葉、聞いたわけじゃないし」<cp/></akari>
+    <narrative>
+      それになにより、ちなつちゃん自身が自分自身の言葉によってこんなにも傷付いてしまっている。<cp/>
+      ちなつちゃんだって本心で言ったわけじゃないのだ。<br/>
+      そんなちなつちゃんを怒れるわけないし、嫌いになれるわけなんてない。<cp/>
+    </narrative>
+    <akari>「あかりはどんなことがあってもちなつちゃんを嫌いにならないよ」<cp/></akari>
+    <chinatsu>「……それはさすがに言いすぎだよ、あかりちゃん」<cp/></chinatsu>
+    <narrative>
+      ようやく、ちなつちゃんがぷっと笑ってくれた。<br/>
+      私も「えへへ」と笑い返す。<br/>
+      きっと、言いすぎでもなんでもないのだろうけど。ちなつちゃんが笑ってくれて、よかった。<cp/>
+    </narrative>
+    <chinatsu>「……ありがと、あかりちゃん」<cp/></chinatsu>
+    <akari>「……ううん」<cp/></akari>
+    <narrative>
+      きっと、結衣ちゃんだって嫌いになんてなってないよ。<br/>
+      京子ちゃんだってちなつちゃんにならなに言われても嬉しそうにすると思うなぁ。<br/>
+      ちなつちゃんが笑ってくれるなら、そんな言葉だってすらすら出てきてしまう。<cp/>
+      本当に怒られなきゃいけないのは、<br/>
+      嫌われたってしかたないのは、きっとあかりのほうだ。<cp/>
+    </narrative>
+  </scene>
 
-	<narrative>
-		―――――<br/>
-		―――――<cp/>
-	</narrative>
+  <narrative>
+    ―――――<br/>
+    ―――――<cp/>
+  </narrative>
 
-	<scene title="いざ、結衣の部屋へ">
-		<narrative>
-			部室を覗き込むと、京子ちゃんの姿はなかった。<br/>
-			先に中に入ったちなつちゃんが、テーブルに置いてあった紙を取り上げた。<br/>
-			私もその後ろから覗き込む。<cp/>
-			<text style="background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント';">『一年生諸君へ！</text><br/>
-			<text style="background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント';">結衣のお見舞い行って来るよんっ☆ちなつちゃんたちも来たかったらおいで！』</text><cp/>
-		</narrative>
-		<akari>「あー、京子ちゃんからだぁ」<cp/></akari>
-		<narrative>
-			そう言ってから、はっとする。<br/>
-			ちなつちゃんは「うん……」と頷いて肩にかけていた鞄を持ち直した。<cp/>
-		</narrative>
-		<chinatsu>「あかりちゃん、どうする？」<cp/></chinatsu>
-		<akari>「……あかり」<cp/></akari>
-		<narrative>
-			きっとちなつちゃんは、結衣ちゃんのお見舞いに行きたくて仕方ないはずだ。<br/>
-			それに、結衣ちゃんと仲直りするチャンスで。<cp/>
-		</narrative>
-		<akari>「あかり、ちなつちゃんが行くなら、行こうかなぁ」<cp/></akari>
-		<chinatsu>「え？」<cp/></chinatsu>
-		<narrative>
-			ちなつちゃんを、落ち込ませたのは結衣ちゃんだ。<cp/>
-			結衣ちゃんだけが悪いわけじゃないって、ちゃんとわかっているけど。<br/>
-			でも今日は、一人で結衣ちゃんのお家に行きたいとはどうしても思えなかった。<cp/>
-		</narrative>
-		<chinatsu>「……そ、そっか」<cp/></chinatsu>
-		<narrative>
-			どうしよう、と言うようにちなつちゃんの視線が揺れているのがわかった。<cp/>
-			行って仲直りしてしまえば、いつもどおりのちなつちゃんに戻ってくれる。<br/>
-			けれど仲直りしなければ、もう少しあかりだけがちなつちゃんの傍にいられる。<cp/>
-			<pause time="500"/>そんな、どうしようもないくらいひどい考えが、私の心を占めていた。<cp/>
-		</narrative>
-		<chinatsu>「……あかりちゃん、私、結衣先輩のお見舞い行く」<cp/></chinatsu>
-		<akari>「……」<cp/></akari>
-		<narrative>
-			<pause time="500"/>うん、と頷くには少し時間かかって。<br/>
-			これでちなつちゃんが笑ってくれると思うと嬉しかったけれど、それとは逆の気持ちも<br/>
-			溢れ出てきて、私の顔がへんになってないか心配になってしまった。<cp/>
-			<sound src="$paths.se_strong_wind_l" operation="once" sync="true"/><sound id="wind" src="$paths.se_strong_wind_s" operation="loop" vol="0.5"/>
-			外に出ると、冷たい風が痛いほどに強く吹いていた。<br/>
-			ちなつちゃんが「すごい風……」とぽつり呟いた。<cp/>
-		</narrative>
-		<akari>「飛ばされちゃいそうだよぉ」<cp/></akari>
-		<chinatsu>「紅葉、全部飛んでっちゃってるね」<cp/></chinatsu>
-		<narrative>
-			その言葉通り、ふと顔を上げると通学路を覆っていた木々のそのほとんどが、<br/>
-			葉を落としてしまっていた。<cp/>
-			もう冬なのだとあらためて感じる。<br/>
-			並んで歩きながら、私たちは「さむいさむい」と言い合った。<cp/>
-			私も、きっとちなつちゃんも別のことを考えていたから、中身のある話なんてできるはずもなくて。<cp/>
-		</narrative>
-		<akari>「……」<cp/></akari>
-		<chinatsu>「……」<cp/></chinatsu>
-		<narrative>
-			結局最後は無言になってしまって、結衣ちゃんの住む部屋の前に辿り着いた私たちは<br/>
-			無言のまま立ち止まった。<sound id="wind" operation="stop"/><cp/>
-		</narrative>
-		<chinatsu>「……緊張してきた」<cp/></chinatsu>
-		<narrative>
-			ちなつちゃんがそう言って、大きく深呼吸。<cp/>
-			ケンカをした後、ケンカをした人と会うのは誰だって緊張もするし怖い。<br/>
-			私は「大丈夫だよぉ」と笑ってみせる。<cp/>
-		</narrative>
-		<akari>「京子ちゃんもいるから……」<cp/></akari>
-		<chinatsu>「……うん」<cp/></chinatsu>
-		<narrative>
-			ここで結衣ちゃんと謝って仲直りしてしまえば、京子ちゃんに対するちなつちゃんの気持ちだってすっきりするはずだ。<cp/>
-		</narrative>
-		<chinatsu>「じゃ、じゃあ」<cp/></chinatsu>
-		<narrative>
-			しばらくぐっとドアを見詰めたまま動かなかったちなつちゃんがとうとうチャイムに向かって<br/>
-			手を伸ばしたのは、深呼吸6回目のことだった。<br/>
-			ちなつちゃんと結衣ちゃんだから、仲直りできないはずなんてない。<br/>
-			だから私は<text speed="0.5">つい・・・</text><cp/>
-		</narrative>
-		<akari>「ちなつちゃん、待って」<cp/></akari>
-		<chinatsu>「えっ、なに？」<cp/></chinatsu>
-		<akari>「……あかり、やっぱり帰るね」<cp/></akari>
-		<narrative>
-			色々な気持ちがごちゃ混ぜになっているせいで、今の私はちなつちゃんに対してどんな態度を<br/>
-			とればいいかわからなくなってしまっていた。<cp/>
-			本当はきっと、ちゃんとちなつちゃんの傍についていてあげなきゃいけないのだろうけど。<br/>
-			またちなつちゃんが結衣ちゃんのことばかりで笑顔を見せるのだと思うと、<br/>
-			今日だけは、傍にいてあげたいとは思えなくて。<cp/>
-		</narrative>
-		<chinatsu>「な、なんでよ！？」<cp/></chinatsu>
-		<akari>「あかりもちょっと熱っぽいっていうか……」<cp/></akari>
-		<narrative>
-			えへへ、と笑ってみせる。<br/>
-			ちなつちゃんが私の額に触れて、「ほんとだ」と呟いて。<cp/>
-			ああ、あかり、今日は嘘吐きっぱなし。<br/>
-			熱っぽいというのも、本当はちなつちゃんに触れられたからなのに。<cp/>
-		</narrative>
-		<chinatsu>「一人で帰れる？私、あかりちゃん送って……」<cp/></chinatsu>
-		<akari>「いいよぉ、ちなつちゃんは結衣ちゃんのお見舞いでしょ」<cp/></akari>
-		<chinatsu>「う、うん……」<cp/></chinatsu>
-		<narrative>
-			そっと、ちなつちゃんの手がおろされる。<br/>
-			私はほっとしながら、「ごめんね」<cp/>
-		</narrative>
-		<chinatsu>「ううん！あ、あかりちゃんは気をつけて帰ってね！」<cp/></chinatsu>
-		<akari>「うん、気をつけるね」<cp/></akari>
-		<narrative>
-			にこにこと笑って、私はちなつちゃんに手を振った。<br/>
-			ちなつちゃんは心配そうな顔をしたまま私に手を振り返してきて。<br/>
-			けどきっと、私を心配しているのではなくって結衣ちゃんとのことを心配しているのだ。<br/>
-			そんなふうに思ってしまうのだから、あかり、本当に熱でもあるのかなぁ。<cp/>
-		</narrative>
-		<akari><text speed="0.75">「……」</text><cp/></akari>
-		<narrative>
-			ふと、立ち止まった。<br/>
-			熱があるついでに、<text speed="0.5">いっそ。</text><cp/>
-		</narrative>
-		<akari>「ちなつちゃん！」<cp/></akari>
-		<narrative>
-			まだドアの前で迷っているらしかったちなつちゃんが、私のほうに顔を向けた。<br/>
-			私は、そんなちなつちゃんに言った。<br/>
-			これも全部、熱のせいにしてしまえばいい。<cp/>
-		</narrative>
-		<akari>
-			「クリスマスの日、空けとくよ。もし結衣ちゃんと仲直りできなかったら<br/>
-			あかりと過ごすことになっちゃうよぉ！」<cp/>
-		</akari>
-		<narrative>
-			返事は、聞かずに私は走り出す。<br/>
-			ちなつちゃんがなにか、私の背中に言葉を投げ掛けたのはわかった<text speed="0.5">けれど。</text><cp/>
-		</narrative>
-	</scene>
+  <scene title="いざ、結衣の部屋へ">
+    <narrative>
+      部室を覗き込むと、京子ちゃんの姿はなかった。<br/>
+      先に中に入ったちなつちゃんが、テーブルに置いてあった紙を取り上げた。<br/>
+      私もその後ろから覗き込む。<cp/>
+      <text style="background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント';">『一年生諸君へ！</text><br/>
+      <text style="background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント';">結衣のお見舞い行って来るよんっ☆ちなつちゃんたちも来たかったらおいで！』</text><cp/>
+    </narrative>
+    <akari>「あー、京子ちゃんからだぁ」<cp/></akari>
+    <narrative>
+      そう言ってから、はっとする。<br/>
+      ちなつちゃんは「うん……」と頷いて肩にかけていた鞄を持ち直した。<cp/>
+    </narrative>
+    <chinatsu>「あかりちゃん、どうする？」<cp/></chinatsu>
+    <akari>「……あかり」<cp/></akari>
+    <narrative>
+      きっとちなつちゃんは、結衣ちゃんのお見舞いに行きたくて仕方ないはずだ。<br/>
+      それに、結衣ちゃんと仲直りするチャンスで。<cp/>
+    </narrative>
+    <akari>「あかり、ちなつちゃんが行くなら、行こうかなぁ」<cp/></akari>
+    <chinatsu>「え？」<cp/></chinatsu>
+    <narrative>
+      ちなつちゃんを、落ち込ませたのは結衣ちゃんだ。<cp/>
+      結衣ちゃんだけが悪いわけじゃないって、ちゃんとわかっているけど。<br/>
+      でも今日は、一人で結衣ちゃんのお家に行きたいとはどうしても思えなかった。<cp/>
+    </narrative>
+    <chinatsu>「……そ、そっか」<cp/></chinatsu>
+    <narrative>
+      どうしよう、と言うようにちなつちゃんの視線が揺れているのがわかった。<cp/>
+      行って仲直りしてしまえば、いつもどおりのちなつちゃんに戻ってくれる。<br/>
+      けれど仲直りしなければ、もう少しあかりだけがちなつちゃんの傍にいられる。<cp/>
+      <pause time="500"/>そんな、どうしようもないくらいひどい考えが、私の心を占めていた。<cp/>
+    </narrative>
+    <chinatsu>「……あかりちゃん、私、結衣先輩のお見舞い行く」<cp/></chinatsu>
+    <akari>「……」<cp/></akari>
+    <narrative>
+      <pause time="500"/>うん、と頷くには少し時間かかって。<br/>
+      これでちなつちゃんが笑ってくれると思うと嬉しかったけれど、それとは逆の気持ちも<br/>
+      溢れ出てきて、私の顔がへんになってないか心配になってしまった。<cp/>
+      <sound src="$paths.se_strong_wind_l" operation="once" sync="true"/><sound id="wind" src="$paths.se_strong_wind_s" operation="loop" vol="0.5"/>
+      外に出ると、冷たい風が痛いほどに強く吹いていた。<br/>
+      ちなつちゃんが「すごい風……」とぽつり呟いた。<cp/>
+    </narrative>
+    <akari>「飛ばされちゃいそうだよぉ」<cp/></akari>
+    <chinatsu>「紅葉、全部飛んでっちゃってるね」<cp/></chinatsu>
+    <narrative>
+      その言葉通り、ふと顔を上げると通学路を覆っていた木々のそのほとんどが、<br/>
+      葉を落としてしまっていた。<cp/>
+      もう冬なのだとあらためて感じる。<br/>
+      並んで歩きながら、私たちは「さむいさむい」と言い合った。<cp/>
+      私も、きっとちなつちゃんも別のことを考えていたから、中身のある話なんてできるはずもなくて。<cp/>
+    </narrative>
+    <akari>「……」<cp/></akari>
+    <chinatsu>「……」<cp/></chinatsu>
+    <narrative>
+      結局最後は無言になってしまって、結衣ちゃんの住む部屋の前に辿り着いた私たちは<br/>
+      無言のまま立ち止まった。<sound id="wind" operation="stop"/><cp/>
+    </narrative>
+    <chinatsu>「……緊張してきた」<cp/></chinatsu>
+    <narrative>
+      ちなつちゃんがそう言って、大きく深呼吸。<cp/>
+      ケンカをした後、ケンカをした人と会うのは誰だって緊張もするし怖い。<br/>
+      私は「大丈夫だよぉ」と笑ってみせる。<cp/>
+    </narrative>
+    <akari>「京子ちゃんもいるから……」<cp/></akari>
+    <chinatsu>「……うん」<cp/></chinatsu>
+    <narrative>
+      ここで結衣ちゃんと謝って仲直りしてしまえば、京子ちゃんに対するちなつちゃんの気持ちだってすっきりするはずだ。<cp/>
+    </narrative>
+    <chinatsu>「じゃ、じゃあ」<cp/></chinatsu>
+    <narrative>
+      しばらくぐっとドアを見詰めたまま動かなかったちなつちゃんがとうとうチャイムに向かって<br/>
+      手を伸ばしたのは、深呼吸6回目のことだった。<br/>
+      ちなつちゃんと結衣ちゃんだから、仲直りできないはずなんてない。<br/>
+      だから私は<text speed="0.5">つい・・・</text><cp/>
+    </narrative>
+    <akari>「ちなつちゃん、待って」<cp/></akari>
+    <chinatsu>「えっ、なに？」<cp/></chinatsu>
+    <akari>「……あかり、やっぱり帰るね」<cp/></akari>
+    <narrative>
+      色々な気持ちがごちゃ混ぜになっているせいで、今の私はちなつちゃんに対してどんな態度を<br/>
+      とればいいかわからなくなってしまっていた。<cp/>
+      本当はきっと、ちゃんとちなつちゃんの傍についていてあげなきゃいけないのだろうけど。<br/>
+      またちなつちゃんが結衣ちゃんのことばかりで笑顔を見せるのだと思うと、<br/>
+      今日だけは、傍にいてあげたいとは思えなくて。<cp/>
+    </narrative>
+    <chinatsu>「な、なんでよ！？」<cp/></chinatsu>
+    <akari>「あかりもちょっと熱っぽいっていうか……」<cp/></akari>
+    <narrative>
+      えへへ、と笑ってみせる。<br/>
+      ちなつちゃんが私の額に触れて、「ほんとだ」と呟いて。<cp/>
+      ああ、あかり、今日は嘘吐きっぱなし。<br/>
+      熱っぽいというのも、本当はちなつちゃんに触れられたからなのに。<cp/>
+    </narrative>
+    <chinatsu>「一人で帰れる？私、あかりちゃん送って……」<cp/></chinatsu>
+    <akari>「いいよぉ、ちなつちゃんは結衣ちゃんのお見舞いでしょ」<cp/></akari>
+    <chinatsu>「う、うん……」<cp/></chinatsu>
+    <narrative>
+      そっと、ちなつちゃんの手がおろされる。<br/>
+      私はほっとしながら、「ごめんね」<cp/>
+    </narrative>
+    <chinatsu>「ううん！あ、あかりちゃんは気をつけて帰ってね！」<cp/></chinatsu>
+    <akari>「うん、気をつけるね」<cp/></akari>
+    <narrative>
+      にこにこと笑って、私はちなつちゃんに手を振った。<br/>
+      ちなつちゃんは心配そうな顔をしたまま私に手を振り返してきて。<br/>
+      けどきっと、私を心配しているのではなくって結衣ちゃんとのことを心配しているのだ。<br/>
+      そんなふうに思ってしまうのだから、あかり、本当に熱でもあるのかなぁ。<cp/>
+    </narrative>
+    <akari><text speed="0.75">「……」</text><cp/></akari>
+    <narrative>
+      ふと、立ち止まった。<br/>
+      熱があるついでに、<text speed="0.5">いっそ。</text><cp/>
+    </narrative>
+    <akari>「ちなつちゃん！」<cp/></akari>
+    <narrative>
+      まだドアの前で迷っているらしかったちなつちゃんが、私のほうに顔を向けた。<br/>
+      私は、そんなちなつちゃんに言った。<br/>
+      これも全部、熱のせいにしてしまえばいい。<cp/>
+    </narrative>
+    <akari>
+      「クリスマスの日、空けとくよ。もし結衣ちゃんと仲直りできなかったら<br/>
+      あかりと過ごすことになっちゃうよぉ！」<cp/>
+    </akari>
+    <narrative>
+      返事は、聞かずに私は走り出す。<br/>
+      ちなつちゃんがなにか、私の背中に言葉を投げ掛けたのはわかった<text speed="0.5">けれど。</text><cp/>
+    </narrative>
+  </scene>
 
-	<scene title="あかりの家にて 2">
-		<akari>「……」<cp/></akari>
-		<narrativef>
-			家に着いた私は、お姉ちゃんが出かけているのをいいことに「ただいま」と一言、<br/>
-			言うだけ言って部屋に入りベッドに倒れこんだ。<br/>
-			<br/>
-			言葉ってすごいなぁ、なんて思う。<br/>
-			熱っぽいって言ったら本当にこんなにも身体が重くなっちゃうんだから。<br/>
-			<br/>
-			もう外は薄っすら暗くなっていて、それと同じように部屋の中もぼんやりとしていた。<br/>
-			電気は点けずに、携帯を確認する。<br/>
-			なんだかこんなふうにしていると、ますます大人になったみたい。<br/>
-			そんなふうに思ってみて、苦笑を漏らす。<cp/>
-			<br/>
-			そういえばこの前、お姉ちゃんが「あかりがだんだん大人になってくみたいでちょっと怖いなあ」と<br/>
-			言っていたことを思い出した。<br/>
-			<br/>
-			あかりだって、いつまでも子供じゃないもん。<br/>
-			そのときはそう言って膨れてみせた私だけど。<br/>
-			本当のことをいえば大人になるのがどういうことか、よくわからないし、あかりがもし<br/>
-			このまま大人になってしまったら、嘘吐きのひどい人間になってしまいそうな気がした。<cp/>
-		</narrativef>
-		<akari>「……仲直り、できてるかな」<cp/></akari>
-		<narrativef>
-			ぽそりと呟いた。<br/>
-			ちなつちゃん、仲直りできてるかな、結衣ちゃんと。きっと、大丈夫だろうけど。<br/>
-			<br/>
-			もし、「クリスマスの日、空けとくよ」という言葉がちなつちゃんに届いていたとしても、<br/>
-			私がちなつちゃんと一緒にいられるはずなんてない。<br/>
-			変な意地なんて、張らなきゃ良かったな。<br/>
-			<br/>
-			そんな取り止めもないことを、ぐだぐだと頭の中で繰り返す。<br/>
-			うとうととしはじめて、私は目を閉じた。<br/>
-			<br/>
-			とりあえず制服だけでも、着替えなきゃ――<br/>
-			<br/>
-			そんなことを思っても、身体はもう動いてくれない。<br/>
-			私の意志に反するかのように、眠りの海へ沈んでいく。<cp/>
-		</narrativef>
-		<akari>「……」<cp/></akari>
-		<narrative>
-			ちなつちゃんの手が、ふと欲しくなった。<br/>
-			帰り際、ふと私の額におかれたちなつちゃんの手が、すごくすごく恋しくて。<br/>
-			それくらい私の身体は熱を発していた。<cp/>
-			<pause time="500"/>
-			<text speed="0.5">――――― ――</text><cp/>
-			あかり、と名前を呼ばれて目を覚ました。<br/>
-			ぼんやりした視界に、お姉ちゃんの心配そうな顔が映る。<cp/>
-		</narrative>
-		<akane>「着替えずに寝ちゃったらだめよー」<cp/></akane>
-		<akari>「……うん」<cp/></akari>
-		<narrative>
-			ごしごしと目をこすり、身体を起こす。<br/>
-			さっきよりもだいぶ、身体のだるさはマシになっていた。<br/>
-			ただ、外はもうすっかり真っ暗で、電気を点けていないあかりの部屋は開けっ放しに<br/>
-			されたドアから入る廊下の光だけが頼りだった。<cp/>
-		</narrative>
-		<akane>「熱でもあるの？」<cp/></akane>
-		<akari>「……うん」<cp/></akari>
-		<narrative>
-			額に当てられたお姉ちゃんの手は冷たかったのに、どうしても気持ちよく感じられなかった。<br/>
-			私はいやいやするように頭を振ると、お姉ちゃんの手から逃れた。<cp/>
-		</narrative>
-		<akane>「……もうご飯の時間だけど、どうする？」<cp/></akane>
-		<akari>「……ごめんね、今は食べたくない」<cp/></akari>
-		<akane>「なら、お母さんに言ってあかりの分置いといてもらうわね」<cp/></akane>
-		<akari>「……うん」<cp/></akari>
-		<narrative>
-			おやすみ。<br/>
-			お姉ちゃんがふふっと笑って立ち上がる。<br/>
-			私も「おやすみ」と小さく返して。<cp/>
-			<pause time="250"/>
-			あのね、お姉ちゃん。<cp/>
-			呼び止めてみた。<br/>
-			「どうしたの？」とお姉ちゃんが振り向く。<cp/>
-		</narrative>
-		<akari>「……あかりね、今日ね、いっぱい嘘、吐いちゃった」<cp/></akari>
-		<akane>「……そう」<cp/></akane>
-		<akari>「……自分でも、びっくりするくらい……」<cp/></akari>
-		<narrative>
-			ちなつちゃんのことでいっぱい色々嫌な気持ちにもなって、嫌な気持ちにさせるようなことも<br/>
-			しちゃって、こんなはずじゃなかったのに。<br/>
-			大人になれれば、嘘なんて吐かずにいられるのかなぁ。<br/>
-			こんな気持ちに、ならずにいられるのかなぁ。<cp/>
-			ぐっと布団の裾を握り締めた私に、お姉ちゃんは。<br/>
-			昔みたいに「ふふっ」と笑ってぎゅっとしてくれた。<cp/>
-		</narrative>
-		<akari>「お、お姉ちゃん？」<cp/></akari>	
-		<akane>
-			「嘘吐くことはね、自分を守るために必要なことなんだから、しかたないの。<br/>
-			本当に大切なとき、ちゃんと正直にいられればいいんだから、あかりは大丈夫」<cp/>
-		</akane>
-		<narrative>
-			お姉ちゃんの優しい声。<br/>
-			自然と、私の強張っていた身体が楽になっていく。<cp/>
-		</narrative>
-		<akari>「……えへへ、ありがとぉ」<cp/></akari>
-		<akane>「……」<cp/></akane>
-		<akari>「……お姉ちゃん？」<cp/></akari>
-		<narrative>
-			中々離れないお姉ちゃんに声をかけると、ようやくお姉ちゃんははっとしたように<br/>
-			私から離れてくれた。<cp/>
-		</narrative>
-		<akane>「……ついあかりが可愛くて」<cp/></akane>
-		<akari>「へ？」<cp/></akari>
-		<akane>「な、なんでもないわ！ちゃんと着替えて寝なさいね！」<cp/></akane>
-		<akari>「う、うん……」<cp/></akari>
-		<narrative>
-			お姉ちゃんがばたばたと出て行くのを見送る。<br/>
-			そのまま、ドアが閉められて暗くなった部屋、ほっと、息を吐いた。<br/>
-			私の中の重い気持ちが、ようやく落ち着いてくれたような気がした。<cp/>
-		</narrative>
-	</scene>
-	
-	<narrative>
-		―――――<br/>
-		―――――<cp/>
-	</narrative>
-	
-	<scene title="あかりの決意">
-		<narrative>
-			次に目を覚ましたのは、すっかり真夜中だった。<br/>
-			気持ちが楽になったおかげなのか、熱っぽかった身体はだいぶ楽になっていた。<cp/>
-			暗い部屋にびくびくしながらも、私はパジャマの上に椅子にかけてあったカーディガンを<br/>
-			羽織って立ち上がる。<br/>
-			とりあえず電気を点けて時間を確認しなくちゃ――<cp/>
-			壁伝いに、電源を探る。<br/>
-			そのとき机の上で何かがちかちか光って「ひぃっ」と思わず声を上げてしまった。<br/>
-			さっと電気を点けて光ったのが携帯だと知り、思わず脱力してしまう。<cp/>
-		</narrative>
-		<akari>「……びっくりしちゃったぁ」<cp/></akari>
-		<narrative>
-			はあ、と溜息を吐くと、私は身体に力を入れなおして机に近付いた。<cp/>
-			チカチカ、チカチカ<br/>
-			急かすように光る携帯を手にとって、開ける。<br/>
-			着信が二件、ちなつちゃんからのものだった。<cp/>
-		</narrative>
-		<akari>「あ……」<cp/></akari>
-		<narrative>
-			時間はもう、とっくに12時を過ぎていた。<br/>
-			ちなつちゃんが電話してきたということは、もしかしたら仲直りできなかったんじゃ。<br/>
-			一瞬そんなことも考えてしまったけれど、そんなはずはない。<cp/>
-		</narrative>
-		<akari>「……」<cp/></akari>
-		<narrative>
-			どうしよう。<br/>
-			電話をかけなおすか、かけなおさないか。<br/>
-			夕方から眠ってしまったせいか、こんな時間なのに頭はすっかり冴えてしまっている。<cp/>
-			考えているだけで、時間は過ぎていって。<br/>
-			私はそっと、アドレス帳を開けるとちなつちゃんの番号を探した。<br/>
-			通話ボタンを押す。<cp/>
-			こんな時間に、非常識。非常識だからこそ、ちなつちゃんだって出ないと思ったから。<br/>
-			なのに。<cp/>
-		</narrative>
-		<chinatsu>『――あかりちゃん？』<cp/></chinatsu>
-		<akari>「……あ」<cp/></akari>
-		<chinatsu>『もう寝ちゃってると思ってた……』<cp/></chinatsu>
-		<narrative>
-			電話の向こうで、ちなつちゃんは驚いたようにそう言って。<br/>
-			あかりだってそう思ってたよ、とは言いそびれてしまった。<cp/>
-		</narrative>
-		<akari>「……ごめんね、出れなくて」<cp/></akari>
-		<chinatsu>『ううん、それより身体、大丈夫？』<cp/></chinatsu>
-		<akari>「うん、だいぶマシになったから平気かなぁ」<cp/></akari>
-		<chinatsu>『……そっか』<cp/></chinatsu>
-		<narrative>
-			ほっとしたようにちなつちゃんが言い、私も「うん」と頷く。<br/>
-			それから、なんとなくの不自然な沈黙。<cp/>
-			ちなつちゃんの反応から結衣ちゃんとどうなったのか、私には読み取ることができなくて<br/>
-			次になにを言えばいいのかわからずに困惑していると、突然ちなつちゃんが笑い出した。<cp/>
-		</narrative>
-		<akari>「ち、ちなつちゃん……？」<cp/></akari>
-		<chinatsu>『ご、ごめん……なんか、おかしくって』<cp/></chinatsu>
-		<akari>「えぇ！？」<cp/></akari>
-		<chinatsu>『だって、あかりちゃん、クリスマス空けとくって』<cp/></chinatsu>
-		<narrative>
-			笑い声の混じったちなつちゃんの声に、私はカアッとまた顔が熱くなっていくのがわかった。<br/>
-			あのときは冷静じゃなかったからその……なんて言えるはずもない。<cp/>
-		</narrative>
-		<akari>「うぅ……」<cp/></akari>
-		<chinatsu>『……でもあのときのあかりちゃん、なんかすっごいかっこよく見えちゃった』<cp/></chinatsu>
-		<akari>「……へ？」<cp/></akari>
-		<chinatsu>『まあ一瞬だけだけどね！』<cp/></chinatsu>
-		<narrative>落ち込みかけた私に、ちなつちゃんの声がどきんと心臓を鳴らして落ち込めなくしてしまった。<cp/></narrative>
-		<chinatsu>『あかりちゃんがあんなこと言っちゃうから、ちゃんと結衣先輩と仲直り、できたよ』<cp/></chinatsu>
-		<akari>「……そ、っか」<cp/></akari>
-		<narrative>
-			やっぱり、ちなつちゃんと結衣ちゃんがずっとケンカしたままなんてありえない。<br/>
-			結衣ちゃんだって、なんだかんだ言いながらちなつちゃんのことを大切にしていることは、知っていた。<br/>
-			良かったね、<pause time="1000"/>そう言った声は、ちゃんとちなつちゃんに届いたかな。<cp/>
-		</narrative>
-		<chinatsu>『私、なんだかあかりちゃんに助けられてばっかだね』<cp/></chinatsu>
-		<narrative>
-			情けないなあ、というようにちなつちゃんが言う。<br/>
-			私は「そんなことないよ」と小さく答え、ずるずると冷えたカーペットの上に座り込んだ。<cp/>
-			もたれかかったベッドは固い。<cp/>
-		</narrative>
-		<chinatsu>『……』<cp/></chinatsu>
-		<akari>「……ちなつちゃん」<cp/></akari>
-		<chinatsu>『……あかりちゃん、あのね』<cp/></chinatsu>
-		<narrative>
-			私、クリスマス空いてるんだけど。<cp/>
-			ぽつりと言ったちなつちゃんの声は、随分と遠くから聞こえたような気がした。<cp/>
-		</narrative>
-		<akari>「……え？」<cp/></akari>
-		<chinatsu>『な、仲直りはできたんだけど、やっぱりまだちょっと結衣先輩誘いにくいし！』<cp/></chinatsu>
-		<akari>「う、うん……」<cp/></akari>
-		<chinatsu>『だから、どうせあかりちゃんも暇なら……』<cp/></chinatsu>
-		<narrative>
-			その後の言葉をちなつちゃんは濁したけれど、私にはちゃんとわかってしまった。<br/>
-			ちなつちゃんは私を誘ってくれているのだ。<cp/>
-		</narrative>
-		<akari>「……あかりなんかでいいの？」<cp/></akari>
-		<chinatsu>『あかりちゃんだからいいの！』<cp/></chinatsu>
-		<narrative>
-			ほ、ほら、京子先輩とかだと色々面倒臭そうだし……。<br/>
-			あ、もちろん悪い意味でもないんだけど！<br/>
-			すぐに返ってきた返事に、私は思わず笑ってしまった。<cp/>
-			嬉しくて仕方がなくて。<br/>
-			それからはまた、いつものようにテレビの話や雑誌の話や、そんな話を少しして。<br/>
-			私たちは電話を切った。<cp/>
-			耳から離した画面をじっと見詰める。<br/>
-			本当に、ちなつちゃんと一緒にクリスマスを過ごせるなんて思いもしなかった。<br/>
-			だけど、だからこそちなつちゃんの声が聞こえなくなって不安な気持ちがどっと押し寄せてきた。<cp/>
-			今日だって、ちなつちゃんのことでぐちゃぐちゃになってしまいそうな自分の存在に気付いて。<br/>
-			もし大切な人と過ごすべきはずの日に、ちなつちゃんが私と一緒に過ごしてくれるのなら。<br/>
-			私は、結衣ちゃんが好きなちなつちゃんのことを、ちゃんと応援できるんだろうか。<cp/>
-			おやすみ、と言ったちなつちゃんの声だけが頭から離れないまま私は横になる。<br/>
-			けれど、眠れるはずなんてなかった。<cp/>
-		</narrative>
-		<narrative>
-			―――――<br/>
-			―――――<cp/>
-			次の日、結局熱を下げることができずに学校を休んでしまった私は、<br/>
-			けれどそのおかげでちなつちゃんに対しての気持ちにきちんと向き合うことができた。<cp/>
-			私はちなつちゃんが好き。<br/>
-			ちなつちゃんは結衣ちゃんが好き。<br/>
-			だったらあかりは、ちなつちゃんと結衣ちゃんのことをきちんと応援しなきゃ。<cp/>
-		</narrative>
-		<akari>「……うん！」<cp/></akari>
-		<narrativef>
-			そう夜の間に改めて決めた私は、すっかり治ってぴんぴんした身体に制服を着て、鏡を覗き込んだ。<br/>
-			大丈夫、ずっとちなつちゃんと結衣ちゃんのこと応援してきたんだから。<br/>
-			けれど、その決心はすぐに崩れそうになってしまった。<br/>
-			いつもの場所、結衣ちゃんや京子ちゃんと話すちなつちゃん。<br/>
-			一旦受け入れてしまった暗い気持ちは、そう簡単に心を離れてはくれないらしい。<br/>
-			それでも<text speed="0.5">あかりは。</text><cp/>
-			笑顔でいなきゃいけないのだ。<br/>
-			それから冬休みまでの残りの時間。<br/>
-			痛む心をひた隠し、私は過ごした。<br/>
-			けれどどれだけ痛んだってちなつちゃんの笑顔が癒してくれるし、結衣ちゃんも京子ちゃんも笑っていて。<br/>
-			あかりはこれで、幸せなのだ。<br/>
-			そう思わなきゃ、ちなつちゃんのことを傷つけてしまいそうな気がした。<br/>
-			私自身が、壊れてしまいそうな気がした。<br/>
-			だからクリスマスの日、ちなつちゃんのことを諦められるように、<br/>
-			あかりはこれで幸せなのだと、思わなきゃいけない。<cp/>
-		</narrativef>
-	</scene>
-	
-	<scene title="結衣の電話">
-		<narrative>
-			終業式も終わり、冬休みに入った。<cp/>
-			日に日に落ち着きをなくしていくのが自分でもわかってしまって<br/>
-			なんだか恥ずかしかったり、戸惑ったりで、<br/>
-			毎朝起きてすぐ時計やカレンダーを見ることがすっかり日課になったりして。<cp/>
-		</narrative>
-		<akari>「……」<cp/></akari>
-		<narrativef>
-			確かにあかりが誘われたもののちなつちゃんにとっては結衣ちゃんの代わりなのだと、<br/>
-			そう自分に言い聞かせたってうまく落ち着けるはずなんてなかった。<br/>
-			いつのまにかなにを着ていこうかとか、なにをしようとか、どんなことを話そうなんて<br/>
-			そんなことばかりを考えている自分に気付いて苦笑することがほとんどだ。<br/>
-			あかりはやっぱり、ちなつちゃんのことが好きなんだと、嫌でもそう気付いてしまう。<br/>
-			気付いて嫌になって、でもやっぱりまたちなつちゃんのことを考えて。<br/>
-			その繰り返し。<cp/>
-			ちなつちゃんと会わない時間を過ごしたら少しはマシになると思ったのに逆だった。<br/>
-			お母さんには「デートでもあるの？」なんて言ってからかわれてその単語に自分でも<br/>
-			びっくりするくらい大袈裟な反応をしてしまったり。<br/>
-			クリスマスの日が早く終わって欲しい。<br/>
-			そんなふうにも思ったし、もうずっと来ないで欲しい。そんなことも考えて。<br/>
-			だけど時間は嫌でもいつものように早くも遅くもなく、ただ過ぎていく。<cp/>
-		</narrativef>
-		<narrative>
-			<sound src="$paths.se_mp_vibe" operation="once"/>結衣ちゃんから電話があったのは、クリスマスイブの前日だった。<br/>
-			もうそろそろ寝てしまおうとベッドにもぐりこんだちょうどそのとき、暗い部屋に<br/>
-			ぶるぶると携帯が震えて。<cp/>
-		</narrative>
-		<yui>『あ、あかり？』<cp/></yui>
-		<narrative>
-			向こう側から聞こえてきた声は、着信画面にあったとおり結衣ちゃんだった。<br/>
-			私は「うん……」と小さく頷いて。<cp/>
-		</narrative>
-		<yui>『急にごめんな、寝るとこだったよね？』<cp/></yui>
-		<akari>「ううん、大丈夫だよ」<cp/></akari>
-		<yui>『そっか……』<cp/></yui>
-		<narrative>一瞬の沈黙の後、結衣ちゃんは『あのさ、あかり』と。<cp/></narrative>
-		<yui>『明後日のクリスマスの日、あかりは空いてる？』<cp/></yui>
-		<narrative>
-			明後日？と私は結衣ちゃんに訊ね返した。<br/>
-			明後日は、結衣ちゃんがちなつちゃんが誘ったのを断って、それで私とちなつちゃん、<br/>
-			二人だけで約束した日で――<cp/>
-		</narrative>
-		<akari>「ど、どうして？」<cp/></akari>
-		<narrative>
-			結衣ちゃん、そんなのひどいよ！<br/>
-			そう言いかけた私は、だけれど次の結衣ちゃんの言葉に何も言えなくなってしまった。<cp/>
-		</narrative>
-		<yui>『……ちなつちゃんが、クリスマスの日遊びたいって言ってくれてたからさ』<cp/></yui>
-		<akari>「え……」<cp/></akari>
-		<yui>『せめてごらく部みんなで集まりたいなって思って』<cp/></yui>
-		<narrative>
-			まだちなつちゃんのことは誘いにくいから、先にあかりを誘っちゃったんだ。<br/>
-			結衣ちゃんがそう言って電話の向こうで笑う。<cp/>
-		</narrative>
-		<akari>「……」<cp/></akari>
-		<narrative>
-			ちなつちゃんが結衣ちゃんのことを好きになるのは当たり前なのだと、その時ぼんやり、<br/>
-			そう思った。<br/>
-			だって結衣ちゃんは、優しいよ。<cp/>
-		</narrative>
-		<yui>『あかり？』<cp/></yui>
-		<narrative>
-			返事をしなくなった私に、結衣ちゃんが困ったように声を上げた。<br/>
-			私は「……ごめんね」と小さく呟いた。<cp/>
-		</narrative>
-		<yui>『なにが？』<cp/></yui>
-		<akari>「……えへへ、あかり、空いてないや」<cp/></akari>
-		<yui>『もう予定入っちゃってる？』<cp/></yui>
-		<akari>「うん」<cp/></akari>
-		<narrative>
-			けれど。<br/>
-			結衣ちゃんへの、ほんの少しの嫉妬心が。<br/>
-			ちなつちゃんへの気持ちを、勝ってしまった。<cp/>
-		</narrative>
-		<yui>『そっか……』<cp/></yui>
-		<akari>「ちなつちゃんも」<cp/></akari>
-		<narrative>
-			<sound src="$paths.se_mp_close" operation="once"/><pause time="2000"/>ちなつちゃんも、たぶん無理じゃないかなぁ。<br/>
-			あかりは、ひどい。<br/>
-			そんなの、わかってる。誰よりも最低で、ちなつちゃんに嫌われたって仕方無い。<br/>
-			<text speed="0.5">だけど――</text><cp/>
-			電話を切った後、私は枕に突っ伏したまま、ぐっと涙を堪えた。<br/>
-			だけど、このまま宙ぶらりんなちなつちゃんへの気持ちを、抑えることなんてできないだろうから。<br/>
-			クリスマスの日はきっと、一つのけじめだ。<cp/>
-		</narrative>
-	</scene>
-	
-	<scene title="ファーストデート">
-		<scene id="ホワイトクリスマス">
-			<narrative>
-				その日、目を覚ますと外はうっすら暗かった。<br/>
-				起き上がって、思わず身震いしてしまうほどに部屋が冷えていることに気付く。<br/>
-				カーテンの隙間から覗いた外は、真っ白だった。<cp/>
-			</narrative>
-			<akari>「……あ、雪」<cp/></akari>
-			<narrativef>
-				呟いた間にも、雪はどんどんと降り積もっていく。<br/>
-				ホワイトクリスマス。<br/>
-				ちなつちゃんは、会ったときどんな顔をするだろうか。<br/>
-				枕元に置いてあったプレゼントもそのままに、私は顔を洗って用意を済ませる。<br/>
-				緊張は、してない。<br/>
-				だけど、不安だった。不安で、ちなつちゃんに会うことが怖かった。<br/>
-				その不安や恐怖を拭うように、冷たい水で頭を冷やす。<br/>
-				行ってきます、と家を出たのは約束の時間より、だいぶ早い時間だった。<br/>
-				マフラーをぐるぐる巻いて外に出る。<br/>
-				白い息を吐いて見上げた空からは、細かい雪が浮かぶようにして降ってくる。<cp/>
-			</narrativef>
-			<akari>「傘はいるかなぁ」<cp/></akari>
-			<narrative>
-				家の中に声をかけると、「もうそろそろ止むだろうから折り畳みだけもっておいたら」と<br/>
-				お母さんの声。お姉ちゃんがぱたぱたと玄関先に来て、にこにこと折り畳み傘を差し出してくれた。<cp/>
-			</narrative>
-			<akane>「また風邪引かないようにしなきゃだめよー」<cp/></akane>
-			<akari>「えへへ、ありがとぉ」<cp/></akari>
-			<narrative>
-				受取って、ふともう一度空を見ると確かに遠くの方では、雲の切れ間から青空が覗いていた。<cp/>
-				<text speed="0.75">―――――</text><br/>
-				<text speed="0.75">―――――</text><cp/>
-			</narrative>
-			<chinatsu>「あ、あかりちゃん！」<cp/></chinatsu>
-			<narrative>
-				待ち合わせの場所に着くまでには、お母さんの言う通り雪はすっかり止んでしまっていた。<br/>
-				青空こそまだ見えないものの、もうすぐこの辺りも晴れるだろう。<br/>
-				駅前、ワックのお店前。<br/>
-				しばらく待つ間もなく、私を呼ぶ声が聞こえてばっと声のほうを見た。<cp/>
-			</narrative>
-			<akari>「あれ、ちなつちゃん……」<cp/></akari>
-			<chinatsu>「あかりちゃん、早いね……」<cp/></chinatsu>
-			<narrative>
-				息を切らせながら駆け寄ってきたちなつちゃんは、私の傍まで来ると「待った？」と<br/>
-				首を傾げる。<cp/>
-				私も「ううん、あかりも今来たとこだよぉ」と答えると、ちなつちゃんは一瞬きょとんとしたあとにぷっと噴出した。<cp/>
-			</narrative>
-			<akari>「えっ、ど、どうしたの？」<cp/></akari>
-			<chinatsu>「……だ、だって、こんな会話……」<cp/></chinatsu>
-			<narrative>
-				よくある寒い恋愛ドラマの定番だよね、なんて。<br/>
-				ちなつちゃんはおかしそうに笑いながらそう言うから。<cp/>
-			</narrative>
-			<chinatsu>「まるでデートみたい」<cp/></chinatsu>
-			<akari>「……そ、そうだね」<cp/></akari>
-			<narrative>
-				ちなつちゃんがなにも意識していないことなんて、ちゃんとわかっている。<br/>
-				私はだから、笑うしかなかった。<cp/>
-			</narrative>
-			<chinatsu>「あかりちゃん、どこ行きたい？」<cp/></chinatsu>
-			<narrative>
-				いつものように、隣同士に並んで歩き始める。<br/>
-				変わらない距離。<br/>
-				手と手がぶつからない程度の、私たちの間。<cp/>
-			</narrative>
-			<akari>「あかりはどこでもいいかなぁ」<cp/></akari>
-			<chinatsu>「だよねー、ちゃんと決めとけばよかったね」<cp/></chinatsu>
-			<akari>「ほんとだねぇ」<cp/></akari>
-			<narrative>
-				俯きがちに、ちなつちゃんの横顔を盗み見る。<br/>
-				その楽しそうな顔に、私はほっとした。<br/>
-				本当は、結衣ちゃんといたかったはずなのに。<br/>
-				けれどあかりのそんな考えは、ちなつちゃんの手の冷たさでどこかへと飛ばされてしまった。<cp/>
-			</narrative>
-			<akari>「ち、ちなつちゃん？」<cp/></akari>
-			<chinatsu>「クリスマスなんだし、繋いじゃおう」<cp/></chinatsu>
-			<narrative>
-				手袋をはめていない手と手はお互い冷たいはずなのに、ちなつちゃんに握られると<br/>
-				まだ少し残っていた二人分の熱で、温かかった。<cp/>
-				ふと周囲を見ると手を繋いで歩くたくさんの人たちの姿。<br/>
-				その中にあかりたちも紛れ込めているのだとすれば、ちなつちゃんがそんなつもりはなかったとしても、嬉しい。<cp/>
-			</narrative>
-			<akari>「……えへへ」<cp/></akari>
-			<chinatsu>「どうしたの、あかりちゃん？」<cp/></chinatsu>
-			<narrative>
-				急に笑い出した私に、ちなつちゃんが怪訝そうな目を向ける。<br/>
-				私は「ううん」と首を振って、握る手の力をちょっとだけ強めてみた。<cp/>
-				ちなつちゃんが、すぐ隣にいる。<br/>
-				たぶん、今までよりもずっと近くに、ちなつちゃんがいる。<br/>
-				ドキドキと高鳴る心臓の音が届きそうなくらい近くに。<cp/>
-				ひどいよね、あかり。<br/>
-				結衣ちゃんとちなつちゃんのこと、応援しなきゃいけないのに。<br/>
-				あかりは今、すごく幸せだって、思っちゃうの。<cp/>
-			</narrative>
-			<chinatsu>「あ、晴れてきた」<cp/></chinatsu>
-			<narrative>
-				ふと立ち止まったちなつちゃんが、言った。<br/>
-				地面を薄っすら覆っていた雪も、じきに溶けてしまうだろう。<br/>
-				幸せな気持ちも全部溶けてしまったら、いっそどれだけ楽だろう。<cp/>
-			</narrative>
-			<chinatsu>「よしっ、ならあかりちゃん！」<cp/></chinatsu>
-			<akari>「へ？」<cp/></akari>
-			<chinatsu>「どうせお金もないんだし、適当に駅前のお店まわるだけまわろうよ！」<cp/></chinatsu>
-			<narrativef>
-				いつもと変わらないけどね。<br/>
-				ちなつちゃんはそう言って笑った。<br/>
-				ちなつちゃんにとっては、いつもと変わらない。それで、良かった。<br/>
-				だけど、クリスマスの今日だけでも、ちなつちゃんにとっても特別な日であってほしいと、<br/>
-				そう思ってしまう私がいることもわかっていた。<br/>
-				私から、私へのクリスマスプレゼント。<br/>
-				今だけでも、ちなつちゃんへの気持ちを、ちなつちゃんの隣で噛締めていたい。<br/>
-				なんて。<br/>
-				諦めきれなくなっちゃいそうだよ、ちなつちゃん。<cp/>
-			</narrativef>
-		</scene>
-		<scene id="ワックにて">
-			<pause time="2000"/>
-			<chinatsu>「あ、ごめんちょっとトイレ行って来る」<cp/></chinatsu>
-			<akari>「うん、いってらっしゃい」<cp/></akari>
-			<narrative>
-				お昼も過ぎて、歩きつかれた私たちは駅前のワックに戻って腰を落ち着けていた。<br/>
-				普段は人の少ない時間帯のはずなのに、クリスマスのせいか人がたくさんいて、店内は<br/>
-				暖房のせいもあり少しむっとしていた。<cp/>
-			</narrative>
-			<akari>「……」<cp/></akari>
-			<narrative>
-				私はちなつちゃんの背中が見えなくなると、ポケットから携帯を取り出した。<br/>
-				京子ちゃんから一件だけ、メールが来ていた。<cp/>
-				<text style="color: $kyouko.color; font: normal large 'うずらフォント';">『件名：クリスマスパーティー！</text><br/>
-				<text style="color: $kyouko.color; font: normal large 'うずらフォント';">本文：いま結衣の家いるんだけどあかりも来れたら来いよー！』</text><cp/>
-				ぱたん、とメールごと携帯を閉じた。<br/>
-				京子ちゃん、結衣ちゃん家で暇だって騒いでるのかなぁ、なんてぼんやり考えた。<br/>
-				きっと同じようなメールがちなつちゃんにも届いてるはずだ。<cp/>
-				ちなつちゃんのことが好きだった。<br/>
-				たぶんもう、どうしようもないくらい。<cp/>
-				それならあかりは、ちなつちゃんがメールを見て「行きたい」と言ってほしい。<br/>
-				結衣ちゃんのとこに行きたいと、ちなつちゃんがそう言えば私は「うん、行こっか」と<br/>
-				言ってちなつちゃんを結衣ちゃんのところにかえせてしまえるはずだ。<br/>
-				なのに、戻ってきたちなつちゃんはなにも言わなかった。<cp/>
-			</narrative>
-			<chinatsu>「ここ暑いね……外出る？」<cp/></chinatsu>
-			<akari>「う、うん……」<cp/></akari>
-			<narrative>
-				コートとマフラーを着込んで、外に出る。<br/>
-				火照っていた身体から冷たい空気が熱を奪っていってくれるのがわかって、<br/>
-				心地よかった。<cp/>
-			</narrative>
-			<akari>「……ちなつちゃん」<cp/></akari>
-			<chinatsu>「うん？」<cp/></chinatsu>
-			<narrative>
-				言いかけて、言葉に詰まった。<br/>
-				行って欲しくない、結衣ちゃんのところに。<br/>
-				今日初めて、はっきりと、私はそんなことを思ってしまって。<cp/>
-			</narrative>
-			<akari>「……次、どこ行く？」<cp/></akari>
-			<narrative>
-				だから私は、言えない言葉の代わりに、そう言ってしまう。<br/>
-				ちなつちゃんが「お店見てまわるの飽きちゃったよね」と苦笑した。<cp/>
-			</narrative>
-			<chinatsu>「あ、でも」<cp/></chinatsu>
-			<narrative>
-				とりあえずというように歩き出しながら、ちなつちゃんが思い出したように言った。<br/>
-				自然と繋がる手。<br/>
-				私の手を握って、ちなつちゃんが「買いたいものあるかも」と。<cp/>
-			</narrative>
-			<akari>「買いたいもの？」<cp/></akari>
-			<chinatsu>「うん、みんなにプレゼント！」<cp/></chinatsu>
-			<narrative>
-				そういえば、あかりもなにも買っていなかった。<br/>
-				小学生の頃はお小遣いなんてなかったし、プレゼントだって贈られる側だったから<br/>
-				考えもつかなかったのだ。<cp/>
-			</narrative>
-			<chinatsu>「せっかくあかりちゃんと遊ぶんだからあかりちゃんにも選ぶの手伝ってもらいたいなって」<cp/></chinatsu>
-			<narrative>
-				付き合ってくれる？とちなつちゃんが言うから、私はこくんと頷いた。<br/>
-				京子ちゃんのメールと、結衣ちゃんのことが頭を過ったけれど。<cp/>
-				あかりはひどいね。<br/>
-				自分の決心さえ、曲げそうになってしまっている。<br/>
-				ちなつちゃんと繋いだこの手を離したくなんてない。<cp/>
-			</narrative>
-			<akari>「さっき、よさそうなお店あったよね。そこ行こっかぁ」<cp/></akari>
-			<chinatsu>「うん、ありがとあかりちゃん」<cp/></chinatsu>
-			<narrative>
-				お礼なんて、言われることはなにもしていないのに。<cp/>
-				「……えへへ、どういたしまして」<cp/>
-				嘘を吐いて吐いてついて、私は重くなっていくばかりだ。<cp/>
-			</narrative>
-		</scene>
-		
-		<narrative>
-			―――――<br/>
-			―――――<cp/>
-		</narrative>
-		
-		<scene id="あかりの犠牲">
-			<chinatsu>「あかりちゃん、これなんてどうかな！」<cp/></chinatsu>
-			<akari>「え、どれ……ってちなつちゃん、それはこわいよ！」<cp/></akari>
-			<chinatsu>「京子先輩なら喜びそうだと思ったんだけどなあ」<cp/></chinatsu>
-			<narrative>
-				さっき一度だけ覗いた雑貨屋さん。<br/>
-				落ち着いた雰囲気のお店だなぁという第一印象とは裏腹に、ごちゃごちゃと珍しいものが<br/>
-				たくさん置かれていて楽しかった。<br/>
-				可愛いものや面白いものもいっぱいで、京子ちゃんたちと一緒に来たらもっと楽しいかな、なんて考えて。<cp/>
-			</narrative>
-			<akari>「……」<cp/></akari>
-			<narrative>
-				ふっと、視線を伏せた。<br/>
-				やわらかな木の床は、少し湿っているように見えた。<cp/>
-				<text speed="0.5">あかりは。</text><cp/>
-			</narrative>
-			<chinatsu>「あっ」<cp/></chinatsu>
-			<narrative>
-				いつのまにか奥まで行ってしまっていたちなつちゃんの声が聞こえて、はっと顔を上げた。<br/>
-				ちなつちゃんに駆け寄ると、「これ、あかりちゃんに合いそうじゃない？」と私の手に<br/>
-				何かを乗せた。<cp/>
-				<pause time="500"/>クマの、付け耳。<cp/>
-			</narrative>
-			<akari>「あかり、使わないよぉー……」<cp/></akari>
-			<chinatsu>「あかりちゃんには似合うよ！」<cp/></chinatsu>
-			<akari>「そ、それってどういう意味かな！？」<cp/></akari>
-			<narrative>
-				クマさんは大好きだけど、クマさんになりたいとは思わないよ。<br/>
-				うぅ、と肩を落としていると、ちなつちゃんが「はいっ」と私の手からクマ耳を<br/>
-				取り上げて頭につけてしまった。<cp/>
-			</narrative>
-			<chinatsu>「うん、すっごい似合ってるよあかりちゃん！」<cp/></chinatsu>
-			<narrative>
-				そう言って満足そうに笑うちなつちゃんに。<br/>
-				私は少しだけ、泣きそうになってしまった。<cp/>
-				ちなつちゃんが「さ、次はー」と私から視線を逸らしてくれてよかった。<br/>
-				クマさんの耳をとる振りをして、ごしごしと目許をこすった。<cp/>
-				<text speed="0.5">あかりは、ちなつちゃんに。</text><cp/>
-			</narrative>
-			<chinatsu>「うーん……」<cp/></chinatsu>
-			<narrative>
-				次のコーナーに移って悩むように唸っていたちなつちゃんが、ふと私を見た。<br/>
-				「あかりちゃん」と名前を呼ぶ。<br/>
-				結衣ちゃんのプレゼントかな。なんとなく、そう思った。<cp/>
-			</narrative>
-			<chinatsu>「……なにが、いいかな」<cp/></chinatsu>
-			<narrative>
-				私が隣に立って商品棚を覗き込むと、ちなつちゃんがぽそりと呟いた。<br/>
-				もうちなつちゃんの視線は私になんてない。<cp/>
-				並んでいるのは、マグカップ。<br/>
-				ちなつちゃんが本当に買いたかったのは、きっとこれなのだろう。<br/>
-				結衣ちゃんへの、プレゼント。いつになく真剣な横顔を見て、思う。<cp/>
-			</narrative>
-			<akari><text speed="0.75">「……」</text><cp/></akari>
-			<narrative>
-				私は、棚の一番奥からモノトーン調のマグカップを引っ張り出した。<cp/>
-				「これなんてどうかな」<cp/>
-				ちなつちゃんに差し出して。<cp/>
-				結衣ちゃん、こんなの好きそうだと思うなぁ。<cp/>
-				そんな言葉は、もうあかりには言えなかった。<cp/>
-				――――― ――<cp/>
-				「ありがとうございましたー」<cp/>
-				<sound id="croud_noise" src="$paths.se_croud" operation="loop" vol="0.5"/>暖かい店内から一歩外に出ると、ちなつちゃんは「よかったあ」と<br/>
-				白い息を大きく吐いて言った。<cp/>
-			</narrative>
-			<chinatsu>「私一人じゃ絶対にすぐ決まらなかったよ」<cp/></chinatsu>
-			<akari>「えへへ……そっかぁ」<cp/></akari>
-			<narrative>
-				ちなつちゃんがほかほかしたように言って、私も笑う。<br/>
-				大事そうに抱えた袋に、ぼんやり思った。<br/>
-				やっぱりちなつちゃんは本当に結衣ちゃんのことが好きなんだなぁ、なんて。<cp/>
-				また曇りかけてきた空。<br/>
-				さっきからしきりにちなつちゃんは時間を気にしているようだった。<br/>
-				もうそろそろ、暗くなってしまう。<br/>
-				もうすぐで帰らなくちゃいけない時間。それでもまだ、時間はある。<cp/>
-				ちなつちゃんだって、京子ちゃんからのメールに気付いていないはずがない。<br/>
-				今買ったプレゼントだって、すぐに結衣ちゃんに渡したいはずだ。<br/>
-				もう、帰ろっか。<br/>
-				私がそう言えば、ちなつちゃんだって結衣ちゃんのところに行ける。<cp/>
-				なのに、声が出なかった。<cp/>
-			</narrative>
-			<chinatsu>「また雪、降ってきそうだね」<cp/></chinatsu>
-			<narrative>
-				うん、と小さく頷いた。<br/>
-				それからふと、ちなつちゃんの手の感触。<br/>
-				気が付くと、私は何かを握らされていた。<cp/>
-			</narrative>
-			<akari>「……ちなつちゃん？」<cp/></akari>
-			<chinatsu>「あかりちゃんへのプレゼント」<cp/></chinatsu>
-			<narrative>
-				びっくりして、ちなつちゃんを見た。<br/>
-				ちなつちゃんは照れたように笑っていた。<cp/>
-				開けた手からことんと出てきたのは、もちろんクマさんの付け耳でもなんでもなかった。<br/>
-				淡い赤色の花を模した髪留め。<br/>
-				「あかりちゃんは使わないかもしれないけど」とちなつちゃんは言って。<cp/>
-			</narrative>
-			<chinatsu>「その裏に書いてある言葉、気に入っちゃって」<cp/></chinatsu>
-			<narrativef style="font: normal xx-large serif;">
-				『ハナミズキ<br/>
-				ありがとうを伝える花』<cp/>
-			</narrativef>
-			<chinatsu>「あかりちゃん、いつも結衣先輩の話、聞いてくれてありがとね」<cp/></chinatsu>
-			<akari>「……」<cp/></akari>
-			<narrative>
-				ちなつちゃんの顔が、うまく見られなかった。<br/>
-				いつものように、笑うことすら、できなくて。<cp/>
-			</narrative>
-			<chinatsu>「あかりちゃんに、いつかお礼したいなって思ってたから」<cp/></chinatsu>
-			<akari>「……うん」<cp/></akari>
-			<chinatsu>「さっきね、京子先輩からメールあって」<cp/></chinatsu>
-			<narrative>
-				<sound id="croud_noise" operation="stop"/><sound src="$paths.se_heart_beat" operation="once"/>どくん<pause time="500"/>、と心臓が鳴った。<br/>
-				ちなつちゃんは、言葉を続けた。<cp/>
-			</narrative>
-			<chinatsu>「でもほんとは、その前から結衣先輩に、誘われてて」<cp/></chinatsu>
-			<akari>「へ……」<cp/></akari>
-			<chinatsu>「だけど、断っちゃった」<cp/></chinatsu>
-			<narrative>
-				きっと、あの電話の後結衣ちゃんは念のためにちなつちゃんに電話をかけたのだ。<br/>
-				でも結衣ちゃんのことだから、「あかりからだめらしいって聞いて」<br/>
-				そんな言い方をしたんだろう。<br/>
-				それでちなつちゃんも。<cp/>
-			</narrative>
-			<chinatsu>「私、まだちょっと、結衣先輩と顔を合わせるの気まずかったから」<cp/></chinatsu>
-			<akari>「……ちなつちゃん、あかり」<cp/></akari>
-			<chinatsu>「私ね、あかりちゃんに逃げちゃったの。ごめんね」<cp/></chinatsu>
-			<narrative>
-				<sound id="croud_noise" src="$paths.se_croud" operation="loop"/><sound id="bgm" src="$paths.bgm2" is_bgm="true"/>ごめんね。<cp/>
-				<pause time="250"/>ちなつちゃんのその言葉は。<br/>
-				すーっと私の中に吸い込まれて、溜息を吐くように沈んでいった。<cp/>
-				今さら、行かないでなんて。<br/>
-				言えるはずなかった。<cp/>
-			</narrative>
-			<akari>「……ちなつちゃん、結衣ちゃんのとこ、まだ間に合うんじゃないかなぁ」<cp/></akari>
-			<chinatsu>「え？」<cp/></chinatsu>
-			<akari>「今ならまだ、間に合うよ」<cp/></akari>
-			<narrative>
-				<text speed="0.5">私の気持ちも。</text><br/>
-				<text speed="0.5">まだ間に合う。</text><cp/>
-				だって、あかりは。<br/>
-				あかりは、ちなつちゃんに、幸せになってほしいから。<br/>
-				きっと、ちなつちゃんは私が大丈夫だよって、そう言うのを待っていたのだ。<cp/>
-				だったらちなつちゃんに、言ってあげなきゃ。<br/>
-				ちなつちゃんを、離さなきゃ。<br/>
-				背中を、押してあげなきゃ。<br/>
-				ちなつちゃんの背中を押してあげるのが、あかりの役目だもん。<cp/>
-			</narrative>
-			<akari>「いってらっしゃい、ちなつちゃん」<cp/></akari>
-			<narrative>
-				ちなつちゃんの身体を、とんっと前へ押し出した。<br/>
-				つんのめりそうになりながらちなつちゃんが私を振り返った。<cp/>
-			</narrative>
-			<chinatsu>「あかりちゃん……」<cp/></chinatsu>
-			<akari>「あかりはもう、帰らなきゃいけないから」<cp/></akari>
-			<chinatsu>「……そっか」<cp/></chinatsu>
-			<akari>「結衣ちゃんも、京子ちゃんだってどんなことがあってもちなつちゃんを嫌いにならないよ」<cp/></akari>
-			<narrative>
-				えへへと笑う。<br/>
-				あかりはどんなことがあってもちなつちゃんを嫌いになれないよ。<br/>
-				心の中だけで呟いて。<cp/>
-			</narrative>
-			<chinatsu>「……ありがと」<cp/></chinatsu>
-			<narrative>
-				ちなつちゃんは最後に、私にとびっきりの笑顔を見せてくれた。<br/>
-				そのまま、大事そうにプレゼントの袋を抱えたまま私に背を向ける。<cp/>
-				<sound id="croud_noise" operation="change" vol="2"/><sound id="bgm" operation="change" vol="0.5"/>残ったのは、うっすらとした、ちなつちゃんの温もり。<br/>
-				それが冷めないように、私はそっと、自分の手で自分の手を包み込んだ。<br/>
-				祈るように、包み込んだ。<cp/>
-				私にはきっと、ちなつちゃんのことを幸せにはできないから。<br/>
-				だからお願いです。<br/>
-				祈るように、私は思う。<cp/>
-				どうかちなつちゃんが幸せでありますように。<cp/>
-				もうすぐ、クリスマスも終わってしまう。<br/>
-				その前にどうか、ちなつちゃんに奇跡が起きますように。<cp/>
-				私の祈りに応えるように、曇り空から雨混じりの雪がぱらぱらと降り始めた。<sound id="croud_noise" operation="stop"/><sound id="bgm" operation="stop"/><cp/>
-			</narrative>
-		</scene>
-	</scene>
-	
-	<scene title="エピローグ">
-		<scene id="走れちなつ！">
-			<chinatsu>「……」<cp/></chinatsu>
-			<narrativef>
-				はあ、<pause time="1000"/>はあ。<sound id="bgm" src="$paths.bgm1" is_bgm="true"/><br/>
-				私は走っていた。<br/>
-				あかりちゃんに背中を押されて、結衣先輩の家へ。<br/>
-				いつのまにか雪が降り始めていて、走って温まったはずの身体をも冷ましていってしまう。<br/>
-				胸の前に抱えた結衣先輩と、それから京子先輩へのプレゼントがカチャカチャと音をたてる。<br/>
-				あかりちゃんが背中を押してくれるから、私はいつまでも結衣先輩が好きな私でいられた。<br/>
-				今は、あかりちゃんは、いない。少しだけ感じた、あかりちゃんの手の温かさも、<br/>
-				雪が冷やしていって。<br/>
-				それでも私は、あかりちゃんのためにも、走らなきゃいけなかった。<cp/>
-				<pause time="500"/>
-				結衣先輩が私のことなんか見ていないことは、最初から知っていた。<br/>
-				いつだって、結衣先輩は京子先輩だった。<br/>
-				きっと結衣先輩自身は気付いていないだろうけど、ずっと見ていた私は、結衣先輩が<br/>
-				無意識のうちに京子先輩ばかりを見ていることは、ちゃんとわかっていた。<br/>
-				<text speed="0.5" style="color: $akari.color; font: italic large serif">だけど。</text><cp/>
-				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『ちなつちゃんなら大丈夫だよぉ』</label>
-				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『結衣ちゃんだって、ちなつちゃんのこと大好きだもん』</label>
-				あかりちゃんがそう言ってくれるから、私は信じていられた。<br/>
-				結衣先輩のこと。<br/>
-				結衣先輩が好きな自分のことを。<cp/>
-				本当はもう、とっくの昔からわからなくなっていたのに。<br/>
-				結衣先輩への気持ちを、私はどうしたいのか。<br/>
-				確かに私の中にあったのは、結衣先輩を好きでいなくちゃいけないという妙な思いだけだった。<cp/>
-			</narrativef>
-			<chinatsu>「……っ」<cp/></chinatsu>
-			<narrativef>
-				雪が目に入って、少しの痛み。<br/>
-				それでも私の足は止められない。<br/>
-				京子先輩なんていつもいつも、面倒臭いし結衣先輩に迷惑ばっかりかけてるし――！<br/>
-				ついこの間の、私の言葉。<br/>
-				京子先輩に対しての、苛立ちや妬みがきっと、爆発してしまった瞬間。<br/>
-				けれど本当にあんなふうに思われているのは、私なんだと思う。<br/>
-				結衣先輩にも、京子先輩にも、たぶん、あかりちゃんにも。<cp/>
-				あかりちゃんは<pause time="500"/>でも、どんなときでも私の味方でいてくれた。<br/>
-				私がどんなに嫌な子でも、ずっとずっと傍にいて笑ってくれていて。<br/>
-				私はそんなあかりちゃんに、離れてほしくなかった。<br/>
-				ずっと一番近くに、いてほしかった。<br/>
-				あかりちゃんは結衣先輩のことを相談してくれるのが嬉しいんだぁと、<br/>
-				一度、そんなことを言ってくれたときがある。<br/>
-				あかり、なんでも協力するからね。<br/>
-				ずっとずっと、ちなつちゃんの味方だよ。<cp/>
-				だから私も。<pause time="250"/><br/>
-				結衣先輩をずっとずっと好きでいなくちゃいけないし――<pause time="500"/><cp/>
-				今日はクリスマス。<br/>
-				奇跡なんて、起こるわけもないけど。<br/>
-				あかりちゃんの「いってらっしゃい」が、私を急かした。<br/>
-				走りながら、ポケットを探る。<br/>
-				取り出した携帯を開け、感覚の無い指で結衣先輩の番号を押した。<br/>
-				もうすっかり覚えてしまっているのだ。<br/>
-				三回目の呼び出し音で、カチャリと音がした。<cp/>
-			</narrativef>
-			<yui>『はい、もしも』<cp/></yui>
-			<chinatsu>「結衣先輩……！」<cp/></chinatsu>
-			<narrativef>
-				電話に出た先輩の声を遮るように、私は早口で用件を告げる。<br/>
-				「今から結衣先輩の家、行っていいですか！」<cp/>
-			</narrativef>
-			<yui>『え、いいけど……』<cp/></yui>
-			<chinatsu>「あの……待ってて、待っててくださいっ！」<cp/></chinatsu>
-			<yui>『ちなつちゃん？』<cp/></yui>
-			<chinatsu>「すぐ、行きますから……！」<cp/></chinatsu>
-			<narrativef>
-				切らした息のままそう言って、一方的に電話を切った。<br/>
-				雨のような雪はいよいよ強くなっていた。<cp/>
-				<sound id="bgm" operation="stop"/>
-				<text speed="0.75">―――――</text><br/>
-				<text speed="0.75">―――――</text><cp/>
-			</narrativef>
-		</scene>
-		<scene id="二人の本当の想い">
-			<narrativef>
-				結衣先輩に会って、なにを言えばいいかなんて決めていない。<br/>
-				ただ、すっかりびしょびしょになってしまったプレゼントが、なぜかあかりちゃんのことを<br/>
-				思い起こさせて。<cp/>
-				好きです、結衣先輩。<br/>
-				そう言ってしまえば、きっと、結衣先輩は悲しそうな顔をして「ごめんね」<br/>
-				そう答えるだろう。<cp/>
-				一緒にいさせてください。<br/>
-				そう言えばきっと、結衣先輩も京子先輩も、にこにこと私を受け入れてくれるはずだ。<br/>
-				二人とも、<pause time="1000"/>本当は京子先輩だって、優しい人だから。<cp/>
-				けれど、どちらにしても。<br/>
-				好きですと言ってしまえば私の恋は終わってしまう。<br/>
-				きっと、あかりちゃんは私といてくれなくなるだろう。<br/>
-				一緒にいさせてください、そう言ったとしたって。<br/>
-				あかりちゃんは、悲しそうな顔をするのだ。<cp/>
-				あかりちゃんの傍にいたい。<br/>
-				あかりちゃんといれば、私は安心できた。<br/>
-				でも、だからあかりちゃんが悲しそうな顔をするのは見たくなかった。<br/>
-				だったら私も、あかりちゃんも、離れればいいのだと。<br/>
-				わかってる。<cp/>
-				大きく息を吐いて、私はようやく立ち止まった。<br/>
-				結衣先輩が私に気付いて「ちなつちゃん！」と名前を呼んでくれる。<br/>
-				その横に京子先輩もいて、手すり越しに「はやくはやく！」と。<br/>
-				濡れた髪からぽたぽたと冷たい雫が落ちていく。<cp/>
-				いつまで経っても階段を上ろうとしない私に、痺れを切らしたのか京子先輩のほうから<br/>
-				私へ走りよってきた。<cp/>
-			</narrativef>
-			<kyouko>「ちなつちゃん、どうしたの！？」<cp/></kyouko>
-			<chinatsu>「……京子先輩」<cp/></chinatsu>
-			<narrativef>
-				その後ろから、傘を持って走ってくる結衣先輩。<br/>
-				「京子、滑るぞ！」と。<cp/>
-			</narrativef>
-			<chinatsu><text speed="0.5">「……」</text><cp/></chinatsu>
-			<narrativef>
-				私は、弱虫だ。<br/>
-				肝心なところで何も言えなくなる。<cp/>
-			</narrativef>
-			<chinatsu>「クリスマスプレゼントです！京子先輩と、結衣先輩に！」<cp/></chinatsu>
-			<kyouko>「へ？ちょ、ちょっとちなつちゃん！？」<cp/></kyouko>
-			<narrativef>
-				戸惑う京子先輩に、濡れてしまったプレゼントの袋を押し付けると、私はくるりと踵を返した。<br/>
-				もう、走る元気もなかったけれど。<cp/>
-				結衣先輩には、あかりちゃんに選んでもらったマグカップ。<br/>
-				京子先輩には、私が選んだ、もう一つのおそろいのマグカップ。<cp/>
-				私ってば、なんて中途半端なんだろう。<br/>
-				結局、結衣先輩への気持ちを諦めることもあかりちゃんから離れることも、<br/>
-				できないのだ。<cp/>
-				<sound src="$paths.se_dosun" operation="once"/><effect name="RandomVibration" target="display" end_time="10" amplitude_x="10" amplitude_y="10" max_rate="3" sync="true"/>じわりと歪んだ視界で、滑った身体が前へ倒れる。<br/>
-				痛かった。<cp/>
-			</narrativef>
-			<chinatsu>「……」<cp/></chinatsu>
-			<narrativef>
-				奇跡なんて、起きるわけもない。<br/>
-				結局私はこのままで。<br/>
-				誰を傷付けているのか、何に傷付いてるのかもわからないまま。<cp/>
-				こんなとき傍にいてほしいと、頭に浮かんだのはあかりちゃんだった。<br/>
-				あかりちゃんのあったかな笑顔が見たかった。<br/>
-				立ち上がって、足を確認する。少しずつ積もっていた雪のおかげか、痛みのわりには<br/>
-				怪我は一つもない。<br/>
-				なんて悪運よ。<cp/>
-				最低……。 ――ちなつちゃん？<sound id="bgm" src="$paths.bgm1" is_bgm="true"/><br/>
-				ぼそりと呟いた私の声と、別の声が重なった。<cp/>
-				ばっと顔を上げた。<br/>
-				あかりちゃんが、いた。あまりにもぼろぼろな私に、神様が同情でもして幻でも<br/>
-				見せてくれたのかと疑ってしまったけれど、確かに、あかりちゃんだった。<cp/>
-			</narrativef>
-			<akari>「ど、どうしたの……？」<cp/></akari>
-			<chinatsu>「あかりちゃんこそ……！」<cp/></chinatsu>
-			<narrativef>
-				言いかけて、辺りを見回した。<br/>
-				自分でも気が付かないうちに、あかりちゃんの家の近くまで来てしまっていたらしい。<br/>
-				私ってばまるで、無意識に京子先輩を追いかける結衣先輩みたい<text speed="0.25">――</text><cp/>
-			</narrativef>
-			<akari>「あ、風邪、引いちゃうよ！」<cp/></akari>
-			<narrativef>
-				一瞬の間のあと、あかりちゃんははっとしたようにそう言って、鞄から何かを取り出した。<br/>
-				折り畳み傘だった。<br/>
-				「もってきといて良かったよぉ」と笑いながら、あかりちゃんは小さなその傘を私に<br/>
-				差しかけてくれた。<br/>
-				しとしとと降り続いていた雪が、途切れた。<br/>
-				その代わり、今まで全身を包んでいた冷たさが急に存在感を発してきたようだった。<cp/>
-			</narrativef>
-			<chinatsu>「ありがと……って、なんか今日はお礼言ってばっかだね、私」<cp/></chinatsu>
-			<akari>「えへへ……」<cp/></akari>
-			<chinatsu>「……あかりちゃんも濡れちゃうよ」<cp/></chinatsu>
-			<narrativef>
-				ただ笑っただけのあかりちゃんの手を、私はぐいっと引っ張った。<br/>
-				小さな傘で二人とも濡れないようになんてとても無理だろうけど。<br/>
-				「あかりはいいよぉ」と慌てるあかりちゃんに、ふるふる首を振る。<br/>
-				傘が小さくてよかった、そんなことを考える。<br/>
-				すぐ近くにあかりちゃんの存在を感じられて。<cp/>
-			</narrativef>
-			<akari>「……ちなつちゃん、結衣ちゃんたちは」<cp/></akari>
-			<narrativef>
-				ふいに、あかりちゃんが言った。<br/>
-				傘にも雪が積もり始めたのか、雪の重さで私たちを守っている傘が小さく揺れた。<cp/>
-			</narrativef>
-			<chinatsu>「……プレゼントあげて」<cp/></chinatsu>
-			<akari>「うん……」<cp/></akari>
-			<narrativef>
-				それで。<pause time="500"/><cp/>
-				その後の言葉が、続かなかった。<br/>
-				あかりちゃんはもう、なにも聞かなかった。<br/>
-				ただ、「帰らなきゃ」<br/>
-				そうあかりちゃんの声が聞こえたときには、私はあかりちゃんの背中に、縋っていた。<cp/>
-			</narrativef>
-			<akari>「……ちなつちゃ」<cp/></akari>
-			<narrative>
-				私は結衣先輩が好き。<br/>
-				あかりちゃんは。<cp/>
-			</narrative>
-			<chinatsu>「もし、私が結衣先輩に振られても」<cp/></chinatsu>
-			<akari>「……へ？」<cp/></akari>
-			<chinatsu>「振られちゃったとしてもね、あかりちゃんは」<cp/></chinatsu>
-			<narrative>
-				あかりちゃんは、私から離れない？<cp/>
-				私と一緒に、いてくれる？<cp/>
-			</narrative>
-			<akari>「……ちなつちゃんは、振られないよ」<cp/></akari>
-			<narrative>
-				あかりちゃんは言った。<br/>
-				縋りついたあかりちゃんの背中は、冷たかった。<cp/>
-			</narrative>
-			<akari>「だって、ちなつちゃんが振られるわけないもん」<cp/></akari>
-			<chinatsu>「なんで……」<cp/></chinatsu>
-			<akari>「そうじゃなきゃあかりは……！」<cp/></akari>
-			<narrative>
-				あかりちゃんがばさりと落とした傘にも、雪は容赦なく降り積もっていく。<br/>
-				「あかりは……」そう言ったきり、あかりちゃんは肩を落として何も言わなくなって。<cp/>
-			</narrative>
-			<chinatsu>「……なら、私はどうすればいいの」<cp/></chinatsu>
-			<narrative>
-				思わず、呟いていた。<br/>
-				あかりちゃんが「え？」と顔を上げたのがわかった。<cp/>
-				それなら私は、どうすればいいの。<br/>
-				どう頑張ったって、結衣先輩の気持ちは変えられない。<br/>
-				なのにあかりちゃんに大丈夫って言われるたび、私は結衣先輩が自分の想いに<br/>
-				応えてくれる気がしていた。そう思わなきゃ、やってられなかった。<cp/>
-			</narrative>
-			<chinatsu>「あかりちゃんはどうして、そこまで言うのよ！」<cp/></chinatsu>
-			<narrative>
-				理不尽な言い種だと、頭ではわかっている。<cp/>
-				最初に私が結衣先輩のことが好きなの、協力してほしいのと、そう言ったのだから。<cp/>
-				友達として当たり前なのだ。<br/>
-				私だってきっと、友達に好きな人がいたとすれば応援するし、大丈夫だと、<br/>
-				振られたりなんかしないよと励ますはずだ。<cp/>
-				だって、それはある意味私たちの中での社交辞令。<br/>
-				だとしても。<cp/>
-				私たちは近すぎるくらい近くなりすぎてしまったのだ。<cp/>
-			</narrative>
-			<akari>「……ちなつちゃん」<cp/></akari>
-			<narrative>
-				社交辞令なんて必要ないし、ちゃんと本当のことをぶつけてほしい。<br/>
-				そう思ってしまう私は、あかりちゃんにとって迷惑なのかもしれないけど。<cp/>
-				結衣先輩のことを諦めるなんて、きっと私にはまだまだ無理だ。<br/>
-				それと同じくらい、あかりちゃんから離れることも無理で。<cp/>
-				もう、ぐちゃぐちゃだ。<br/>
-				そのぐちゃぐちゃなもの全部、雪が覆い包んでくれたらいいのに。<br/>
-				でもきっと、あかりちゃんも同じくらいぐちゃぐちゃなのだとわかった。<cp/>
-			</narrative>
-			<akari>「……あかりだって、ほんとはやだよ！」<cp/></akari>
-			<chinatsu>「いやなら……」<cp/></chinatsu>
-			<akari>「やだけど！」<cp/></akari>
-			<narrative>
-				やだけど、でも。<br/>
-				あかりちゃんの震えが、背中越しに伝わってきた。<cp/>
-			</narrative>
-			<akari>「でもね、そうしなきゃ、あかりはだって……」<cp/></akari>
-			<narrative>
-				声を荒げる私たちとは正反対に、雪はただ、静かに降り続く。<br/>
-				息の白さが、おりてきた夜の暗さに消えていく。<cp/>
-				<pause time="250"/>――あかり、嘘吐きになっちゃうもん。<cp/>
-			</narrative>
-			<akari>
-				「あかり、ちなつちゃんのお友達なんだよ！ちなつちゃんと、結衣ちゃんのこと<br/>
-				応援するって……！あかり、そう言ったから！これ以上嘘なんて吐きたくない！」<cp/>
-			</akari>
-			<narrative>
-				ちなつちゃんに、嘘なんて吐きたくないよ！<cp/>
-				今まで聞いたことも無いような声で、あかりちゃんは言った。<cp/>
-			</narrative>
-			<chinatsu>「……あかりちゃん」<cp/></chinatsu>
-			<narrative>
-				あかりちゃんの言葉の意味が理解できずに、私は言葉に詰まった。<cp/>
-				力のなくなった腕を、だらんと落とす。<br/>
-				もう、手は冷たさすら感じなかった。<cp/>
-			</narrative>
-			<akari><sound id="bgm" operation="stop"/>「もう<text speed="0.25">……</text>壊れちゃいそうだよ、あかり」<cp/></akari>
-			<chinatsu>「……え」<cp/></chinatsu>
-			<akari>「<text speed="0.25">……</text>ちなつちゃんのこと、<pause time="1000"/>好きなの」<cp/></akari>
-			<narrative>
-				小さな声。<cp/>
-				だけど、この静かな時間で、聞こえないはずなんてなかった。<cp/>
-				ようやく落ち着き始めていた心臓が、また速度を上げ始める。<br/>
-				身体もなにもかも全部、寒いはずなのに。<br/>
-				頬だけ火照って熱かった。<cp/>
-			</narrative>
-			<akari>
-				「……あかり、ほんとに嘘吐きだよね。応援するって言いながら、<br/>
-				ちなつちゃんにいってらっしゃいって言いながら、あかり、ほんとは」<cp/>
-			</akari>
-			<chinatsu>「……もう、いいよ」<cp/></chinatsu>
-			<narrative>
-				<sound src="$paths.bgm2" is_bgm="true"/>
-				それ以上、<pause time="500"/>なにも言わないで。<cp/>
-				お願いだから、<pause time="500"/>なにも言わないで。<cp/>
-				いよいよ、わからなくなってしまった。<br/>
-				積もる雪が傘を隠すように、私の答えまで隠されてしまったみたいだ。<cp/>
-				結衣先輩は京子先輩が好き。<cp/>
-				私は結衣先輩が好き。<cp/>
-				――<text speed="0.25">あかりちゃんは私が好き。</text><cp/>
-				ああ、ただわかってるのは。<br/>
-				私はそれでもまだ結衣先輩のことが好きっていうことと。<br/>
-				それから、やっぱりあかりちゃんとも離れたくないっていうことで。<cp/>
-				そしてもう一つ、私たちはたぶん、ひどいすれ違いをしていたらしい。<br/>
-				そう思うと少しだけ、笑えてしまう。<br/>
-				笑えてしまうのに、色々な気持ちが混ざって泣きたくなってしまう。<cp/>
-			</narrative>
-			<akari>「……ちなつちゃん？」<cp/></akari>
-			<narrative>
-				びくんとあかりちゃんが震えて、そっと、私を振り向いた。<br/>
-				悴んだ手であかりちゃんの手を引く。<cp/>
-				こうして手を掴んでいなければ、あかりちゃんは私から離れてしまうなんて、もうそんなことは<br/>
-				思わないけれど。今はあかりちゃんの冷たい手を、握っていたかった。<cp/>
-			</narrative>
-			<chinatsu>「……あかりちゃんが嘘吐きなら、私はもっとひどいよ」<cp/></chinatsu>
-			<akari>「……そんなわけ、ないよ」<cp/></akari>
-			<chinatsu>「……そんなわけあるの！」<cp/></chinatsu>
-			<narrativef>
-				だって、私は自分のことしか考えていなかった。<br/>
-				結衣先輩のことも、あかりちゃんのことも、誰の気持ちだって考えていなかった。<br/>
-				京子先輩の件で、よくわかったはずなのに。<br/>
-				結局私は、なにも見えていなかったのだ。<cp/>
-			</narrativef>
-			<chinatsu>「だって私、あかりちゃんをいっぱい、傷つけちゃったよね」<cp/></chinatsu>
-			<narrative>
-				知らない間に、私はあかりちゃんを傷つけてしまっていたはずだ。<br/>
-				あかりちゃんは首を横に振るけれど。<cp/>
-			</narrative>
-			<chinatsu>「これからだって、あかりちゃんを傷つけちゃうと思う」<cp/></chinatsu>
-			<narrativef>
-				これからも、知らない間に、あかりちゃんを傷つけてしまうに決まっている。<br/>
-				私はひどいから。<br/>
-				それにあかりちゃんだって、もう私と一緒にいたくなんてないかもしれない。<br/>
-				あかりちゃんの好きだっていう気持ちを、私が知ってしまったから。<br/>
-				それでも。<cp/>
-			</narrativef>
-			<chinatsu>「でもね、これからもあかりちゃんと離れたくないって思っちゃうの」<cp/></chinatsu>
-			<akari>「……ちなつちゃんは」<cp/></akari>
-			<narrative>
-				握った手と手に、お互いの熱で次第に温もりが戻ってくる。<cp/>
-				ちなつちゃんは、優しいね。<br/>
-				あかりちゃんがぽつりと言った。<cp/>
-			</narrative>
-			<akari>「……ひどいね」<cp/></akari>
-			<chinatsu>「だから、ひどいって言ったもん」<cp/></chinatsu>
-			<narrative>
-				私はあかりちゃんと一緒にいたい。<br/>
-				まだ結衣先輩のことも忘れられないのに。<br/>
-				あかりちゃんを、利用してしまうかもしれないのに。<cp/>
-			</narrative>
-			<akari>「……これ以上一緒にいちゃったら、もう、あかり、応援できなくなっちゃうよ」<cp/></akari>
-			<narrative>
-				それなのに。<cp/>
-				こうして手を握り返してくれるあかりちゃんこそ、優しすぎるよ。<cp/>
-			</narrative>
-			<narrativef>
-				雨混じりだった雪は、今はもうすっかりやわらかな雪に変わっていた。<br/>
-				私は「それでいいよ」と言って。<br/>
-				あかりちゃんが「そっか」と。<br/>
-				寒さも今は、心地よかった。<cp/>
-				結局また風邪引いちゃいそうだね。<br/>
-				そう言うと、あかりちゃんも「ほんとだね」と笑う。<br/>
-				私はあかりちゃんから離れて傘を拾うと、畳んだ。<br/>
-				「帰ろっか」<br/>
-				そのまま、今度はきちんと最初からあかりちゃんの手を握って歩き出す。<cp/>
-				いつもの距離。<br/>
-				けれどきっと、以前よりももっともっと近い。<br/>
-				もう後戻りはできないし、私たちはだから進むしかない。<br/>
-				嘘吐きでも、どれだけひどくたって。<br/>
-				聖夜でなら、許される気がしたから。<cp/>
-			</narrativef>
-		</scene>
-	</scene>
-	
-	<scene title="エンドロール" shows_title="false">
-		<sound id="bgm" src="$paths.ed" is_bgm="true"/>
-		<effect name="VisibilityChange" target="msg_window" is_visible="false"/>
-		
-		<label id="credit1" x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold x-large serif;">
-			あかり「君と好きな人が百年続きますように」
-		</label>
-		<pause time="3000"/>
-		<effect name="Move" id="credit_roll1" target="$labels.credit1" vx="0" vy="2" remove_when_out="true"/>
-		<pause time="10000"/>
-		
-		<label id="credit2" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			原作：ゆるゆりSS　あかり「君と好きな人が百年続きますように」&lt;br&gt;
-			&lt;a href=&quot;http://blog.livedoor.jp/kakusika767/archives/1404946.html&quot;&gt;こちらより転載&lt;/a&gt;
-		</label>
-		<pause time="3000"/>
-		<effect name="Move" id="credit_roll2" target="$labels.credit2" vx="0" vy="2" remove_when_out="true"/>
-		<pause time="10000"/>
-		
-		<label id="credit3" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			演出：HAZAMA
-		</label>
-		<pause time="3000"/>
-		<effect name="Move" id="credit_roll3" target="$labels.credit3" vx="0" vy="2" remove_when_out="true"/>
-		<pause time="10000"/>
-		
-		<label id="credit4" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			音楽：&lt;a href=&quot;http://www.tam-music.com/&quot;&gt;TAM Music Factory&lt;/a&gt;さま&lt;br&gt;
-			HAZAMA(一部)
-		</label>
-		<pause time="3000"/>
-		<effect name="Move" id="credit_roll4" target="$labels.credit4" vx="0" vy="2" remove_when_out="true"/>
-		<pause time="10000"/>
-		
-		<label id="credit5" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			効果音：&lt;a href=&quot;http://www.tam-music.com/&quot;&gt;TAM Music Factory&lt;/a&gt;さま&lt;br&gt;
-			&lt;a href=&quot;http://wwl.s-t-t.com/&quot;&gt;WEB WAVE LIB&lt;/a&gt;さま&lt;br&gt;
-			&lt;a href=&quot;http://sfx-g.net/index.html&quot;&gt;効果音g&lt;/a&gt;さま&lt;br&gt;
-			HAZAMA
-		</label>
-		<pause time="3000"/>
-		<effect name="Move" id="credit_roll5" target="$labels.credit5" vx="0" vy="2" remove_when_out="true"/>
-		<pause time="10000"/>
-		
-		<label id="credit6" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			立ち絵：&lt;a href=&quot;http://yuruyuri.com/blog/archives/886&quot;&gt;ゆるゆり公式配布の&lt;/a&gt;&lt;a href=&quot;http://yuruyuri.com/blog/archives/1380&quot;&gt;ツイッター用アイコン集&lt;/a&gt;
-		</label>
-		<pause time="3000"/>
-		<effect name="Move" id="credit_roll6" target="$labels.credit6" vx="0" vy="2" remove_when_out="true"/>
-		<pause time="10000"/>
-		
-		<label id="credit7" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			Produced by &lt;a href=&quot;http://funprogramming.ojaru.jp&quot;&gt;AGE(AdventureGameEngine)&lt;/a&gt;&lt;br&gt;
-                        copyright : HAZAMA
-		</label>
-		<pause time="3000"/>
-		<effect name="Move" id="credit_roll7" target="$labels.credit7" vx="0" vy="2" remove_when_out="true"/>
-		<pause time="10000"/>
-		
-		<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large serif;" end_time="300" sync="true">終わり</label>
-		<sound id="bgm" operation="stop"/>
-		<jump to="title:main_menu"/>
-	</scene>
-	
-	<scene title="menu" shows_title="false">
-		<menu initial_state="Menu">
-			<a x="$display.width - 200" y="100" action="openSave" to="MenuSave">セーブ</a>
-			<b x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</b>
-			<c x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</c>
-            <d x="$display.width - 200" y="250" action="returnToMenu">メニューへ戻る</d>
-		</menu>
-	</scene>
+  <scene title="あかりの家にて 2">
+    <akari>「……」<cp/></akari>
+    <narrativef>
+      家に着いた私は、お姉ちゃんが出かけているのをいいことに「ただいま」と一言、<br/>
+      言うだけ言って部屋に入りベッドに倒れこんだ。<br/>
+      <br/>
+      言葉ってすごいなぁ、なんて思う。<br/>
+      熱っぽいって言ったら本当にこんなにも身体が重くなっちゃうんだから。<br/>
+      <br/>
+      もう外は薄っすら暗くなっていて、それと同じように部屋の中もぼんやりとしていた。<br/>
+      電気は点けずに、携帯を確認する。<br/>
+      なんだかこんなふうにしていると、ますます大人になったみたい。<br/>
+      そんなふうに思ってみて、苦笑を漏らす。<cp/>
+      <br/>
+      そういえばこの前、お姉ちゃんが「あかりがだんだん大人になってくみたいでちょっと怖いなあ」と<br/>
+      言っていたことを思い出した。<br/>
+      <br/>
+      あかりだって、いつまでも子供じゃないもん。<br/>
+      そのときはそう言って膨れてみせた私だけど。<br/>
+      本当のことをいえば大人になるのがどういうことか、よくわからないし、あかりがもし<br/>
+      このまま大人になってしまったら、嘘吐きのひどい人間になってしまいそうな気がした。<cp/>
+    </narrativef>
+    <akari>「……仲直り、できてるかな」<cp/></akari>
+    <narrativef>
+      ぽそりと呟いた。<br/>
+      ちなつちゃん、仲直りできてるかな、結衣ちゃんと。きっと、大丈夫だろうけど。<br/>
+      <br/>
+      もし、「クリスマスの日、空けとくよ」という言葉がちなつちゃんに届いていたとしても、<br/>
+      私がちなつちゃんと一緒にいられるはずなんてない。<br/>
+      変な意地なんて、張らなきゃ良かったな。<br/>
+      <br/>
+      そんな取り止めもないことを、ぐだぐだと頭の中で繰り返す。<br/>
+      うとうととしはじめて、私は目を閉じた。<br/>
+      <br/>
+      とりあえず制服だけでも、着替えなきゃ――<br/>
+      <br/>
+      そんなことを思っても、身体はもう動いてくれない。<br/>
+      私の意志に反するかのように、眠りの海へ沈んでいく。<cp/>
+    </narrativef>
+    <akari>「……」<cp/></akari>
+    <narrative>
+      ちなつちゃんの手が、ふと欲しくなった。<br/>
+      帰り際、ふと私の額におかれたちなつちゃんの手が、すごくすごく恋しくて。<br/>
+      それくらい私の身体は熱を発していた。<cp/>
+      <pause time="500"/>
+      <text speed="0.5">――――― ――</text><cp/>
+      あかり、と名前を呼ばれて目を覚ました。<br/>
+      ぼんやりした視界に、お姉ちゃんの心配そうな顔が映る。<cp/>
+    </narrative>
+    <akane>「着替えずに寝ちゃったらだめよー」<cp/></akane>
+    <akari>「……うん」<cp/></akari>
+    <narrative>
+      ごしごしと目をこすり、身体を起こす。<br/>
+      さっきよりもだいぶ、身体のだるさはマシになっていた。<br/>
+      ただ、外はもうすっかり真っ暗で、電気を点けていないあかりの部屋は開けっ放しに<br/>
+      されたドアから入る廊下の光だけが頼りだった。<cp/>
+    </narrative>
+    <akane>「熱でもあるの？」<cp/></akane>
+    <akari>「……うん」<cp/></akari>
+    <narrative>
+      額に当てられたお姉ちゃんの手は冷たかったのに、どうしても気持ちよく感じられなかった。<br/>
+      私はいやいやするように頭を振ると、お姉ちゃんの手から逃れた。<cp/>
+    </narrative>
+    <akane>「……もうご飯の時間だけど、どうする？」<cp/></akane>
+    <akari>「……ごめんね、今は食べたくない」<cp/></akari>
+    <akane>「なら、お母さんに言ってあかりの分置いといてもらうわね」<cp/></akane>
+    <akari>「……うん」<cp/></akari>
+    <narrative>
+      おやすみ。<br/>
+      お姉ちゃんがふふっと笑って立ち上がる。<br/>
+      私も「おやすみ」と小さく返して。<cp/>
+      <pause time="250"/>
+      あのね、お姉ちゃん。<cp/>
+      呼び止めてみた。<br/>
+      「どうしたの？」とお姉ちゃんが振り向く。<cp/>
+    </narrative>
+    <akari>「……あかりね、今日ね、いっぱい嘘、吐いちゃった」<cp/></akari>
+    <akane>「……そう」<cp/></akane>
+    <akari>「……自分でも、びっくりするくらい……」<cp/></akari>
+    <narrative>
+      ちなつちゃんのことでいっぱい色々嫌な気持ちにもなって、嫌な気持ちにさせるようなことも<br/>
+      しちゃって、こんなはずじゃなかったのに。<br/>
+      大人になれれば、嘘なんて吐かずにいられるのかなぁ。<br/>
+      こんな気持ちに、ならずにいられるのかなぁ。<cp/>
+      ぐっと布団の裾を握り締めた私に、お姉ちゃんは。<br/>
+      昔みたいに「ふふっ」と笑ってぎゅっとしてくれた。<cp/>
+    </narrative>
+    <akari>「お、お姉ちゃん？」<cp/></akari>  
+    <akane>
+      「嘘吐くことはね、自分を守るために必要なことなんだから、しかたないの。<br/>
+      本当に大切なとき、ちゃんと正直にいられればいいんだから、あかりは大丈夫」<cp/>
+    </akane>
+    <narrative>
+      お姉ちゃんの優しい声。<br/>
+      自然と、私の強張っていた身体が楽になっていく。<cp/>
+    </narrative>
+    <akari>「……えへへ、ありがとぉ」<cp/></akari>
+    <akane>「……」<cp/></akane>
+    <akari>「……お姉ちゃん？」<cp/></akari>
+    <narrative>
+      中々離れないお姉ちゃんに声をかけると、ようやくお姉ちゃんははっとしたように<br/>
+      私から離れてくれた。<cp/>
+    </narrative>
+    <akane>「……ついあかりが可愛くて」<cp/></akane>
+    <akari>「へ？」<cp/></akari>
+    <akane>「な、なんでもないわ！ちゃんと着替えて寝なさいね！」<cp/></akane>
+    <akari>「う、うん……」<cp/></akari>
+    <narrative>
+      お姉ちゃんがばたばたと出て行くのを見送る。<br/>
+      そのまま、ドアが閉められて暗くなった部屋、ほっと、息を吐いた。<br/>
+      私の中の重い気持ちが、ようやく落ち着いてくれたような気がした。<cp/>
+    </narrative>
+  </scene>
+  
+  <narrative>
+    ―――――<br/>
+    ―――――<cp/>
+  </narrative>
+  
+  <scene title="あかりの決意">
+    <narrative>
+      次に目を覚ましたのは、すっかり真夜中だった。<br/>
+      気持ちが楽になったおかげなのか、熱っぽかった身体はだいぶ楽になっていた。<cp/>
+      暗い部屋にびくびくしながらも、私はパジャマの上に椅子にかけてあったカーディガンを<br/>
+      羽織って立ち上がる。<br/>
+      とりあえず電気を点けて時間を確認しなくちゃ――<cp/>
+      壁伝いに、電源を探る。<br/>
+      そのとき机の上で何かがちかちか光って「ひぃっ」と思わず声を上げてしまった。<br/>
+      さっと電気を点けて光ったのが携帯だと知り、思わず脱力してしまう。<cp/>
+    </narrative>
+    <akari>「……びっくりしちゃったぁ」<cp/></akari>
+    <narrative>
+      はあ、と溜息を吐くと、私は身体に力を入れなおして机に近付いた。<cp/>
+      チカチカ、チカチカ<br/>
+      急かすように光る携帯を手にとって、開ける。<br/>
+      着信が二件、ちなつちゃんからのものだった。<cp/>
+    </narrative>
+    <akari>「あ……」<cp/></akari>
+    <narrative>
+      時間はもう、とっくに12時を過ぎていた。<br/>
+      ちなつちゃんが電話してきたということは、もしかしたら仲直りできなかったんじゃ。<br/>
+      一瞬そんなことも考えてしまったけれど、そんなはずはない。<cp/>
+    </narrative>
+    <akari>「……」<cp/></akari>
+    <narrative>
+      どうしよう。<br/>
+      電話をかけなおすか、かけなおさないか。<br/>
+      夕方から眠ってしまったせいか、こんな時間なのに頭はすっかり冴えてしまっている。<cp/>
+      考えているだけで、時間は過ぎていって。<br/>
+      私はそっと、アドレス帳を開けるとちなつちゃんの番号を探した。<br/>
+      通話ボタンを押す。<cp/>
+      こんな時間に、非常識。非常識だからこそ、ちなつちゃんだって出ないと思ったから。<br/>
+      なのに。<cp/>
+    </narrative>
+    <chinatsu>『――あかりちゃん？』<cp/></chinatsu>
+    <akari>「……あ」<cp/></akari>
+    <chinatsu>『もう寝ちゃってると思ってた……』<cp/></chinatsu>
+    <narrative>
+      電話の向こうで、ちなつちゃんは驚いたようにそう言って。<br/>
+      あかりだってそう思ってたよ、とは言いそびれてしまった。<cp/>
+    </narrative>
+    <akari>「……ごめんね、出れなくて」<cp/></akari>
+    <chinatsu>『ううん、それより身体、大丈夫？』<cp/></chinatsu>
+    <akari>「うん、だいぶマシになったから平気かなぁ」<cp/></akari>
+    <chinatsu>『……そっか』<cp/></chinatsu>
+    <narrative>
+      ほっとしたようにちなつちゃんが言い、私も「うん」と頷く。<br/>
+      それから、なんとなくの不自然な沈黙。<cp/>
+      ちなつちゃんの反応から結衣ちゃんとどうなったのか、私には読み取ることができなくて<br/>
+      次になにを言えばいいのかわからずに困惑していると、突然ちなつちゃんが笑い出した。<cp/>
+    </narrative>
+    <akari>「ち、ちなつちゃん……？」<cp/></akari>
+    <chinatsu>『ご、ごめん……なんか、おかしくって』<cp/></chinatsu>
+    <akari>「えぇ！？」<cp/></akari>
+    <chinatsu>『だって、あかりちゃん、クリスマス空けとくって』<cp/></chinatsu>
+    <narrative>
+      笑い声の混じったちなつちゃんの声に、私はカアッとまた顔が熱くなっていくのがわかった。<br/>
+      あのときは冷静じゃなかったからその……なんて言えるはずもない。<cp/>
+    </narrative>
+    <akari>「うぅ……」<cp/></akari>
+    <chinatsu>『……でもあのときのあかりちゃん、なんかすっごいかっこよく見えちゃった』<cp/></chinatsu>
+    <akari>「……へ？」<cp/></akari>
+    <chinatsu>『まあ一瞬だけだけどね！』<cp/></chinatsu>
+    <narrative>落ち込みかけた私に、ちなつちゃんの声がどきんと心臓を鳴らして落ち込めなくしてしまった。<cp/></narrative>
+    <chinatsu>『あかりちゃんがあんなこと言っちゃうから、ちゃんと結衣先輩と仲直り、できたよ』<cp/></chinatsu>
+    <akari>「……そ、っか」<cp/></akari>
+    <narrative>
+      やっぱり、ちなつちゃんと結衣ちゃんがずっとケンカしたままなんてありえない。<br/>
+      結衣ちゃんだって、なんだかんだ言いながらちなつちゃんのことを大切にしていることは、知っていた。<br/>
+      良かったね、<pause time="1000"/>そう言った声は、ちゃんとちなつちゃんに届いたかな。<cp/>
+    </narrative>
+    <chinatsu>『私、なんだかあかりちゃんに助けられてばっかだね』<cp/></chinatsu>
+    <narrative>
+      情けないなあ、というようにちなつちゃんが言う。<br/>
+      私は「そんなことないよ」と小さく答え、ずるずると冷えたカーペットの上に座り込んだ。<cp/>
+      もたれかかったベッドは固い。<cp/>
+    </narrative>
+    <chinatsu>『……』<cp/></chinatsu>
+    <akari>「……ちなつちゃん」<cp/></akari>
+    <chinatsu>『……あかりちゃん、あのね』<cp/></chinatsu>
+    <narrative>
+      私、クリスマス空いてるんだけど。<cp/>
+      ぽつりと言ったちなつちゃんの声は、随分と遠くから聞こえたような気がした。<cp/>
+    </narrative>
+    <akari>「……え？」<cp/></akari>
+    <chinatsu>『な、仲直りはできたんだけど、やっぱりまだちょっと結衣先輩誘いにくいし！』<cp/></chinatsu>
+    <akari>「う、うん……」<cp/></akari>
+    <chinatsu>『だから、どうせあかりちゃんも暇なら……』<cp/></chinatsu>
+    <narrative>
+      その後の言葉をちなつちゃんは濁したけれど、私にはちゃんとわかってしまった。<br/>
+      ちなつちゃんは私を誘ってくれているのだ。<cp/>
+    </narrative>
+    <akari>「……あかりなんかでいいの？」<cp/></akari>
+    <chinatsu>『あかりちゃんだからいいの！』<cp/></chinatsu>
+    <narrative>
+      ほ、ほら、京子先輩とかだと色々面倒臭そうだし……。<br/>
+      あ、もちろん悪い意味でもないんだけど！<br/>
+      すぐに返ってきた返事に、私は思わず笑ってしまった。<cp/>
+      嬉しくて仕方がなくて。<br/>
+      それからはまた、いつものようにテレビの話や雑誌の話や、そんな話を少しして。<br/>
+      私たちは電話を切った。<cp/>
+      耳から離した画面をじっと見詰める。<br/>
+      本当に、ちなつちゃんと一緒にクリスマスを過ごせるなんて思いもしなかった。<br/>
+      だけど、だからこそちなつちゃんの声が聞こえなくなって不安な気持ちがどっと押し寄せてきた。<cp/>
+      今日だって、ちなつちゃんのことでぐちゃぐちゃになってしまいそうな自分の存在に気付いて。<br/>
+      もし大切な人と過ごすべきはずの日に、ちなつちゃんが私と一緒に過ごしてくれるのなら。<br/>
+      私は、結衣ちゃんが好きなちなつちゃんのことを、ちゃんと応援できるんだろうか。<cp/>
+      おやすみ、と言ったちなつちゃんの声だけが頭から離れないまま私は横になる。<br/>
+      けれど、眠れるはずなんてなかった。<cp/>
+    </narrative>
+    <narrative>
+      ―――――<br/>
+      ―――――<cp/>
+      次の日、結局熱を下げることができずに学校を休んでしまった私は、<br/>
+      けれどそのおかげでちなつちゃんに対しての気持ちにきちんと向き合うことができた。<cp/>
+      私はちなつちゃんが好き。<br/>
+      ちなつちゃんは結衣ちゃんが好き。<br/>
+      だったらあかりは、ちなつちゃんと結衣ちゃんのことをきちんと応援しなきゃ。<cp/>
+    </narrative>
+    <akari>「……うん！」<cp/></akari>
+    <narrativef>
+      そう夜の間に改めて決めた私は、すっかり治ってぴんぴんした身体に制服を着て、鏡を覗き込んだ。<br/>
+      大丈夫、ずっとちなつちゃんと結衣ちゃんのこと応援してきたんだから。<br/>
+      けれど、その決心はすぐに崩れそうになってしまった。<br/>
+      いつもの場所、結衣ちゃんや京子ちゃんと話すちなつちゃん。<br/>
+      一旦受け入れてしまった暗い気持ちは、そう簡単に心を離れてはくれないらしい。<br/>
+      それでも<text speed="0.5">あかりは。</text><cp/>
+      笑顔でいなきゃいけないのだ。<br/>
+      それから冬休みまでの残りの時間。<br/>
+      痛む心をひた隠し、私は過ごした。<br/>
+      けれどどれだけ痛んだってちなつちゃんの笑顔が癒してくれるし、結衣ちゃんも京子ちゃんも笑っていて。<br/>
+      あかりはこれで、幸せなのだ。<br/>
+      そう思わなきゃ、ちなつちゃんのことを傷つけてしまいそうな気がした。<br/>
+      私自身が、壊れてしまいそうな気がした。<br/>
+      だからクリスマスの日、ちなつちゃんのことを諦められるように、<br/>
+      あかりはこれで幸せなのだと、思わなきゃいけない。<cp/>
+    </narrativef>
+  </scene>
+  
+  <scene title="結衣の電話">
+    <narrative>
+      終業式も終わり、冬休みに入った。<cp/>
+      日に日に落ち着きをなくしていくのが自分でもわかってしまって<br/>
+      なんだか恥ずかしかったり、戸惑ったりで、<br/>
+      毎朝起きてすぐ時計やカレンダーを見ることがすっかり日課になったりして。<cp/>
+    </narrative>
+    <akari>「……」<cp/></akari>
+    <narrativef>
+      確かにあかりが誘われたもののちなつちゃんにとっては結衣ちゃんの代わりなのだと、<br/>
+      そう自分に言い聞かせたってうまく落ち着けるはずなんてなかった。<br/>
+      いつのまにかなにを着ていこうかとか、なにをしようとか、どんなことを話そうなんて<br/>
+      そんなことばかりを考えている自分に気付いて苦笑することがほとんどだ。<br/>
+      あかりはやっぱり、ちなつちゃんのことが好きなんだと、嫌でもそう気付いてしまう。<br/>
+      気付いて嫌になって、でもやっぱりまたちなつちゃんのことを考えて。<br/>
+      その繰り返し。<cp/>
+      ちなつちゃんと会わない時間を過ごしたら少しはマシになると思ったのに逆だった。<br/>
+      お母さんには「デートでもあるの？」なんて言ってからかわれてその単語に自分でも<br/>
+      びっくりするくらい大袈裟な反応をしてしまったり。<br/>
+      クリスマスの日が早く終わって欲しい。<br/>
+      そんなふうにも思ったし、もうずっと来ないで欲しい。そんなことも考えて。<br/>
+      だけど時間は嫌でもいつものように早くも遅くもなく、ただ過ぎていく。<cp/>
+    </narrativef>
+    <narrative>
+      <sound src="$paths.se_mp_vibe" operation="once"/>結衣ちゃんから電話があったのは、クリスマスイブの前日だった。<br/>
+      もうそろそろ寝てしまおうとベッドにもぐりこんだちょうどそのとき、暗い部屋に<br/>
+      ぶるぶると携帯が震えて。<cp/>
+    </narrative>
+    <yui>『あ、あかり？』<cp/></yui>
+    <narrative>
+      向こう側から聞こえてきた声は、着信画面にあったとおり結衣ちゃんだった。<br/>
+      私は「うん……」と小さく頷いて。<cp/>
+    </narrative>
+    <yui>『急にごめんな、寝るとこだったよね？』<cp/></yui>
+    <akari>「ううん、大丈夫だよ」<cp/></akari>
+    <yui>『そっか……』<cp/></yui>
+    <narrative>一瞬の沈黙の後、結衣ちゃんは『あのさ、あかり』と。<cp/></narrative>
+    <yui>『明後日のクリスマスの日、あかりは空いてる？』<cp/></yui>
+    <narrative>
+      明後日？と私は結衣ちゃんに訊ね返した。<br/>
+      明後日は、結衣ちゃんがちなつちゃんが誘ったのを断って、それで私とちなつちゃん、<br/>
+      二人だけで約束した日で――<cp/>
+    </narrative>
+    <akari>「ど、どうして？」<cp/></akari>
+    <narrative>
+      結衣ちゃん、そんなのひどいよ！<br/>
+      そう言いかけた私は、だけれど次の結衣ちゃんの言葉に何も言えなくなってしまった。<cp/>
+    </narrative>
+    <yui>『……ちなつちゃんが、クリスマスの日遊びたいって言ってくれてたからさ』<cp/></yui>
+    <akari>「え……」<cp/></akari>
+    <yui>『せめてごらく部みんなで集まりたいなって思って』<cp/></yui>
+    <narrative>
+      まだちなつちゃんのことは誘いにくいから、先にあかりを誘っちゃったんだ。<br/>
+      結衣ちゃんがそう言って電話の向こうで笑う。<cp/>
+    </narrative>
+    <akari>「……」<cp/></akari>
+    <narrative>
+      ちなつちゃんが結衣ちゃんのことを好きになるのは当たり前なのだと、その時ぼんやり、<br/>
+      そう思った。<br/>
+      だって結衣ちゃんは、優しいよ。<cp/>
+    </narrative>
+    <yui>『あかり？』<cp/></yui>
+    <narrative>
+      返事をしなくなった私に、結衣ちゃんが困ったように声を上げた。<br/>
+      私は「……ごめんね」と小さく呟いた。<cp/>
+    </narrative>
+    <yui>『なにが？』<cp/></yui>
+    <akari>「……えへへ、あかり、空いてないや」<cp/></akari>
+    <yui>『もう予定入っちゃってる？』<cp/></yui>
+    <akari>「うん」<cp/></akari>
+    <narrative>
+      けれど。<br/>
+      結衣ちゃんへの、ほんの少しの嫉妬心が。<br/>
+      ちなつちゃんへの気持ちを、勝ってしまった。<cp/>
+    </narrative>
+    <yui>『そっか……』<cp/></yui>
+    <akari>「ちなつちゃんも」<cp/></akari>
+    <narrative>
+      <sound src="$paths.se_mp_close" operation="once"/><pause time="2000"/>ちなつちゃんも、たぶん無理じゃないかなぁ。<br/>
+      あかりは、ひどい。<br/>
+      そんなの、わかってる。誰よりも最低で、ちなつちゃんに嫌われたって仕方無い。<br/>
+      <text speed="0.5">だけど――</text><cp/>
+      電話を切った後、私は枕に突っ伏したまま、ぐっと涙を堪えた。<br/>
+      だけど、このまま宙ぶらりんなちなつちゃんへの気持ちを、抑えることなんてできないだろうから。<br/>
+      クリスマスの日はきっと、一つのけじめだ。<cp/>
+    </narrative>
+  </scene>
+  
+  <scene title="ファーストデート">
+    <scene id="ホワイトクリスマス">
+      <narrative>
+        その日、目を覚ますと外はうっすら暗かった。<br/>
+        起き上がって、思わず身震いしてしまうほどに部屋が冷えていることに気付く。<br/>
+        カーテンの隙間から覗いた外は、真っ白だった。<cp/>
+      </narrative>
+      <akari>「……あ、雪」<cp/></akari>
+      <narrativef>
+        呟いた間にも、雪はどんどんと降り積もっていく。<br/>
+        ホワイトクリスマス。<br/>
+        ちなつちゃんは、会ったときどんな顔をするだろうか。<br/>
+        枕元に置いてあったプレゼントもそのままに、私は顔を洗って用意を済ませる。<br/>
+        緊張は、してない。<br/>
+        だけど、不安だった。不安で、ちなつちゃんに会うことが怖かった。<br/>
+        その不安や恐怖を拭うように、冷たい水で頭を冷やす。<br/>
+        行ってきます、と家を出たのは約束の時間より、だいぶ早い時間だった。<br/>
+        マフラーをぐるぐる巻いて外に出る。<br/>
+        白い息を吐いて見上げた空からは、細かい雪が浮かぶようにして降ってくる。<cp/>
+      </narrativef>
+      <akari>「傘はいるかなぁ」<cp/></akari>
+      <narrative>
+        家の中に声をかけると、「もうそろそろ止むだろうから折り畳みだけもっておいたら」と<br/>
+        お母さんの声。お姉ちゃんがぱたぱたと玄関先に来て、にこにこと折り畳み傘を差し出してくれた。<cp/>
+      </narrative>
+      <akane>「また風邪引かないようにしなきゃだめよー」<cp/></akane>
+      <akari>「えへへ、ありがとぉ」<cp/></akari>
+      <narrative>
+        受取って、ふともう一度空を見ると確かに遠くの方では、雲の切れ間から青空が覗いていた。<cp/>
+        <text speed="0.75">―――――</text><br/>
+        <text speed="0.75">―――――</text><cp/>
+      </narrative>
+      <chinatsu>「あ、あかりちゃん！」<cp/></chinatsu>
+      <narrative>
+        待ち合わせの場所に着くまでには、お母さんの言う通り雪はすっかり止んでしまっていた。<br/>
+        青空こそまだ見えないものの、もうすぐこの辺りも晴れるだろう。<br/>
+        駅前、ワックのお店前。<br/>
+        しばらく待つ間もなく、私を呼ぶ声が聞こえてばっと声のほうを見た。<cp/>
+      </narrative>
+      <akari>「あれ、ちなつちゃん……」<cp/></akari>
+      <chinatsu>「あかりちゃん、早いね……」<cp/></chinatsu>
+      <narrative>
+        息を切らせながら駆け寄ってきたちなつちゃんは、私の傍まで来ると「待った？」と<br/>
+        首を傾げる。<cp/>
+        私も「ううん、あかりも今来たとこだよぉ」と答えると、ちなつちゃんは一瞬きょとんとしたあとにぷっと噴出した。<cp/>
+      </narrative>
+      <akari>「えっ、ど、どうしたの？」<cp/></akari>
+      <chinatsu>「……だ、だって、こんな会話……」<cp/></chinatsu>
+      <narrative>
+        よくある寒い恋愛ドラマの定番だよね、なんて。<br/>
+        ちなつちゃんはおかしそうに笑いながらそう言うから。<cp/>
+      </narrative>
+      <chinatsu>「まるでデートみたい」<cp/></chinatsu>
+      <akari>「……そ、そうだね」<cp/></akari>
+      <narrative>
+        ちなつちゃんがなにも意識していないことなんて、ちゃんとわかっている。<br/>
+        私はだから、笑うしかなかった。<cp/>
+      </narrative>
+      <chinatsu>「あかりちゃん、どこ行きたい？」<cp/></chinatsu>
+      <narrative>
+        いつものように、隣同士に並んで歩き始める。<br/>
+        変わらない距離。<br/>
+        手と手がぶつからない程度の、私たちの間。<cp/>
+      </narrative>
+      <akari>「あかりはどこでもいいかなぁ」<cp/></akari>
+      <chinatsu>「だよねー、ちゃんと決めとけばよかったね」<cp/></chinatsu>
+      <akari>「ほんとだねぇ」<cp/></akari>
+      <narrative>
+        俯きがちに、ちなつちゃんの横顔を盗み見る。<br/>
+        その楽しそうな顔に、私はほっとした。<br/>
+        本当は、結衣ちゃんといたかったはずなのに。<br/>
+        けれどあかりのそんな考えは、ちなつちゃんの手の冷たさでどこかへと飛ばされてしまった。<cp/>
+      </narrative>
+      <akari>「ち、ちなつちゃん？」<cp/></akari>
+      <chinatsu>「クリスマスなんだし、繋いじゃおう」<cp/></chinatsu>
+      <narrative>
+        手袋をはめていない手と手はお互い冷たいはずなのに、ちなつちゃんに握られると<br/>
+        まだ少し残っていた二人分の熱で、温かかった。<cp/>
+        ふと周囲を見ると手を繋いで歩くたくさんの人たちの姿。<br/>
+        その中にあかりたちも紛れ込めているのだとすれば、ちなつちゃんがそんなつもりはなかったとしても、嬉しい。<cp/>
+      </narrative>
+      <akari>「……えへへ」<cp/></akari>
+      <chinatsu>「どうしたの、あかりちゃん？」<cp/></chinatsu>
+      <narrative>
+        急に笑い出した私に、ちなつちゃんが怪訝そうな目を向ける。<br/>
+        私は「ううん」と首を振って、握る手の力をちょっとだけ強めてみた。<cp/>
+        ちなつちゃんが、すぐ隣にいる。<br/>
+        たぶん、今までよりもずっと近くに、ちなつちゃんがいる。<br/>
+        ドキドキと高鳴る心臓の音が届きそうなくらい近くに。<cp/>
+        ひどいよね、あかり。<br/>
+        結衣ちゃんとちなつちゃんのこと、応援しなきゃいけないのに。<br/>
+        あかりは今、すごく幸せだって、思っちゃうの。<cp/>
+      </narrative>
+      <chinatsu>「あ、晴れてきた」<cp/></chinatsu>
+      <narrative>
+        ふと立ち止まったちなつちゃんが、言った。<br/>
+        地面を薄っすら覆っていた雪も、じきに溶けてしまうだろう。<br/>
+        幸せな気持ちも全部溶けてしまったら、いっそどれだけ楽だろう。<cp/>
+      </narrative>
+      <chinatsu>「よしっ、ならあかりちゃん！」<cp/></chinatsu>
+      <akari>「へ？」<cp/></akari>
+      <chinatsu>「どうせお金もないんだし、適当に駅前のお店まわるだけまわろうよ！」<cp/></chinatsu>
+      <narrativef>
+        いつもと変わらないけどね。<br/>
+        ちなつちゃんはそう言って笑った。<br/>
+        ちなつちゃんにとっては、いつもと変わらない。それで、良かった。<br/>
+        だけど、クリスマスの今日だけでも、ちなつちゃんにとっても特別な日であってほしいと、<br/>
+        そう思ってしまう私がいることもわかっていた。<br/>
+        私から、私へのクリスマスプレゼント。<br/>
+        今だけでも、ちなつちゃんへの気持ちを、ちなつちゃんの隣で噛締めていたい。<br/>
+        なんて。<br/>
+        諦めきれなくなっちゃいそうだよ、ちなつちゃん。<cp/>
+      </narrativef>
+    </scene>
+    <scene id="ワックにて">
+      <pause time="2000"/>
+      <chinatsu>「あ、ごめんちょっとトイレ行って来る」<cp/></chinatsu>
+      <akari>「うん、いってらっしゃい」<cp/></akari>
+      <narrative>
+        お昼も過ぎて、歩きつかれた私たちは駅前のワックに戻って腰を落ち着けていた。<br/>
+        普段は人の少ない時間帯のはずなのに、クリスマスのせいか人がたくさんいて、店内は<br/>
+        暖房のせいもあり少しむっとしていた。<cp/>
+      </narrative>
+      <akari>「……」<cp/></akari>
+      <narrative>
+        私はちなつちゃんの背中が見えなくなると、ポケットから携帯を取り出した。<br/>
+        京子ちゃんから一件だけ、メールが来ていた。<cp/>
+        <text style="color: $kyouko.color; font: normal large 'うずらフォント';">『件名：クリスマスパーティー！</text><br/>
+        <text style="color: $kyouko.color; font: normal large 'うずらフォント';">本文：いま結衣の家いるんだけどあかりも来れたら来いよー！』</text><cp/>
+        ぱたん、とメールごと携帯を閉じた。<br/>
+        京子ちゃん、結衣ちゃん家で暇だって騒いでるのかなぁ、なんてぼんやり考えた。<br/>
+        きっと同じようなメールがちなつちゃんにも届いてるはずだ。<cp/>
+        ちなつちゃんのことが好きだった。<br/>
+        たぶんもう、どうしようもないくらい。<cp/>
+        それならあかりは、ちなつちゃんがメールを見て「行きたい」と言ってほしい。<br/>
+        結衣ちゃんのとこに行きたいと、ちなつちゃんがそう言えば私は「うん、行こっか」と<br/>
+        言ってちなつちゃんを結衣ちゃんのところにかえせてしまえるはずだ。<br/>
+        なのに、戻ってきたちなつちゃんはなにも言わなかった。<cp/>
+      </narrative>
+      <chinatsu>「ここ暑いね……外出る？」<cp/></chinatsu>
+      <akari>「う、うん……」<cp/></akari>
+      <narrative>
+        コートとマフラーを着込んで、外に出る。<br/>
+        火照っていた身体から冷たい空気が熱を奪っていってくれるのがわかって、<br/>
+        心地よかった。<cp/>
+      </narrative>
+      <akari>「……ちなつちゃん」<cp/></akari>
+      <chinatsu>「うん？」<cp/></chinatsu>
+      <narrative>
+        言いかけて、言葉に詰まった。<br/>
+        行って欲しくない、結衣ちゃんのところに。<br/>
+        今日初めて、はっきりと、私はそんなことを思ってしまって。<cp/>
+      </narrative>
+      <akari>「……次、どこ行く？」<cp/></akari>
+      <narrative>
+        だから私は、言えない言葉の代わりに、そう言ってしまう。<br/>
+        ちなつちゃんが「お店見てまわるの飽きちゃったよね」と苦笑した。<cp/>
+      </narrative>
+      <chinatsu>「あ、でも」<cp/></chinatsu>
+      <narrative>
+        とりあえずというように歩き出しながら、ちなつちゃんが思い出したように言った。<br/>
+        自然と繋がる手。<br/>
+        私の手を握って、ちなつちゃんが「買いたいものあるかも」と。<cp/>
+      </narrative>
+      <akari>「買いたいもの？」<cp/></akari>
+      <chinatsu>「うん、みんなにプレゼント！」<cp/></chinatsu>
+      <narrative>
+        そういえば、あかりもなにも買っていなかった。<br/>
+        小学生の頃はお小遣いなんてなかったし、プレゼントだって贈られる側だったから<br/>
+        考えもつかなかったのだ。<cp/>
+      </narrative>
+      <chinatsu>「せっかくあかりちゃんと遊ぶんだからあかりちゃんにも選ぶの手伝ってもらいたいなって」<cp/></chinatsu>
+      <narrative>
+        付き合ってくれる？とちなつちゃんが言うから、私はこくんと頷いた。<br/>
+        京子ちゃんのメールと、結衣ちゃんのことが頭を過ったけれど。<cp/>
+        あかりはひどいね。<br/>
+        自分の決心さえ、曲げそうになってしまっている。<br/>
+        ちなつちゃんと繋いだこの手を離したくなんてない。<cp/>
+      </narrative>
+      <akari>「さっき、よさそうなお店あったよね。そこ行こっかぁ」<cp/></akari>
+      <chinatsu>「うん、ありがとあかりちゃん」<cp/></chinatsu>
+      <narrative>
+        お礼なんて、言われることはなにもしていないのに。<cp/>
+        「……えへへ、どういたしまして」<cp/>
+        嘘を吐いて吐いてついて、私は重くなっていくばかりだ。<cp/>
+      </narrative>
+    </scene>
+    
+    <narrative>
+      ―――――<br/>
+      ―――――<cp/>
+    </narrative>
+    
+    <scene id="あかりの犠牲">
+      <chinatsu>「あかりちゃん、これなんてどうかな！」<cp/></chinatsu>
+      <akari>「え、どれ……ってちなつちゃん、それはこわいよ！」<cp/></akari>
+      <chinatsu>「京子先輩なら喜びそうだと思ったんだけどなあ」<cp/></chinatsu>
+      <narrative>
+        さっき一度だけ覗いた雑貨屋さん。<br/>
+        落ち着いた雰囲気のお店だなぁという第一印象とは裏腹に、ごちゃごちゃと珍しいものが<br/>
+        たくさん置かれていて楽しかった。<br/>
+        可愛いものや面白いものもいっぱいで、京子ちゃんたちと一緒に来たらもっと楽しいかな、なんて考えて。<cp/>
+      </narrative>
+      <akari>「……」<cp/></akari>
+      <narrative>
+        ふっと、視線を伏せた。<br/>
+        やわらかな木の床は、少し湿っているように見えた。<cp/>
+        <text speed="0.5">あかりは。</text><cp/>
+      </narrative>
+      <chinatsu>「あっ」<cp/></chinatsu>
+      <narrative>
+        いつのまにか奥まで行ってしまっていたちなつちゃんの声が聞こえて、はっと顔を上げた。<br/>
+        ちなつちゃんに駆け寄ると、「これ、あかりちゃんに合いそうじゃない？」と私の手に<br/>
+        何かを乗せた。<cp/>
+        <pause time="500"/>クマの、付け耳。<cp/>
+      </narrative>
+      <akari>「あかり、使わないよぉー……」<cp/></akari>
+      <chinatsu>「あかりちゃんには似合うよ！」<cp/></chinatsu>
+      <akari>「そ、それってどういう意味かな！？」<cp/></akari>
+      <narrative>
+        クマさんは大好きだけど、クマさんになりたいとは思わないよ。<br/>
+        うぅ、と肩を落としていると、ちなつちゃんが「はいっ」と私の手からクマ耳を<br/>
+        取り上げて頭につけてしまった。<cp/>
+      </narrative>
+      <chinatsu>「うん、すっごい似合ってるよあかりちゃん！」<cp/></chinatsu>
+      <narrative>
+        そう言って満足そうに笑うちなつちゃんに。<br/>
+        私は少しだけ、泣きそうになってしまった。<cp/>
+        ちなつちゃんが「さ、次はー」と私から視線を逸らしてくれてよかった。<br/>
+        クマさんの耳をとる振りをして、ごしごしと目許をこすった。<cp/>
+        <text speed="0.5">あかりは、ちなつちゃんに。</text><cp/>
+      </narrative>
+      <chinatsu>「うーん……」<cp/></chinatsu>
+      <narrative>
+        次のコーナーに移って悩むように唸っていたちなつちゃんが、ふと私を見た。<br/>
+        「あかりちゃん」と名前を呼ぶ。<br/>
+        結衣ちゃんのプレゼントかな。なんとなく、そう思った。<cp/>
+      </narrative>
+      <chinatsu>「……なにが、いいかな」<cp/></chinatsu>
+      <narrative>
+        私が隣に立って商品棚を覗き込むと、ちなつちゃんがぽそりと呟いた。<br/>
+        もうちなつちゃんの視線は私になんてない。<cp/>
+        並んでいるのは、マグカップ。<br/>
+        ちなつちゃんが本当に買いたかったのは、きっとこれなのだろう。<br/>
+        結衣ちゃんへの、プレゼント。いつになく真剣な横顔を見て、思う。<cp/>
+      </narrative>
+      <akari><text speed="0.75">「……」</text><cp/></akari>
+      <narrative>
+        私は、棚の一番奥からモノトーン調のマグカップを引っ張り出した。<cp/>
+        「これなんてどうかな」<cp/>
+        ちなつちゃんに差し出して。<cp/>
+        結衣ちゃん、こんなの好きそうだと思うなぁ。<cp/>
+        そんな言葉は、もうあかりには言えなかった。<cp/>
+        ――――― ――<cp/>
+        「ありがとうございましたー」<cp/>
+        <sound id="croud_noise" src="$paths.se_croud" operation="loop" vol="0.5"/>暖かい店内から一歩外に出ると、ちなつちゃんは「よかったあ」と<br/>
+        白い息を大きく吐いて言った。<cp/>
+      </narrative>
+      <chinatsu>「私一人じゃ絶対にすぐ決まらなかったよ」<cp/></chinatsu>
+      <akari>「えへへ……そっかぁ」<cp/></akari>
+      <narrative>
+        ちなつちゃんがほかほかしたように言って、私も笑う。<br/>
+        大事そうに抱えた袋に、ぼんやり思った。<br/>
+        やっぱりちなつちゃんは本当に結衣ちゃんのことが好きなんだなぁ、なんて。<cp/>
+        また曇りかけてきた空。<br/>
+        さっきからしきりにちなつちゃんは時間を気にしているようだった。<br/>
+        もうそろそろ、暗くなってしまう。<br/>
+        もうすぐで帰らなくちゃいけない時間。それでもまだ、時間はある。<cp/>
+        ちなつちゃんだって、京子ちゃんからのメールに気付いていないはずがない。<br/>
+        今買ったプレゼントだって、すぐに結衣ちゃんに渡したいはずだ。<br/>
+        もう、帰ろっか。<br/>
+        私がそう言えば、ちなつちゃんだって結衣ちゃんのところに行ける。<cp/>
+        なのに、声が出なかった。<cp/>
+      </narrative>
+      <chinatsu>「また雪、降ってきそうだね」<cp/></chinatsu>
+      <narrative>
+        うん、と小さく頷いた。<br/>
+        それからふと、ちなつちゃんの手の感触。<br/>
+        気が付くと、私は何かを握らされていた。<cp/>
+      </narrative>
+      <akari>「……ちなつちゃん？」<cp/></akari>
+      <chinatsu>「あかりちゃんへのプレゼント」<cp/></chinatsu>
+      <narrative>
+        びっくりして、ちなつちゃんを見た。<br/>
+        ちなつちゃんは照れたように笑っていた。<cp/>
+        開けた手からことんと出てきたのは、もちろんクマさんの付け耳でもなんでもなかった。<br/>
+        淡い赤色の花を模した髪留め。<br/>
+        「あかりちゃんは使わないかもしれないけど」とちなつちゃんは言って。<cp/>
+      </narrative>
+      <chinatsu>「その裏に書いてある言葉、気に入っちゃって」<cp/></chinatsu>
+      <narrativef style="font: normal xx-large serif;">
+        『ハナミズキ<br/>
+        ありがとうを伝える花』<cp/>
+      </narrativef>
+      <chinatsu>「あかりちゃん、いつも結衣先輩の話、聞いてくれてありがとね」<cp/></chinatsu>
+      <akari>「……」<cp/></akari>
+      <narrative>
+        ちなつちゃんの顔が、うまく見られなかった。<br/>
+        いつものように、笑うことすら、できなくて。<cp/>
+      </narrative>
+      <chinatsu>「あかりちゃんに、いつかお礼したいなって思ってたから」<cp/></chinatsu>
+      <akari>「……うん」<cp/></akari>
+      <chinatsu>「さっきね、京子先輩からメールあって」<cp/></chinatsu>
+      <narrative>
+        <sound id="croud_noise" operation="stop"/><sound src="$paths.se_heart_beat" operation="once"/>どくん<pause time="500"/>、と心臓が鳴った。<br/>
+        ちなつちゃんは、言葉を続けた。<cp/>
+      </narrative>
+      <chinatsu>「でもほんとは、その前から結衣先輩に、誘われてて」<cp/></chinatsu>
+      <akari>「へ……」<cp/></akari>
+      <chinatsu>「だけど、断っちゃった」<cp/></chinatsu>
+      <narrative>
+        きっと、あの電話の後結衣ちゃんは念のためにちなつちゃんに電話をかけたのだ。<br/>
+        でも結衣ちゃんのことだから、「あかりからだめらしいって聞いて」<br/>
+        そんな言い方をしたんだろう。<br/>
+        それでちなつちゃんも。<cp/>
+      </narrative>
+      <chinatsu>「私、まだちょっと、結衣先輩と顔を合わせるの気まずかったから」<cp/></chinatsu>
+      <akari>「……ちなつちゃん、あかり」<cp/></akari>
+      <chinatsu>「私ね、あかりちゃんに逃げちゃったの。ごめんね」<cp/></chinatsu>
+      <narrative>
+        <sound id="croud_noise" src="$paths.se_croud" operation="loop"/><sound id="bgm" src="$paths.bgm2" is_bgm="true"/>ごめんね。<cp/>
+        <pause time="250"/>ちなつちゃんのその言葉は。<br/>
+        すーっと私の中に吸い込まれて、溜息を吐くように沈んでいった。<cp/>
+        今さら、行かないでなんて。<br/>
+        言えるはずなかった。<cp/>
+      </narrative>
+      <akari>「……ちなつちゃん、結衣ちゃんのとこ、まだ間に合うんじゃないかなぁ」<cp/></akari>
+      <chinatsu>「え？」<cp/></chinatsu>
+      <akari>「今ならまだ、間に合うよ」<cp/></akari>
+      <narrative>
+        <text speed="0.5">私の気持ちも。</text><br/>
+        <text speed="0.5">まだ間に合う。</text><cp/>
+        だって、あかりは。<br/>
+        あかりは、ちなつちゃんに、幸せになってほしいから。<br/>
+        きっと、ちなつちゃんは私が大丈夫だよって、そう言うのを待っていたのだ。<cp/>
+        だったらちなつちゃんに、言ってあげなきゃ。<br/>
+        ちなつちゃんを、離さなきゃ。<br/>
+        背中を、押してあげなきゃ。<br/>
+        ちなつちゃんの背中を押してあげるのが、あかりの役目だもん。<cp/>
+      </narrative>
+      <akari>「いってらっしゃい、ちなつちゃん」<cp/></akari>
+      <narrative>
+        ちなつちゃんの身体を、とんっと前へ押し出した。<br/>
+        つんのめりそうになりながらちなつちゃんが私を振り返った。<cp/>
+      </narrative>
+      <chinatsu>「あかりちゃん……」<cp/></chinatsu>
+      <akari>「あかりはもう、帰らなきゃいけないから」<cp/></akari>
+      <chinatsu>「……そっか」<cp/></chinatsu>
+      <akari>「結衣ちゃんも、京子ちゃんだってどんなことがあってもちなつちゃんを嫌いにならないよ」<cp/></akari>
+      <narrative>
+        えへへと笑う。<br/>
+        あかりはどんなことがあってもちなつちゃんを嫌いになれないよ。<br/>
+        心の中だけで呟いて。<cp/>
+      </narrative>
+      <chinatsu>「……ありがと」<cp/></chinatsu>
+      <narrative>
+        ちなつちゃんは最後に、私にとびっきりの笑顔を見せてくれた。<br/>
+        そのまま、大事そうにプレゼントの袋を抱えたまま私に背を向ける。<cp/>
+        <sound id="croud_noise" operation="change" vol="2"/><sound id="bgm" operation="change" vol="0.5"/>残ったのは、うっすらとした、ちなつちゃんの温もり。<br/>
+        それが冷めないように、私はそっと、自分の手で自分の手を包み込んだ。<br/>
+        祈るように、包み込んだ。<cp/>
+        私にはきっと、ちなつちゃんのことを幸せにはできないから。<br/>
+        だからお願いです。<br/>
+        祈るように、私は思う。<cp/>
+        どうかちなつちゃんが幸せでありますように。<cp/>
+        もうすぐ、クリスマスも終わってしまう。<br/>
+        その前にどうか、ちなつちゃんに奇跡が起きますように。<cp/>
+        私の祈りに応えるように、曇り空から雨混じりの雪がぱらぱらと降り始めた。<sound id="croud_noise" operation="stop"/><sound id="bgm" operation="stop"/><cp/>
+      </narrative>
+    </scene>
+  </scene>
+  
+  <scene title="エピローグ">
+    <scene id="走れちなつ！">
+      <chinatsu>「……」<cp/></chinatsu>
+      <narrativef>
+        はあ、<pause time="1000"/>はあ。<sound id="bgm" src="$paths.bgm1" is_bgm="true"/><br/>
+        私は走っていた。<br/>
+        あかりちゃんに背中を押されて、結衣先輩の家へ。<br/>
+        いつのまにか雪が降り始めていて、走って温まったはずの身体をも冷ましていってしまう。<br/>
+        胸の前に抱えた結衣先輩と、それから京子先輩へのプレゼントがカチャカチャと音をたてる。<br/>
+        あかりちゃんが背中を押してくれるから、私はいつまでも結衣先輩が好きな私でいられた。<br/>
+        今は、あかりちゃんは、いない。少しだけ感じた、あかりちゃんの手の温かさも、<br/>
+        雪が冷やしていって。<br/>
+        それでも私は、あかりちゃんのためにも、走らなきゃいけなかった。<cp/>
+        <pause time="500"/>
+        結衣先輩が私のことなんか見ていないことは、最初から知っていた。<br/>
+        いつだって、結衣先輩は京子先輩だった。<br/>
+        きっと結衣先輩自身は気付いていないだろうけど、ずっと見ていた私は、結衣先輩が<br/>
+        無意識のうちに京子先輩ばかりを見ていることは、ちゃんとわかっていた。<br/>
+        <text speed="0.5" style="color: $akari.color; font: italic large serif">だけど。</text><cp/>
+        <label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『ちなつちゃんなら大丈夫だよぉ』</label>
+        <label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『結衣ちゃんだって、ちなつちゃんのこと大好きだもん』</label>
+        あかりちゃんがそう言ってくれるから、私は信じていられた。<br/>
+        結衣先輩のこと。<br/>
+        結衣先輩が好きな自分のことを。<cp/>
+        本当はもう、とっくの昔からわからなくなっていたのに。<br/>
+        結衣先輩への気持ちを、私はどうしたいのか。<br/>
+        確かに私の中にあったのは、結衣先輩を好きでいなくちゃいけないという妙な思いだけだった。<cp/>
+      </narrativef>
+      <chinatsu>「……っ」<cp/></chinatsu>
+      <narrativef>
+        雪が目に入って、少しの痛み。<br/>
+        それでも私の足は止められない。<br/>
+        京子先輩なんていつもいつも、面倒臭いし結衣先輩に迷惑ばっかりかけてるし――！<br/>
+        ついこの間の、私の言葉。<br/>
+        京子先輩に対しての、苛立ちや妬みがきっと、爆発してしまった瞬間。<br/>
+        けれど本当にあんなふうに思われているのは、私なんだと思う。<br/>
+        結衣先輩にも、京子先輩にも、たぶん、あかりちゃんにも。<cp/>
+        あかりちゃんは<pause time="500"/>でも、どんなときでも私の味方でいてくれた。<br/>
+        私がどんなに嫌な子でも、ずっとずっと傍にいて笑ってくれていて。<br/>
+        私はそんなあかりちゃんに、離れてほしくなかった。<br/>
+        ずっと一番近くに、いてほしかった。<br/>
+        あかりちゃんは結衣先輩のことを相談してくれるのが嬉しいんだぁと、<br/>
+        一度、そんなことを言ってくれたときがある。<br/>
+        あかり、なんでも協力するからね。<br/>
+        ずっとずっと、ちなつちゃんの味方だよ。<cp/>
+        だから私も。<pause time="250"/><br/>
+        結衣先輩をずっとずっと好きでいなくちゃいけないし――<pause time="500"/><cp/>
+        今日はクリスマス。<br/>
+        奇跡なんて、起こるわけもないけど。<br/>
+        あかりちゃんの「いってらっしゃい」が、私を急かした。<br/>
+        走りながら、ポケットを探る。<br/>
+        取り出した携帯を開け、感覚の無い指で結衣先輩の番号を押した。<br/>
+        もうすっかり覚えてしまっているのだ。<br/>
+        三回目の呼び出し音で、カチャリと音がした。<cp/>
+      </narrativef>
+      <yui>『はい、もしも』<cp/></yui>
+      <chinatsu>「結衣先輩……！」<cp/></chinatsu>
+      <narrativef>
+        電話に出た先輩の声を遮るように、私は早口で用件を告げる。<br/>
+        「今から結衣先輩の家、行っていいですか！」<cp/>
+      </narrativef>
+      <yui>『え、いいけど……』<cp/></yui>
+      <chinatsu>「あの……待ってて、待っててくださいっ！」<cp/></chinatsu>
+      <yui>『ちなつちゃん？』<cp/></yui>
+      <chinatsu>「すぐ、行きますから……！」<cp/></chinatsu>
+      <narrativef>
+        切らした息のままそう言って、一方的に電話を切った。<br/>
+        雨のような雪はいよいよ強くなっていた。<cp/>
+        <sound id="bgm" operation="stop"/>
+        <text speed="0.75">―――――</text><br/>
+        <text speed="0.75">―――――</text><cp/>
+      </narrativef>
+    </scene>
+    <scene id="二人の本当の想い">
+      <narrativef>
+        結衣先輩に会って、なにを言えばいいかなんて決めていない。<br/>
+        ただ、すっかりびしょびしょになってしまったプレゼントが、なぜかあかりちゃんのことを<br/>
+        思い起こさせて。<cp/>
+        好きです、結衣先輩。<br/>
+        そう言ってしまえば、きっと、結衣先輩は悲しそうな顔をして「ごめんね」<br/>
+        そう答えるだろう。<cp/>
+        一緒にいさせてください。<br/>
+        そう言えばきっと、結衣先輩も京子先輩も、にこにこと私を受け入れてくれるはずだ。<br/>
+        二人とも、<pause time="1000"/>本当は京子先輩だって、優しい人だから。<cp/>
+        けれど、どちらにしても。<br/>
+        好きですと言ってしまえば私の恋は終わってしまう。<br/>
+        きっと、あかりちゃんは私といてくれなくなるだろう。<br/>
+        一緒にいさせてください、そう言ったとしたって。<br/>
+        あかりちゃんは、悲しそうな顔をするのだ。<cp/>
+        あかりちゃんの傍にいたい。<br/>
+        あかりちゃんといれば、私は安心できた。<br/>
+        でも、だからあかりちゃんが悲しそうな顔をするのは見たくなかった。<br/>
+        だったら私も、あかりちゃんも、離れればいいのだと。<br/>
+        わかってる。<cp/>
+        大きく息を吐いて、私はようやく立ち止まった。<br/>
+        結衣先輩が私に気付いて「ちなつちゃん！」と名前を呼んでくれる。<br/>
+        その横に京子先輩もいて、手すり越しに「はやくはやく！」と。<br/>
+        濡れた髪からぽたぽたと冷たい雫が落ちていく。<cp/>
+        いつまで経っても階段を上ろうとしない私に、痺れを切らしたのか京子先輩のほうから<br/>
+        私へ走りよってきた。<cp/>
+      </narrativef>
+      <kyouko>「ちなつちゃん、どうしたの！？」<cp/></kyouko>
+      <chinatsu>「……京子先輩」<cp/></chinatsu>
+      <narrativef>
+        その後ろから、傘を持って走ってくる結衣先輩。<br/>
+        「京子、滑るぞ！」と。<cp/>
+      </narrativef>
+      <chinatsu><text speed="0.5">「……」</text><cp/></chinatsu>
+      <narrativef>
+        私は、弱虫だ。<br/>
+        肝心なところで何も言えなくなる。<cp/>
+      </narrativef>
+      <chinatsu>「クリスマスプレゼントです！京子先輩と、結衣先輩に！」<cp/></chinatsu>
+      <kyouko>「へ？ちょ、ちょっとちなつちゃん！？」<cp/></kyouko>
+      <narrativef>
+        戸惑う京子先輩に、濡れてしまったプレゼントの袋を押し付けると、私はくるりと踵を返した。<br/>
+        もう、走る元気もなかったけれど。<cp/>
+        結衣先輩には、あかりちゃんに選んでもらったマグカップ。<br/>
+        京子先輩には、私が選んだ、もう一つのおそろいのマグカップ。<cp/>
+        私ってば、なんて中途半端なんだろう。<br/>
+        結局、結衣先輩への気持ちを諦めることもあかりちゃんから離れることも、<br/>
+        できないのだ。<cp/>
+        <sound src="$paths.se_dosun" operation="once"/><effect name="RandomVibration" target="display" end_time="10" amplitude_x="10" amplitude_y="10" max_rate="3" sync="true"/>じわりと歪んだ視界で、滑った身体が前へ倒れる。<br/>
+        痛かった。<cp/>
+      </narrativef>
+      <chinatsu>「……」<cp/></chinatsu>
+      <narrativef>
+        奇跡なんて、起きるわけもない。<br/>
+        結局私はこのままで。<br/>
+        誰を傷付けているのか、何に傷付いてるのかもわからないまま。<cp/>
+        こんなとき傍にいてほしいと、頭に浮かんだのはあかりちゃんだった。<br/>
+        あかりちゃんのあったかな笑顔が見たかった。<br/>
+        立ち上がって、足を確認する。少しずつ積もっていた雪のおかげか、痛みのわりには<br/>
+        怪我は一つもない。<br/>
+        なんて悪運よ。<cp/>
+        最低……。 ――ちなつちゃん？<sound id="bgm" src="$paths.bgm1" is_bgm="true"/><br/>
+        ぼそりと呟いた私の声と、別の声が重なった。<cp/>
+        ばっと顔を上げた。<br/>
+        あかりちゃんが、いた。あまりにもぼろぼろな私に、神様が同情でもして幻でも<br/>
+        見せてくれたのかと疑ってしまったけれど、確かに、あかりちゃんだった。<cp/>
+      </narrativef>
+      <akari>「ど、どうしたの……？」<cp/></akari>
+      <chinatsu>「あかりちゃんこそ……！」<cp/></chinatsu>
+      <narrativef>
+        言いかけて、辺りを見回した。<br/>
+        自分でも気が付かないうちに、あかりちゃんの家の近くまで来てしまっていたらしい。<br/>
+        私ってばまるで、無意識に京子先輩を追いかける結衣先輩みたい<text speed="0.25">――</text><cp/>
+      </narrativef>
+      <akari>「あ、風邪、引いちゃうよ！」<cp/></akari>
+      <narrativef>
+        一瞬の間のあと、あかりちゃんははっとしたようにそう言って、鞄から何かを取り出した。<br/>
+        折り畳み傘だった。<br/>
+        「もってきといて良かったよぉ」と笑いながら、あかりちゃんは小さなその傘を私に<br/>
+        差しかけてくれた。<br/>
+        しとしとと降り続いていた雪が、途切れた。<br/>
+        その代わり、今まで全身を包んでいた冷たさが急に存在感を発してきたようだった。<cp/>
+      </narrativef>
+      <chinatsu>「ありがと……って、なんか今日はお礼言ってばっかだね、私」<cp/></chinatsu>
+      <akari>「えへへ……」<cp/></akari>
+      <chinatsu>「……あかりちゃんも濡れちゃうよ」<cp/></chinatsu>
+      <narrativef>
+        ただ笑っただけのあかりちゃんの手を、私はぐいっと引っ張った。<br/>
+        小さな傘で二人とも濡れないようになんてとても無理だろうけど。<br/>
+        「あかりはいいよぉ」と慌てるあかりちゃんに、ふるふる首を振る。<br/>
+        傘が小さくてよかった、そんなことを考える。<br/>
+        すぐ近くにあかりちゃんの存在を感じられて。<cp/>
+      </narrativef>
+      <akari>「……ちなつちゃん、結衣ちゃんたちは」<cp/></akari>
+      <narrativef>
+        ふいに、あかりちゃんが言った。<br/>
+        傘にも雪が積もり始めたのか、雪の重さで私たちを守っている傘が小さく揺れた。<cp/>
+      </narrativef>
+      <chinatsu>「……プレゼントあげて」<cp/></chinatsu>
+      <akari>「うん……」<cp/></akari>
+      <narrativef>
+        それで。<pause time="500"/><cp/>
+        その後の言葉が、続かなかった。<br/>
+        あかりちゃんはもう、なにも聞かなかった。<br/>
+        ただ、「帰らなきゃ」<br/>
+        そうあかりちゃんの声が聞こえたときには、私はあかりちゃんの背中に、縋っていた。<cp/>
+      </narrativef>
+      <akari>「……ちなつちゃ」<cp/></akari>
+      <narrative>
+        私は結衣先輩が好き。<br/>
+        あかりちゃんは。<cp/>
+      </narrative>
+      <chinatsu>「もし、私が結衣先輩に振られても」<cp/></chinatsu>
+      <akari>「……へ？」<cp/></akari>
+      <chinatsu>「振られちゃったとしてもね、あかりちゃんは」<cp/></chinatsu>
+      <narrative>
+        あかりちゃんは、私から離れない？<cp/>
+        私と一緒に、いてくれる？<cp/>
+      </narrative>
+      <akari>「……ちなつちゃんは、振られないよ」<cp/></akari>
+      <narrative>
+        あかりちゃんは言った。<br/>
+        縋りついたあかりちゃんの背中は、冷たかった。<cp/>
+      </narrative>
+      <akari>「だって、ちなつちゃんが振られるわけないもん」<cp/></akari>
+      <chinatsu>「なんで……」<cp/></chinatsu>
+      <akari>「そうじゃなきゃあかりは……！」<cp/></akari>
+      <narrative>
+        あかりちゃんがばさりと落とした傘にも、雪は容赦なく降り積もっていく。<br/>
+        「あかりは……」そう言ったきり、あかりちゃんは肩を落として何も言わなくなって。<cp/>
+      </narrative>
+      <chinatsu>「……なら、私はどうすればいいの」<cp/></chinatsu>
+      <narrative>
+        思わず、呟いていた。<br/>
+        あかりちゃんが「え？」と顔を上げたのがわかった。<cp/>
+        それなら私は、どうすればいいの。<br/>
+        どう頑張ったって、結衣先輩の気持ちは変えられない。<br/>
+        なのにあかりちゃんに大丈夫って言われるたび、私は結衣先輩が自分の想いに<br/>
+        応えてくれる気がしていた。そう思わなきゃ、やってられなかった。<cp/>
+      </narrative>
+      <chinatsu>「あかりちゃんはどうして、そこまで言うのよ！」<cp/></chinatsu>
+      <narrative>
+        理不尽な言い種だと、頭ではわかっている。<cp/>
+        最初に私が結衣先輩のことが好きなの、協力してほしいのと、そう言ったのだから。<cp/>
+        友達として当たり前なのだ。<br/>
+        私だってきっと、友達に好きな人がいたとすれば応援するし、大丈夫だと、<br/>
+        振られたりなんかしないよと励ますはずだ。<cp/>
+        だって、それはある意味私たちの中での社交辞令。<br/>
+        だとしても。<cp/>
+        私たちは近すぎるくらい近くなりすぎてしまったのだ。<cp/>
+      </narrative>
+      <akari>「……ちなつちゃん」<cp/></akari>
+      <narrative>
+        社交辞令なんて必要ないし、ちゃんと本当のことをぶつけてほしい。<br/>
+        そう思ってしまう私は、あかりちゃんにとって迷惑なのかもしれないけど。<cp/>
+        結衣先輩のことを諦めるなんて、きっと私にはまだまだ無理だ。<br/>
+        それと同じくらい、あかりちゃんから離れることも無理で。<cp/>
+        もう、ぐちゃぐちゃだ。<br/>
+        そのぐちゃぐちゃなもの全部、雪が覆い包んでくれたらいいのに。<br/>
+        でもきっと、あかりちゃんも同じくらいぐちゃぐちゃなのだとわかった。<cp/>
+      </narrative>
+      <akari>「……あかりだって、ほんとはやだよ！」<cp/></akari>
+      <chinatsu>「いやなら……」<cp/></chinatsu>
+      <akari>「やだけど！」<cp/></akari>
+      <narrative>
+        やだけど、でも。<br/>
+        あかりちゃんの震えが、背中越しに伝わってきた。<cp/>
+      </narrative>
+      <akari>「でもね、そうしなきゃ、あかりはだって……」<cp/></akari>
+      <narrative>
+        声を荒げる私たちとは正反対に、雪はただ、静かに降り続く。<br/>
+        息の白さが、おりてきた夜の暗さに消えていく。<cp/>
+        <pause time="250"/>――あかり、嘘吐きになっちゃうもん。<cp/>
+      </narrative>
+      <akari>
+        「あかり、ちなつちゃんのお友達なんだよ！ちなつちゃんと、結衣ちゃんのこと<br/>
+        応援するって……！あかり、そう言ったから！これ以上嘘なんて吐きたくない！」<cp/>
+      </akari>
+      <narrative>
+        ちなつちゃんに、嘘なんて吐きたくないよ！<cp/>
+        今まで聞いたことも無いような声で、あかりちゃんは言った。<cp/>
+      </narrative>
+      <chinatsu>「……あかりちゃん」<cp/></chinatsu>
+      <narrative>
+        あかりちゃんの言葉の意味が理解できずに、私は言葉に詰まった。<cp/>
+        力のなくなった腕を、だらんと落とす。<br/>
+        もう、手は冷たさすら感じなかった。<cp/>
+      </narrative>
+      <akari><sound id="bgm" operation="stop"/>「もう<text speed="0.25">……</text>壊れちゃいそうだよ、あかり」<cp/></akari>
+      <chinatsu>「……え」<cp/></chinatsu>
+      <akari>「<text speed="0.25">……</text>ちなつちゃんのこと、<pause time="1000"/>好きなの」<cp/></akari>
+      <narrative>
+        小さな声。<cp/>
+        だけど、この静かな時間で、聞こえないはずなんてなかった。<cp/>
+        ようやく落ち着き始めていた心臓が、また速度を上げ始める。<br/>
+        身体もなにもかも全部、寒いはずなのに。<br/>
+        頬だけ火照って熱かった。<cp/>
+      </narrative>
+      <akari>
+        「……あかり、ほんとに嘘吐きだよね。応援するって言いながら、<br/>
+        ちなつちゃんにいってらっしゃいって言いながら、あかり、ほんとは」<cp/>
+      </akari>
+      <chinatsu>「……もう、いいよ」<cp/></chinatsu>
+      <narrative>
+        <sound src="$paths.bgm2" is_bgm="true"/>
+        それ以上、<pause time="500"/>なにも言わないで。<cp/>
+        お願いだから、<pause time="500"/>なにも言わないで。<cp/>
+        いよいよ、わからなくなってしまった。<br/>
+        積もる雪が傘を隠すように、私の答えまで隠されてしまったみたいだ。<cp/>
+        結衣先輩は京子先輩が好き。<cp/>
+        私は結衣先輩が好き。<cp/>
+        ――<text speed="0.25">あかりちゃんは私が好き。</text><cp/>
+        ああ、ただわかってるのは。<br/>
+        私はそれでもまだ結衣先輩のことが好きっていうことと。<br/>
+        それから、やっぱりあかりちゃんとも離れたくないっていうことで。<cp/>
+        そしてもう一つ、私たちはたぶん、ひどいすれ違いをしていたらしい。<br/>
+        そう思うと少しだけ、笑えてしまう。<br/>
+        笑えてしまうのに、色々な気持ちが混ざって泣きたくなってしまう。<cp/>
+      </narrative>
+      <akari>「……ちなつちゃん？」<cp/></akari>
+      <narrative>
+        びくんとあかりちゃんが震えて、そっと、私を振り向いた。<br/>
+        悴んだ手であかりちゃんの手を引く。<cp/>
+        こうして手を掴んでいなければ、あかりちゃんは私から離れてしまうなんて、もうそんなことは<br/>
+        思わないけれど。今はあかりちゃんの冷たい手を、握っていたかった。<cp/>
+      </narrative>
+      <chinatsu>「……あかりちゃんが嘘吐きなら、私はもっとひどいよ」<cp/></chinatsu>
+      <akari>「……そんなわけ、ないよ」<cp/></akari>
+      <chinatsu>「……そんなわけあるの！」<cp/></chinatsu>
+      <narrativef>
+        だって、私は自分のことしか考えていなかった。<br/>
+        結衣先輩のことも、あかりちゃんのことも、誰の気持ちだって考えていなかった。<br/>
+        京子先輩の件で、よくわかったはずなのに。<br/>
+        結局私は、なにも見えていなかったのだ。<cp/>
+      </narrativef>
+      <chinatsu>「だって私、あかりちゃんをいっぱい、傷つけちゃったよね」<cp/></chinatsu>
+      <narrative>
+        知らない間に、私はあかりちゃんを傷つけてしまっていたはずだ。<br/>
+        あかりちゃんは首を横に振るけれど。<cp/>
+      </narrative>
+      <chinatsu>「これからだって、あかりちゃんを傷つけちゃうと思う」<cp/></chinatsu>
+      <narrativef>
+        これからも、知らない間に、あかりちゃんを傷つけてしまうに決まっている。<br/>
+        私はひどいから。<br/>
+        それにあかりちゃんだって、もう私と一緒にいたくなんてないかもしれない。<br/>
+        あかりちゃんの好きだっていう気持ちを、私が知ってしまったから。<br/>
+        それでも。<cp/>
+      </narrativef>
+      <chinatsu>「でもね、これからもあかりちゃんと離れたくないって思っちゃうの」<cp/></chinatsu>
+      <akari>「……ちなつちゃんは」<cp/></akari>
+      <narrative>
+        握った手と手に、お互いの熱で次第に温もりが戻ってくる。<cp/>
+        ちなつちゃんは、優しいね。<br/>
+        あかりちゃんがぽつりと言った。<cp/>
+      </narrative>
+      <akari>「……ひどいね」<cp/></akari>
+      <chinatsu>「だから、ひどいって言ったもん」<cp/></chinatsu>
+      <narrative>
+        私はあかりちゃんと一緒にいたい。<br/>
+        まだ結衣先輩のことも忘れられないのに。<br/>
+        あかりちゃんを、利用してしまうかもしれないのに。<cp/>
+      </narrative>
+      <akari>「……これ以上一緒にいちゃったら、もう、あかり、応援できなくなっちゃうよ」<cp/></akari>
+      <narrative>
+        それなのに。<cp/>
+        こうして手を握り返してくれるあかりちゃんこそ、優しすぎるよ。<cp/>
+      </narrative>
+      <narrativef>
+        雨混じりだった雪は、今はもうすっかりやわらかな雪に変わっていた。<br/>
+        私は「それでいいよ」と言って。<br/>
+        あかりちゃんが「そっか」と。<br/>
+        寒さも今は、心地よかった。<cp/>
+        結局また風邪引いちゃいそうだね。<br/>
+        そう言うと、あかりちゃんも「ほんとだね」と笑う。<br/>
+        私はあかりちゃんから離れて傘を拾うと、畳んだ。<br/>
+        「帰ろっか」<br/>
+        そのまま、今度はきちんと最初からあかりちゃんの手を握って歩き出す。<cp/>
+        いつもの距離。<br/>
+        けれどきっと、以前よりももっともっと近い。<br/>
+        もう後戻りはできないし、私たちはだから進むしかない。<br/>
+        嘘吐きでも、どれだけひどくたって。<br/>
+        聖夜でなら、許される気がしたから。<cp/>
+      </narrativef>
+    </scene>
+  </scene>
+  
+  <scene title="エンドロール" shows_title="false">
+    <sound id="bgm" src="$paths.ed" is_bgm="true"/>
+    <effect name="VisibilityChange" target="msg_window" is_visible="false"/>
+    
+    <label id="credit1" x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold x-large serif;">
+      あかり「君と好きな人が百年続きますように」
+    </label>
+    <pause time="3000"/>
+    <effect name="Move" id="credit_roll1" target="$labels.credit1" vx="0" vy="2" remove_when_out="true"/>
+    <pause time="10000"/>
+    
+    <label id="credit2" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
+      原作：ゆるゆりSS　あかり「君と好きな人が百年続きますように」&lt;br&gt;
+      &lt;a href=&quot;http://blog.livedoor.jp/kakusika767/archives/1404946.html&quot;&gt;こちらより転載&lt;/a&gt;
+    </label>
+    <pause time="3000"/>
+    <effect name="Move" id="credit_roll2" target="$labels.credit2" vx="0" vy="2" remove_when_out="true"/>
+    <pause time="10000"/>
+    
+    <label id="credit3" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
+      演出：HAZAMA
+    </label>
+    <pause time="3000"/>
+    <effect name="Move" id="credit_roll3" target="$labels.credit3" vx="0" vy="2" remove_when_out="true"/>
+    <pause time="10000"/>
+    
+    <label id="credit4" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
+      音楽：&lt;a href=&quot;http://www.tam-music.com/&quot;&gt;TAM Music Factory&lt;/a&gt;さま&lt;br&gt;
+      HAZAMA(一部)
+    </label>
+    <pause time="3000"/>
+    <effect name="Move" id="credit_roll4" target="$labels.credit4" vx="0" vy="2" remove_when_out="true"/>
+    <pause time="10000"/>
+    
+    <label id="credit5" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
+      効果音：&lt;a href=&quot;http://www.tam-music.com/&quot;&gt;TAM Music Factory&lt;/a&gt;さま&lt;br&gt;
+      &lt;a href=&quot;http://wwl.s-t-t.com/&quot;&gt;WEB WAVE LIB&lt;/a&gt;さま&lt;br&gt;
+      &lt;a href=&quot;http://sfx-g.net/index.html&quot;&gt;効果音g&lt;/a&gt;さま&lt;br&gt;
+      HAZAMA
+    </label>
+    <pause time="3000"/>
+    <effect name="Move" id="credit_roll5" target="$labels.credit5" vx="0" vy="2" remove_when_out="true"/>
+    <pause time="10000"/>
+    
+    <label id="credit6" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
+      立ち絵：&lt;a href=&quot;http://yuruyuri.com/blog/archives/886&quot;&gt;ゆるゆり公式配布の&lt;/a&gt;&lt;a href=&quot;http://yuruyuri.com/blog/archives/1380&quot;&gt;ツイッター用アイコン集&lt;/a&gt;
+    </label>
+    <pause time="3000"/>
+    <effect name="Move" id="credit_roll6" target="$labels.credit6" vx="0" vy="2" remove_when_out="true"/>
+    <pause time="10000"/>
+    
+    <label id="credit7" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
+      Produced by &lt;a href=&quot;http://funprogramming.ojaru.jp&quot;&gt;AGE(AdventureGameEngine)&lt;/a&gt;&lt;br&gt;
+                copyright : HAZAMA
+    </label>
+    <pause time="3000"/>
+    <effect name="Move" id="credit_roll7" target="$labels.credit7" vx="0" vy="2" remove_when_out="true"/>
+    <pause time="10000"/>
+    
+    <label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large serif;" end_time="300" sync="true">終わり</label>
+    <sound id="bgm" operation="stop"/>
+    <jump to="title:main_menu"/>
+  </scene>
+  
+  <scene title="menu" shows_title="false">
+    <menu initial_state="Menu">
+      <item x="$display.width - 200" y="100" action="openSave" to="MenuSave">セーブ</item>
+      <item x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</item>
+      <item x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</item>
+      <item x="$display.width - 200" y="250" action="returnToMenu">メニューへ戻る</item>
+    </menu>
+  </scene>
 </Scinario>

@@ -17,7 +17,7 @@
 		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
 		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント', serif;"/>
 		<style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
-		<style name="choices" x="centered" width="adjust" style="border: inset 10px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント', serif;"/>
+		<style name="choice" x="centered" width="adjust" style="border: inset 10px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント', serif;"/>
 	</header>
 	
 	<scene title="main_menu" shows_title="false">
@@ -42,11 +42,11 @@
 			してくれるよね？<cp/>
 			<image id="snowman" operation="remove"/>
 		</snowman>
-		<choices>
+		<choice>
 			<a to="title:Ending1">ヤダ</a>
 			<b to="title:Prologue, ids:refused1">え～</b>
 			<c to="title:Prologue, ids:ok">しょうがないな～</c>
-		</choices>
+		</choice>
 		
 		<scene id="refused1">
 			<snowman>
@@ -55,11 +55,11 @@
 				キミの欲しい物を何でもあげるよ！<cp/>
 				<image id="snowman" operation="remove"/>
 			</snowman>
-			<choices>
+			<choice>
 				<a to="title:Prologue, ids:IWantMoney">金だよ、金！</a>
 				<b to="title:Prologue, ids:IWantLove">そうだな・・・愛、がほしいかな・・・</b>
 				<c to="title:Prologue, ids:IWantNothing">なにもいらないよ</c>
-			</choices>
+			</choice>
 		</scene>
 		
 		<scene id="IWantMoney">
@@ -73,7 +73,7 @@
 				絶対だよ？約束だからね？<cp/>
 			</snowman>
 			<自分>わかったから早くよこせよ！</自分>
-			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<var expr="$rand.int % 100 * 100"/>Gを手に入れた！</narrative>
+			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<var expr="randInt(10000)"/>Gを手に入れた！</narrative>
 			<自分>
 				（ハッハッハ、ちょろいなこいつ。<br/>
 				無くさないようにポケットに入れておこう）<var expr="$snowman_fondness : $snowman_fondness - 5"/><cp/>
@@ -107,12 +107,12 @@
 			</snowman>
 			<自分>そういわれても何も思い浮かばねえしな～。</自分>
 			<snowman>じゃあボクが何か良さそうなものを挙げるからその中から選んでよ。</snowman>
-			<choices>
+			<choice>
 				<a to="title: Prologue, ids: IWantMoney">お金</a>
 				<b to="title: Prologue, ids: IWantLove">愛情</b>
 				<c to="title: Prologue, ids: 食べ物">食べ物</c>
 				<d to="title: Ending1">選べないから全部</d>
-			</choices>
+			</choice>
 		</scene>
 		
 		<scene id="食べ物">
@@ -207,11 +207,11 @@
 			ん？分かれ道だ。どっちへ行こうか。<cp/>
 		</自分>
 		<scene id="AtCrossRoads">
-			<choices>
+			<choice>
 				<a to="title:OutsideOfTheCastle, ids:ToLeft">左の道へ</a>
 				<b to="title:OutsideOfTheCastle, ids:ToCenter">真ん中の道へ</b>
 				<c to="title:OutsideOfTheCastle, ids:ToRight">右の道へ</c>
-			</choices>
+			</choice>
 		</scene>
 		
 		<scene id="ToLeft">
@@ -234,24 +234,24 @@
 			</narrative>
 			<bear>がおー<cp/></bear>
 			<自分>うっわ、熊だ！</自分>
-			<narrative>野生の熊が襲いかかってきた！<var expr="$has_fight_with_bear : true"/></narrative>
+			<narrative>野生の熊が襲いかかってきた！<var expr="$flags.has_fight_with_bear : true"/></narrative>
 			<scene id="FightWithBear">
 				<narrative>あなたはどうしますか？</narrative>
-				<choices>
+				<choice>
 					<a to="title:OutsideOfTheCastle, ids:ToLeft, Attack">戦う</a>
 					<b to="title:OutsideOfTheCastle, ids:ToLeft, Defence">防御する</b>
 					<c enable_if="$main_HP &lt;= 50 or $bear_HP &lt;= 5" to="title:OutsideOfTheCastle, ids:ToLeft, Run">逃げる</c>
-				</choices>
+				</choice>
 			</scene>
 			
 			<scene id="Attack">
 				<narrative>
 					あなたは素手で熊に襲いかかった！<br/>
-					熊に<var expr="$bear_HP : $bear_HP - $rand.int % 100; $rand.int % 100"/>のダメージ！<cp/>
+					熊に<var expr="$rand : randInt(100); $bear_HP : $bear_HP - $rand;  $rand"/>のダメージ！<cp/>
 					<log>熊の体力:<var expr="$bear_HP"/></log>
 					<jump enable_if="$bear_HP &lt; 0" to="title:OutsideOfTheCastle, ids:ToLeft, Win"/>
 					熊の反撃！<br/>
-					あなたは<var expr="$main_HP : $main_HP - $rand.int % 10; $rand.int % 10"/>のダメージを受けた！<cp/>
+					あなたは<var expr="$rand : randInt(10); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
 				</narrative>
 				<scene id="lose" enable_if="$main_HP &lt; 0">
 					<sound id="BGM" operation="stop"/>
@@ -268,7 +268,7 @@
 				<自分>（ここは防御だ。次のターンの攻撃にかけよう）</自分>
 				<narrative>
 					熊の攻撃！<br/>
-					あなたは<var expr="$main_HP : $main_HP - $rand.int % 2; $rand.int % 2"/>のダメージを受けた！<cp/>
+					あなたは<var expr="$rand : randInt(2); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
 					<log>自分の体力:<var expr="$main_HP"/></log>
 					<scene id="lose" enable_if="$main_HP &lt; 0">
 						<sound id="BGM" operation="stop"/>
@@ -281,13 +281,13 @@
 			
 			<scene id="Run">
 				<自分>（くっ・・・もうだめだ。逃げよう！）</自分>
-				<jump enable_if="$rand.double &gt; 0.3" to="title:OutsideOfTheCastle, ids:ToLeft, RunAway!"/>
+				<jump enable_if="rand() &gt; 0.3" to="title:OutsideOfTheCastle, ids:ToLeft, RunAway!"/>
 				<narrative>逃げ切れなかった。</narrative>
 				<自分>くそっ・・こいつ思った以上に素早い・・・！</自分>
 				<bear>がおーーーーー！</bear>
 				<narrative>
 					熊の攻撃！<br/>
-					あなたは<var expr="$main_HP : $main_HP - $rand.int; $main_HP"/>のダメージを受けた！<cp/>
+					あなたは<var expr="$rand : randInt(100); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
 					<jump enable_if="$main_HP &lt; 0" to="title:DeadEnd"/>
 				</narrative>
 				<自分>くそっ、まともに食らっちまったぜ・・・</自分>
@@ -343,20 +343,20 @@
 			<narrative>ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/></narrative>
 			<自分>やばいやばいやばいって！こんな時にあいつは何してんだよ、くそ・・！</自分>
 			<narrative>
-				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/><br/>
 				<pause time="1000"/>
 				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
-				ドカーン<sound src="$paths.se_explo_b" operation="once"/>
+				ドカーン<sound src="$paths.se_explo_b" operation="once"/><cp/>
+				<pause time="1000"/>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/><br/>
 				<pause time="1000"/>
 				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
-				<pause time="1000"/>
-				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
-				ドカーン<sound src="$paths.se_explo_b" operation="once"/>
-				<text speed="0.25">…………</text>
+				ドカーン<sound src="$paths.se_explo_b" operation="once"/><cp/>
+				<text speed="0.25">…………</text><cp/>
 				ドーン<sound src="$paths.se_explo_s" operation="once"/>
 			</narrative>
 			<自分>ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</自分>
-			<snowman>遅れちゃってごめん！他の用事が立て込んじゃっててなかなかこっちに来れなかったんだよ</snowman>
+			<snowman>遅れちゃってごめん！他の用事が立て込んじゃっててなかなかこっちに来れなかったんだよ。</snowman>
 			<自分>ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</自分>
 			<snowman>……大丈夫？</snowman>
 			<自分>ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</自分>
@@ -375,7 +375,7 @@
 				そんなことをぼんやりとした頭で考えている自分に気づいて苦笑してしまった。<br/>
 				なんだかんだ言って、この状況を楽しんでいる自分がいるのだ。<br/>
 				いや、この訳のわからん世界でやけになってこの状況を楽しもうとしているだけかもしれないが・・<cp/>
-				と、突然左手の城壁が途切れ小さな閂が備わった門が現れた。<br/>
+				と、突然左手の城壁が途切れ小さな閂が備わった門が現れた。<cp/>
 			</narrative>
 			<自分>お、これは俺の時代が来た予感</自分>
 			<narrative>

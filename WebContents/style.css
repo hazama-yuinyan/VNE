@@ -4,24 +4,4 @@
 
 body{
 	background: #001210;
-	margin: 40px auto 30px auto;
-	font-size: 13px;
-	width: 1280px
-}
-
-.header{
-	background: #ffffff;
-	width: 70%;
-	text-align: center;
-}
-
-.ta{
-	background: #0024ff;
-	text-align: center;
-}
-
-.contents{
-	width : 70%;
-	float: left;
-	background: #ffffff;
 }

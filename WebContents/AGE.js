@@ -42,6 +42,10 @@
 
 enchant();
 
+function randInt(max){
+    return Math.floor(Math.random() * max);
+}
+
 /**
  * sourceのプロパティーの内destにないもののみをコピーする
  * @param dest コピー先のオブジェクト
@@ -237,18 +241,18 @@ var XmlManager = enchant.Class.create(Manager, {
 
 		var http_obj = new XMLHttpRequest();
 		var contents = [], headers = [], jump_table = {};
-		var variable_store = new VarStore(), now = new Date(), expr_evaluator = new ExpressoEvaluator(variable_store);
+		var variable_store = new VarStore(), now = new Date(), expresso = new ExpressoMin(variable_store);
 		variable_store.addVar("time", {year : now.getFullYear(), month : now.getMonth() + 1, date : now.getDate(),	//predefined変数を追加しておく
 			day : now.getDay(), hours : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds(), millis : now.getTime()}, true);
 		variable_store.addVar("now", {year : now.getFullYear(), month : now.getMonth() + 1, date : now.getDate(),
 			day : now.getDay(), hours : now.getHours(), mins : now.getMinutes(), secs : now.getSeconds(), millis : now.getTime()}, true);
 		variable_store.addVar("display", {width : game.width, height : game.height}, true);
-		variable_store.addVar("rand", {double : 0.0, int : 0}, true);
 		variable_store.addVar("cur_frame", 0, true);
 		this.next_updating_time = now.getTime() + 1000;
 
 		http_obj.onload = function(){
 			var text = http_obj.responseText.replace(/[\t\n\r]+/g, ""), splited = {};
+            
 			var squeezeValues = function(elem){		//この要素のアトリビュートをすべて絞り出す
 				var obj = {};
 				for(var attrs = elem.attributes, i = 0; i < attrs.length; ++i){
@@ -267,14 +271,14 @@ var XmlManager = enchant.Class.create(Manager, {
 				}
 				if(type != "header" && (elem.childElementCount !== 0 || elem.textContent.length)){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
-					if(elem.tagName != "scene"){
+					if(elem.tagName != "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
 						var searching_text = splited[elem.tagName].texts[splited[elem.tagName].next_index];
 						content.forEach(function(tag){
 							var result = searching_text.match(/(<\/?)([^\s>\/]+)/), result2 = searching_text.match(/>/);
 							if(result !== null && result2 !== null && result[2] == tag.type){
 								searching_text = searching_text.slice(result2.index + 1);
 							}else{
-								throw new Error(["Currently searching for \"", tag.type, "\" but there isn't such a tag."]);
+								throw new Error(["Expected \"", tag.type, "\" but there isn't such a tag."]);
 							}
 
 							tag['pos'] = result.index;
@@ -282,8 +286,8 @@ var XmlManager = enchant.Class.create(Manager, {
 							if(end_tag !== null){searching_text = searching_text.slice(end_tag.index + tag_name.length);}
 						});
 						var remaining_text = searching_text.split(["</", elem.tagName, ">"].join(""))[0];
-						if(elem.tagName != "label" && elem.tagName != "log" && elem.tagName != "text" && 
-							remaining_text.length){		//終了タグの直前にcpが存在しなければ補完する
+						if(elem.tagName.search(/label|log|text|menu|choices/) == -1 && (remaining_text.length ||
+                            content[content.length - 1].type != "cp")){		//終了タグの直前にcpが存在しなければ補完する
 							content.push({type : "cp", pos : remaining_text.length, parent : child_obj});
 						}
 					}
@@ -347,7 +351,8 @@ var XmlManager = enchant.Class.create(Manager, {
 					var exprs = header.text.split(/\s*;\s*/);
 					exprs.forEach(function(expr){
 						var tokens = expr.split(/\s*:\s*/);
-						variable_store.addVar([(header.type == "flags") ? "flags." : "", tokens[0]].join(""), tokens[1], true);
+						variable_store.addVar([(header.type == "flags") ? "flags." : "", tokens[0]].join(""),
+                            (tokens[1].search(/^\d*.?\d*$/) != -1) ? parseFloat(tokens[1]) : tokens[1], true);
 					});
 					break;
 
@@ -408,7 +413,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				return true;
 			});
 
-			if(!header_obj){throw new Error(["A header that is the type of ", type_name, " and named ", name, " is missing!"].join(""));}
+			if(!header_obj){throw new Error("A header that is the type of " + type_name + " and named " + name + " is missing!");}
 			return header_obj;
 		};
 
@@ -425,9 +430,14 @@ var XmlManager = enchant.Class.create(Manager, {
 		};
 
 		this.interpretExpression = function(expr){
-			var result = expr_evaluator.eval(expr);
-			if(result == null){throw new Error(["The expression \"", expr, "\" is invalid!"].join(""));}
-			return result;
+			var result = expresso.evaluate(expr);
+			if(!result){
+                if(game._debug){
+                    console.log(expresso.stringifyErrors());
+                }
+                throw new Error(["The expression \"", expr, "\" is invalid!"].join(""));
+    		}
+			return result.value;
 		};
 
 		this.setCurrentTimeToVarStore = function(){
@@ -447,7 +457,7 @@ var XmlManager = enchant.Class.create(Manager, {
 			for(; scene.type != "scene"; scene = scene.parent) ;
 			var ids = [];
 			for(; !scene.title; scene = scene.parent){if(scene.id){ids.push(scene.id);}}
-			var save_data = {scene_str : ["title:", scene.title.replace(/ /g, "\\s"), ",ids:", ids].join("")};
+			var save_data = {scene_str : ["title:", scene.title.replace(/ /g, "\\s"), ",ids:", ids.reverse()].join("")};
 			return save_data;
 		};
 
@@ -902,7 +912,7 @@ var TagManager = enchant.Class.create(Manager, {
 					this.manager.interpreters['br'].addLineText(result.toString());
 				}else if(game._debug && result == "successful assignment"){
 					var var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
-					console.log(["$", var_name, " = ", this.xml_manager.getVarStore().getVar(var_name)].join(""));
+					console.log('$' + var_name + " = " + this.xml_manager.getVarStore().getVar(var_name));
 				}
 
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
@@ -1155,6 +1165,9 @@ var TagManager = enchant.Class.create(Manager, {
 				}else if(tag_obj.operation == "change"){
 					this.image_manager.change(tag_obj.id, tag_obj);
 				}else{
+                    if(!tag_obj.target && this.manager.isCharacterTag(tag_obj.parent)){ //キャラ名タグの内部にあってtarget属性が明示されていなければ、自動補完する
+                        tag_obj['target'] = tag_obj.parent.type;
+                    }
 					var new_img = this.image_manager.add(tag_obj, parseInt(tag_obj.end_time));
 					if(tag_obj.effect){this.manager.interpreters['effect'].createEffect(tag_obj, new_img);}
 					if(tag_obj.sync){this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));}
@@ -1291,7 +1304,7 @@ var TagManager = enchant.Class.create(Manager, {
 		var title_scene_interpreter = new TitleSceneInterpreter(this);
 		this.interpreters = {
 			title : title_scene_interpreter, br : br_cp_interpreter, cp : br_cp_interpreter, pause : new PauseInterpreter(this), text : new TextInterpreter(this),
-			"var" : new VarInterpreter(this), choices : new ChoiceInterpreter(this), label : new LabelInterpreter(this), image : new ImageInterpreter(this), sound : new SoundInterpreter(this),
+			"var" : new VarInterpreter(this), choice : new ChoiceInterpreter(this), label : new LabelInterpreter(this), image : new ImageInterpreter(this), sound : new SoundInterpreter(this),
 			effect : new EffectInterpreter(this), jump : new JumpInterpreter(this), log : new LogInterpreter(this), menu : new MenuInterpreter(this), scene : title_scene_interpreter,
 			minigame : new MinigameInterpreter(this)
 		};
@@ -1356,15 +1369,17 @@ var TagManager = enchant.Class.create(Manager, {
 		if(index != 0){
 			save_data = saves[0];
 		}else{
-			var scene = this.next_targeted_tag;
-			for(; scene.type != "scene"; scene = scene.parent) ;
+			var scene = this.next_targeted_tag.parent;
+			for(; scene.parent && scene.type != "scene"; scene = scene.parent) ;
 			var array = scene.children;
-			if(this.next_targeted_tag != "scene" && this.next_targeted_tag != "title" && this.isInterpretableTag(this.next_targeted_tag)){
-				var child_array = this.next_targeted_tag.parent.children;
-				save_data['parent_index'] = array.indexOf(this.next_targeted_tag.parent);
-				save_data['child_index'] = child_array.indexOf(this.next_targeted_tag);
-			}else{
-				save_data['parent_index'] = array.indexOf(this.next_targeted_tag);
+			if(this.next_targeted_tag.type.search(/scene|title/) == -1){
+                if(this.isInterpretableTag(this.next_targeted_tag)){
+    				var child_array = this.next_targeted_tag.parent.children;
+    				save_data['parent_index'] = array.indexOf(this.next_targeted_tag.parent);
+    				save_data['child_index'] = child_array.indexOf(this.next_targeted_tag);
+			    }else{
+			    	save_data['parent_index'] = array.indexOf(this.next_targeted_tag);
+			    }
 			}
 		}
 		save_data['saved_time'] = new Date().toLocaleString();
@@ -1384,7 +1399,7 @@ var TagManager = enchant.Class.create(Manager, {
 		var data = JSON.parse(localStorage.getItem("save"))[index];
 		var scene = this.xml_manager.load(data);
     	var array = scene.children;
-		this.setNextTag(array[data.parent_index]);
+		this.setNextTag((data.parent_index !== undefined) ? array[data.parent_index] : scene);
         return data;
 	},
 
@@ -1440,9 +1455,6 @@ var TagManager = enchant.Class.create(Manager, {
 
 			this.setNextTag(this.getNextTarget(next_tag));
 		}else{
-			this.xml_manager.getVarStore().addVar("rand.double", mersenne.next(), true);		//variable_store内の乱数変数を更新
-			this.xml_manager.getVarStore().addVar("rand.int", mersenne.nextInt(0, 0xffff), true);
-
 			if(next_tag.pos && this.cur_cursor_pos != next_tag.pos){
 				this.msg_manager.pushText(this.next_text.substring(this.cur_cursor_pos, this.cur_cursor_pos + 1));
 				++this.cur_cursor_pos;
@@ -2417,7 +2429,7 @@ var TimeIndependentVibrationEffect = enchant.Class.create(Effect, {
 	},
 
 	update : function(){
-		var diff_x = mersenne.nextInt(this.max_rate), diff_y = mersenne.nextInt(this.max_rate);
+		var diff_x = randInt(this.max_rate), diff_y = randInt(this.max_rate);
 		this.target.x += ((this.target.x >= this.average_val.x) ? -diff_x : diff_x);
 		this.target.y += ((this.target.y >= this.average_val.y) ? -diff_y : diff_y);
 	},
@@ -2502,8 +2514,6 @@ var MoveEffect = enchant.Class.create(Effect, {
 var Display = enchant.Class.create(enchant.Scene, {
 	initialize : function(xml_paths){
 		enchant.Scene.call(this);
-
-		mersenne = new MersenneTwister();		//乱数生成器の初期化
 
 		var system = new SystemManager(xml_paths);
 		this.addChild(system);

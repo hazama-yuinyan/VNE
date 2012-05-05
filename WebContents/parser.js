@@ -31,7 +31,7 @@ if(!Object.prototype.isString){
 
 if(!Object.prototype.isArray){
 	Object.prototype.isArray = function(obj){
-		return obj instanceof Array;
+		return Object.prototype.toString.call(obj) == "[object Array]";
 	};
 }
 
@@ -118,22 +118,24 @@ Parse.mobj = function(values, group) {
 Parse.Parser = enchant.Class.create({
 	initialize : function(){
 		this._grammers = $H();
+        this.errors = [];
 	},
 	
     Seq: function() {
+        var parser = this;
         return {
             type: "Seq",
             children: $A(arguments),
-            parse:function(tokens) {
-                var values = [];
-                var group = $H();
-                var r;
-                for(var i=0;i < this.children.length; ++i) {
+            parse: function(tokens) {
+                var values = [], group = $H(), r;
+                
+                for(var i = 0;i < this.children.length; ++i) {
                     if(r = this.children[i].parse(tokens)) {
                         tokens = r.rests;
                         values.push(r.value);
                         group.update(r.group);
                     } else {
+                        parser.errors.push({cause : this.type, msg : "Unexpected syntax. Expected : " + this.children[i].type});
                         return null;
                     }
                 }
@@ -157,11 +159,13 @@ Parse.Parser = enchant.Class.create({
                         group: group,
                     };
                 }
+                this.parser.errors.push({cause : this.type, msg : "Unexpected token. Expected : " + this.tokentype});
                 return null;
             }
         };
     },
     Repeat_: function(child, minimum, maximum) {
+        //var parser = this;
         return {
             type: "Repeat",
             child: child,
@@ -170,7 +174,7 @@ Parse.Parser = enchant.Class.create({
             parse: function(tokens) {
                 var values = [];
                 var group = $H();
-                for(var i=0;this.maximum == null || i < this.maximum;++i){
+                for(var i = 0; this.maximum == null || i < this.maximum; ++i){
                     var r = this.child.parse(tokens);
                     if(!r){
                         break;
@@ -180,7 +184,7 @@ Parse.Parser = enchant.Class.create({
                     group.update(r.group);
                 }
                 if(this.minimum == null || this.minimum <= i) {
-                    var value =Parse.mobj(values, group);
+                    var value = Parse.mobj(values, group);
                     return {
                         rests:tokens,
                         value:value,
@@ -202,17 +206,19 @@ Parse.Parser = enchant.Class.create({
         }
         return this.Repeat_(child, 0);
     },
-    Any: function(a, b) {
+    Any: function() {
+        var parser = this;
         return {
             type: "Any",
             children: $A(arguments),
             parse: function(tokens) {
-                for(var i = 0;i<this.children.length;++i) {
+                for(var i = 0; i < this.children.length; ++i) {
                     var r = this.children[i].parse(tokens);
                     if(r) {
                         return r;
                     }
                 }
+                parser.errors.push({cause : this.type, msg : "None of the syntaxes found."});
                 return null;
             },
         };
@@ -235,12 +241,14 @@ Parse.Parser = enchant.Class.create({
         };
     },
     End: function() {
+        var parser = this;
         return {
             type: "End",
             parse: function(tokens){
                if(!tokens.length) {
                    return {rests:[], value:null, group:$H()};
                } else {
+                   parser.errors.push({cause : this.type, msg : "Expected EOF, but I'm still in middle of the inputs!"});
                    return null;
                }
             }
@@ -259,6 +267,7 @@ Parse.Parser = enchant.Class.create({
             parse: function(tokens){
                 var r = this.child.parse(tokens);
                 if(r) {
+                    this.parser.errors.splice(0);
                     var value;
                     if(this.fn) {
                         var m = Object.clone(r.value);
@@ -271,7 +280,7 @@ Parse.Parser = enchant.Class.create({
                     group.set(this.name, value);
                     return {
                         rests: r.rests,
-                        value:value,
+                        value: value,
                         group: group,
                     };
                 } else {
@@ -353,4 +362,3 @@ Parse.Parser = enchant.Class.create({
         return this._grammers.get(entryPoint || this._entry).parse(tokens);
     },
 });
-

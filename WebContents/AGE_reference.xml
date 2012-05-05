@@ -17,7 +17,7 @@
 		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $grey; font: normal large 'うずらフォント', sans-serif;">normal : 0</profile>
 		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント', serif;"/>
 		<style name="sub-title" x="100" y="100" width="adjust" style="background-color: transparent; font: bold x-large 'うずらフォント';"/>
-		<style name="choices" x="centered" width="adjust" style="border: inset 10px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント', serif;"/>
+		<style name="choice" x="centered" width="adjust" style="border: inset 10px $black; border-radius: 10px; background-color: $white; font: bold x-large 'うずらフォント', serif;"/>
 	</header>
 	
 	<scene title="main_menu" shows_title="false">
