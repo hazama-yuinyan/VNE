@@ -269,7 +269,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(elem.tagName != "scene" && splited[elem.tagName] === undefined){
 					splited[elem.tagName] = {texts : text.split(new RegExp("<"+elem.tagName+"(?: [^>]+)?>")), next_index : 1};
 				}
-				if(type != "header" && (elem.childElementCount !== 0 || elem.textContent.length)){
+				if(elem.childElementCount !== 0 || elem.textContent.length){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
 					if(elem.tagName != "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
 						var searching_text = splited[elem.tagName].texts[splited[elem.tagName].next_index];
@@ -286,7 +286,7 @@ var XmlManager = enchant.Class.create(Manager, {
 							if(end_tag !== null){searching_text = searching_text.slice(end_tag.index + tag_name.length);}
 						});
 						var remaining_text = searching_text.split(["</", elem.tagName, ">"].join(""))[0];
-						if(elem.tagName.search(/label|log|text|menu|choices/) == -1 && (remaining_text.length ||
+						if(type != "header" && elem.tagName.search(/label|log|text|menu|choice/) == -1 && (remaining_text.length ||
                             content[content.length - 1].type != "cp")){		//終了タグの直前にcpが存在しなければ補完する
 							content.push({type : "cp", pos : remaining_text.length, parent : child_obj});
 						}
@@ -324,47 +324,35 @@ var XmlManager = enchant.Class.create(Manager, {
 			headers = createObjFromChild("header", [], header_elem.firstElementChild, undefined);
 
 			headers.forEach(function(header, index, array){		//ヘッダー部分の要素をオブジェクトの形に変換する
-				switch(header.type){
-				case "characters" :
-				case "colors" :
-					var tags = header.tags.split(/\s*,\s*/);
-					var bodies = header.text.split(/\s*;\s*/), name = header.type.slice(0, header.type.length-1);
-					array[index] = {type : header.type};
-					for(var i = 0; i < tags.length; ++i){
-						variable_store.addVar([tags[i], ".", name].join(""), bodies[i], true);
-						array[index][tags[i]] = bodies[i];
-					}
-					break;
-
-				case "paths" :
-				case "settings" :
-					var names = header.names.split(/\s*,\s*/), bodies = header.text.split(/\s*;\s*/);
-					array[index] = {type : header.type};
-					for(var i = 0; i < names.length; ++i){
-						variable_store.addVar([header.type, ".", names[i]].join(""), bodies[i], true);
-						array[index][names[i]] = bodies[i];
-					}
-					break;
-
-				case "variables" :
-				case "flags" :
-					var exprs = header.text.split(/\s*;\s*/);
-					exprs.forEach(function(expr){
-						var tokens = expr.split(/\s*:\s*/);
-						variable_store.addVar([(header.type == "flags") ? "flags." : "", tokens[0]].join(""),
-                            (tokens[1].search(/^\d*.?\d*$/) != -1) ? parseFloat(tokens[1]) : tokens[1], true);
-					});
-					break;
-
-				case "profile" :
-					if(!header.text){return;}
-					var exprs = header.text.split(/\s*;\s*/);
-					exprs.forEach(function(expr){
-						var tokens = expr.split(/\s*:\s*/);
-						variable_store.addVar([header.name, ".", tokens[0]].join(""), tokens[1], true);
-					});
-					break;
-				}
+                if(header.type.search(/profile|style/) == -1 || header.children){
+                    array[index] = {type : header.type};
+                    
+                    header.children.forEach(function(child){
+                        var name = child.name, value = child.text;
+                        array[index][name] = value;
+                        switch(header.type){
+            			case "characters" :
+        				case "colors" :
+        					variable_store.addVar([name, ".", child.type].join(""), value, true);
+        					break;
+        
+        				case "paths" :
+        				case "settings" :
+    						variable_store.addVar([header.type, ".", name].join(""), value, true);
+        					break;
+        
+        				case "variables" :
+        				case "flags" :
+        					variable_store.addVar([(header.type == "flags") ? "flags." : "", name].join(""),
+                                (text.search(/^\d*.?\d*$/) != -1) ? parseFloat(value) : value, true);
+        					break;
+                            
+                        case "profile" :
+        					variable_store.addVar([header.name, ".", name].join(""), value, true);
+        					break;
+                        }
+                    });
+                }
 			});
 
 			splited = {};
@@ -1584,15 +1572,15 @@ var ChoicesManager = enchant.Class.create(Manager, {
 	add : function(tag_objs){
 		if(!this.label_manager){this.label_manager = this.system.getManager("label");}
 		if(!this.xml_manager){this.xml_manager = this.system.getManager("xml");}
-		var choices_header = this.xml_manager.getHeader("style", "choices"), num_choices = tag_objs.children.length, original_styles = [];
+		var choice_header = this.xml_manager.getHeader("style", "choice"), num_choices = tag_objs.children.length, original_styles = [];
 		var max = this.xml_manager.getVarStore().getVar("msg_window.y") / num_choices, y = 0;
-        if(choices_header.style.search("cursor") == -1){
-            choices_header.style = "cursor: pointer; ".concat(choices_header.style);
+        if(choice_header.style.search("cursor") == -1){
+            choice_header.style = "cursor: pointer; ".concat(choice_header.style);
         }
 
 		tag_objs.children.forEach(function(choice, index){
 			if(choice.enable_if && !this.xml_manager.interpretExpression(choice.enable_if)){return;}
-			choice = setNonExistentProperties(choice, choices_header);
+			choice = setNonExistentProperties(choice, choice_header);
 			if(!choice.y){	//yプロパティーがセットされていなければ画面全体に均等に配置する
 				setRulerStyle(this.xml_manager.replaceVars(choice.style));
 				y += (choice.text.getExpansion().height + max) / 2;
