@@ -269,9 +269,9 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(elem.tagName != "scene" && splited[elem.tagName] === undefined){
 					splited[elem.tagName] = {texts : text.split(new RegExp("<"+elem.tagName+"(?: [^>]+)?>")), next_index : 1};
 				}
-				if(elem.childElementCount !== 0 || elem.textContent.length){
+				if(elem.childElementCount !== 0){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
-					if(elem.tagName != "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
+					if(type != "header" && elem.tagName != "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
 						var searching_text = splited[elem.tagName].texts[splited[elem.tagName].next_index];
 						content.forEach(function(tag){
 							var result = searching_text.match(/(<\/?)([^\s>\/]+)/), result2 = searching_text.match(/>/);
@@ -286,7 +286,7 @@ var XmlManager = enchant.Class.create(Manager, {
 							if(end_tag !== null){searching_text = searching_text.slice(end_tag.index + tag_name.length);}
 						});
 						var remaining_text = searching_text.split(["</", elem.tagName, ">"].join(""))[0];
-						if(type != "header" && elem.tagName.search(/label|log|text|menu|choice/) == -1 && (remaining_text.length ||
+						if(elem.tagName.search(/label|log|text|menu|choice/) == -1 && (remaining_text.length ||
                             content[content.length - 1].type != "cp")){		//終了タグの直前にcpが存在しなければ補完する
 							content.push({type : "cp", pos : remaining_text.length, parent : child_obj});
 						}
@@ -325,31 +325,38 @@ var XmlManager = enchant.Class.create(Manager, {
 
 			headers.forEach(function(header, index, array){		//ヘッダー部分の要素をオブジェクトの形に変換する
                 if(header.type.search(/profile|style/) == -1 || header.children){
+                    var original = array[index];
                     array[index] = {type : header.type};
+                    if(header.type == "profile"){
+                        array[index].name = original.name;
+                        array[index].src = original.src;
+                        array[index].style = original.style;
+                        array[index].frame_width = original.frame_width;
+                    }
                     
                     header.children.forEach(function(child){
                         var name = child.name, value = child.text;
                         array[index][name] = value;
                         switch(header.type){
-            			case "characters" :
-        				case "colors" :
-        					variable_store.addVar([name, ".", child.type].join(""), value, true);
-        					break;
+                        case "characters" :
+                        case "colors" :
+                            variable_store.addVar([name, ".", child.type].join(""), value, true);
+                            break;
         
-        				case "paths" :
-        				case "settings" :
-    						variable_store.addVar([header.type, ".", name].join(""), value, true);
-        					break;
+                        case "paths" :
+                        case "settings" :
+                            variable_store.addVar([header.type, ".", name].join(""), value, true);
+                            break;
         
-        				case "variables" :
-        				case "flags" :
-        					variable_store.addVar([(header.type == "flags") ? "flags." : "", name].join(""),
+                        case "variables" :
+                        case "flags" :
+                            variable_store.addVar([(header.type == "flags") ? "flags." : "", name].join(""),
                                 (text.search(/^\d*.?\d*$/) != -1) ? parseFloat(value) : value, true);
-        					break;
+                            break;
                             
                         case "profile" :
-        					variable_store.addVar([header.name, ".", name].join(""), value, true);
-        					break;
+                            variable_store.addVar([header.name, ".", name].join(""), value, true);
+                            break;
                         }
                     });
                 }
@@ -565,7 +572,7 @@ var MessageManager = enchant.Class.create(Manager, {
 	},
 
 	setStyle : function(tag){
-		var style = tag.style || this.xml_manager.getHeader("profile", tag.type).style;
+		var style = tag.style || this.xml_manager.getHeader("profile", tag.chara).style;
 		var styles = this.system.interpretStyle(style);
 
 		styles.forEach(function(style){
@@ -648,7 +655,7 @@ var MessageManager = enchant.Class.create(Manager, {
 	makeCharaNameWindowVisible : function(is_visible, tag){
 		if(is_visible){
 			var chara_names = this.xml_manager.getHeader("characters");
-			this.chara_name_window.text = chara_names[tag.type];
+			this.chara_name_window.text = chara_names[tag.chara];
 			this.chara_name_window.visible = true;
 			setRulerStyle(["font: ", this.chara_name_window._style.font].join(""));
 			this.chara_name_window.width = this.chara_name_window.text.getExpansion().width + 10;
@@ -1153,8 +1160,8 @@ var TagManager = enchant.Class.create(Manager, {
 				}else if(tag_obj.operation == "change"){
 					this.image_manager.change(tag_obj.id, tag_obj);
 				}else{
-                    if(!tag_obj.target && this.manager.isCharacterTag(tag_obj.parent)){ //キャラ名タグの内部にあってtarget属性が明示されていなければ、自動補完する
-                        tag_obj['target'] = tag_obj.parent.type;
+                    if(!tag_obj.target && tag_obj.parent.type == "line"){ //lineタグの内部にあってtarget属性が明示されていなければ、自動補完する
+                        tag_obj['target'] = tag_obj.parent.chara;
                     }
 					var new_img = this.image_manager.add(tag_obj, parseInt(tag_obj.end_time));
 					if(tag_obj.effect){this.manager.interpreters['effect'].createEffect(tag_obj, new_img);}
@@ -1327,7 +1334,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 	isCharacterTag : function(tag){
 		var char_headers = this.xml_manager.getHeader("characters");
-		return (char_headers[tag.type] != undefined);
+		return (char_headers[tag.chara] != undefined);
 	},
 
 	getNextTarget : function(tag){
@@ -1493,17 +1500,17 @@ var LogManager = enchant.Class.create(Manager, {
 			this.line_text = this.line_text.concat(text.substring(0, tag.pos));
 			if(tag.type == "br" || tag.type == "cp"){	//br,cpタグにたどり着いたら一行分のテキストをログウインドウに追加しておく
 				var new_span = document.createElement("span");
-				if(this.last_chara == tag.parent.type){
+				if(this.last_chara == tag.parent.chara){
 					new_span.style["text-indent"] = this.cur_indent_width + "px";
 				}else{
-					var header = this.xml_manager.getHeader("profile", tag.parent.type);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
+					var header = this.xml_manager.getHeader("profile", tag.parent.chara);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
 					var style = tag.style && tag.style.concat(header.style) || header.style;
 					this.cur_child_tag = document.createElement("p");
 					this.log_window._element.appendChild(this.cur_child_tag);
 					this.cur_child_tag.style.cssText = this.xml_manager.replaceVars(style);
 					
-					if(this.isCharacterName(tag.parent.type)){
-						var chara_name = [this.chara_names[tag.parent.type], " "].join("");
+					if(this.isCharacterName(tag.parent.chara)){
+						var chara_name = [this.chara_names[tag.parent.chara], " "].join("");
 						new_span.appendChild(document.createTextNode(chara_name));
 						setRulerStyle(this.cur_child_tag.style);
 						this.cur_indent_width = chara_name.getExpansion().width;
@@ -1515,7 +1522,7 @@ var LogManager = enchant.Class.create(Manager, {
 				this.cur_child_tag.appendChild(new_span);
 				this.cur_child_tag.appendChild(document.createElement("br"));
 				this.line_text = "";
-				this.last_chara = tag.parent.type;
+				this.last_chara = tag.parent.chara;
 			}
 		}else if(tag.type == "scene" && tag.shows_title != "false"){
 			this.cur_child_tag = document.createElement("p");
@@ -1815,7 +1822,7 @@ var ImageManager = enchant.Class.create(Manager, {
 			if(expr != "left" && expr != "right" && expr != "center"){throw new Error("The value of \"figure_pos\" must be \"left\", \"right\" or \"center\"");}
 			if(type == "x"){
 				return Math.floor((expr == "center") ? game.width / 2 - size / 2 :
-					   (expr == "left") ? game.width / 2 - size * 2 : game.width + size * 1.5);
+					   (expr == "left") ? game.width / 2 - size * 2 : game.width - size * 1.5);
 			}else{
 				return game.height - size;
 			}
