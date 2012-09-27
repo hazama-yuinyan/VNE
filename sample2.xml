@@ -5,8 +5,8 @@
 	<header>
 		<variables>
 			<var name="white">rgb(255, 255, 255)</var>
-			<var name="gray ">rgb(128, 128, 128)</var>
-			<var name=" black ">rgb(0, 0, 0)</var>
+			<var name="gray">rgb(128, 128, 128)</var>
+			<var name="black">rgb(0, 0, 0)</var>
 			<var name="snowman_fondness">0</var>
  			<var name="main_HP">100</var>
  			<var name="bear_HP">30</var>
@@ -91,8 +91,7 @@
 			<line name="snowman">
 				<image id="snowman" src="$paths.img_snowman" frame="$snowman.normal" figure_pos="center"/>そういわずにさ～。そこを何とか頼むよ～。<br/>
 				もちろん、報酬は弾むよ！なにがいい？<br/>
-				キミの欲しい物を何でもあげるよ！<cp/>
-				<image id="snowman" operation="remove"/>
+				キミの欲しい物を何でもあげるよ！<image id="snowman" operation="remove"/><cp/>
 			</line>
 			<choice>
 				<a to="title:Prologue, ids:IWantMoney">金だよ、金！</a>

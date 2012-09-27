@@ -157,25 +157,25 @@ var SystemManager = enchant.Class.create(Group, {
 		};
 		
 		this.setManager = function(name, manager){
-			var prev_manager = managers["xml"], index = array.indexOf(prev_manager);
+			var prev_manager = managers.xml, index = array.indexOf(prev_manager);
 			managers[name] = manager;
 			array.splice(index, 1, manager);
-	    };
+		};
 
 		this.getManager = function(name){
 			return managers[name];
 		};
 
 		this.update = function(){
-			managers['xml'].setCurrentTimeToVarStore();		//variable_storeの現在時刻を更新
+			managers.xml.setCurrentTimeToVarStore();		//variable_storeの現在時刻を更新
 			array.forEach(function(manager){
 				manager.update();
 			});
 		};
 
         this.showNoticeLabel = function(text, tag_obj){
-            tag_obj["should_be_front"] = true;
-            managers["label"].add(text, tag_obj, tag_obj.end_time);
+            tag_obj.should_be_front = true;
+            managers.label.add(text, tag_obj, tag_obj.end_time);
         };
 	},
 
@@ -281,7 +281,7 @@ var XmlManager = enchant.Class.create(Manager, {
 								throw new Error(["Expected \"", tag.type, "\" but there isn't such a tag."]);
 							}
 
-							tag['pos'] = result.index;
+							tag.pos = result.index;
 							var tag_name = ["</", tag.type, ">"].join(""), end_tag = searching_text.match(tag_name);
 							if(end_tag !== null){searching_text = searching_text.slice(end_tag.index + tag_name.length);}
 						});
@@ -291,13 +291,16 @@ var XmlManager = enchant.Class.create(Manager, {
 							content.push({type : "cp", pos : remaining_text.length, parent : child_obj});
 						}
 					}
-					child_obj['children'] = content;
+					child_obj.children = content;
 				}
 
 				if(elem.tagName != "scene"){++splited[elem.tagName].next_index;}
-				child_obj['type'] = elem.tagName;
-				if(parent !== undefined){child_obj['parent'] = parent;}
-				if(elem.textContent.length !== 0){child_obj['text'] = elem.textContent.replace(/[\t\n\r]+/g, "");}
+				child_obj.type = elem.tagName;
+				if(parent !== undefined){child_obj.parent = parent;}
+				if(elem.textContent.length !== 0){child_obj.text = elem.textContent.replace(/[\t\n\r]+/g, "");}
+                if(child_obj.type === "line" && !child_obj.children){  //子要素を持たないlineにcpタグを追加する
+                    child_obj.children = [{type : "cp", pos : child_obj.text.length, parent : child_obj}];
+                }
 				obj.push(child_obj);
 				return createObjFromChild(type, obj, elem.nextElementSibling, parent);
 			};
@@ -367,7 +370,7 @@ var XmlManager = enchant.Class.create(Manager, {
 			var body = {type : "root", children : contents};
 
 			contents.forEach(function(content){
-				content['parent'] = body;
+				content.parent = body;
 			});
 
 			jump_table = createJumpTable(contents, {}, 0);
@@ -483,15 +486,15 @@ var XmlManager = enchant.Class.create(Manager, {
 					}
 				}
 			}
-	    };
-
-	    this.updateOptions = function(options){
+		};
+        
+        this.updateOptions = function(options){
 			options.forEach(function(option){
 				variable_store.addVar(["options.", option.name].join(""), option.value, true);
 			}, this);
-	    };
-
-	    this.loadOptions();
+        };
+        
+        this.loadOptions();
 	},
 
 	update : function(){
@@ -551,12 +554,12 @@ var MessageManager = enchant.Class.create(Manager, {
 		this.msg_window.moveTo(0, Math.round(game.height * 2 / 3));
 		this.msg_window.width = game.width;
 		this.msg_window.height = Math.round(game.height / 3);
-        this.msg_window.onClicked = function(e){
+        this.msg_window.onClicked = function(){
             game.input.a = true;
         };
-        this.msg_window.onHeld = function(e){
+        this.msg_window.onHeld = function(){
             game.input.b = true;
-        }
+        };
         this.xml_manager.getVarStore().addVar("msg_window", {x : this.msg_window.x, y : this.msg_window.y, width : this.msg_window.width, height : this.msg_window.height}, true);
         this.cur_text_appending_element = this.msg_window._element;
         this.system.addChild(this.msg_window);
@@ -572,7 +575,7 @@ var MessageManager = enchant.Class.create(Manager, {
 	},
 
 	setStyle : function(tag){
-		var style = tag.style || this.xml_manager.getHeader("profile", tag.chara).style;
+		var style = tag.style || this.xml_manager.getHeader("profile", tag.name).style;
 		var styles = this.system.interpretStyle(style);
 
 		styles.forEach(function(style){
@@ -655,7 +658,7 @@ var MessageManager = enchant.Class.create(Manager, {
 	makeCharaNameWindowVisible : function(is_visible, tag){
 		if(is_visible){
 			var chara_names = this.xml_manager.getHeader("characters");
-			this.chara_name_window.text = chara_names[tag.chara];
+			this.chara_name_window.text = chara_names[tag.name];
 			this.chara_name_window.visible = true;
 			setRulerStyle(["font: ", this.chara_name_window._style.font].join(""));
 			this.chara_name_window.width = this.chara_name_window.text.getExpansion().width + 10;
@@ -691,13 +694,13 @@ var TagManager = enchant.Class.create(Manager, {
 		Manager.call(this, system);
 
 		/**
-		 * タグの解釈を行うインタプリタの実装
-		 * 新たなタグを追加するにはInterpreterを継承したクラスを定義して
-		 * TagManagerのinterpretersに追加するだけで出来ます。
+         * タグの解釈を行うインタプリタの実装
+         * 新たなタグを追加するにはInterpreterを継承したクラスを定義して
+         * TagManagerのinterpretersに追加するだけで出来ます。
          *
          * 各インタプリタは必ずinterpretとpostInterpretを実装しなければならない。
          * postInterpret内でmanager.last_targeted_tagをnullにしない限り、永遠にpostInterpretが呼ばれ続けることに注意してください。
-		 */
+         */
 		var Interpreter = enchant.Class.create({
 			initialize : function(manager){
 				this.manager = manager;
@@ -765,8 +768,8 @@ var TagManager = enchant.Class.create(Manager, {
 			interpret : function(tag_obj){
 				if(!this.img_manager){this.img_manager = this.manager.system.getManager("image");}
 				if(!this.input_manager){this.input_manager = this.manager.system.getManager("input");}
-                if(!this.br_icon_path){this.br_icon_path = this.manager.system.getManager("xml").getHeader("settings")["br_icon"];}
-                if(!this.cp_icon_path){this.cp_icon_path = this.manager.system.getManager("xml").getHeader("settings")["cp_icon"];}
+                if(!this.br_icon_path){this.br_icon_path = this.manager.system.getManager("xml").getHeader("settings").br_icon;}
+                if(!this.cp_icon_path){this.cp_icon_path = this.manager.system.getManager("xml").getHeader("settings").cp_icon;}
 
 				this.msg_manager.appendChildNode(document.createElement("br"));
 				if(tag_obj.type == "cp"){this.is_clearing_on_next = true;}	//InputManagerの処理が終わって次にこのクラスが有効になるまで実際にテキストを消去しない
@@ -778,20 +781,20 @@ var TagManager = enchant.Class.create(Manager, {
 				this.manager.next_text = this.manager.next_text.slice(this.manager.cur_cursor_pos);
 				this.manager.cur_cursor_pos = 0;
 				this.input_manager.setActionOperator(this.operator);
-				icon_tag['src'] = (tag_obj.type == "br") ? this.br_icon_path : this.cp_icon_path;
-                icon_tag['should_be_front'] = true;
+				icon_tag.src = (tag_obj.type == "br") ? this.br_icon_path : this.cp_icon_path;
+                icon_tag.should_be_front = true;
 
 				if(!this.operator.do_auto_text_scrolling){		//自動ページ送りをしない設定ならアイコンを点滅させる
-					icon_tag['effect'] = "Flicker";
-					icon_tag['delta_frame'] = 5;
-					icon_tag['end_time'] = 0;
+					icon_tag.effect = "Flicker";
+					icon_tag.delta_frame = 5;
+					icon_tag.end_time = 0;
 				}
 
 				this.icon = this.img_manager.add(icon_tag, 0);
 				if(this.operator.do_auto_text_scrolling){
 					this.manager.setNextUpdateFrame(game.frame + this.operator.auto_scroll_frame);
 				}else{
-					this.manager.interpreters['effect'].createEffect(icon_tag, this.icon);
+					this.manager.interpreters.effect.createEffect(icon_tag, this.icon);
 					this.manager.is_available = false;
 				}
 			},
@@ -867,7 +870,7 @@ var TagManager = enchant.Class.create(Manager, {
 			postInterpret : function(){
 				if(this.manager.cur_cursor_pos == this.tag_start_pos + this.tag.text.length){
 					this.manager.text_speed = this.last_text_speed || this.manager.text_speed;
-					this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
+					this.manager.interpreters.br.addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
 					this.manager.next_text = this.manager.next_text.substring(this.manager.cur_cursor_pos);
 					this.manager.cur_cursor_pos = 0;
 					this.cur_tag_child = null;
@@ -904,7 +907,7 @@ var TagManager = enchant.Class.create(Manager, {
 				var result = this.xml_manager.interpretExpression(tag_obj.expr);
 				if(result != "successful assignment"){
 					this.msg_manager.pushText(result);
-					this.manager.interpreters['br'].addLineText(result.toString());
+					this.manager.interpreters.br.addLineText(result.toString());
 				}else if(game._debug && result == "successful assignment"){
 					var var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
 					console.log('$' + var_name + " = " + this.xml_manager.getVarStore().getVar(var_name));
@@ -1121,7 +1124,7 @@ var TagManager = enchant.Class.create(Manager, {
 					this.label_manager.remove(tag_obj.id);
 				}else{
 					var new_label = this.label_manager.add(tag_obj.text, tag_obj, parseInt(tag_obj.end_time));
-					if(tag_obj.effect){this.manager.interpreters['effect'].createEffect(tag_obj, new_label);}
+					if(tag_obj.effect){this.manager.interpreters.effect.createEffect(tag_obj, new_label);}
 					if(tag_obj.sync){this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));}
 				}
 
@@ -1161,10 +1164,10 @@ var TagManager = enchant.Class.create(Manager, {
 					this.image_manager.change(tag_obj.id, tag_obj);
 				}else{
                     if(!tag_obj.target && tag_obj.parent.type == "line"){ //lineタグの内部にあってtarget属性が明示されていなければ、自動補完する
-                        tag_obj['target'] = tag_obj.parent.chara;
+                        tag_obj['target'] = tag_obj.parent.name;
                     }
 					var new_img = this.image_manager.add(tag_obj, parseInt(tag_obj.end_time));
-					if(tag_obj.effect){this.manager.interpreters['effect'].createEffect(tag_obj, new_img);}
+					if(tag_obj.effect){this.manager.interpreters.effect.createEffect(tag_obj, new_img);}
 					if(tag_obj.sync){this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));}
 				}
 
@@ -1334,7 +1337,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 	isCharacterTag : function(tag){
 		var char_headers = this.xml_manager.getHeader("characters");
-		return (char_headers[tag.chara] != undefined);
+		return (char_headers[tag.name] != undefined);
 	},
 
 	getNextTarget : function(tag){
