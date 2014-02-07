@@ -3,16 +3,19 @@ function $H(object) {
 };
 
 function $A(object){
-	if(!object){return [];}
+	if(!object)
+		return [];
+
 	var length = object.length || 0, results = new Array(length);
-	while (length--) results[length] = object[length];
+	while(length--)
+		results[length] = object[length];
+
 	return results;
 }
 
 Object.prototype.extend = function(destination, source){
-	for(var property in source){
+	for(var property in source)
 		destination[property] = source[property];
-	}
 	
 	return destination;
 };
@@ -41,20 +44,20 @@ if(!Object.prototype.isHash){
 	};
 }
 
-Array.prototype.inject = function(memo, iterator, context) {
-	this.forEach(function(value, index) {
+Array.prototype.inject = function(memo, iterator, context){
+	this.forEach(function(value, index){
 		memo = iterator.call(context, memo, value, index);
 	});
 	return memo;
 };
 
 var Hash = enchant.Class.create({
-	initialize : function(object) {
+	initialize : function(object){
 		this._object = Object.isHash(object) ? object.toObject() : Object.clone(object);
 	},
 
-	each : function(iterator, context) {
-		for (var key in this._object) {
+	each : function(iterator, context){
+		for(var key in this._object){
 			var value = this._object[key], pair = [key, value];
 			pair.key = key;
 			pair.value = value;
@@ -62,44 +65,44 @@ var Hash = enchant.Class.create({
 		}
 	},
 
-	set : function(key, value) {
+	set : function(key, value){
 		return this._object[key] = value;
 	},
 
-	get : function(key) {
-		if (this._object[key] !== Object.prototype[key])
+	get : function(key){
+		if(this._object[key] !== Object.prototype[key])
 			return this._object[key];
 	},
 
-	unset : function(key) {
+	unset : function(key){
 		var value = this._object[key];
 		delete this._object[key];
 		return value;
 	},
 
-	toObject : function() {
+	toObject : function(){
 		return Object.clone(this._object);
 	},
 
-	merge : function(object) {
+	merge : function(object){
 		return this.clone().update(object);
 	},
 	
-	inject : function(memo, iterator, context) {
-		this.each(function(pair) {
+	inject : function(memo, iterator, context){
+		this.each(function(pair){
 			memo = iterator.call(context, memo, pair);
 		});
 		return memo;
 	},
 
-	update : function(object) {
-		return new Hash(object).inject(this, function(result, pair) {
+	update : function(object){
+		return new Hash(object).inject(this, function(result, pair){
 			result.set(pair.key, pair.value);
 			return result;
 		});
 	},
 
-	clone : function() {
+	clone : function(){
 		return new Hash(this);
 	}
 });
@@ -108,7 +111,7 @@ var Hash = enchant.Class.create({
 
 var Parse = {};
 
-Parse.mobj = function(values, group) {
+Parse.mobj = function(values, group){
     var m = $A(values);
     m.group = $H(group);
     m.g = m.group.toObject();
@@ -121,20 +124,20 @@ Parse.Parser = enchant.Class.create({
         this.errors = [];
 	},
 	
-    Seq: function() {
+    Seq : function(){
         var parser = this;
         return {
             type: "Seq",
             children: $A(arguments),
-            parse: function(tokens) {
+            parse: function(tokens){
                 var values = [], group = $H(), r;
                 
-                for(var i = 0;i < this.children.length; ++i) {
-                    if(r = this.children[i].parse(tokens)) {
+                for(var i = 0;i < this.children.length; ++i){
+                    if(r = this.children[i].parse(tokens)){
                         tokens = r.rests;
                         values.push(r.value);
                         group.update(r.group);
-                    } else {
+                    }else{
                         parser.errors.push({cause : this.type, msg : "Unexpected syntax. Expected : " + this.children[i].type});
                         return null;
                     }
@@ -144,7 +147,7 @@ Parse.Parser = enchant.Class.create({
             }
         };
     },
-    Token: function(tokentype) {
+    Token : function(tokentype){
         return {
             type: "Token",
             parser: this,
@@ -164,26 +167,27 @@ Parse.Parser = enchant.Class.create({
             }
         };
     },
-    Repeat_: function(child, minimum, maximum) {
+    Repeat_ : function(child, minimum, maximum){
         //var parser = this;
         return {
             type: "Repeat",
             child: child,
             minimum: minimum,
             maximum: maximum,
-            parse: function(tokens) {
+            parse: function(tokens){
                 var values = [];
                 var group = $H();
                 for(var i = 0; this.maximum == null || i < this.maximum; ++i){
                     var r = this.child.parse(tokens);
-                    if(!r){
+                    if(!r)
                         break;
-                    }
+                    
                     tokens = r.rests;
                     values.push(r.value);
                     group.update(r.group);
                 }
-                if(this.minimum == null || this.minimum <= i) {
+
+                if(this.minimum == null || this.minimum <= i){
                     var value = Parse.mobj(values, group);
                     return {
                         rests:tokens,
@@ -194,70 +198,68 @@ Parse.Parser = enchant.Class.create({
             }
         };
     },
-    Repeat1: function(child) {
-        if(2 <= arguments.length) {
+    Repeat1 : function(child){
+        if(2 <= arguments.length)
             child = this.Seq.apply(this, arguments);
-        }
+
         return this.Repeat_(child, 1);
     },
-    Repeat: function(child) {
-        if(2 <= arguments.length) {
+    Repeat : function(child){
+        if(2 <= arguments.length)
             child = this.Seq.apply(this, arguments);
-        }
+        
         return this.Repeat_(child, 0);
     },
-    Any: function() {
+    Any : function(){
         var parser = this;
         return {
             type: "Any",
             children: $A(arguments),
-            parse: function(tokens) {
-                for(var i = 0; i < this.children.length; ++i) {
+            parse: function(tokens){
+                for(var i = 0; i < this.children.length; ++i){
                     var r = this.children[i].parse(tokens);
-                    if(r) {
+                    if(r)
                         return r;
-                    }
                 }
                 parser.errors.push({cause : this.type, msg : "None of the syntaxes found."});
                 return null;
             },
         };
     },
-    Maybe: function(child) {
-        if(2 <= arguments.length) {
+    Maybe : function(child) {
+        if(2 <= arguments.length)
             child = this.Seq.apply(this, arguments);
-        }
+
         return {
             type: "Maybe",
             child: child,
-            parse: function(tokens) {
+            parse: function(tokens){
                 var r = this.child.parse(tokens);
-                if(r) {
+                if(r)
                     return r;
-                } else {
+                else
                     return {rests:tokens, value:null, group:$H()};
-                }
             },
         };
     },
-    End: function() {
+    End : function() {
         var parser = this;
         return {
             type: "End",
             parse: function(tokens){
-               if(!tokens.length) {
+               if(!tokens.length){
                    return {rests:[], value:null, group:$H()};
-               } else {
+               }else{
                    parser.errors.push({cause : this.type, msg : "Expected EOF, but I'm still in middle of the inputs!"});
                    return null;
                }
             }
         };
     },
-    Grammer: function(name, child, fn) {
-        if(child.type != "Seq") {
+    Grammer : function(name, child, fn){
+        if(child.type != "Seq")
             child = this.Seq(child);
-        }
+
         return {
             type: "Grammer",
             child: child,
@@ -266,14 +268,14 @@ Parse.Parser = enchant.Class.create({
             name: name,
             parse: function(tokens){
                 var r = this.child.parse(tokens);
-                if(r) {
+                if(r){
                     this.parser.errors.splice(0);
                     var value;
-                    if(this.fn) {
+                    if(this.fn){
                         var m = Object.clone(r.value);
                         m.name = this.name;
                         value = this.fn(m);
-                    } else {
+                    }else{
                         value = r.value;
                     }
                     var group = $H();
@@ -283,20 +285,20 @@ Parse.Parser = enchant.Class.create({
                         value: value,
                         group: group,
                     };
-                } else {
+                }else{
                     return null;
                 }
             },
         };
     },
-    Label: function(name, child) {
+    Label : function(name, child){
         return {
             type: "Label",
             child: child,
             name: name,
             parse: function(tokens){
                 var r = this.child.parse(tokens);
-                if(r) {
+                if(r){
                     var group = $H(r.group);
                     group.set(this.name, r.value);
                     return {
@@ -304,61 +306,60 @@ Parse.Parser = enchant.Class.create({
                         value: r.value,
                         group: group,
                     };
-                } else {
+                }else{
                     return null;
                 }
             }
         };
     },
-    Ref: function (name) {
+    Ref : function (name){
         return {
             type: "Ref",
             parser: this,
             name: name,
             parse: function(tokens){
                 var g = this.parser._grammers.get(this.name);
-                if(!g) {
+                if(!g)
                     throw Error(this.name);
-                }
+                
                 return g.parse(tokens);
             }
         };
     },
-    def: function(name, child, fn) {
-        if(arguments.length == 1) {
+    def : function(name, child, fn){
+        if(arguments.length == 1){
             $H(arguments[0]).each(function(item){
-                if(Object.isArray(item.value)) {
+                if(Object.isArray(item.value))
                     this.def(item.key, item.value[0], item.value[1]);
-                } else {
+                else
                     this.def(item.key, item.value);
-                }
             }, this);
-        } else {
-            if(Object.isString(child)) {
+        }else{
+            if(Object.isString(child)){
                 var src = this.compile(child);
-                with(this) {
+                with(this){
                     child = eval(src);
-                }
+				}
             }
             this._grammers.set(name, this.Grammer(name, child, fn));
         }
     },
-    callback: function(name, fn) {
-        if(arguments.length == 1) {
+    callback : function(name, fn){
+        if(arguments.length == 1){
             $H(arguments[0]).each(function(item){
                 this._grammers.get(item.key).fn = item.value;
             }, this);
-        } else {
+        }else{
             this._grammers.get(name).fn = fn;
         }
     },
-    entry: function(name) {
+    entry : function(name){
         this._entry = name;
     },
-    isTokenOf : function(token, name) {
+    isTokenOf : function(token, name){
         return token.type == name;
     },
-    parse: function(tokens, entryPoint) {
+    parse : function(tokens, entryPoint){
         return this._grammers.get(entryPoint || this._entry).parse(tokens);
     },
 });

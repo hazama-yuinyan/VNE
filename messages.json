@@ -1,0 +1,9 @@
+{
+	"errorMissingTag" : "Expected \"{type}\" but there isn't such a tag.",
+	"errorMissingHeader" : "A header that is the type of {type} and named {name} is missing!",
+	"errorInvalidExpression" : "The expression \"{expr}\" is invalid!",
+	"errorUnknownTag" : "Unknown tag name {type}",
+	"errorMissingImageFile" : "An image file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
+	"errorMissingSoundFile" : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
+	"debugLogMessage" : "Currently working on a(n) {type} tag at line {lineNum} : {column} inside {parentType}"
+}

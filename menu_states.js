@@ -9,7 +9,8 @@ var MenuStates = enchant.Class.create({
 			
 			prepare : function(tag_obj){
 				this.xml_manager = this.system.getManager("xml");
-				if(!this.tag_manager){this.tag_manager = this.system.getManager("tag");} 
+				if(!this.tag_manager) this.tag_manager = this.system.getManager("tag");
+
 				this.menu = tag_obj;
 			},
 			
@@ -17,7 +18,8 @@ var MenuStates = enchant.Class.create({
 				operator.inner_operator.operateA();
 				this.system.getManager("choices").clear();
 				var selected_menu = this.menu.children[operator.inner_operator.cur_index];
-				if(selected_menu.action){this[selected_menu.action](operator, selected_menu);}
+				if(selected_menu.action)
+					this[selected_menu.action](operator, selected_menu);
 			},
 			
 			operateUp : function(operator){
@@ -36,13 +38,28 @@ var MenuStates = enchant.Class.create({
 			
 			openLoad : function(operator, selected_menu){
 				var children = [], saves = JSON.parse(localStorage.getItem("save"));
+
 				for(var i = 1; i < saves.length; ++i){
 					var title = saves[i].scene_str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)/)[1];
-					children.push({type : ["save", i].join(""), data_index : i, title : title, saved_time : saves[i].saved_time,
-						text : ["slot", i].join("")});
+					children.push({
+						type : "save" + i,
+						data_index : i,
+						title : title,
+						saved_time : saves[i].saved_time,
+						text : "slot" + i
+					});
 				}
-				if(saves.length == 1){children.push({type : "save_data", data_index : 1, title : "untitled", saved_time : "unknown",
-					text : "No save data is available"});}
+
+				if(saves.length == 1){
+					children.push({
+						type : "save_data",
+						data_index : 1,
+						title : "untitled",
+						saved_time : "unknown",
+						text : "No save data is available"
+					});
+				}
+
 				var scene = {type : "choices", children : children};
 				operator.setState(selected_menu.to, scene);
 			},
@@ -53,9 +70,15 @@ var MenuStates = enchant.Class.create({
 			
 			openFile : function(operator, selected_menu){
 				var paths = this.xml_manager.getVarStore().getVar("file_paths"), children = [];
+
 				for(var i = 0; i < paths.length; ++i){
-					children.push({type : ["file", i].join(""), title : paths[i].title, description : paths[i].description,
-						text : paths[i].title, file_name : paths[i].file_name});
+					children.push({
+						type : "file" + i,
+						title : paths[i].title,
+						description : paths[i].description,
+						text : paths[i].title,
+						file_name : paths[i].file_name
+					});
 				}
 				operator.setState(selected_menu.to, {type : "choices", children : children});
 			}
@@ -88,29 +111,56 @@ var MenuStates = enchant.Class.create({
 			
 			openSave : function(operator, selected_menu){
 				var children = [], saves = JSON.parse(localStorage.getItem("save"));
+
 				for(var i = 1; i <= 5; ++i){
 					if(i >= saves.length){
-						children.push({type : ["save", i].join(""), data_index : i, title : "untitled", saved_time : "unknown",
-							text : ["slot", i].join("")});
+						children.push({
+							type : "save" + i,
+							data_index : i,
+							title : "untitled",
+							saved_time : "unknown",
+							text : "slot" + i
+						});
 					}else{
 						var title = saves[i].scene_str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)/)[1];
-						children.push({type : ["save", i].join(""), data_index : i, title : title, saved_time : saves[i].saved_time,
-							text : ["slot", i].join("")});
+						children.push({
+							type : "save" + i,
+							data_index : i,
+							title : title,
+							saved_time : saves[i].saved_time,
+							text : "slot" + i
+						});
 					}
 				}
+
 				var scene = {type : "choices", children : children};
 				operator.setState(selected_menu.to, scene);
 			},
 
 			openLoad : function(operator, selected_menu){
 				var children = [], saves = JSON.parse(localStorage.getItem("save"));
+
 				for(var i = 1; i < saves.length; ++i){
 					var title = saves[i].scene_str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)/)[1];
-					children.push({type : ["save", i].join(""), data_index : i, title : title, saved_time : saves[i].saved_time,
-						text : ["slot", i].join("")});
+					children.push({
+						type : "save" + i,
+						data_index : i,
+						title : title,
+						saved_time : saves[i].saved_time,
+						text : "slot" + i
+					});
 				}
-				if(saves.length <= 1){children.push({type : "save_data", data_index : 1, title : "untitled", saved_time : "unknown",
-					text : "No save data is available"});}
+
+				if(saves.length <= 1){
+					children.push({
+						type : "save_data",
+						data_index : 1,
+						title : "untitled",
+						saved_time : "unknown",
+						text : "No save data is available"
+					});
+				}
+
 				var scene = {type : "choices", children : children};
 				operator.setState(selected_menu.to, scene);
 			},
@@ -207,18 +257,20 @@ var MenuStates = enchant.Class.create({
 				info_window.font = "bold x-large serif";
 				
 				this.updateInfoWindow = function(operator){
-					while(info_window._element.firstChild){info_window._element.removeChild(info_window._element.firstChild);}
+					while(info_window._element.firstChild)
+						info_window._element.removeChild(info_window._element.firstChild);
+
 					var cur_menu = this.menu.children[operator.inner_operator.cur_index], title_node = document.createElement("p");
 					var saved_time_node = document.createElement("p");
-					title_node.appendChild(document.createTextNode(["タイトル:", cur_menu.title.replace(/\\s/g, " ")].join("")));
-					saved_time_node.appendChild(document.createTextNode(["保存日時:", cur_menu.saved_time].join("")));
+					title_node.appendChild(document.createTextNode("タイトル:" + cur_menu.title.replace(/\\s/g, " ")));
+					saved_time_node.appendChild(document.createTextNode("保存日時:" + cur_menu.saved_time));
 					info_window._element.appendChild(title_node), info_window._element.appendChild(saved_time_node);
 				};
 				
 				this.prepare = function(tag_obj, operator){
                     var xml_manager = this.system.getManager("xml");
-                    if(!this.sound_manager){this.sound_manager = this.system.getManager("sound");}
-                    if(!this.success_se_path){this.success_se_path = xml_manager.getHeader("settings")["success_se"];}
+                    if(!this.sound_manager) this.sound_manager = this.system.getManager("sound");
+                    if(!this.success_se_path) this.success_se_path = xml_manager.getHeader("settings")["success_se"];
                     
 					this.menu = tag_obj;
 					this.system.addChild(info_window);
@@ -239,9 +291,17 @@ var MenuStates = enchant.Class.create({
 				operator.tag_manager.load(selected_menu.data_index);
 				operator.tag_manager.interpreters["br"].icon = null;
 				operator.clearMenu();
-                if(this.success_se_path){this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});}
-                var notice_label = {x : "centered", y : operator.msg_manager.msg_window._element.clientTop.toString(), end_time : 60,
-                    width : "adjust", style : "font: bold large serif;"};
+                if(this.success_se_path)
+					this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});
+
+                var notice_label = {
+					x : "centered",
+					y : operator.msg_manager.msg_window._element.clientTop.toString(),
+					end_time : 60,
+                    width : "adjust",
+					style : "font: bold large serif;"
+				};
+
                 this.system.showNoticeLabel("ロード完了", notice_label);
 				operator.msg_manager.clearChildNodes();
 				operator.tag_manager.is_available = true;
@@ -274,9 +334,9 @@ var MenuStates = enchant.Class.create({
 			
 			prepare : function(tag, operator){
 				var xml_manager = operator.system.getManager("xml");
-				if(!this.sound_manager){this.sound_manager = operator.system.getManager("sound");}
-				if(!this.success_se_path){this.success_se_path = xml_manager.getHeader("settings")["success_se"];}
-				if(!this.operator){this.operator = operator;}
+				if(!this.sound_manager) this.sound_manager = operator.system.getManager("sound");
+				if(!this.success_se_path) this.success_se_path = xml_manager.getHeader("settings")["success_se"];
+				if(!this.operator) this.operator = operator;
 				
 				this.system.addChild(this.options);
 				
@@ -286,7 +346,7 @@ var MenuStates = enchant.Class.create({
 						var parent = this.parentNode;
 						parent.replaceChild(document.createTextNode(this.value), parent.lastChild);
 					};
-					options[i].value = var_store.getVar(["options.", options[i].name].join(""));
+					options[i].value = var_store.getVar("options." + options[i].name);
 					options[i].onchange();
 				}
 				
@@ -299,9 +359,16 @@ var MenuStates = enchant.Class.create({
 					xml_manager.updateOptions(options_values);
 					xml_manager.saveOptions();		//変更したオプションを保存しておく
 					
-					if(self.success_se_path){self.sound_manager.add({src : self.success_se_path, operation : "once", sync : "true"});}
-                	var notice_label = {x : "centered", y : self.operator.msg_manager.msg_window._element.clientTop.toString(), end_time : 60,
-                   		width : "adjust", style : "font: bold large serif;"};
+					if(self.success_se_path)
+						self.sound_manager.add({src : self.success_se_path, operation : "once", sync : "true"});
+
+                	var notice_label = {
+						x : "centered",
+						y : self.operator.msg_manager.msg_window._element.clientTop.toString(),
+						end_time : 60,
+                   		width : "adjust",
+						style : "font: bold large serif;"
+					};
                 	self.system.showNoticeLabel("オプション変更完了", notice_label);
 				};
 			},
@@ -328,17 +395,19 @@ var MenuStates = enchant.Class.create({
 				info_window.font = "bold x-large serif";
 				
 				this.updateInfoWindow = function(operator){
-					while(info_window._element.firstChild){info_window._element.removeChild(info_window._element.firstChild);}
+					while(info_window._element.firstChild)
+						info_window._element.removeChild(info_window._element.firstChild);
+
 					var cur_menu = this.menu.children[operator.inner_operator.cur_index], title_node = document.createElement("p");
 					var description_node = document.createElement("p");
-					title_node.appendChild(document.createTextNode(["タイトル:", cur_menu.title.replace(/\\s/g, " ")].join("")));
+					title_node.appendChild(document.createTextNode("タイトル:" + cur_menu.title.replace(/\\s/g, " ")));
 					description_node.appendChild(document.createTextNode(cur_menu.description));
 					info_window._element.appendChild(title_node), info_window._element.appendChild(description_node);
 				};
 				
 				this.prepare = function(tag_obj, operator){
 					var xml_manager = this.system.getManager("xml");
-					if(!this.success_se_path){this.success_se_path = xml_manager.getHeader("settings")["success_se"];}
+					if(!this.success_se_path) this.success_se_path = xml_manager.getHeader("settings")["success_se"];
 					this.menu = tag_obj;
 				
 					this.system.addChild(info_window);
@@ -361,14 +430,23 @@ var MenuStates = enchant.Class.create({
 				this.system.setManager("xml", new XmlManager(selected_file.file_name, this.system));
 				xml_manager = this.system.getManager("xml");
 				xml_manager.tag_manager = this.system.getManager("tag");
-				if(this.success_se_path){this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});}
+
+				if(this.success_se_path)
+					this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});
+
                 xml_manager.getVarStore().addVar("file_paths", this.menu.children, true);
                 this.system.reset();
 				operator.clearMenu();
 				var path_header = xml_manager.getHeader("paths"), paths = xml_manager.getVarStore().getVar("paths");
 				this.system.loadResources(path_header, paths);
-				var notice_label = {x : "centered", y : operator.msg_manager.msg_window._element.clientTop.toString(), end_time : 60,
-                    width : "adjust", style : "font: bold large serif;"};
+
+				var notice_label = {
+					x : "centered",
+					y : operator.msg_manager.msg_window._element.clientTop.toString(),
+					end_time : 60,
+                    width : "adjust",
+					style : "font: bold large serif;"
+				};
                 this.system.showNoticeLabel("ファイル変更完了", notice_label);
 			},
 			

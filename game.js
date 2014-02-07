@@ -82,9 +82,19 @@ window.onload = function(){
 	game = new enchant.Game(window.innerWidth - 20, window.innerHeight - 20);
 	game.fps = 30;
 	game.onload = function(){
-		var display = new Display([{file_name : "./sample.xml", title : "ノベルゲームサンプル", description : "ゆるゆりのSSを原作としたノベルゲームのサンプルです"},
-		{file_name : "./sample2.xml", title : "アドベンチャーゲームサンプル", description : "オリジナルキャラクターを使用した簡単なアドベンチャーゲームのサンプルです"},
-		{file_name : "./AGE_reference.xml", title : "AGEリファレンス", description : "AGEの紹介や特徴、使い方などが解説されています"}]);
+		var display = new Display([{
+			file_name : "./sample.xml",
+			title : "ノベルゲームサンプル",
+			description : "ゆるゆりのSSを原作としたノベルゲームのサンプルです"
+		},{
+			file_name : "./sample2.xml",
+			title : "アドベンチャーゲームサンプル",
+			description : "オリジナルキャラクターを使用した簡単なアドベンチャーゲームのサンプルです"
+		},{
+			file_name : "./AGE_reference.xml",
+			title : "AGEリファレンス",
+			description : "AGEの紹介や特徴、使い方などが解説されています"
+		}]);
 	};
 	
 	game.keybind(13, 'a');		//Enterキー
@@ -96,14 +106,12 @@ window.onload = function(){
 	
 	['c', 'd', 'e', 'f'].forEach(function(type){
 		this.addEventListener(type + 'buttondown', function(e) {
-			if (!this.input[type]) {
+			if(!this.input[type])
 				this.input[type] = true;
-			}
 		});
 		this.addEventListener(type + 'buttonup', function(e) {
-			if (this.input[type]) {
+			if(this.input[type])
 				this.input[type] = false;
-			}
 		});
 	}, game);
 	

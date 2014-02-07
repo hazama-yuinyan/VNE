@@ -97,7 +97,7 @@ var ExpressoMin = enchant.Class.create({
             start: function(m){
                 return (m[1].length == 0) ? m[0] : m[1][m[1].length - 1][1];       //複数の文があったら、最後の結果を返す
             },
-			statement: function(m) {
+			statement: function(m){
 				return m[0];
 			},
 			expr: function(m){
@@ -188,7 +188,9 @@ var ExpressoMin = enchant.Class.create({
 
 		this.evaluate = function(str){
 			var tokens = this.tokenize(str);
-			if(tokens == null){return null;}
+			if(tokens == null)
+				return null;
+
 			return parser.parse(tokens, "start");
 		};
         
@@ -209,24 +211,24 @@ var ExpressoMin = enchant.Class.create({
 	tokenize : function(str){
 	    // 字句解析
 	    var tokens = [];
-	    while(str) {
+	    while(str){
 	        var m;
-	        if (m = str.match(/^[ \t]+/)) {
+	        if (m = str.match(/^[ \t]+/)){
 	            //
-	        } else if(m = str.match(/^0x[\da-f]+/i)){         //hex number
-                tokens.push({type:"num", value:parseInt(m[0], 16)});
-            } else if(m = str.match(/^(\+|\-)?((\d+)(\.(\d+)?)?|\.(\d+))(E(\+|\-)?(\d+))?/i)) { //decimal number
-	            tokens.push({type:"num", value:parseFloat(m[0], 10)});
-	        } else if(m = str.match(/^[\+\-\*\/\^\(\)=:;,%]|^!=|^<=?|^>=?|^and|^or|^return/i)){ //reserved keywords
-	            tokens.push({type:m[0], value:m[0]});
-	        } else if(m = str.match(/^\$([^\s\(\)\+\-\*\/\^=:;,!%<>]+)/)){      //variable name
-	            tokens.push({type:"variable", value:m[1]});
-	        } else if(m = str.match(/^([^\+\-\*\/\^\(\)\\=:;,%!<>]+)/)){        //identifier(could be a plain string)
-                tokens.push({type:"identifier", value:m[1]});
-	        } else if(m = str.match(/^\\(\S+)/)){                               //other string
-	        	tokens.push({type:"escaped_string", value:m[1]});
-	        } else {
-	        	throw new Error(["Unknown token found in ", str].join(""));
+	        }else if(m = str.match(/^0x[\da-f]+/i)){         //hex number
+                tokens.push({type : "num", value : parseInt(m[0], 16)});
+            }else if(m = str.match(/^(\+|\-)?((\d+)(\.(\d+)?)?|\.(\d+))(E(\+|\-)?(\d+))?/i)) { //decimal number
+	            tokens.push({type : "num", value : parseFloat(m[0], 10)});
+	        }else if(m = str.match(/^[\+\-\*\/\^\(\)=:;,%]|^!=|^<=?|^>=?|^and|^or|^return/i)){ //reserved keywords
+	            tokens.push({type : m[0], value : m[0]});
+	        }else if(m = str.match(/^\$([^\s\(\)\+\-\*\/\^=:;,!%<>]+)/)){      //variable name
+	            tokens.push({type : "variable", value : m[1]});
+	        }else if(m = str.match(/^([^\+\-\*\/\^\(\)\\=:;,%!<>]+)/)){        //identifier(could be a plain string)
+                tokens.push({type : "identifier", value : m[1]});
+	        }else if(m = str.match(/^\\(\S+)/)){                               //other string
+	        	tokens.push({type : "escaped_string", value : m[1]});
+	        }else{
+	        	throw new Error("Unknown token found in " + str);
 	        }
 	        str = str.substring(m[0].length);
 	    }
