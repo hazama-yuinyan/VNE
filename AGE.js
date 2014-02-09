@@ -119,6 +119,13 @@ function substituteTemplate(tmpl, values){
 	});
 }
 
+function cssNameToPropertyName(cssName){
+	var res = cssName.replace(/^[a-zA-Z]+(?:-([a-zA-Z]+))+/, function(whole_match, after_hyphen){
+		return after_hyphen.charAt(0).toUpperCase() + after_hyphen.substr(1);
+	});
+	return res;
+}
+
 /**
  * ゲーム全体の統括を行う。各オブジェクトの画面上に表示する実体のルートオブジェクトでもある。
  */
@@ -584,7 +591,7 @@ var MessageManager = enchant.Class.create(Manager, {
 
 		this.msgs = "";
 
-		this.msg_window = new enchant.Label("");
+		this.msg_window = new enchant.DomLayer();
 		this.msg_window.moveTo(0, Math.round(game.height * 2 / 3));
 		this.msg_window.width = game.width;
 		this.msg_window.height = Math.round(game.height / 3);
@@ -621,7 +628,7 @@ var MessageManager = enchant.Class.create(Manager, {
 		this.xml_manager = this.system.getManager("xml");
 		this.system.removeChild(this.msg_window);
 		
-		this.msg_window = new enchant.Label("");
+		this.msg_window = new enchant.DomLayer();
 		this.msg_window.moveTo(0, Math.round(game.height * 2 / 3));
 		this.msg_window.width = game.width;
 		this.msg_window.height = Math.round(game.height / 3);
@@ -744,8 +751,8 @@ var MessageManager = enchant.Class.create(Manager, {
 			var chara_names = this.xml_manager.getHeader("characters");
 			this.chara_name_window.text = chara_names[tag.name];
 			this.chara_name_window.visible = true;
-			setRulerStyle("font: " + this.chara_name_window._style.font);
-			this.chara_name_window.width = this.chara_name_window.text.getExpansion().width + 10;
+			//setRulerStyle("font: " + this.chara_name_window._style.font);
+			//this.chara_name_window.width = this.chara_name_window.text.getExpansion().width + 10;
 			this.chara_name_window.y = this.msg_window.y - this.chara_name_window._element.offsetHeight;
 		}else{
 			this.chara_name_window.text = "";
@@ -1826,8 +1833,12 @@ var LabelManager = enchant.Class.create(Manager, {
 
 		var label = new enchant.Label(text);
 		label.moveTo(this.interpret("x", text, tag.x, tag.style), this.interpret("y", text, tag.y, tag.style));
-		label.width = this.interpret("width", text, tag.width, tag.style);
+		//label.width = this.interpret("width", text, tag.width, tag.style);
 		this.setStyle(label, tag.style);
+		label.updateBoundArea();
+		label.width = label._boundWidth;
+		label.height = label._boundHeight;
+
 		var new_label = {
 			type : "label",
 			obj : label,
@@ -1871,7 +1882,10 @@ var LabelManager = enchant.Class.create(Manager, {
 		var styles = this.system.interpretStyle(str);
 
 		styles.forEach(function(style){
-			label._style[style.name] = style.content;
+			if(label.hasOwnProperty(cssNameToPropertyName(style.name)))
+				label[style.name] = style.content;
+			else
+				label._style[style.name] = style.content;
 		});
 	},
 
@@ -2764,9 +2778,9 @@ var MoveEffect = enchant.Class.create(Effect, {
 /**
  * ゲーム画面の実体。
  */
-var Display = enchant.Class.create(enchant.Scene, {
+var Display = enchant.Class.create(enchant.DOMScene, {
 	initialize : function(xml_paths){
-		enchant.Scene.call(this);
+		enchant.DOMScene.call(this);
 
 		var system = new SystemManager(xml_paths);
 		this.addChild(system);

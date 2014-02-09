@@ -1,5 +1,8 @@
 var MenuStates = enchant.Class.create({
 	initialize : function(system){
+		/**
+		 * メインメニューを表すステートクラス
+		 */
 		var MainMenu = enchant.Class.create({
 			initialize : function(system){
 				this.system = system;
@@ -84,6 +87,9 @@ var MenuStates = enchant.Class.create({
 			}
 		});
 		
+		/**
+		 * ポップアップメニューを表すステートクラス
+		 */
 		var Menu = enchant.Class.create({
 			initialize : function(system){
 				this.system = system;
@@ -175,6 +181,9 @@ var MenuStates = enchant.Class.create({
             }
 		});
 		
+		/**
+		 * セーブ画面を表すステートクラス
+		 */
 		var MenuSave = enchant.Class.create({
 			initialize : function(system){
 				this.system = system;
@@ -189,19 +198,21 @@ var MenuStates = enchant.Class.create({
 				info_window.font = "bold x-large serif";
 				
 				this.updateInfoWindow = function(operator){
-					while(info_window._element.firstChild){info_window._element.removeChild(info_window._element.firstChild);}
+					while(info_window._element.firstChild)
+						info_window._element.removeChild(info_window._element.firstChild);
+
 					var cur_menu = this.menu.children[operator.inner_operator.cur_index], title_node = document.createElement("p");
 					var saved_time_node = document.createElement("p");
-					title_node.appendChild(document.createTextNode(["タイトル:", cur_menu.title.replace(/\\s/g, " ")].join("")));
-					saved_time_node.appendChild(document.createTextNode(["保存日時:", cur_menu.saved_time].join("")));
+					title_node.appendChild(document.createTextNode("タイトル:" + cur_menu.title.replace(/\\s/g, " ")));
+					saved_time_node.appendChild(document.createTextNode("保存日時:" + cur_menu.saved_time));
 					info_window._element.appendChild(title_node), info_window._element.appendChild(saved_time_node);
 				};
 				
 				this.prepare = function(tag_obj, operator){
                     var xml_manager = this.system.getManager("xml");
-                    if(!this.sound_manager){this.sound_manager = this.system.getManager("sound");}
-                    if(!this.success_se_path){this.success_se_path = xml_manager.getHeader("settings")["success_se"];}
-                    if(!this.fail_se_path){this.fail_se_path = xml_manager.getHeader("settings")["fail_se"];}
+                    if(!this.sound_manager) this.sound_manager = this.system.getManager("sound");
+                    if(!this.success_se_path) this.success_se_path = xml_manager.getHeader("settings")["success_se"];
+                    if(!this.fail_se_path) this.fail_se_path = xml_manager.getHeader("settings")["fail_se"];
                     
 					this.menu = tag_obj;
 					this.system.addChild(info_window);
@@ -221,15 +232,22 @@ var MenuStates = enchant.Class.create({
 				var selected_menu = this.menu.children[operator.inner_operator.cur_index], label_text = "";
 				if(!operator.tag_manager.save(selected_menu.data_index)){
     			    label_text = "セーブに失敗しました";
-                    if(this.fail_se_path){this.sound_manager.add({src : this.fail_se_path, operation : "once", sync : "true"});}
+                    if(this.fail_se_path)
+                    	this.sound_manager.add({src : this.fail_se_path, operation : "once", sync : "true"});
 				}else{
     			    label_text = "セーブ完了";
-                    if(this.success_se_path){this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});}
+                    if(this.success_se_path)
+                    	this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});
 				}
 				operator.tag_manager.restore();			//tag_managerをメニューを開く前の状態に戻す
 				operator.clearMenu();
-                var notice_label = {x : "centered", y : operator.msg_manager.msg_window._element.clientTop.toString(), end_time : 60,
-                    width : "adjust", style : "font: bold large serif;"};
+                var notice_label = {
+                	x : "centered",
+                	y : operator.msg_manager.msg_window._element.clientTop.toString(),
+                	end_time : 60,
+                    width : "adjust",
+                    style : "font: bold large serif;"
+                };
                 this.system.showNoticeLabel(label_text, notice_label);
 			},
 			
@@ -244,6 +262,9 @@ var MenuStates = enchant.Class.create({
 			}
 		});
 		
+		/**
+		 * ロード画面を表すステートクラス
+		 */
 		var MenuLoad = enchant.Class.create({
 			initialize : function(system){
 				this.system = system;
@@ -318,9 +339,12 @@ var MenuStates = enchant.Class.create({
 			}
 		});
 		
+		/**
+		 * オプション画面を表すステートクラス
+		 */
 		var MenuOption = enchant.Class.create({
 			initialize : function(system){
-				this.options = new enchant.Label("");
+				this.options_layer = new enchant.DomLayer();
 				this.system = system;
 				this.sound_manager = null;
 				this.success_se_path = null;
@@ -329,7 +353,7 @@ var MenuStates = enchant.Class.create({
 				var options = document.getElementById("options");
 				this.inner_options = document.getElementsByTagName("input");
 				this.button = document.getElementById("apply_button");
-				this.options._element.appendChild(options);
+				this.options_layer._element.appendChild(options);
 			},
 			
 			prepare : function(tag, operator){
@@ -338,7 +362,7 @@ var MenuStates = enchant.Class.create({
 				if(!this.success_se_path) this.success_se_path = xml_manager.getHeader("settings")["success_se"];
 				if(!this.operator) this.operator = operator;
 				
-				this.system.addChild(this.options);
+				this.system.addChild(this.options_layer);
 				
 				var options = this.inner_options, var_store = xml_manager.getVarStore();
 				for(var i = 0; i < options.length; ++i){
@@ -354,10 +378,13 @@ var MenuStates = enchant.Class.create({
 				this.button.onclick = function(){
 					var options_values = [];
 					for(var i = 0; i < options.length; ++i){
-						options_values.push({name : options[i].name, value : options[i].valueAsNumber || options[i].value})
+						options_values.push({
+							name : options[i].name,
+							value : options[i].valueAsNumber || options[i].value
+						});
 					}
 					xml_manager.updateOptions(options_values);
-					xml_manager.saveOptions();		//変更したオプションを保存しておく
+					xml_manager.saveOptions();		//変更したオプションを恒久的に保存しておく
 					
 					if(self.success_se_path)
 						self.sound_manager.add({src : self.success_se_path, operation : "once", sync : "true"});
@@ -375,7 +402,7 @@ var MenuStates = enchant.Class.create({
 			
 			dispose : function(){
 				this.system.getManager("tag").text_speed = this.system.getManager("xml").getVarStore().getVar("options.text_speed");
-				this.system.removeChild(this.options);
+				this.system.removeChild(this.options_layer);
 			},
 			
 			operateA : function(){

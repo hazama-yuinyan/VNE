@@ -97,15 +97,19 @@ var ExpressoMin = enchant.Class.create({
             start: function(m){
                 return (m[1].length == 0) ? m[0] : m[1][m[1].length - 1][1];       //複数の文があったら、最後の結果を返す
             },
+            
 			statement: function(m){
 				return m[0];
 			},
+
 			expr: function(m){
                 return m[0];
 			},
+
 			get: function(m){
 				return m[1];
 			},
+
 			assignment: function(m){
                 var store = _self.variable_store, var_list = [m.g.variable_list[0]];
                 m.g.variable_list[1].forEach(function(rhs){
@@ -125,16 +129,19 @@ var ExpressoMin = enchant.Class.create({
                 });
 				return "successful assignment";
 			},
+
 			logical_or: function(m){
-				return m[1].inject(m[0], function(acc, v){
+				return m[1].reduce(function(acc, v){
 					return acc || v[1];
-				});
+				}, m[0]);
 			},
+
 			logical_and: function(m){
-				return m[1].inject(m[0], function(acc, v){
+				return m[1].reduce(function(acc, v){
 					return acc && v[1];
-				});
+				}, m[0]);
 			},
+
 			comp: function(m){
 				return (m[1] != null) ? (function(acc, v){
 					return (v[0] == '<') ? acc < v[1] :
@@ -144,26 +151,31 @@ var ExpressoMin = enchant.Class.create({
 							(v[0] == "<=") ? acc <= v[1] : acc >= v[1];
 				})(m[0], m[1]) : m[0];
 			},
+
 			add: function(m) {
-				return m[1].inject(m[0], function(acc, v){
+				return m[1].reduce(function(acc, v){
 					return (v[0] == "-") ? (acc - v[1]) : (acc + v[1]);
-				});
+				}, m[0]);
 			},
+
 			mul: function(m) {
-				return m[1].inject(m[0], function(acc, v){
+				return m[1].reduce(function(acc, v){
 					return (v[0] == "%") ? (acc % v[1]) :
                     (v[0] == "/") ? (acc / v[1]) : (acc * v[1]);
-				});
+				}, m[0]);
 			},
+
 			pow: function(m) {
-				return m[1].inject(m[0], function(acc, v){
+				return m[1].reduce(function(acc, v){
 					return Math.pow(acc, v[1]);
-				});
+				}, m[0]);
 			},
+
             call: function(m){
                 var funcs = _self.defined_functions;
                 return (m.g.tuple) ? funcs[m.g.identifier](m.g.tuple[0]) : funcs[m.g.identifier]();
             },
+
             tuple: function(m){
                 var array = [m[0]];
                 m[1].forEach(function(rhs){
@@ -171,6 +183,7 @@ var ExpressoMin = enchant.Class.create({
                 });
                 return array;
             },
+
 			fact: function(m){
 				var v = (m.g.num != undefined) ? m.g.num :
 					(m.g.logical_or != undefined) ? m.g.logical_or : m.g.string && m.g.string.replace(/\\s/g, " ") || m[1];
