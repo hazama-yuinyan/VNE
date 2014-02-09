@@ -32,7 +32,7 @@
 			<path name="br_icon">images/br_icon.png</path>
 			<path name="cp_icon">images/cp_icon.png</path>
 			<path name="select">sounds/select.ogg</path>
-			<path name="bgm1">sounds/christmas time for you-m.ogg</path>
+			<path name="bgm1">sounds/christmas_time_for_you-m.ogg</path>
 			<path name="bgm2">sounds/tampi01.mp3</path>
 			<path name="bgm3">sounds/tamsugisa.mp3</path>
 			<path name="ed">sounds/tamhe06.mp3</path>

@@ -131,12 +131,21 @@ var SystemManager = enchant.Class.create(Group, {
 		var path_header = xml_manager.getHeader("paths"), paths = xml_manager.getVarStore().getVar("paths");
 
 		game._debug = (xml_manager.getVarStore().getVar("settings.is_debug") == "true");
-		xml_manager.getVarStore().addVar("file_paths", xml_paths);
+		xml_manager.getVarStore().setVar("file_paths", xml_paths);
 		xml_manager.addDefaultOptions({auto_scroll_delta : 60, sound_bgm : 0.5, sound_se : 0.5, sound_ope : 0.5, text_speed : 0.5});
 
-		var managers = {xml : xml_manager, message : msg_manager, tag : new TagManager(this, xml_manager, msg_manager, log_manager),
-				label : new LabelManager(this), sound : new SoundManager(this), effect : new EffectManager(this), log : log_manager,
-				input : new InputManager(this), image : new ImageManager(this), choices : new ChoicesManager(this)};
+		var managers = {
+			xml : xml_manager,
+			message : msg_manager,
+			tag : new TagManager(this, xml_manager, msg_manager, log_manager),
+			label : new LabelManager(this),
+			sound : new SoundManager(this),
+			effect : new EffectManager(this),
+			log : log_manager,
+			input : new InputManager(this),
+			image : new ImageManager(this),
+			choices : new ChoicesManager(this)
+		};
 
 		if(!localStorage.getItem("save"))
 			localStorage.setItem("save", JSON.stringify([]));
@@ -163,6 +172,14 @@ var SystemManager = enchant.Class.create(Group, {
 		};
 		
 		this.loadResources(path_header, paths);
+
+		var xhp = new XMLHttpRequest();
+		xhp.onload = function(){
+			var content = xhp.responseText;
+			msg_tmpls = JSON.parse(content);
+		};
+		xhp.open("get", "/messages.json", false);
+		xhp.send(null);
 
 		this.reset = function(){
 			array.forEach(function(manager){
@@ -256,7 +273,7 @@ var XmlManager = enchant.Class.create(Manager, {
 		var http_obj = new XMLHttpRequest();
 		var contents = [], headers = [], jump_table = {};
 		var variable_store = new VarStore(), now = new Date(), expresso = new ExpressoMin(variable_store);
-		variable_store.addVar("time", {		//predefined変数を追加する
+		variable_store.setVar("time", {		//predefined変数を追加する
 			year : now.getFullYear(),
 			month : now.getMonth() + 1,
 			date : now.getDate(),
@@ -266,7 +283,7 @@ var XmlManager = enchant.Class.create(Manager, {
 			secs : now.getSeconds(),
 			millis : now.getTime()
 		}, true);
-		variable_store.addVar("now", {
+		variable_store.setVar("now", {
 			year : now.getFullYear(),
 			month : now.getMonth() + 1,
 			date : now.getDate(),
@@ -276,8 +293,8 @@ var XmlManager = enchant.Class.create(Manager, {
 			secs : now.getSeconds(),
 			millis : now.getTime()
 		}, true);
-		variable_store.addVar("display", {width : game.width, height : game.height}, true);
-		variable_store.addVar("cur_frame", 0, true);
+		variable_store.setVar("display", {width : game.width, height : game.height}, true);
+		variable_store.setVar("cur_frame", 0, true);
 		this.next_updating_time = now.getTime() + 1000;
 
 		http_obj.onload = function(){
@@ -381,22 +398,22 @@ var XmlManager = enchant.Class.create(Manager, {
                         switch(header.type){
                         case "characters" :
                         case "colors" :
-                            variable_store.addVar(name + "." + child.type, value, true);
+                            variable_store.setVar(name + "." + child.type, value, true);
                             break;
         
                         case "paths" :
                         case "settings" :
-                            variable_store.addVar(header.type + "." + name, value, true);
+                            variable_store.setVar(header.type + "." + name, value, true);
                             break;
         
                         case "variables" :
                         case "flags" :
-                            variable_store.addVar([(header.type == "flags") ? "flags." : "", name].join(""),
+                            variable_store.setVar([(header.type == "flags") ? "flags." : "", name].join(""),
                                 (text.search(/^\d*.?\d*$/) != -1) ? parseFloat(value) : value, true);
                             break;
                             
                         case "profile" :
-                            variable_store.addVar(header.name + "." + name, value, true);
+                            variable_store.setVar(header.name + "." + name, value, true);
                             break;
                         }
                     });
@@ -481,7 +498,7 @@ var XmlManager = enchant.Class.create(Manager, {
 		this.setCurrentTimeToVarStore = function(){
 			if(game.currentTime >= this.next_updating_time){	//$now.millis以外はほぼ1秒ごとに更新する
 				var now = new Date();
-				variable_store.addVar("now", {
+				variable_store.setVar("now", {
 					year : now.getFullYear(),
 					month : now.getMonth() + 1,
 					date : now.getDate(),
@@ -492,8 +509,8 @@ var XmlManager = enchant.Class.create(Manager, {
 				}, true);
 				this.next_updating_time = game.currentTime + 1000;
 			}
-			variable_store.addVar("now.millis", game.currentTime, true);
-			variable_store.addVar("cur_frame", game.frame, true);
+			variable_store.setVar("now.millis", game.currentTime, true);
+			variable_store.setVar("cur_frame", game.frame, true);
 		};
 
 		this.save = function(tag){
@@ -523,24 +540,21 @@ var XmlManager = enchant.Class.create(Manager, {
 
 		this.loadOptions = function(){
 			var options = JSON.parse(localStorage.getItem("options"));
-			variable_store.addVar("options", options, true);
+			variable_store.setVar("options", options);
 		};
 
 		this.addDefaultOptions = function(options){		//loadOptionsで読み込まれなかった設定に対してデフォルト値を設定する
-			for(var property in options){
-				if(options.hasOwnProperty(property)){
-					try{
-						variable_store.getVar("options." + property);
-					}catch(e){
-						variable_store.addVar("options." + property, options[property], true);
-					}
-				}
-			}
+			if(!variable_store.getVar("options"))
+				variable_store.setVar("options", {});
+
+			var old_options = variable_store.getVar("options");
+			var new_options = setNonExistentProperties(old_options, options);
+			variable_store.setVar("options", new_options);
 		};
         
         this.updateOptions = function(options){
 			options.forEach(function(option){
-				variable_store.addVar("options." + option.name, option.value, true);
+				variable_store.setVar("options." + option.name, option.value);
 			}, this);
         };
         
@@ -588,7 +602,7 @@ var MessageManager = enchant.Class.create(Manager, {
 		system.addChild(this.msg_window);
 		system.addChild(this.chara_name_window);
 
-		xml_manager.getVarStore().addVar("msg_window", {
+		xml_manager.getVarStore().setVar("msg_window", {
 			x : this.msg_window.x,
 			y : this.msg_window.y,
 			width : this.msg_window.width,
@@ -617,7 +631,7 @@ var MessageManager = enchant.Class.create(Manager, {
         this.msg_window.onHeld = function(){
             game.input.b = true;
         };
-        this.xml_manager.getVarStore().addVar("msg_window", {
+        this.xml_manager.getVarStore().setVar("msg_window", {
 			x : this.msg_window.x,
 			y : this.msg_window.y,
 			width : this.msg_window.width,
@@ -700,12 +714,12 @@ var MessageManager = enchant.Class.create(Manager, {
         if(this.msg_window.y + this.msg_window._element.offsetHeight != game.height){    //メッセージウインドウの大きさを微調整する
 			var margin_height = game.height - this.msg_window.y;
 			this.msg_window.height = margin_height + (this.msg_window.height - this.msg_window._element.offsetHeight);
-			this.xml_manager.getVarStore().addVar("msg_window.height", this.msg_window.height, true);
+			this.xml_manager.getVarStore().setVar("msg_window.height", this.msg_window.height, true);
 		}
 
 		if(this.msg_window._element.offsetWidth != game.width){
 			this.msg_window.width = game.width + (this.msg_window.width - this.msg_window._element.offsetWidth);
-			this.xml_manager.getVarStore().addVar("msg_window.width", this.msg_window.width, true);
+			this.xml_manager.getVarStore().setVar("msg_window.width", this.msg_window.width, true);
 		}
 
 		this.cur_text_y = this.initial_text_y;
@@ -771,7 +785,7 @@ var TagManager = enchant.Class.create(Manager, {
          * 新たなタグを追加するにはInterpreterを継承したクラスを定義して
          * TagManagerのinterpretersに追加するだけで出来ます。
          *
-         * 各インタプリタは必ずinterpretとpostInterpretを実装しなければならない。
+         * 各インタプリタは必ずinterpretとpostInterpretを実装しなければなりません。
          * postInterpret内でmanager.last_targeted_tagをnullにしない限り、永遠にpostInterpretが呼ばれ続けることに注意してください。
          */
 		var Interpreter = enchant.Class.create({
@@ -1354,8 +1368,8 @@ var TagManager = enchant.Class.create(Manager, {
 					if(tag_obj.children){	//子オブジェクトとして持っているVarタグを評価して置換しておく
 						var strs = [tag_obj.text], last_tag_pos = 0;
 						tag_obj.children.forEach(function(tag){
-							strs.splice(-1, 1, strs[strs.length-1].substr(last_tag_pos, tag.pos),
-									this.xml_manager.interpretExpression(tag.expr), strs[strs.length-1].substr(tag.pos));
+							strs.splice(-1, 1, strs[strs.length - 1].substr(last_tag_pos, tag.pos),
+									this.xml_manager.interpretExpression(tag.expr), strs[strs.length - 1].substr(tag.pos));
 							last_tag_pos = tag.pos;
 						}, this);
 						text = strs.join("");
@@ -1823,7 +1837,7 @@ var LabelManager = enchant.Class.create(Manager, {
 
 		if(tag.id){
 			new_label['id'] = tag.id;
-			this.xml_manager.getVarStore().addVar("labels." + tag.id, tag.id, true);
+			this.xml_manager.getVarStore().setVar("labels." + tag.id, tag.id, true);
 		}
 
 		this.labels.push(new_label);
@@ -1864,13 +1878,13 @@ var LabelManager = enchant.Class.create(Manager, {
 	interpret : function(type, text, expr, style){
 		if(expr == "adjust"){		//ラベルの幅がテキストをすべて表示するのに必要な幅と一致するように設定する
 			if(type != "width")
-				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "adjust"});
+				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "adjust"}));
 
 			setRulerStyle(style && this.xml_manager.replaceVars(style) || "font: normal normal serif;");
 			return text.getExpansion().width;
 		}else if(expr == "centered"){		//ラベルの中心がゲーム画面の中心に来るようにxまたはyを設定する
 			if(type != "x" && type != "y")
-				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"});
+				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"}));
 
 			setRulerStyle(style && this.xml_manager.replaceVars(style) || "font: normal normal serif;");
 			return (type == "x") ? Math.round(game.width / 2 - text.getExpansion().width / 2) :
@@ -1926,7 +1940,7 @@ var ImageManager = enchant.Class.create(Manager, {
 		var profile = this.xml_manager.getHeader("profile", tag.target), file_name = this.xml_manager.replaceVars(tag.src || profile && profile.src);
 		var img = game.assets[file_name];
 		if(!img)
-			throw new SyntaxError(substituteTemplate(msg_tmpls.errorMissingIamgeFile, {fileName : file_name});
+			throw new SyntaxError(substituteTemplate(msg_tmpls.errorMissingIamgeFile, {fileName : file_name}));
 
 		var new_img = {
 			type : "image",
@@ -1951,7 +1965,7 @@ var ImageManager = enchant.Class.create(Manager, {
 
 		if(tag.id || tag.target){
 			new_img['id'] = tag.id || tag.target;
-			this.xml_manager.getVarStore().addVar("imgs." + tag.id, tag.id, true);
+			this.xml_manager.getVarStore().setVar("imgs." + tag.id, tag.id, true);
 		}
 
 		this.imgs.push(new_img);
@@ -2015,7 +2029,7 @@ var ImageManager = enchant.Class.create(Manager, {
 			}
 		}else if(expr == "centered"){		//画像の中心がゲーム画面の中心に来るようにxまたはyを設定する
 			if(type != "x" && type != "y")
-				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"});
+				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"}));
 
 			return (type == "x") ? Math.round(game.width / 2 - size / 2) : Math.round(game.height / 2 - size / 2);
 		}else{
@@ -2072,7 +2086,7 @@ var SoundManager = enchant.Class.create(Manager, {
 			effects : []
 		};
 		if(!new_sound.obj)
-			throw new SyntaxError(substituteTemplate(msg_tmpls.errorMissingSoundFile, {fileName : file_name});
+			throw new SyntaxError(substituteTemplate(msg_tmpls.errorMissingSoundFile, {fileName : file_name}));
 
 		new_sound.obj.volume = Math.min(Math.max(volume, 0), 1);
 
@@ -2096,13 +2110,12 @@ var SoundManager = enchant.Class.create(Manager, {
 			this.cur_bgm = new_sound.obj;
 		}
 
-		if(tag.sync){
+		if(tag.sync)
 			this.system.getManager("tag").setNextUpdateFrame(game.frame + Math.floor(game.fps * new_sound.obj.duration));
-		}
 
 		if(tag.id){
 			new_sound['id'] = tag.id;
-			this.xml_manager.getVarStore().addVar("sounds." + tag.id, tag.id, true);
+			this.xml_manager.getVarStore().setVar("sounds." + tag.id, tag.id, true);
 		}
 		this.sounds.push(new_sound);
 		if(!this.is_availble)
@@ -2194,7 +2207,7 @@ var StoryAdvancer = enchant.Class.create(ActionOperator, {
 
 	operateC : function(){		//自動テキスト送り機能のオン・オフを切り替える
 		this.do_auto_text_scrolling = !this.do_auto_text_scrolling;
-		this.input_manager.system.getManager("xml").getVarStore().addVar("options.do_auto_scroll", this.do_auto_text_scrolling, true);
+		this.input_manager.system.getManager("xml").getVarStore().setVar("options.do_auto_scroll", this.do_auto_text_scrolling, true);
 		if(this.do_auto_text_scrolling){
 			this.auto_scroll_frame = this.xml_manager.getVarStore().getVar("options.auto_scroll_delta");
 			this.tag_manager.is_available = true;
@@ -2544,7 +2557,7 @@ var EffectManager = enchant.Class.create(Manager, {
 	add : function(effect){
 		if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
 
-		this.xml_manager.getVarStore().addVar("effects." + effect.id, effect.id, true);
+		this.xml_manager.getVarStore().setVar("effects." + effect.id, effect.id, true);
 		this.effects.push(effect);
 		if(!this.is_available)
 			this.is_available = true;

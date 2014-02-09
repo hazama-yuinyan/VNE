@@ -21,3 +21,11 @@ So all you have to do is write down a xml file and your story will just start of
 ## Supported platforms
 
 Because it is written in Javascript and uses HTML5 features, AGE logically supports all the platforms that HTML5 does.
+
+## Licenses
+Sounds: TAM Music Factory -- http://www.tam-music.com/
+		WEB WAVE LIB -- http://wwl.s-t-t.com/
+		効果音g -- http://sfx-g.net/index.html
+
+Images: ゆるゆり公式配布のツイッター用アイコン集 -- http://yuruyuri.com/blog/archives/886
+                                         http://yuruyuri.com/blog/archives/1380

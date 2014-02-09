@@ -4,7 +4,7 @@
 var VarStore = enchant.Class.create({
     initialize: function(){
         var store = {};
-        this.addVar = function(name, value){
+        this.setVar = function(name, value){
             if(name.search(/\./) != -1){
                 var elems = name.split(/\./);
                 if(store[elems[0]]){
