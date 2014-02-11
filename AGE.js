@@ -106,6 +106,9 @@ function getObjById(array, id){
  * 指定した座標がobj内かどうか調べる
  */
 function isInArea(obj, x, y){
+	if(!obj.visible)
+		return false;
+
 	var width = obj.width || obj._element.offsetWidth, height = obj.height || obj._element.offsetHeight;
     return(obj.x <= x && x < obj.x + width && obj.y <= y && y < obj.y + height);
 }
@@ -121,7 +124,8 @@ function substituteTemplate(tmpl, values){
 
 function cssNameToPropertyName(cssName){
 	var res = cssName.replace(/^[a-zA-Z]+(?:-([a-zA-Z]+))+/, function(whole_match, after_hyphen){
-		return after_hyphen.charAt(0).toUpperCase() + after_hyphen.substr(1);
+		var pos_after_hyphen = whole_match.indexOf(after_hyphen);
+		return whole_match.substr(0, pos_after_hyphen - 1) + after_hyphen.charAt(0).toUpperCase() + after_hyphen.substr(1);
 	});
 	return res;
 }
@@ -234,6 +238,14 @@ var SystemManager = enchant.Class.create(Group, {
 		return styles;
 	},
 
+	setStyleOnEnchantObject : function(obj, style){
+		var prop_name = cssNameToPropertyName(style.name);
+		if(prop_name in obj)
+			obj[prop_name] = style.content;
+		else
+			obj._style[style.name] = style.content;
+	},
+
     /**
      * 引数で与えられた位置にある一番手前のオブジェクトにイベントを発行する
      */
@@ -315,36 +327,43 @@ var XmlManager = enchant.Class.create(Manager, {
 				return obj;
 			};
 
+			var hasTrailingCp = function(elem, remaining_text, content){
+				return elem.tagName.search(/label|log|text|menu|choice/) == -1 &&
+					(remaining_text.length || content[content.length - 1].type != "cp");
+			};
+
 			var createObjFromChild = function(type, obj, elem, parent){	//DOMツリーをたどってタグをオブジェクト化する
 				if(!elem)
 					return obj;
 
 				var child_obj = squeezeValues(elem);
-				if(elem.tagName != "scene" && splited[elem.tagName] === undefined)
-					splited[elem.tagName] = {texts : text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?>")), next_index : 1};
-				
+				if(elem.tagName != "scene" && splited[elem.tagName] === undefined){
+					splited[elem.tagName] = {
+						texts : text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?>")),
+						next_index : 1
+					};
+				}
+
 				if(elem.childElementCount !== 0){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
 					if(type != "header" && elem.tagName != "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
 						var searching_text = splited[elem.tagName].texts[splited[elem.tagName].next_index];
 						content.forEach(function(tag){
 							var result = searching_text.match(/(<\/?)([^\s>\/]+)/), result2 = searching_text.match(/>/);
-							if(result !== null && result2 !== null && result[2] == tag.type){
+							if(result !== null && result2 !== null && result[2] == tag.type)
 								searching_text = searching_text.slice(result2.index + 1);
-							}else{
+							else
 								throw new Error(substituteTemplate(msg_tmpls.errorMissingTag, {type : tag.type}));
-							}
 
 							tag.pos = result.index;
 							var tag_name = "</" + tag.type + ">", end_tag = searching_text.match(tag_name);
 							if(end_tag !== null)
 								searching_text = searching_text.slice(end_tag.index + tag_name.length);
 						});
+
 						var remaining_text = searching_text.split("</" + elem.tagName + ">")[0];
-						if(elem.tagName.search(/label|log|text|menu|choice/) == -1 && (remaining_text.length ||
-                            content[content.length - 1].type != "cp")){		//終了タグの直前にcpが存在しなければ補完する
+						if(hasTrailingCp(elem, remaining_text, content))		//終了タグの直前にcpが存在しなければ補完する
 							content.push({type : "cp", pos : remaining_text.length, parent : child_obj});
-						}
 					}
 					child_obj.children = content;
 				}
@@ -405,22 +424,22 @@ var XmlManager = enchant.Class.create(Manager, {
                         switch(header.type){
                         case "characters" :
                         case "colors" :
-                            variable_store.setVar(name + "." + child.type, value, true);
+                            variable_store.setVar(name + "." + child.type, value);
                             break;
         
                         case "paths" :
                         case "settings" :
-                            variable_store.setVar(header.type + "." + name, value, true);
+                            variable_store.setVar(header.type + "." + name, value);
                             break;
         
                         case "variables" :
                         case "flags" :
                             variable_store.setVar([(header.type == "flags") ? "flags." : "", name].join(""),
-                                (text.search(/^\d*.?\d*$/) != -1) ? parseFloat(value) : value, true);
+                                (text.search(/^\d*.?\d*$/) != -1) ? parseFloat(value) : value);
                             break;
                             
                         case "profile" :
-                            variable_store.setVar(header.name + "." + name, value, true);
+                            variable_store.setVar(header.name + "." + name, value);
                             break;
                         }
                     });
@@ -604,6 +623,7 @@ var MessageManager = enchant.Class.create(Manager, {
 
 		this.chara_name_window = new enchant.Label("");
 		this.chara_name_window.moveTo(50, this.msg_window.y - 18);
+		this.chara_name_window.updateBoundArea();
 		this.chara_name_window.visible = false;
 
 		system.addChild(this.msg_window);
@@ -658,7 +678,7 @@ var MessageManager = enchant.Class.create(Manager, {
 	},
 
 	setStyle : function(tag){
-		var style = tag.style || this.xml_manager.getHeader("profile", tag.name).style;
+		var style = tag.style || this.xml_manager.getHeader("profile", tag.chara).style;
 		var styles = this.system.interpretStyle(style);
 
 		styles.forEach(function(style){
@@ -673,7 +693,7 @@ var MessageManager = enchant.Class.create(Manager, {
 				}
 			}
 			this.msg_window._style[style.name] = style.content;
-			this.chara_name_window._style[style.name] = style.content;
+			this.system.setStyleOnEnchantObject(this.chara_name_window, style);
 		}, this);
 	},
 
@@ -749,11 +769,14 @@ var MessageManager = enchant.Class.create(Manager, {
 	makeCharaNameWindowVisible : function(is_visible, tag){
 		if(is_visible){
 			var chara_names = this.xml_manager.getHeader("characters");
-			this.chara_name_window.text = chara_names[tag.name];
+			this.chara_name_window.text = chara_names[tag.chara];
 			this.chara_name_window.visible = true;
-			//setRulerStyle("font: " + this.chara_name_window._style.font);
-			//this.chara_name_window.width = this.chara_name_window.text.getExpansion().width + 10;
-			this.chara_name_window.y = this.msg_window.y - this.chara_name_window._element.offsetHeight;
+			setRulerStyle("font: " + this.chara_name_window._style.font);
+			var expansion = this.chara_name_window.text.getExpansion();
+			this.chara_name_window.width = expansion.width + 10;
+			this.chara_name_window.height = expansion.height;
+			this.chara_name_window.updateBoundArea();
+			this.chara_name_window.y = this.msg_window.y - this.chara_name_window._boundHeight;
 		}else{
 			this.chara_name_window.text = "";
 			this.chara_name_window.visible = false;
@@ -1297,7 +1320,7 @@ var TagManager = enchant.Class.create(Manager, {
 					this.image_manager.change(tag_obj.id, tag_obj);
 				}else{
                     if(!tag_obj.target && tag_obj.parent.type == "line") //lineタグの内部にあってtarget属性が明示されていなければ、自動補完する
-                        tag_obj['target'] = tag_obj.parent.name;
+                        tag_obj['target'] = tag_obj.parent.chara;
                     
 					var new_img = this.image_manager.add(tag_obj, parseInt(tag_obj.end_time));
 					if(tag_obj.effect)
@@ -1495,7 +1518,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 	isCharacterTag : function(tag){
 		var char_headers = this.xml_manager.getHeader("characters");
-		return (char_headers[tag.name] != undefined);
+		return (char_headers[tag.chara] != undefined);
 	},
 
 	getNextTarget : function(tag){
@@ -1649,12 +1672,13 @@ var LogManager = enchant.Class.create(Manager, {
 		this.logs = [];
 		this.line_text = "";
 		this.last_chara = "";
-		this.log_window = new enchant.Label("");
+		this.log_window = new enchant.DomLayer();
 		this.log_window.width = game.width;
 		this.log_window.height = game.height;
-		this.log_window._style["text-decoration"] = "underline";
-		this.log_window._style["overflow"] = "hidden";
+		this.log_window._element.style["text-decoration"] = "underline";
+		this.log_window._element.style["overflow"] = "hidden";
 		this.log_window.backgroundColor = "rgba(128, 128, 128, 0.8)";
+
 		var dummy = "ダミー";
 		this.log_window.font = "normal large serif";
 		setRulerStyle(this.log_window._style);
@@ -1882,11 +1906,8 @@ var LabelManager = enchant.Class.create(Manager, {
 		var styles = this.system.interpretStyle(str);
 
 		styles.forEach(function(style){
-			if(label.hasOwnProperty(cssNameToPropertyName(style.name)))
-				label[style.name] = style.content;
-			else
-				label._style[style.name] = style.content;
-		});
+			this.system.setStyleOnEnchantObject(label, style);
+		}, this);
 	},
 
 	interpret : function(type, text, expr, style){
@@ -2286,8 +2307,8 @@ var Chooser = enchant.Class.create(ActionOperator, {
 		var styles = this.input_manager.system.interpretStyle(str);
 
 		styles.forEach(function(style){
-			label._style[style.name] = style.content;
-		});
+			this.input_manager.system.setStyleOnEnchantObject(label, style);
+		}, this);
 	},
 
 	setInputManager : function(input_manager){
