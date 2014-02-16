@@ -5122,9 +5122,9 @@ enchant.WebAudioSound = enchant.Class.create(enchant.EventTarget, {
      * @constructs
      */
     initialize: function() {
-        if(!window.webkitAudioContext){
+        /*if(!window.webkitAudioContext){
             throw new Error("This browser does not support WebAudio API.");
-        }
+        }*/
         var actx = enchant.WebAudioSound.audioContext;
         enchant.EventTarget.call(this);
         this.src = actx.createBufferSource();
@@ -5132,6 +5132,7 @@ enchant.WebAudioSound = enchant.Class.create(enchant.EventTarget, {
         this._volume = 1;
         this._currentTime = 0;
         this._state = 0;
+        this._loop = false;
         this.connectTarget = enchant.WebAudioSound.destination;
     },
     play: function(dup) {
@@ -5145,6 +5146,7 @@ enchant.WebAudioSound = enchant.Class.create(enchant.EventTarget, {
             this.src = actx.createBufferSource();
             this.src.buffer = this.buffer;
             this.src.gain.value = this._volume;
+            this.src.loop = this._loop;
             this.src.connect(this.connectTarget);
             this.src.noteOn(0);
         }
@@ -5156,20 +5158,33 @@ enchant.WebAudioSound = enchant.Class.create(enchant.EventTarget, {
         this._state = 2;
     },
     stop: function() {
-        this.src.noteOff(0);
-        this._state = 0;
+        if(this._state != 0){
+            this.src.noteOff(0);
+            this._state = 0;
+        }
     },
     clone: function() {
         var sound = new enchant.WebAudioSound();
         sound.buffer = this.buffer;
         return sound;
     },
-    dulation: {
+    duration: {
         get: function() {
             if (this.buffer) {
-                return this.buffer.dulation;
+                return this.buffer.duration;
             } else {
                 return 0;
+            }
+        }
+    },
+    loop: {
+        get: function(){
+            return this._loop;
+        },
+        set: function(loop){
+            this._loop = loop;
+            if(this.src){
+                this.src.loop = this._loop;
             }
         }
     },

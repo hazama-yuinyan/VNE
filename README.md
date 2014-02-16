@@ -29,3 +29,5 @@ Sounds: TAM Music Factory -- http://www.tam-music.com/
 
 Images: ゆるゆり公式配布のツイッター用アイコン集 -- http://yuruyuri.com/blog/archives/886
                                          http://yuruyuri.com/blog/archives/1380
+
+Copyright: HAZAMA(kotonechan@live.jp)

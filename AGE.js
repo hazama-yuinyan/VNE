@@ -184,13 +184,13 @@ var SystemManager = enchant.Class.create(Group, {
 		
 		this.loadResources(path_header, paths);
 
-		var xhp = new XMLHttpRequest();
-		xhp.onload = function(){
-			var content = xhp.responseText;
+		var xhr = new XMLHttpRequest();
+		xhr.onload = function(){
+			var content = xhr.responseText;
 			msg_tmpls = JSON.parse(content);
 		};
-		xhp.open("get", "/messages.json", false);
-		xhp.send(null);
+		xhr.open("get", "/messages.json", false);
+		xhr.send(null);
 
 		this.reset = function(){
 			array.forEach(function(manager){
@@ -692,7 +692,8 @@ var MessageManager = enchant.Class.create(Manager, {
 					style.content = "rgba(" + rgb.join(",") + ")";
 				}
 			}
-			this.msg_window._style[style.name] = style.content;
+
+			this.msg_window._element.style[style.name] = style.content;
 			this.system.setStyleOnEnchantObject(this.chara_name_window, style);
 		}, this);
 	},
@@ -2117,7 +2118,6 @@ var SoundManager = enchant.Class.create(Manager, {
 		var new_sound = {
 			type : "sound",
 			obj : game.assets[file_name],
-			is_loop : false,
 			effects : []
 		};
 		if(!new_sound.obj)
@@ -2125,10 +2125,8 @@ var SoundManager = enchant.Class.create(Manager, {
 
 		new_sound.obj.volume = Math.min(Math.max(volume, 0), 1);
 
-		if(tag.is_bgm || tag.operation == "loop"){
-			new_sound.obj._element.loop = true;
-			new_sound.is_loop = true;
-		}
+		if(tag.is_bgm || tag.operation == "loop")
+			new_sound.obj.loop = true;
 
 		if(tag.is_bgm){
 			if(this.cur_bgm){		//前のBGMを停止させる
@@ -2188,7 +2186,7 @@ var SoundManager = enchant.Class.create(Manager, {
 		});
 
 		this.sounds = this.sounds.filter(function(sound){
-			return sound.is_loop;
+			return sound.obj.loop;
 		});
 		this.is_available = false;
 	}

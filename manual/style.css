@@ -1,0 +1,47 @@
+/*The AGE Manual style sheet*/
+
+
+
+body{
+  left: 10%;
+	background: #001210;
+	margin: 40px auto 30px auto;
+	font-size: 13px;
+	width: 80%;
+}
+
+.header{
+	background: #ffffff;
+	text-align: center;
+}
+
+.title{
+  background: #ffffff;
+}
+
+.ta{
+	background: #0024ff;
+	text-align: center;
+}
+
+.to{
+  background: #00ff22;
+  text-align: center;
+}
+
+.contents{
+    background: #ffffff;
+    border: inset 5px #666666;
+}
+
+.tag_explanation{
+	background: #ffffff;
+  border: inset 5px #aaaaaa;
+  border-radius: 25px 25px 10px 10px/ 10px 10px 5px 5px;
+}
+
+.property_explanation{
+  background: #ffffff;
+  border: outset 5px #aaaaaa;
+  border-radius: 25px 25px 10px 10px/ 10px 10px 5px 5px;
+}

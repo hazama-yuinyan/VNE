@@ -1,0 +1,65 @@
+/*The main style sheet*/
+
+
+body{
+	background: #001210;
+	margin: 40px auto 30px auto;
+	font-size: 13px;
+	width: 100%;
+}
+
+.header{
+	background: #ffffff;
+	width: 70%;
+	text-align: center;
+}
+
+.history{
+	border: outset 5px #001122;
+	left: 25%;
+	position: relative;
+	width: 50%;
+	overflow: scroll;
+	background: #ffffff;
+	text-align: center;
+	align: center;
+}
+
+.contents{
+	width : 90%;
+	background: #ffffff;
+}
+
+.program_item{
+  background: #eeeeee;
+  border: ridge 5px #444444;
+  border-radius: 10px;
+}
+
+.to_do{
+	border: solid 5px #ff1212;
+}
+
+#copyright{
+	font: bold normal sans-serif;
+	text-decoration: underline;
+}
+
+.right_column{
+  width: 90%;
+}
+	
+.twitter{
+	visiblity: none;
+	list-style: none;
+	margin: 5px 10px;
+	padding: 3px;
+	text-align: center;
+	font-size: 80%;
+}
+
+#clock{
+	visiblity: none;
+    margin: 0px;
+    background: #ffffff;
+}

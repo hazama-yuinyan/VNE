@@ -192,7 +192,7 @@ var MenuStates = enchant.Class.create({
                 this.success_se_path = null;
                 this.fail_se_path = null;
 				
-				var info_window = new enchant.Label("");
+				var info_window = new enchant.DomLayer();
 				info_window.x = 25;
 				info_window.y = game.height / 2;
 				info_window.font = "bold x-large serif";
@@ -272,7 +272,7 @@ var MenuStates = enchant.Class.create({
 				this.menu = null;
                 this.success_se_path = null;
 				
-				var info_window = new enchant.Label("");
+				var info_window = new enchant.DomLayer();
 				info_window.x = 25;
 				info_window.y = game.height / 2;
 				info_window.font = "bold x-large serif";
@@ -416,7 +416,7 @@ var MenuStates = enchant.Class.create({
 				this.menu = null;
 				this.success_se_path = null;
 				
-				var info_window = new enchant.Label("");
+				var info_window = new enchant.DomLayer();
 				info_window.x = 25;
 				info_window.y = game.height / 2;
 				info_window.font = "bold x-large serif";
