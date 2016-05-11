@@ -1,6 +1,6 @@
-# AGE(Adventure Game Engine)
+# VNE(Visual Novel game Engine)
 
-__AGE__(Adventure Game Engine) is a game engine for adventure games.
+__VNE__(Visual Novel game Engine) is a game engine for visual novel games.
 Since it is based on __enchant.js__ it completely runs on web browsers.
 And of course, it supports mobile platforms such as iPhone, Android etc.
 So you can show your works immediately after you upload it to the server!
