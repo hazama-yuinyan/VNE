@@ -30,7 +30,7 @@
 	</scene>
 	
 	<scene title="body" shows_title="false">
-		<title>AGEの解説</title>
+		<title>VNEの解説</title>
 	</scene>
 	
 	<scene title="はじめに">
@@ -50,11 +50,11 @@
 	
 	<scene title="スクリプトファイルの定義">
 		<narrative>
-			AGEにおけるスクリプトファイル（ストーリーやその中でのイベントを定義するファイル）は<br/>
+			VNEにおけるスクリプトファイル（ストーリーやその中でのイベントを定義するファイル）は<br/>
 			XMLという形式のファイルで定義します。<cp/>
 			XMLとは、<label id="xml_label" x="centered" y="centered" width="adjust" style="font: normal xx-large serif;">eXtensible Markup Language</label>eXtensible Markup Languageという頭字語であり、<br/>
 			HTMLのようにデータの並び方を記述する汎用言語となっています。<cp/>
-			AGEではこのXMLの特性を生かして、AGEのスクリプトファイル用のタグをプログラム側で定義して<br/>
+			VNEではこのXMLの特性を生かして、AGEのスクリプトファイル用のタグをプログラム側で定義して<br/>
 			そのタグの組み合わせでストーリー展開やイベントの制御を行います。<label id="xml_label" operation="remove"/><cp/>
 			そのため、基本的にストーリーを作る人にはプログラミングの知識はいりません。<br/>
 			XMLの書き方さえわかっていれば、ある程度のノベルゲームがあっという間にできてしまうのです。<cp/>

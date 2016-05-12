@@ -1,7 +1,7 @@
 /**
  * アドベンチャーゲームのゲームエンジン
  *
- * AGE.js
+ * VNE.js
  *
  * Copyright (c) HAZAMA
  * http://funprogramming.ojaru.jp
