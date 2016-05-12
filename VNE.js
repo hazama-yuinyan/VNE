@@ -65,7 +65,21 @@ function setNonExistentProperties(dest, source){
 }
 
 /**
+ * 単純なJSオブジェクトのコピーを作成する
+ * @param obj {Object} コピーを作るJSオブジェクト
+ * @returns コピーされたJSオブジェクト
+ */
+function clone(obj){
+    var tmp = setNonExistentProperties({}, obj);
+    return tmp;
+}
+
+/**
  * 文字列とRulerに指定したスタイルからその文字列を表示するのに最低限必要な幅と高さを算出する
+ * @returns {Object} width: 縁(border)を含めた実効範囲の幅
+ *                   height: 縁を含めた要素の実効範囲の高さ
+ *                   boundingWidth: 縁(border)を除いた幅
+ *                   boundingHeight: 縁を除いた高さ
  */
 String.prototype.getExpansion = function(){
 	var e = document.getElementById("ruler");
@@ -73,16 +87,36 @@ String.prototype.getExpansion = function(){
 	while(c = e.lastChild)
 		e.removeChild(c);
 
-	e.innerHTML = this;
-	var expansion = {"width" : e.offsetWidth, "height" : e.offsetHeight};
+	e.innerHTML = this.replace(/ /g, "&nbsp;"); // スペースは、HTML参照文字列に変換する
+    var s = e.getBoundingClientRect();
+    var expansion = {width : e.offsetWidth, height : e.offsetHeight, boundingWidth: parseInt(s.width, 10) + 1, boundingHeight: parseInt(s.height, 10) + 1};
 	e.innerHTML = "";
 	return expansion;
 };
 
+/**
+ * 独自のスタイルオブジェクトを使用して、CSSのスタイルを設定する。
+ * @param style {Object} SystemManager.interpretStyleの結果オブジェクト
+ */
 function setRulerStyle(style){
 	var elem = document.getElementById("ruler");
-	var new_style = "visibility: hidden; position: absolute; " + style;
-	elem.setAttribute("style", new_style);
+    if(typeof(style) === "object"){
+        // 参照で渡されたオブジェクトを変更して以下の4プロパティを元のオブジェクトに追加してしまわないよう、オブジェクトを複製する
+        style = clone(style);
+        
+        style.visibility = "hidden";
+        style.position = "absolute";
+        style.whiteSpace = "noWrap";
+        style.lineHeight = 1;
+        
+        for(var s in style){
+            if(s !== "width" && s !== "height" && s !== "display")
+                elem.style[s] = style[s];
+        }
+    }else if(typeof(style) === "string"){
+        var new_style = "visibility: hidden; position: absolute; white-space: noWrap; line-height: 1; " + style;
+        elem.setAttribute("style", new_style);
+    }
 }
 
 /**
@@ -109,7 +143,7 @@ function isInArea(obj, x, y){
 	if(!obj.visible)
 		return false;
 
-	var width = obj.width || obj._element.offsetWidth, height = obj.height || obj._element.offsetHeight;
+	var width = obj.width || obj._domManager.element.offsetWidth, height = obj.height || obj._domManager.element.offsetHeight;
     return(obj.x <= x && x < obj.x + width && obj.y <= y && y < obj.y + height);
 }
 
@@ -189,7 +223,7 @@ var SystemManager = enchant.Class.create(Group, {
 			var content = xhr.responseText;
 			msg_tmpls = JSON.parse(content);
 		};
-		xhr.open("get", "/messages.json", false);
+		xhr.open("get", "./messages.json", false);
 		xhr.send(null);
 
 		this.reset = function(){
@@ -772,12 +806,13 @@ var MessageManager = enchant.Class.create(Manager, {
 			var chara_names = this.xml_manager.getHeader("characters");
 			this.chara_name_window.text = chara_names[tag.chara];
 			this.chara_name_window.visible = true;
-			setRulerStyle("font: " + this.chara_name_window._style.font);
+			setRulerStyle(this.chara_name_window._style);
 			var expansion = this.chara_name_window.text.getExpansion();
-			this.chara_name_window.width = expansion.width + 10;
+			this.chara_name_window.width = expansion.width;
 			this.chara_name_window.height = expansion.height;
 			this.chara_name_window.updateBoundArea();
-			this.chara_name_window.y = this.msg_window.y - this.chara_name_window._boundHeight;
+            // expansion.boundingHeightは"縁"を除いたテキストノードの有効範囲なので、縁も含めた実効範囲を出すにはこうする
+            this.chara_name_window.y = this.msg_window.y - expansion.height - (expansion.height - expansion.boundingHeight);
 		}else{
 			this.chara_name_window.text = "";
 			this.chara_name_window.visible = false;
@@ -1861,8 +1896,10 @@ var LabelManager = enchant.Class.create(Manager, {
 		//label.width = this.interpret("width", text, tag.width, tag.style);
 		this.setStyle(label, tag.style);
 		label.updateBoundArea();
-		label.width = label._boundWidth;
-		label.height = label._boundHeight;
+        // ラベルの幅と高さを設定する
+        var bound = text.getExpansion();
+		label.width = bound.width;
+		label.height = bound.height;
 
 		var new_label = {
 			type : "label",
@@ -2117,13 +2154,15 @@ var SoundManager = enchant.Class.create(Manager, {
 		var file_name = this.xml_manager.replaceVars(tag.src);
 		var new_sound = {
 			type : "sound",
-			obj : game.assets[file_name],
+			obj : game.assets[file_name].clone(),
 			effects : []
 		};
 		if(!new_sound.obj)
 			throw new SyntaxError(substituteTemplate(msg_tmpls.errorMissingSoundFile, {fileName : file_name}));
 
-		new_sound.obj.volume = Math.min(Math.max(volume, 0), 1);
+        // obj.volumeだとプロパティ経由のセットになり、まだ参照が作られていないオブジェクト経由でセットを行うため
+        // undefinedエラーが発生してしまう。生の値を直接セットするhack
+		new_sound.obj._volume = Math.min(Math.max(volume, 0), 1);
 
 		if(tag.is_bgm || tag.operation == "loop")
 			new_sound.obj.loop = true;

@@ -1,6 +1,8 @@
 # VNE(Visual Novel game Engine)
 
 __VNE__(Visual Novel game Engine) is a game engine for visual novel games.
+A visual novel is a game genre especially known in Japan.
+It is a computer novel game and it employs images and sounds for visualization of the story.
 Since it is based on __enchant.js__ it completely runs on web browsers.
 And of course, it supports mobile platforms such as iPhone, Android etc.
 So you can show your works immediately after you upload it to the server!
