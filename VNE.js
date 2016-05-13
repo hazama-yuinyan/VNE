@@ -77,6 +77,7 @@ function clone(obj){
 /**
  * 文字列とRulerに指定したスタイルからその文字列を表示するのに最低限必要な幅と高さを算出する
  * @returns {Object} width: 縁(border)を含めた実効範囲の幅
+ *                   idealWidth: 実効範囲の理想的な幅(詰まってほしくない時に)
  *                   height: 縁を含めた要素の実効範囲の高さ
  *                   boundingWidth: 縁(border)を除いた幅
  *                   boundingHeight: 縁を除いた高さ
@@ -96,7 +97,7 @@ String.prototype.getExpansion = function(){
 
 /**
  * 独自のスタイルオブジェクトを使用して、CSSのスタイルを設定する。
- * @param style {Object} SystemManager.interpretStyleの結果オブジェクト
+ * @param style {Object} or {string} SystemManager.interpretStyleの結果オブジェクト
  */
 function setRulerStyle(style){
 	var elem = document.getElementById("ruler");
@@ -156,8 +157,13 @@ function substituteTemplate(tmpl, values){
 	});
 }
 
+/**
+ * CSS形式のプロパティ名(ハイフンあり)からプログラミング言語のプロパティ名(キャメルケース)に変換する
+ * @param cssName {string} 変換するプロパティ名
+ * @returns {string} 変換されたプロパティ名
+ */
 function cssNameToPropertyName(cssName){
-	var res = cssName.replace(/^[a-zA-Z]+(?:-([a-zA-Z]+))+/, function(whole_match, after_hyphen){
+	var res = cssName.replace(/^[a-zA-Z]+(?:-([a-zA-Z]+))+/g, function(whole_match, after_hyphen){
 		var pos_after_hyphen = whole_match.indexOf(after_hyphen);
 		return whole_match.substr(0, pos_after_hyphen - 1) + after_hyphen.charAt(0).toUpperCase() + after_hyphen.substr(1);
 	});
@@ -257,27 +263,29 @@ var SystemManager = enchant.Class.create(Group, {
 
 	interpretStyle : function(str){		//CSS形式で記述されたスタイル指定文字列を解析してプロパティー名をキー、その設定を値とするオブジェクトに変換する
 		str = this.getManager("xml").replaceVars(str);
-		var styles = [];
+        var style = {};
 		while(str){
 			var result;
 			if(result = str.match(/^[ \t]+/)){
 
-			}else if((result = str.match(/^([\w\-]+)\s*:\s*([^;]+);?/)) && result[1] != "position"){
-				styles.push({name : result[1], content : result[2]});
+			}else if((result = str.match(/^([\w\-]+)\s*:\s*([^;]+);?/)) && result[1] !== "position"){
+                var property_name = cssNameToPropertyName(result[1]);
+				style[property_name] = result[2];
 			}
 
 			str = str.slice(result[0].length);
 		}
 
-		return styles;
+		return style;
 	},
 
-	setStyleOnEnchantObject : function(obj, style){
-		var prop_name = cssNameToPropertyName(style.name);
-		if(prop_name in obj)
-			obj[prop_name] = style.content;
+	setStyleOnEnchantObject : function(obj, style_name, style){
+		if(style_name in obj)
+			obj[style_name] = style;
+		else if(obj._domManager)
+			obj._domManager.style[style_name] = style;
 		else
-			obj._style[style.name] = style.content;
+			obj._style[style_name] = style;
 	},
 
     /**
@@ -714,23 +722,23 @@ var MessageManager = enchant.Class.create(Manager, {
 
 	setStyle : function(tag){
 		var style = tag.style || this.xml_manager.getHeader("profile", tag.chara).style;
-		var styles = this.system.interpretStyle(style);
+		var style_obj = this.system.interpretStyle(style);
 
-		styles.forEach(function(style){
-			if(style.name == "width" || style.name == "height" || style.name == "left" || style.name == "top")
-				return;
+        for(var s in style_obj){
+        	if(s === "width" || s === "height" || s === "left" || s === "top")
+        		continue;
 
-			if(style.name == "background-color"){		//メッセージウインドウの背景は自動で透かす
-				var rgb = style.content.match(/(\d+)(?!\.)|(\d+\.\d+)/g);
-				if(rgb.length != 4){
-					rgb[3] = 0.6;
-					style.content = "rgba(" + rgb.join(",") + ")";
-				}
-			}
+        	if(s === "backgroundColor"){		//メッセージウインドウの背景は自動で透かす
+        		var rgb = style_obj[s].match(/(\d+)(?!\.)|(\d+\.\d+)/g);
+        		if(rgb.length !== 4){
+        			rgb[3] = 0.6;
+        			style_obj[s] = "rgba(" + rgb.join(",") + ")";
+        		}
+        	}
 
-			this.msg_window._element.style[style.name] = style.content;
-			this.system.setStyleOnEnchantObject(this.chara_name_window, style);
-		}, this);
+        	this.msg_window._element.style[s] = style_obj[s];
+        	this.system.setStyleOnEnchantObject(this.chara_name_window, s, style_obj[s]);
+        }
 	},
 
 	msgWindowIsVisible : function(){
@@ -809,7 +817,7 @@ var MessageManager = enchant.Class.create(Manager, {
             var charaname_window_height = this.xml_manager.getHeader("profile", tag.chara).charaname_window_height;
 			this.chara_name_window.text = chara_names[tag.chara];
 			this.chara_name_window.visible = true;
-			setRulerStyle(this.chara_name_window._style);
+			setRulerStyle(this.chara_name_window._domManager.style);
 			var expansion = this.chara_name_window.text.getExpansion();
 			this.chara_name_window.width = expansion.idealWidth;
             if(typeof charaname_window_height === "undefined")
@@ -1950,9 +1958,9 @@ var LabelManager = enchant.Class.create(Manager, {
 	setStyle : function(label, str){
 		var styles = this.system.interpretStyle(str);
 
-		styles.forEach(function(style){
-			this.system.setStyleOnEnchantObject(label, style);
-		}, this);
+		for(var s in styles){
+			this.system.setStyleOnEnchantObject(label, s, styles[s]);
+		}
 	},
 
 	interpret : function(type, text, expr, style){
@@ -2350,9 +2358,9 @@ var Chooser = enchant.Class.create(ActionOperator, {
 	setStyle : function(label, str){
 		var styles = this.input_manager.system.interpretStyle(str);
 
-		styles.forEach(function(style){
-			this.input_manager.system.setStyleOnEnchantObject(label, style);
-		}, this);
+		for(var s in styles){
+			this.input_manager.system.setStyleOnEnchantObject(label, s, styles[s]);
+		}
 	},
 
 	setInputManager : function(input_manager){
