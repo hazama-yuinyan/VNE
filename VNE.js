@@ -90,6 +90,7 @@ String.prototype.getExpansion = function(){
 
     e.textContent = this;
     // 計算で出した幅きっかりだと、縦に詰まったような表示になることがあるため、表示に適した幅も出す
+    // プラス10するのは、メインメニューの項目が改行されないようにするため
     var expansion = {width : e.clientWidth, idealWidth: e.clientWidth + 5, height : e.clientHeight, boundingWidth: e.offsetWidth, boundingHeight: e.offsetHeight};
 	e.innerHTML = "";
 	return expansion;
@@ -1911,7 +1912,9 @@ var LabelManager = enchant.Class.create(Manager, {
 		//label.width = this.interpret("width", text, tag.width, tag.style);
 		this.setStyle(label, tag.style);
 		label.updateBoundArea();
+        
         // ラベルの幅と高さを設定する
+        setRulerStyle(tag.style);
         var bound = text.getExpansion();
 		label.width = bound.idealWidth;
 		label.height = bound.height;
@@ -2287,7 +2290,7 @@ var StoryAdvancer = enchant.Class.create(ActionOperator, {
 
 	operateB : function(){		//メッセージウインドウの表示・非表示を切り替える
 		if(this.tag_manager.is_available)
-			return;		//タグマネージャーが動作してる間は、メニュー表示はできない
+			return;		//タグマネージャーが動作してる間は、メッセージウインドウの表示・非表示切り替えはできない	
 
 		this.msg_manager.makeMsgWindowVisible(!this.msg_manager.msg_window.visible);
 	},
@@ -2861,15 +2864,15 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 		this.backgroundColor = "#ebebeb";
 
         this.addEventListener('enterframe', function(){
-    		//try{
+    		try{
 				system.update();
-			/*}catch(e){
+			}catch(e){
 				if(game._debug){
 					console.log(e.message);
-				}else{
+				}/*else{
 					alert(e.message);
-				}
-			}*/
+				}*/
+			}
 		});
 
         //enchantに独自イベントを追加する
