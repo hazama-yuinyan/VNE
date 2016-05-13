@@ -61,7 +61,7 @@
 		</settings>
 		<profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
 		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
-		<profile src="$paths.img_akari" name="akari" style="border: inset 5px $akari.color; border-radius: 15px; background-color: $white; color: $akari.color; font: normal large 'うずらフォント';" frame_width="300">
+		<profile src="$paths.img_akari" name="akari" style="border: inset 5px $akari.color; border-radius: 15px; background-color: $white; color: $akari.color; font: normal large 'うずらフォント';" charaname_window_height="23" frame_width="300">
 			<frame name="ガビーン">0</frame>
 			<frame name="normal_in_winter">1</frame>
 			<frame name="かかってきなさい">2</frame>
@@ -77,7 +77,7 @@
 			<frame name="うわーん">12</frame>
 			<frame name="ん？">13</frame>
 		</profile>
-		<profile src="$paths.img_chinatsu" name="chinatsu" style="border: inset 5px $chinatsu.color; border-radius: 15px; background-color: $gray; color: $chinatsu.color; font: normal large 'うずらフォント';" frame_width="300">
+		<profile src="$paths.img_chinatsu" name="chinatsu" style="border: inset 5px $chinatsu.color; border-radius: 15px; background-color: $gray; color: $chinatsu.color; font: normal large 'うずらフォント';" charaname_window_height="23" frame_width="300">
 			<frame name="ぎゃー">0</frame>
 			<frame name="しょうがないなぁ">1</frame>
 			<frame name="しょんぼり">2</frame>
@@ -91,8 +91,8 @@
 			<frame name="イメージ映像です">10</frame>
 			<frame name="あかりちゃ〜ん">11</frame>
 		</profile>
-		<profile name="akane" style="border: outset 5px $akane.color; border-radius: 15px; background-color: $white; color: $akane.color; font: normal large 'うずらフォント'"/>
-		<profile src="$paths.img_kyouko" name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント'" frame_width="300">
+		<profile name="akane" style="border: outset 5px $akane.color; border-radius: 15px; background-color: $white; color: $akane.color; font: normal large 'うずらフォント'" charaname_window_height="23"/>
+		<profile src="$paths.img_kyouko" name="kyouko" style="border: inset 5px $kyouko.color; border-radius: 15px; background-color: $gray; color: $kyouko.color; font: normal large 'うずらフォント'" charaname_window_height="23" frame_width="300">
 			<frame name="embarrassed">0</frame>
 			<frame name="V!">1</frame>
 			<frame name="どやっ">2</frame>
@@ -106,7 +106,7 @@
 			<frame name="キラン☆">10</frame>
 			<frame name="ファイトー！">11</frame>
 		</profile>
-		<profile src="$paths.img_yui" name="yui" style="border: inset 5px $yui.color; border-radius: 15px; background-color: $white; color: $yui.color; font: normal large 'うずらフォント'" frame_width="300">
+		<profile src="$paths.img_yui" name="yui" style="border: inset 5px $yui.color; border-radius: 15px; background-color: $white; color: $yui.color; font: normal large 'うずらフォント'" charaname_window_height="23" frame_width="300">
 			<frame name="横顔">0</frame>
 			<frame name="normal">1</frame>
 			<frame name="いやいや">2</frame>
@@ -114,12 +114,12 @@
 			<frame name="斜め右">4</frame>
 			<frame name="正面">5</frame>
 		</profile>
-		<profile src="$paths.img_sakurako" name="sakurako" style="border: inset 5px $sakurako.color; border-radius: 15px; background-color: $white; color: $sakurako.color; font: normal large 'うずらフォント'" frame_width="300">
+		<profile src="$paths.img_sakurako" name="sakurako" style="border: inset 5px $sakurako.color; border-radius: 15px; background-color: $white; color: $sakurako.color; font: normal large 'うずらフォント'" charaname_window_height="23" frame_width="300">
 			<frame name="normal">0</frame>
 			<frame name="マジマジ！">1</frame>
 			<frame name="vs 向日葵">2</frame>
 		</profile>
-		<profile src="$paths.img_himawari" name="himawari" style="border: inset 5px $himawari.color; border-radius: 15px; background-color: $light_gray; color: $himawari.color; font: normal large 'うずらフォント'" frame_width="300">
+		<profile src="$paths.img_himawari" name="himawari" style="border: inset 5px $himawari.color; border-radius: 15px; background-color: $light_gray; color: $himawari.color; font: normal large 'うずらフォント'" charaname_window_height="23" frame_width="300">
 			<frame name="呆れましたわ">0</frame>
 			<frame name="vs 櫻子">1</frame>
 			<frame name="normal">2</frame>

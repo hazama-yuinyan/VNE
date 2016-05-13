@@ -440,7 +440,7 @@
     </section>
     <section class="tag_explanation">
       <h3>br/cp</h3>
-      <p>brタグはHTMLにおけるそれと同じで改行を表します。一方、cpは"Change p"の略でページ切り替えを表します。</p>
+      <p>brタグはHTMLにおけるそれと同じで改行を表します。一方、cpは"Change page"の略でページ切り替えを表します。</p>
       <p>
         なお、VNEはコンテナタグの終端に子タグが存在しない場合は自動的にcpタグを補います。<br>
         つまり、下記の例では「あーあー・・・」の直後に自動的にcpタグが補完され、ここでページ切り替えが行われます。
@@ -487,7 +487,7 @@
         <h4>注意</h4>
         <p>textタグは内部的にはHTMLの"span"タグを用いてその機能を実現しているため、一部のプロパティーが期待通りの動作をしない場合があります。</p>
         <pre class="brush: xml">
-          
+          <!-- TODO: 期待通りの動作をしない例を挙げる-->
         </pre>
         <p>例えば上記の例では
       </div>
@@ -620,7 +620,7 @@
         <p>なお、やや裏技的な使い方になりますが、しっかりエスケープしておけばlabelのテキストにはHTMLのタグを使用することができます。</p>
         <pre class="brush: xml">
           &lt;label x="centered" y="centered" width="adjust"&gt;
-            VNEのマニュアルは&lt;a href=&quot;./VNE_reference.html&quot;&gt;こちら&lt;/a&gt;をご覧ください
+            VNEのマニュアルは&amp;lt;a href=&amp;quot;./VNE_reference.html&amp;quot;&amp;gt;こちら&amp;lt;/a&amp;gt;をご覧ください
           &lt;/label&gt;
         </pre>
         <p>ラベルのテキストにリンクを埋め込んだ例。Webブラウザ上で動くゲームならではの強みですね。</p>

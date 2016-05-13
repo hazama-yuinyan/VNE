@@ -87,9 +87,9 @@ String.prototype.getExpansion = function(){
 	while(c = e.lastChild)
 		e.removeChild(c);
 
-	e.innerHTML = this.replace(/ /g, "&nbsp;"); // スペースは、HTML参照文字列に変換する
-    var s = e.getBoundingClientRect();
-    var expansion = {width : e.offsetWidth, height : e.offsetHeight, boundingWidth: parseInt(s.width, 10) + 1, boundingHeight: parseInt(s.height, 10) + 1};
+    e.textContent = this;
+    // 計算で出した幅きっかりだと、縦に詰まったような表示になることがあるため、表示に適した幅も出す
+    var expansion = {width : e.clientWidth, idealWidth: e.clientWidth + 5, height : e.clientHeight, boundingWidth: e.offsetWidth, boundingHeight: e.offsetHeight};
 	e.innerHTML = "";
 	return expansion;
 };
@@ -450,6 +450,7 @@ var XmlManager = enchant.Class.create(Manager, {
                         array[index].src = original.src;
                         array[index].style = original.style;
                         array[index].frame_width = original.frame_width;
+                        array[index].charaname_window_height = parseFloat(original.charaname_window_height);
                     }
                     
                     header.children.forEach(function(child){
@@ -746,6 +747,7 @@ var MessageManager = enchant.Class.create(Manager, {
 	},
 
 	getDiffTextPos : function(text){
+        // ここで反映させるのはfontの値だけでいい
 		setRulerStyle("font: " + this.cur_text_appending_element.style.font);
 		this.cur_text_appending_element = this.msg_window._element;
         var is_line_empty = (text.length === 0);
@@ -804,15 +806,20 @@ var MessageManager = enchant.Class.create(Manager, {
 	makeCharaNameWindowVisible : function(is_visible, tag){
 		if(is_visible){
 			var chara_names = this.xml_manager.getHeader("characters");
+            var charaname_window_height = this.xml_manager.getHeader("profile", tag.chara).charaname_window_height;
 			this.chara_name_window.text = chara_names[tag.chara];
 			this.chara_name_window.visible = true;
 			setRulerStyle(this.chara_name_window._style);
 			var expansion = this.chara_name_window.text.getExpansion();
-			this.chara_name_window.width = expansion.width;
-			this.chara_name_window.height = expansion.height;
+			this.chara_name_window.width = expansion.idealWidth;
+            if(typeof charaname_window_height === "undefined")
+                this.chara_name_window.height = expansion.height;
+            else
+                this.chara_name_window.height = charaname_window_height;
+            
 			this.chara_name_window.updateBoundArea();
-            // expansion.boundingHeightは"縁"を除いたテキストノードの有効範囲なので、縁も含めた実効範囲を出すにはこうする
-            this.chara_name_window.y = this.msg_window.y - expansion.height - (expansion.height - expansion.boundingHeight);
+            // expansion.boundingHeightは"縁"を含めたテキストノードの有効範囲なので、縁も含めた実効範囲を出すにはこうする
+            this.chara_name_window.y = this.msg_window.y - expansion.boundingHeight;
 		}else{
 			this.chara_name_window.text = "";
 			this.chara_name_window.visible = false;
@@ -1898,7 +1905,7 @@ var LabelManager = enchant.Class.create(Manager, {
 		label.updateBoundArea();
         // ラベルの幅と高さを設定する
         var bound = text.getExpansion();
-		label.width = bound.width;
+		label.width = bound.idealWidth;
 		label.height = bound.height;
 
 		var new_label = {
