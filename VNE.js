@@ -1645,7 +1645,7 @@ var TagManager = enchant.Class.create(Manager, {
         if(data.child_index !== undefined){
             var child_array = this.next_targeted_tag.children;
             this.next_targeted_tag = child_array[data.child_index]; //シーンの２つ子供の階層のタグをセットする
-            for(var i = 0; i < data.child_index; ++i)              //目的のタグの位置までテキストを削る
+            for(var i = 0; i < data.child_index; ++i)              	//目的のタグの位置までテキストを削る
                 this.next_text = this.next_text.substring(child_array[i].pos);
         }
 
@@ -1688,7 +1688,7 @@ var TagManager = enchant.Class.create(Manager, {
 		if(!this.isInterpretableTag(next_tag)){
 			if(this.next_text.length == next_tag.text.length && this.cur_cursor_pos == 0){
 				this.msg_manager.setStyle(next_tag);				//新しいタグに入ったらウインドウのスタイルを変更する
-				this.msg_manager.setPosition(next_tag);			//必要に応じて位置を調整する
+				this.msg_manager.setPosition(next_tag);				//必要に応じて位置を調整する
 			}
 
 			this.msg_manager.makeCharaNameWindowVisible((this.isCharacterTag(next_tag)) ? true : false, next_tag);		//キャラ名をメッセージウインドウの上に表示する
@@ -2466,6 +2466,9 @@ var MenuOperator = enchant.Class.create(ActionOperator, {
 			this.inner_operator.msg_manager.makeMsgWindowVisible(false);	//メニューが表示されてる間は、メッセージウインドウは非表示にしておく
 		};
 
+		/**
+		 * メニューを抜ける際に後片付けをする目的で使用する。メニュー内の遷移の後処理には使用しないこと
+		 */
 		this.clearMenu = function(){
 			this.system.removeChild(back);
 			if(this.cur_state.dispose)

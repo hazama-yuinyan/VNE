@@ -116,7 +116,7 @@ var MenuStates = enchant.Class.create({
 			},
 			
 			openSave : function(operator, selected_menu){
-				var children = [], saves = JSON.parse(localStorage.getItem("save"));
+				var children = [{type: "item", action: "returnToPopupMenu", to: "Menu", text: "戻る"}], saves = JSON.parse(localStorage.getItem("save"));
 
 				for(var i = 1; i <= 5; ++i){
 					if(i >= saves.length){
@@ -144,7 +144,7 @@ var MenuStates = enchant.Class.create({
 			},
 
 			openLoad : function(operator, selected_menu){
-				var children = [], saves = JSON.parse(localStorage.getItem("save"));
+				var children = [{type: "item", action: "returnToPopupMenu", to: "Menu", text: "戻る"}], saves = JSON.parse(localStorage.getItem("save"));
 
 				for(var i = 1; i < saves.length; ++i){
 					var title = saves[i].scene_str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)/)[1];
@@ -198,6 +198,9 @@ var MenuStates = enchant.Class.create({
 				info_window.font = "bold x-large serif";
 				
 				this.updateInfoWindow = function(operator){
+					if(operator.inner_operator.cur_index === 0)
+						return;
+
 					while(info_window._element.firstChild)
 						info_window._element.removeChild(info_window._element.firstChild);
 
@@ -229,7 +232,22 @@ var MenuStates = enchant.Class.create({
 			},
 			
 			operateA : function(operator){
-				var selected_menu = this.menu.children[operator.inner_operator.cur_index], label_text = "";
+				var selected_menu = this.menu.children[operator.inner_operator.cur_index];
+				this[selected_menu.action](operator, selected_menu);
+			},
+			
+			operateUp : function(operator){
+				operator.inner_operator.operateUp();
+				this.updateInfoWindow(operator);
+			},
+			
+			operateDown : function(operator){
+				operator.inner_operator.operateDown();
+				this.updateInfoWindow(operator);
+			},
+
+			save : function(operator, selected_menu){
+				var label_text = "";
 				if(!operator.tag_manager.save(selected_menu.data_index)){
     			    label_text = "セーブに失敗しました";
                     if(this.fail_se_path)
@@ -250,15 +268,13 @@ var MenuStates = enchant.Class.create({
                 };
                 this.system.showNoticeLabel(label_text, notice_label);
 			},
-			
-			operateUp : function(operator){
-				operator.inner_operator.operateUp();
-				this.updateInfoWindow(operator);
-			},
-			
-			operateDown : function(operator){
-				operator.inner_operator.operateDown();
-				this.updateInfoWindow(operator);
+
+			returnToPopupMenu : function(operator, selected_menu){
+				operator.choices_manager.clear();
+				
+				var xml_manager = this.system.getManager("xml");
+				var tag_obj = xml_manager.getScene("title:menu").children[0];
+				operator.setState(tag_obj.initial_state, tag_obj);
 			}
 		});
 		
@@ -309,6 +325,20 @@ var MenuStates = enchant.Class.create({
 			
 			operateA : function(operator){
 				var selected_menu = this.menu.children[operator.inner_operator.cur_index];
+				this[selected_menu.action](operator, selected_menu);
+			},
+			
+			operateUp : function(operator){
+				operator.inner_operator.operateUp();
+				this.updateInfoWindow(operator);
+			},
+			
+			operateDown : function(operator){
+				operator.inner_operator.operateDown();
+				this.updateInfoWindow(operator);
+			},
+
+			load : function(operator, selected_menu){
 				operator.tag_manager.load(selected_menu.data_index);
 				operator.tag_manager.interpreters["br"].icon = null;
 				operator.clearMenu();
@@ -327,15 +357,13 @@ var MenuStates = enchant.Class.create({
 				operator.msg_manager.clearChildNodes();
 				operator.tag_manager.is_available = true;
 			},
-			
-			operateUp : function(operator){
-				operator.inner_operator.operateUp();
-				this.updateInfoWindow(operator);
-			},
-			
-			operateDown : function(operator){
-				operator.inner_operator.operateDown();
-				this.updateInfoWindow(operator);
+
+			returnToPopupMenu : function(operator, selected_menu){
+				operator.choices_manager.clear();
+				
+				var xml_manager = this.system.getManager("xml");
+				var tag_obj = xml_manager.getScene("title:menu").children[0];
+				operator.setState(tag_obj.initial_state, tag_obj);
 			}
 		});
 		
@@ -451,10 +479,24 @@ var MenuStates = enchant.Class.create({
 			},
 			
 			operateA : function(operator){
+				var selected_menu = this.menu.children[operator.inner_operator.cur_index];
+				this[selected_menu.action](operator, selected_menu);
+			},
+			
+			operateUp : function(operator){
+				operator.inner_operator.operateUp();
+				this.updateInfoWindow(operator);
+			},
+			
+			operateDown : function(operator){
+				operator.inner_operator.operateDown();
+				this.updateInfoWindow(operator);
+			},
+
+			loadFile : function(operator, selected_menu){
 				var xml_manager = this.system.getManager("xml");
 				xml_manager.saveOptions();
-				var selected_file = this.menu.children[operator.inner_operator.cur_index];
-				this.system.setManager("xml", new XmlManager(selected_file.file_name, this.system));
+				this.system.setManager("xml", new XmlManager(selected_menu.file_name, this.system));
 				xml_manager = this.system.getManager("xml");
 				xml_manager.tag_manager = this.system.getManager("tag");
 
@@ -476,15 +518,10 @@ var MenuStates = enchant.Class.create({
 				};
                 this.system.showNoticeLabel("ファイル変更完了", notice_label);
 			},
-			
-			operateUp : function(operator){
-				operator.inner_operator.operateUp();
-				this.updateInfoWindow(operator);
-			},
-			
-			operateDown : function(operator){
-				operator.inner_operator.operateDown();
-				this.updateInfoWindow(operator);
+
+			returnToMenu : function(operator, selected_menu){
+				this.system.reset();
+                operator.clearMenu();
 			}
 		});
 		
