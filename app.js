@@ -14,6 +14,10 @@ http.createServer(function(req, res){
 			content_type = "text/html";
 			break;
 
+		case "css":
+			content_type = "text/css";
+			break;
+
 		case "js":
 			content_type = "text/javascript";
 			break;

@@ -407,7 +407,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				return obj;
 			};
 
-			var hasTrailingCp = function(elem, remaining_text, content){
+			var notHaveTrailingCp = function(elem, remaining_text, content){
 				return elem.tagName.search(/label|log|text|menu|choice/) == -1 &&
 					(remaining_text.length || content[content.length - 1].type != "cp");
 			};
@@ -442,7 +442,7 @@ var XmlManager = enchant.Class.create(Manager, {
 						});
 
 						var remaining_text = searching_text.split("</" + elem.tagName + ">")[0];
-						if(hasTrailingCp(elem, remaining_text, content))		//終了タグの直前にcpが存在しなければ補完する
+						if(notHaveTrailingCp(elem, remaining_text, content))		//終了タグの直前にcpが存在しなければ補完する
 							content.push({type : "cp", pos : remaining_text.length, parent : child_obj});
 					}
 					child_obj.children = content;
