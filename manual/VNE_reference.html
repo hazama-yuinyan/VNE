@@ -28,6 +28,8 @@
   	<ul>
       <li><a href="#abstraction">概要</a></li>
       <li><a href="#basic_rules">基本的な流れ</a></li>
+      <li><a href="#about_header">ヘッダーの概要</a></li>
+      <li><a href="#the_header">ヘッダーの機能詳細</a></li>
       <li><a href="#how_to_use_tags">タグの機能一覧</a></li>
       <li><a href="#about_tags">タグの機能詳細</a></li>
       <li><a href="#on_tag_properties">タグの属性の詳細</a></li>
@@ -93,6 +95,7 @@
       	game.start();
       };
       </pre>
+
       <pre class="brush: xml">
       &lt;!DOCTYPE html&gt;
       &lt;html&gt;
@@ -154,6 +157,269 @@
       </p>
     </div>
   </section>
+
+  <section id="about_header" class="contents">
+    <h2 class="title">ヘッダーの概要</h2>
+    <div>
+      <p>
+        ひとつ、例え話をしましょう。例えば、好きなWebページを見に行った時に、ページの内容に合わせてレイアウトや、見た目が装飾されていますよね？<br>
+        Webページの場合、HTMLとCSSを使ってそれを記述するわけですが、VNEにおいて、その役割を担うのがヘッダーというものです。
+      </p>
+      <p>ヘッダーは、前節で説明したXMLファイルの先頭に記述します。ヘッダー内に記述できるタグの詳細は、次節で説明しますが、</p>
+    </div>
+  </section>
+
+  <section id="the_header" class="contents">
+    <h2 class="title">ヘッダーの機能詳細</h2>
+    <section class="tag_explanation">
+      <h3>variables</h3>
+      <p>
+        本文中で参照できる変数を定義します。このヘッダーで定義していない変数をいきなり本文中のみで、参照することはできません。<br>
+        未定義変数を参照してバグを出すことは、特に初心者が陥りやすい落とし穴なので、それを防ぐための措置です。<br>
+        子タグ、varの中身は、初期値になります。後述のExpresso_miniを使用することで値を書き換えることができます。
+      </p>
+      <div>
+        <h4>使用例</h4>
+        <pre class="brush: xml">
+          &lt;variables&gt;
+            &lt;var name=&quot;some_var&quot;&gt;100&lt;var&gt;
+          &lt;/variables&gt;
+        </pre>
+      </div>
+      <div>
+        <table>
+          <caption>子タグと属性</caption>
+          <thead>
+            <tr>
+              <td>タグ名/属性名</td><td>中身の説明</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>var</td><td>変数の初期値</td>
+            </tr>
+            <tr>
+              <td>name</td><td>変数名</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="tag_explanation">
+      <h3>characters</h3>
+      <p>
+        本文中に登場するキャラクターの名前設定です。スクリプトで参照するキー名と、ゲーム中に表示する表示名を設定します。
+      </p>
+      <div>
+        <h4>使用例</h4>
+        <pre class="brush: xml">
+          &lt;characters&gt;
+            &lt;chara name=&quot;snowman&quot;&gt;スノーマン&lt;chara&gt;
+          &lt;/characters&gt;
+        </pre>
+      </div>
+      <div>
+        <table>
+          <caption>子タグと属性</caption>
+          <thead>
+            <tr>
+              <td>タグ名/属性名</td><td>中身の説明</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>chara</td><td>画面上に表示する名前</td>
+            </tr>
+            <tr>
+              <td>name</td><td>スクリプト内で参照するキャラ名</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="tag_explanation">
+      <h3>colors</h3>
+      <p>
+        キャラクターの色設定を行います。メッセージウインドウの枠の色などに使用されます。  
+      </p>
+      <div>
+        <h4>使用例</h4>
+        <pre class="brush: xml">
+          &lt;colors&gt;
+            &lt;color name=&quot;snowman&quot;&gt;rgb(0, 30, 255)&lt;color&gt;
+          &lt;/colors&gt;
+        </pre>
+      </div>
+      <div>
+        <table>
+          <caption>子タグと属性</caption>
+          <thead>
+            <tr>
+              <td>タグ名/属性名</td><td>中身の説明</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>color</td><td>キャラクターの色設定。メッセージウインドウの外枠の色などに使用されます</td>
+            </tr>
+            <tr>
+              <td>name</td><td>スクリプト内で参照するキャラ名</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="tag_explanation">
+      <h3>paths</h3>
+      <p>
+        各種リソースのパスを指定します。
+      </p>
+      <div>
+        <h4>使用例</h4>
+        <pre class="brush: xml">
+          &lt;paths&gt;
+            &lt;path name=&quot;img_snowman&quot;&gt;images/snowman.png&lt;chara&gt;
+          &lt;/paths&gt;
+        </pre>
+      </div>
+      <div>
+        <table>
+          <caption>子タグと属性</caption>
+          <thead>
+            <tr>
+              <td>タグ名/属性名</td><td>中身の説明</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>path</td><td>リソースファイルへの相対パス</td>
+            </tr>
+            <tr>
+              <td>kind</td><td>リソースの種類; image, sound, bgmのいずれか</td>
+            </tr>
+            <tr>
+              <td>name</td><td>スクリプト内で参照できるリソース名。VariableStoreに格納される変数名にもなります</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="tag_explanation">
+      <h3>settings</h3>
+      <p>
+        ゲームの各種パラメータ設定を行います。
+      </p>
+      <div>
+        <h4>使用例</h4>
+        <pre class="brush: xml">
+          &lt;settings&gt;
+            &lt;setting name=&quot;br_icon&quot;&gt;$paths.br_icon&lt;chara&gt;
+          &lt;/settings&gt;
+        </pre>
+      </div>
+      <div>
+        <table>
+          <caption>子タグと属性</caption>
+          <thead>
+            <tr>
+              <td>タグ名/属性名</td><td>中身の説明</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>setting</td><td>各種設定値。例にある通り、VariableStoreの値を参照することもできます</td>
+            </tr>
+            <tr>
+              <td>name</td><td>設定名</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="tag_explanation">
+      <h3>profile</h3>
+      <p>
+        キャラクターごとのメッセージウインドウのデザインや、立ち絵の設定を行います。  
+      </p>
+      <div>
+        <h4>使用例</h4>
+        <pre class="brush: xml">
+          &lt;profile name=&quot;snowman&quot; style=&quot;border: outset 3px $snowman.color; border-radius: 10px; color: $snowman.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;&quot;&gt;
+            &lt;frame name=&quot;normal&quot;&gt;0&lt;/frame&gt;
+          &lt;/profile&gt;
+        </pre>
+      </div>
+      <div>
+        <table>
+          <caption>子タグと属性</caption>
+          <thead>
+            <tr>
+              <td>タグ名/属性名</td><td>中身の説明</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>name(profileの属性)</td><td>設定対象となるキャラクターのキー名</td>
+            </tr>
+            <tr>
+              <td>style</td><td>設定対象キャラクターのメッセージウインドウに適用するCSSスタイル設定</td>
+            </tr>
+            <tr>
+              <td>frame</td><td>立ち絵画像のフレーム数</td>
+            </tr>
+            <tr>
+              <td>name</td><td>スクリプト内で参照するフレーム名</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="tag_explanation">
+      <h3>style</h3>
+      <p>
+        本文中に登場するキャラクターの名前設定です。スクリプトで参照するキー名と、ゲーム中に表示する表示名を設定します。
+      </p>
+      <div>
+        <h4>使用例</h4>
+        <pre class="brush: xml">
+          &lt;style name=&quot;title&quot; x=&quot;centered&quot; y=&quot;$msg_window.y/2&quot; width=&quot;adjust&quot; style=&quot;background-color: transparent; font: bold xx-large 'うずらフォント', serif;&quot;/&gt;
+        </pre>
+      </div>
+      <div>
+        <table>
+          <caption>属性</caption>
+          <thead>
+            <tr>
+              <td>属性名</td><td>中身の説明</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>name</td><td>スタイリング対象の名前</td>
+            </tr>
+            <tr>
+              <td>x</td><td>X座標</td>
+            </tr>
+            <tr>
+              <td>y</td><td>Y座標</td>
+            </tr>
+            <tr>
+              <td>width</td><td>幅</td>
+            </tr>
+            <tr>
+              <td>style</td><td>CSS形式文字列を使用してスタイリングを設定する</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </section>
   
   <section id="how_to_use_tags" class="contents">
   	<h2 class="title">タグの機能一覧</h2>
@@ -189,7 +455,7 @@
         <td>×</td><td>×</td><td>×</td>
   	  </tr>
       <tr>
-      	  <td>chara</td><td>×</td><td>×</td><td>×</td><td>×</td><<td class="ta">○</td><td>×</td><td>×</td>
+      	  <td>chara</td><td>×</td><td>×</td><td>×</td><td>×</td><td class="ta">○</td><td>×</td><td>×</td>
       	<td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td>
   	  </tr>
   	  <tr>
@@ -360,6 +626,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>scene</h3>
       <p>
@@ -396,6 +663,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>narrative</h3>
       <p>
@@ -424,6 +692,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>line</h3>
       <p>
@@ -457,6 +726,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>pause</h3>
       <p>
@@ -469,6 +739,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>text</h3>
       <p>
@@ -492,6 +763,7 @@
         <p>例えば上記の例では
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>var</h3>
       <p>
@@ -504,6 +776,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>choice</h3>
       <p>
@@ -539,6 +812,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>menu</h3>
       <p>
@@ -561,6 +835,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>jump</h3>
       <p>
@@ -592,6 +867,7 @@
         </p>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>effect</h3>
       <p>
@@ -606,6 +882,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>label</h3>
       <p>画面上にラベル（素のHTML要素を含んだdiv要素）を表示します。</p>
@@ -626,6 +903,7 @@
         <p>ラベルのテキストにリンクを埋め込んだ例。Webブラウザ上で動くゲームならではの強みですね。</p>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>image</h3>
       <p>
@@ -638,6 +916,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>sound</h3>
       <p>
@@ -650,6 +929,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>log</h3>
       <p>
@@ -663,6 +943,7 @@
         </pre>
       </div>
     </section>
+
     <section class="tag_explanation">
       <h3>minigame</h3>
       <p>
@@ -687,6 +968,7 @@
         しかし、そのIDのオブジェクトがその状態でただひとつしか存在しないと保証される場合に限り、同じIDを使いまわせます。
       </p>
     </section>
+
     <section id="property_style" class="property_explanation">
       <h3>style</h3>
       <p>
@@ -694,18 +976,21 @@
         これらのタグ以外ならば"top", "left"などのパラメーターも設定できますが、後述のx,y,width属性を使用することをお勧めします。
       </p>
     </section>
+
     <section id="property_title" class="property_explanation">
       <h3>chara</h3>
       <p>
         対象となるセリフの主を設定します。
       </p>
     </section>
+
     <section id="property_title" class="property_explanation">
       <h3>title</h3>
       <p>
         対象となるシーンにjumpやchoiceの移動先として指定できる一意な名前をつけます。また、shows_title属性に"false"が設定されていなければ、この名前をサブタイトルとしてこのシーンに入る際に画面に表示します。
       </p>
     </section>
+
     <section id="property_x" class="property_explanation">
       <h3>x</h3>
       <p>
@@ -713,12 +998,14 @@
         "centered"を指定すると、ラベルや画像の中心がゲーム画面の中心に位置するようにVNEが自動的にX座標（"y"属性に設定した場合はY座標）を設定します。
       </p>
     </section>
+
     <section id="property_y" class="property_explanation">
       <h3>y</h3>
       <p>
         ラベルや画像などのY座標を設定します。設定できる値は、"x"と同じです。
       </p>
     </section>
+
     <section id="property_width" class="property_explanation">
       <h3>width</h3>
       <p>
@@ -726,6 +1013,7 @@
         そのため、ラベルの内容にラベル自体の幅を合わせるためのキーワードとして"adjust"が用意されています。
       </p>
     </section>
+
     <section id="property_enable_if" class="property_explanation">
       <h3>enable_if</h3>
       <p>
@@ -734,6 +1022,7 @@
         その他にも、特定の条件を満たした時のみ画像を表示したり、テキストを表示したり予めフラグ変数を設定しておけばそれと組み合わせることでそれまでの行動によって選択肢を増減させるようなことも実現できます。
       </p>
     </section>
+
     <section id="property_sync" class="property_explanation">
       <h3>sync</h3>
       <p>
@@ -741,12 +1030,14 @@
         具体的にはend_time属性付きのlabelの場合なら、end_timeによってそのラベルオブジェクトがディスプレイから消えるまで次のタグの処理が行われなくなります。
       </p>
     </section>
+
     <section id="property_should_be_front" class="property_explanation">
       <h3>should_be_front</h3>
       <p>
         "true"を設定すると、そのラベルや画像が前面に表示されるようになります。メッセージウインドウとかぶる場合に使用します。
       </p>
     </section>
+
     <section id="property_operation" class="property_explanation">
       <h3>operation</h3>
       <p>
@@ -755,6 +1046,7 @@
         なお、"add"以外の動作を指定するにはオブジェクトの生成時にidを設定しておく必要があります。
       </p>
     </section>
+
     <section id="property_to" class="property_explanation">
       <h3>to</h3>
       <p>
@@ -764,6 +1056,7 @@
         この文字列中の半角スペースとタブ文字は無視されます。そのため、タイトルやidに半角スペースが含まれる場合には"\s"という特殊文字を使わなければなりません。
       </p>
     </section>
+
     <section id="property_action" class="property_explanation">
       <h3>action</h3>
       <p>
@@ -771,18 +1064,21 @@
         この動作は、プログラム中では現在のメニューの状態を定義する"MenuState"のメソッドとして実装されています。
       </p>
     </section>
+
     <section id="property src" class="property_explanation">
       <h3>src</h3>
       <p>
         画像やサウンドファイルのリソースを指定します。ファイルへのパス、またはpathsタグで指定した別名が設定できます。
       </p>
     </section>
+
     <section id="property_name" class="property_explanation">
       <h3>name</h3>
       <p>
         エフェクトの種類を指定します。標準状態では、"FadeIn", "FadeOut", "OpacityChange", "VisibilityChange", "RandomVibration", "Flicker", "Move"というエフェクトが使用できます。
       </p>
     </section>
+
     <section id="property_target" class="property_explanation">
       <h3>target</h3>
       <p>
@@ -792,6 +1088,7 @@
         またlineタグに内包されている場合に限り、target属性の指定自体を省略することもできます。
       </p>
     </section>
+
     <section id="property_text_speed" class="property_explanation">
       <h3>text_speed</h3>
       <p>
@@ -799,24 +1096,28 @@
         つまり、通常の半分の速度にしたい場合には"0.5"を、通常の倍の速度にしたい場合は"2"を設定すればいいわけです。
       </p>
     </section>
+
     <section id="property_time" class="property_explanation">
       <h3>time</h3>
       <p>
         pauseタグのポーズを置く時間をミリ秒単位で指定します。
       </p>
     </section>
+
     <section id="property_is_bgm" class="property_explanation">
       <h3>is_bgm</h3>
       <p>
         "true"ならば、このサウンドをBGMとして扱います。（自動的にoperationにloopをセットし、前のBGMがあればまずそれを止めてからこのサウンドの再生を開始します）
       </p>
     </section>
+
     <section id="property_effect" class="property_explanation">
       <h3>effect</h3>
       <p>
         ラベルや画像に特定のエフェクトを適用します。設定できるエフェクト名は、name属性と同じです。
       </p>
     </section>
+
     <section id="property_shows_title" class="property_explanation">
       <h3>shows_title</h3>
       <p>
@@ -824,78 +1125,91 @@
         なお、"true"をセットしても省略しても同じ意味になります。
       </p>
     </section>
+
     <section id="property_initial_state" class="property_explanation">
       <h3>initial_state</h3>
       <p>
         メニューの初期状態を設定します。
       </p>
     </section>
+
     <section id="property_back" class="property_explanation">
       <h3>back</h3>
       <p>
         "true"ならば、そのimageを背景として扱います。
       </p>
     </section>
+
     <section id="property_expr" class="property_explanation">
       <h3>expr</h3>
       <p>
         varタグにおいて処理すべきExpressoの式を定義します。
       </p>
     </section>
+
     <section id="property_figure_pos" class="property_explanation">
       <h3>figure_pos</h3>
       <p>
         その画像を立ち絵として扱う場合の表示位置を設定します。設定できる値は、"left", "center", "right"の３種類です。
       </p>
     </section>
+
     <section id="property_amplitude_x" class="property_explanation">
       <h3>amplitude_x</h3>
       <p>
         nameまたはeffect属性に"RandomVibration"を設定した時のみ有効になる属性です。水平方向の最大の振動幅を設定します。
       </p>
     </section>
+
     <section id="property_amplitude_y" class="property_explanation">
       <h3>amplitude_y</h3>
       <p>
         nameまたはeffect属性に"RandomVibration"を設定した時のみ有効になる属性です。垂直方向の最大の振動幅を設定します。
       </p>
     </section>
+
     <section id="property_rate" class="property_explanation">
       <h3>rate</h3>
       <p>
         nameまたはeffect属性に"FadeIn"または"FadeOut"を設定した時のみ有効になる属性です。１フレームで変化させる透明度の度合いを設定します。
       </p>
     </section>
+
     <section id="property_max_rate" class="property_explanation">
       <h3>max_rate</h3>
       <p>
         nameまたはeffect属性に"RandomVibration"を設定した時のみ有効になる属性です。１フレームで移動できる最大量を設定します。
       </p>
     </section>
+
     <section id="property_delta_time" class="property_explanation">
       <h3>delta_time</h3>
       <p>
         nameまたはeffect属性に"Flicker"を設定した時のみ有効になる属性です。点滅間隔をミリ秒単位で設定します。
       </p>
     </section>
+
     <section id="property_delta_frame" class="property_explanation">
       <h3>delta_frame</h3>
       <p>
         nameまたはeffect属性に"Flicker"を設定した時のみ有効になる属性です。点滅間隔をフレーム数で設定します。
       </p>
     </section>
+
     <section id="property_remove_when_out" class="property_explanation">
       <h3>remove_when_out</h3>
       <p>
         nameまたはeffect属性に"Move"を設定した時のみ有効になる属性です。オブジェクトがゲーム画面外に出たときに自動で削除するかどうかを設定します。
       </p>
     </section>
+
     <section id="property_value" class="property_explanation">
       <h3>value</h3>
       <p>
         nameまたはeffect属性に"OpacityChange"を設定した時のみ有効になる属性です。適用するアルファチャンネルの値です。
       </p>
     </section>
+
     <section id="property_is_visible" class="property_explanation">
       <h3>is_visible</h3>
       <p>
@@ -903,24 +1217,28 @@
         不可視という意味では、"is_visible"を"false"にするのと"OpacityChange"エフェクトで"value"に"0"を設定するのは同じ効果をもたらすことになりますが、アルファチャンネルを使った場合レンダリングエンジン側の処理がなくなるわけではないので、負荷低減のために"VisibilityChange"エフェクトを使用するのがいいでしょう。
       </p>
     </section>
+
     <section id="property_vx" class="property_explanation">
       <h3>vx</h3>
       <p>
         nameまたはeffect属性に"Move"を設定した時のみ有効になる属性です。水平方向の速度を設定します。
       </p>
     </section>
+
     <section id="property_vy" class="property_explanation">
       <h3>vy</h3>
       <p>
         nameまたはeffect属性に"Move"を設定した時のみ有効になる属性です。垂直方向の速度を設定します。
       </p>
     </section>
+
     <section id="property_ax" class="property_explanation">
       <h3>ax</h3>
       <p>
         nameまたはeffect属性に"Move"を設定した時のみ有効になる属性です。水平方向の加速度を設定します。
       </p>
     </section>
+
     <section id="property_ay" class="property_explanation">
       <h3>ay</h3>
       <p>
@@ -933,7 +1251,7 @@
     <h2 class="title">ユーザー定義変数とExpressoについて</h2>
     <div>
       <p>
-        VNEにはスクリプトを定義するにあたって簡単な制御構造を実現し、動的なストーリーの変更を可能にしてよりリッチなコンテンツも作成できるように組み込みのユーザー定義変数と簡易なExpressoというオリジナルのプログラミング言語パーサーを装備しております。<br>
+        VNEにはスクリプトを定義するにあたって簡単な制御構造を実現し、動的なストーリーの変更を可能にしてよりリッチなコンテンツも作成できるように、組み込みのユーザー定義変数と簡易なExpressoというオリジナルのプログラミング言語パーサーを装備しております。<br>
         （プログラミング言語とは言ってもほとんど数式みたいなものですが）
       </p>
       <p>
@@ -963,6 +1281,7 @@
                 millis {Number} ミリ秒
           </pre>
         </li>
+        
         <li>
           <h4>now</h4>
           <pre>
@@ -971,6 +1290,7 @@
                 timeと同じ
           </pre>
         </li>
+        
         <li>
           <h4>display</h4>
           <pre>
@@ -980,6 +1300,7 @@
                 height {Number} ゲーム画面の高さ
           </pre>
         </li>
+        
         <li>
           <h4>msg_window</h4>
           <pre>
@@ -991,6 +1312,7 @@
                 height {Number} メッセージウインドウの高さ
           </pre>
         </li>
+        
         <li>
           <h4>file_paths</h4>
           <pre>
@@ -999,6 +1321,7 @@
                 length {Number} VNEの起動時に設定したスクリプトファイルの数
           </pre>
         </li>
+        
         <li>
           <h4>cur_frame</h4>
           <pre>
@@ -1017,6 +1340,7 @@
                 [pathsタグのnames属性にセットした名前] {String} その名前に対応するリソースへのパス
           </pre>
         </li>
+        
         <li>
           <h4>settings</h4>
           <pre>
@@ -1025,6 +1349,7 @@
                 [settingsタグのnames属性にセットした名前] {String/Boolean} その名前に対応する設定
           </pre>
         </li>
+        
         <li>
           <h4>{キャラクター名}</h4>
           <pre>
@@ -1043,7 +1368,7 @@
       <p>
         Expresso(正確にはExpresso Mini)は、VNE内で共通して使える簡易のプログラミング言語です。一般的な四則演算、累乗、剰余の他に変数の参照、代入、単独不等式の評価、それらの論理和、論理積、組み込み関数の呼び出しなどをサポートしており、enable_if属性にセットして制御構造を実現したり変数の制御を行ったりします。<br>
         基本的な文法は和洋折衷ならぬ、プログラミング言語と数式との中間的なものでC言語系のプログラミング言語との相違点は、代入演算子が"="ではなく":"であること、その代わりに等価演算子が"=="でなく"="であること、
-        基本的にXMLファイルに記述することを前提にしているため"&"や"|"の記号が使えないことから論理積を"and"、論理和を"or"で表すことです。（尤も最後のは一部処理系では対応している場合もありますが）<br>
+        基本的にXMLファイルに記述することを前提にしているため"&amp;"や"|"の記号が使えないことから論理積を"and"、論理和を"or"で表すことです。（尤も最後のは一部処理系では対応している場合もありますが）<br>
         ただし、Expressoにおける文は現在非常に中途半端な仕様となっており、代入式のみが文になれます。（それ以外の式も文にできなくはないのですが、評価器からのレスポンスが一切返ってこないため実質無駄になってしまいます）<br>
         文の区切りには、大半のプログラミング言語と同じくセミコロン";"を使用します。
       </p>
@@ -1051,7 +1376,7 @@
         <h4>例</h4>
         <pre>
         $some_var;    //変数はこのようにドル記号を先頭につける
-        $なんか変数;  //UTF-8で使える文字は何でもオッケーなので、日本語名の変数も大丈夫
+        $なんか変数;   //UTF-8で使える文字は何でもオッケーなので、日本語名の変数も大丈夫
         $41年;        //他の大半のプログラミング言語と違って変数名の先頭にも数字が使える
         </pre>
       </div>
@@ -1099,7 +1424,7 @@
       </p>
       <p>
         上記の関数の内、大半はJavaScriptの組み込み関数そのままなので詳しい説明は割愛します。最後の２つだけ何やら見慣れない関数名が並んでいますが、なんてことはありません。<br>
-        どちらも組み込みのrandom関数の簡単なラッパーです。randは引数をひとつとり、0.0からその引数の値までか1.0までの少数をランダムに返す関数です。一方のrandIntはその整数版です。
+        どちらも組み込みのrandom関数の簡単なラッパーです。randは引数をひとつとり、0.0からその引数の値までか1.0までの小数(浮動小数点数)をランダムに返す関数です。一方のrandIntはその整数版です。
       </p>
     </div>
   </section>

@@ -123,8 +123,8 @@ var ExpressoMin = enchant.Class.create({
                 
                 m.g.tuple.forEach(function(val, index){
                     if(!store.addVar(var_list[index], val)){
-                        throw new Error(["The left operand of assignment must be a variable! Do you really intend to assign something to ",
-    				        var_list[index], "? Or you just forget the $ sign before the name."].join(""));
+                        throw new Error("The left operand of assignment must be a variable! Do you really intend to assign something to " +
+    				        var_list[index] + "? Or you just forget the $ sign before the name.");
                     }
                 });
 				return "successful assignment";
@@ -185,8 +185,8 @@ var ExpressoMin = enchant.Class.create({
             },
 
 			fact: function(m){
-				var v = (m.g.num != undefined) ? m.g.num :
-					(m.g.logical_or != undefined) ? m.g.logical_or : m.g.string && m.g.string.replace(/\\s/g, " ") || m[1];
+				var v = (typeof m.g.num !== "undefined") ? m.g.num :
+					(typeof m.g.logical_or !== "undefined") ? m.g.logical_or : m.g.string && m.g.string.replace(/\\s/g, " ") || m[1];
                 if(m.g.variable){
                     v = _self.variable_store.getVar(m.g.variable);
                 }

@@ -151,6 +151,8 @@ function isInArea(obj, x, y){
 
 /**
  * テンプレート文字列内のプレースホルダー文字列を対応する値に置換する
+ * @param tmpl {string} 置換対象のプレースホルダー文字列を含む文字列
+ * @param values {Object|Array} 置換を行うキーを含むハッシュオブジェクト、または置換を行うインデックスを含む配列
  */
 function substituteTemplate(tmpl, values){
 	return tmpl.replace(/\{(.+?)\}/g, function(whole_match, key){
@@ -170,6 +172,16 @@ function cssNameToPropertyName(cssName){
 	});
 	return res;
 }
+
+/**
+ * プレースホルダー文字列をメッセージに含むエラークラス
+ */
+var TemplateError = enchant.Class.create(Error, {
+	initialize : function(tmpl, values){
+		var no_placeholder = substituteTemplate(tmpl, values);
+		Error.call(this, no_placeholder);
+	}
+});
 
 /**
  * ゲーム全体の統括を行う。各オブジェクトの画面上に表示する実体のルートオブジェクトでもある。
@@ -210,15 +222,40 @@ var SystemManager = enchant.Class.create(Group, {
 		
 		this.loadResources = function(path_header, paths){
 			var audio = new Audio();
+			var success_func = function(path){
+				console.log(substituteTemplate("{path} successfully loaded!", {path: path}));
+			};
+			var error_func = function(path){
+				console.log(substituteTemplate("Failed to load {path}", {path: path}));
+			};
+
 			for(var name in path_header){		//各種リソースファイルを読み込む
-				if(name != "type" && path_header.hasOwnProperty(name)){
-					var path = path_header[name];
-					if(path.search(/\.ogg/) != -1 && !audio.canPlayType("audio/ogg")){
-						path = path.replace(/\.ogg/, ".wav");
-						path_header[name] = path;
-						paths[name] = path;
+				if(name !== "type" && path_header.hasOwnProperty(name)){
+					var path_obj = path_header[name];
+					var path = path_obj.value;
+					switch(path_obj.kind){
+					case "sound":
+						var mime_type = "audio/" + enchant.Core.findExt(path);
+						game.assets[path] = enchant.WebAudioSound.load(path, mime_type, success_func.bind(null, path), error_func.bind(null, path));
+						break;
+
+					case "bgm":
+						if(path.search(/.ogg/) !== -1 && !audio.canPlayType("audio/ogg")){
+							path = path.replace(/.ogg/, ".wav");
+							path_header[name].value = path;
+							paths[name] = path;
+						}
+
+						game.assets[path] = enchant.DOMSound.load(path, null, success_func.bind(null, path), error_func.bind(null, path));
+						break;
+
+					case "image":
+						game.load(path);
+						break;
+
+					default:
+						throw new TemplateError("Unknown resource type found; {0}", [path]);
 					}
-					game.load(path);
 				}
 			}
 		};
@@ -464,7 +501,11 @@ var XmlManager = enchant.Class.create(Manager, {
                     
                     header.children.forEach(function(child){
                         var name = child.name, value = child.text;
-                        array[index][name] = value;
+                        if(header.type === "paths")
+                        	array[index][name] = {kind: child.kind, value: child.text};
+                        else
+                        	array[index][name] = value;
+                    	
                         switch(header.type){
                         case "characters" :
                         case "colors" :
@@ -1884,7 +1925,7 @@ var ChoicesManager = enchant.Class.create(Manager, {
 });
 
 /**
- * ラベルを管理するクラス。end_timeに0をセットするとremoveを呼んで明示的に消去しなければいつまでも画面に残ることになる
+ * ラベルを管理するクラス。end_timeに0をセットするとremoveを呼んで明示的に消去しなければ、いつまでも画面に残ることになる
  */
 var LabelManager = enchant.Class.create(Manager, {
 	initialize : function(system){

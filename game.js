@@ -39,7 +39,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  * 
- * enchant.js v0.4.3
+ * enchant.js v0.8.3
  *
  * Copyright (c) Ubiquitous Entertainment Inc.
  * Dual licensed under the MIT or GPL Version 3 licenses
