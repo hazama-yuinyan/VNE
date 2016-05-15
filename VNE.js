@@ -417,7 +417,7 @@ var XmlManager = enchant.Class.create(Manager, {
 					return obj;
 
 				var child_obj = squeezeValues(elem);
-				if(elem.tagName != "scene" && splited[elem.tagName] === undefined){
+				if(elem.tagName !== "scene" && typeof splited[elem.tagName] === "undefined"){
 					splited[elem.tagName] = {
 						texts : text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?>")),
 						next_index : 1
@@ -426,7 +426,7 @@ var XmlManager = enchant.Class.create(Manager, {
 
 				if(elem.childElementCount !== 0){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
-					if(type != "header" && elem.tagName != "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
+					if(type !== "header" && elem.tagName !== "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
 						var searching_text = splited[elem.tagName].texts[splited[elem.tagName].next_index];
 						content.forEach(function(tag){
 							var result = searching_text.match(/(<\/?)([^\s>\/]+)/), result2 = searching_text.match(/>/);
@@ -448,11 +448,11 @@ var XmlManager = enchant.Class.create(Manager, {
 					child_obj.children = content;
 				}
 
-				if(elem.tagName != "scene")
+				if(elem.tagName !== "scene")
 					++splited[elem.tagName].next_index;
 
 				child_obj.type = elem.tagName;
-				if(parent !== undefined)
+				if(typeof parent !== "undefined")
 					child_obj.parent = parent;
 
 				if(elem.textContent.length !== 0)
