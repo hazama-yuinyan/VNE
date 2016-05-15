@@ -433,7 +433,7 @@ var XmlManager = enchant.Class.create(Manager, {
 							if(result !== null && result2 !== null && result[2] == tag.type)
 								searching_text = searching_text.slice(result2.index + 1);
 							else
-								throw new Error(substituteTemplate(msg_tmpls.errorMissingTag, {type : tag.type}));
+								throw new TemplateError(msg_tmpls.errorMissingTag, {type : tag.type});
 
 							tag.pos = result.index;
 							var tag_name = "</" + tag.type + ">", end_tag = searching_text.match(tag_name);
@@ -578,7 +578,7 @@ var XmlManager = enchant.Class.create(Manager, {
 			});
 
 			if(!header_obj)
-				throw new Error(substituteTemplate(msg_tmpls.errorMissingHeader, {type: type_name, name : name}));
+				throw new TemplateError(msg_tmpls.errorMissingHeader, {type: type_name, name : name});
 
 			return header_obj;
 		};
@@ -601,7 +601,7 @@ var XmlManager = enchant.Class.create(Manager, {
                 if(game._debug){
                     console.log(expresso.stringifyErrors());
                 }
-                throw new Error(substituteTemplate(msg_tmpls.errorInvalidExpression, {expr : expr}));
+                throw new TemplateError(msg_tmpls.errorInvalidExpression, {expr : expr});
     		}
 			return result.value;
 		};
@@ -1708,7 +1708,7 @@ var TagManager = enchant.Class.create(Manager, {
 			return tag;
 		}catch(e){
 			if(e instanceof ReferenceError)
-				throw new Error(substituteTemplate(msg_tmpls.errorUnknownTag, {type : tag.type}));
+				throw new TemplateError(msg_tmpls.errorUnknownTag, {type : tag.type});
 
 			throw e;
 		}
@@ -2010,13 +2010,13 @@ var LabelManager = enchant.Class.create(Manager, {
 	interpret : function(type, text, expr, style){
 		if(expr == "adjust"){		//ラベルの幅がテキストをすべて表示するのに必要な幅と一致するように設定する
 			if(type != "width")
-				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "adjust"}));
+				throw new TemplateError(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "adjust"});
 
 			setRulerStyle(style && this.xml_manager.replaceVars(style) || "font: normal normal serif;");
 			return text.getExpansion().width;
 		}else if(expr == "centered"){		//ラベルの中心がゲーム画面の中心に来るようにxまたはyを設定する
 			if(type != "x" && type != "y")
-				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"}));
+				throw new TemplateError(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"});
 
 			setRulerStyle(style && this.xml_manager.replaceVars(style) || "font: normal normal serif;");
 			return (type == "x") ? Math.round(game.width / 2 - text.getExpansion().width / 2) :
@@ -2161,7 +2161,7 @@ var ImageManager = enchant.Class.create(Manager, {
 			}
 		}else if(expr == "centered"){		//画像の中心がゲーム画面の中心に来るようにxまたはyを設定する
 			if(type != "x" && type != "y")
-				throw new Error(substituteTemplate(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"}));
+				throw new TemplateError(msg_tmpls.errorOnePropertyUnsettable, {propertyName : type, propertyValue : "centered"});
 
 			return (type == "x") ? Math.round(game.width / 2 - size / 2) : Math.round(game.height / 2 - size / 2);
 		}else{
