@@ -135,6 +135,7 @@
 			<item x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</item>
 			<item x="centered" y="300" action="openOption" to="MenuOption">オプション</item>
 			<item x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</item>
+			<item x="centered" y="500" action="openConsole" enable_if="$settings.is_debug">コンソールを開く</item>
 		</menu>
 	</scene>
 

@@ -433,7 +433,7 @@ var XmlManager = enchant.Class.create(Manager, {
 					split[elem.tagName] = {
 						texts : texts,
 						lineNumber : lines.length,
-						column : lines[lines.length - 1].length,
+						column : lines[lines.length - 1].length + 1,	// +1するのは、単位を文字数ではなく、文字目にするため
 						nextIndex : 1
 					};
 				}
@@ -479,7 +479,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(split_obj.nextIndex < split_obj.texts.length){
 					var tag_pos = {column : 0};
 					split_obj.lineNumber = calculateLineNumber(elem.tagName, split_obj.nextIndex, tag_pos);
-					split_obj.column = tag_pos.pos;
+					split_obj.column = tag_pos.column;
 				}
 
 				if(elem.tagName !== "scene")
@@ -2338,6 +2338,12 @@ var SoundManager = enchant.Class.create(Manager, {
 		this.is_available = false;
 	}
 });
+
+/*var ConsoleManager = enchant.Class.create(Manager, {
+	initialize : function(system){
+		Manager.call(this, system);
+	}
+});*/
 
 /**
  * InputManagerのリアクションを制御するクラス
