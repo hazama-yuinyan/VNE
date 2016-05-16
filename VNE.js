@@ -409,8 +409,9 @@ var XmlManager = enchant.Class.create(Manager, {
 			};
 
 			var notHaveTrailingCp = function(elem, remaining_text, content){
+				// タグの末尾にcpタグがないのは、まだテキストが続いているか、最後のタグがcpタグでない場合
 				return elem.tagName.search(/label|log|text|menu|choice/) == -1 &&
-					(remaining_text.length || content[content.length - 1].type != "cp");
+					(remaining_text.length && remaining_text.search(/[^\s]/) !== -1 || content[content.length - 1].type !== "cp");
 			};
 
 			var calculateLineNumber = function(tag_name, next_index){
