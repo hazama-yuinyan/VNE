@@ -414,8 +414,12 @@ var XmlManager = enchant.Class.create(Manager, {
 					(remaining_text.length && remaining_text.search(/[^\s]/) !== -1 || content[content.length - 1].type !== "cp");
 			};
 
-			var calculateLineNumber = function(tag_name, next_index){
-				return split[tag_name].lineNumber + split[tag_name].texts[next_index].split("\n").length - 1;
+			var calculateLineNumber = function(tag_name, next_index, tag_pos){
+				var lines = split[tag_name].texts[next_index].split("\n");
+				if(tag_pos)
+					tag_pos.column = lines[lines.length - 1].length + 1;	// +1するのは、単位を文字数ではなく、文字目にするため
+				
+				return split[tag_name].lineNumber + lines.length - 1;
 			};
 
 			var createObjFromChild = function(type, obj, elem, parent){	//DOMツリーをたどってタグをオブジェクト化する
@@ -425,9 +429,11 @@ var XmlManager = enchant.Class.create(Manager, {
 				var child_obj = squeezeValues(elem);
 				if(/*elem.tagName !== "scene" &&*/ typeof split[elem.tagName] === "undefined"){
 					var texts = text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?/?>"));
+					var lines = texts[0].split("\n");
 					split[elem.tagName] = {
 						texts : texts,
-						lineNumber : texts[0].split(/[\n]/).length,
+						lineNumber : lines.length,
+						column : lines[lines.length - 1].length,
 						nextIndex : 1
 					};
 				}
@@ -435,7 +441,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(elem.childElementCount !== 0){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
 					if(type !== "header" && elem.tagName !== "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
-						var searching_text = split[elem.tagName].texts[split[elem.tagName].nextIndex];
+						var searching_text = split[elem.tagName].texts[split[elem.tagName].nextIndex].replace(/[\n]/g, "");
 						content.forEach(function(tag){
 							var result = searching_text.match(/(<\/?)([^\s>\/]+)/), result2 = searching_text.match(/>/);
 							if(result !== null && result2 !== null && result[2] == tag.type)
@@ -443,6 +449,7 @@ var XmlManager = enchant.Class.create(Manager, {
 							else
 								throw new TemplateError(msg_tmpls.errorMissingTag, {type : tag.type});
 
+							// ここでコンテナ要素の子要素の位置を設定するのは、下記の方法では、他のタグの影響を受けたカラム番号が記録されてしまうため
 							tag.pos = result.index;
 							var tag_name = "</" + tag.type + ">", end_tag = searching_text.match(tag_name);
 							if(end_tag !== null)
@@ -452,8 +459,15 @@ var XmlManager = enchant.Class.create(Manager, {
 						var remaining_text = searching_text.split("</" + elem.tagName + ">")[0];
 						if(notHaveTrailingCp(elem, remaining_text, content)){		//終了タグの直前にcpが存在しなければ補完する
 							var line_num = calculateLineNumber(elem.tagName, split[elem.tagName].nextIndex);
+							// 1を減じるのは、分割した文字列の数より、改行の数が１個少ないため
 							line_num = line_num + remaining_text.split(/[\n]/).length - 1;
-							content.push({type : "cp", lineNumber : line_num, pos : remaining_text.length, parent : child_obj});
+							content.push({
+								type : "cp",
+								lineNumber : line_num,
+								pos : remaining_text.length,
+								column : NaN,
+								parent : child_obj
+							});
 						}
 					}
 					child_obj.children = content;
@@ -461,8 +475,12 @@ var XmlManager = enchant.Class.create(Manager, {
 
 				var split_obj = split[elem.tagName];
 				child_obj.lineNumber = split_obj.lineNumber;
-				if(split_obj.nextIndex < split_obj.texts.length)
-					split_obj.lineNumber = calculateLineNumber(elem.tagName, split_obj.nextIndex);
+				child_obj.column = split_obj.column;
+				if(split_obj.nextIndex < split_obj.texts.length){
+					var tag_pos = {column : 0};
+					split_obj.lineNumber = calculateLineNumber(elem.tagName, split_obj.nextIndex, tag_pos);
+					split_obj.column = tag_pos.pos;
+				}
 
 				if(elem.tagName !== "scene")
 					++split[elem.tagName].nextIndex;
@@ -471,16 +489,25 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(typeof parent !== "undefined")
 					child_obj.parent = parent;
 
-				if(elem.textContent.length !== 0)
-					child_obj.text = elem.textContent.replace(/[\t\r]+/g, "");
-				else
+				if(elem.textContent.length !== 0){
+					child_obj.text = elem.textContent.replace(/[\t\n\r]+/g, "");
+					child_obj.debugText = elem.textContent.replace(/[\r]/g, "");
+				}else{
 					child_obj.text = "";
+					child_obj.debugText = "";
+				}
 
                 if(child_obj.type === "line" && !child_obj.children){  //子要素を持たないlineにcpタグを追加する
                 	var split_obj2 = split["line"];
                 	//もうこの時点でsplit_obj2.nextIndexは次の要素を指している
                 	var line_num = calculateLineNumber("line", split_obj2.nextIndex - 1);
-                    child_obj.children = [{type : "cp", lineNumber : line_num, pos : child_obj.text.length, parent : child_obj}];
+                    child_obj.children = [{
+                    	type : "cp",
+                    	lineNumber : line_num,
+                    	pos :  child_obj.text.length,
+                    	column : NaN,
+                    	parent : child_obj
+                    }];
                 }
 
 				obj.push(child_obj);
@@ -1626,7 +1653,7 @@ var TagManager = enchant.Class.create(Manager, {
 			return;
 
 		if(!this.isInterpretableTag(tag))
-			this.next_text = tag.text || "";
+			this.next_text = tag.text || "";	
 
 		this.next_targeted_tag = tag;
 	},
@@ -1722,7 +1749,7 @@ var TagManager = enchant.Class.create(Manager, {
             	console.log(substituteTemplate(msg_tmpls.debugLogMessage, {
 					type : tag.type,
 					lineNumber : tag.lineNumber,
-					column : this.interpreters["br"].line_text.length + this.cur_cursor_pos,
+					column : tag.column,//this.interpreters["br"].line_text.length + this.cur_cursor_pos,
 					parentType : tag.parent.type
 				}));
             }
@@ -1809,7 +1836,7 @@ var LogManager = enchant.Class.create(Manager, {
 	},
 	
 	add : function(tag, text){
-		if(tag.pos !== undefined){
+		if(typeof tag.pos !== "undefined"){
 			this.line_text = this.line_text.concat(text.substring(0, tag.pos));
 
 			if(tag.type == "br" || tag.type == "cp"){	//br,cpタグにたどり着いたら一行分のテキストをログウインドウに追加しておく
