@@ -397,7 +397,8 @@ var XmlManager = enchant.Class.create(Manager, {
 		this.next_updating_time = now.getTime() + 1000;
 
 		http_obj.onload = function(){
-			var text = http_obj.responseText.replace(/[\t\n\r]+/g, ""), splited = {};
+			var text = http_obj.responseText.replace(/[\t\r]+/g, ""), split = {};
+			var total_num_lines = text.split(/[\n]/).length - 1;
             
 			var squeezeValues = function(elem){		//この要素のアトリビュートをすべて絞り出す
 				var obj = {};
@@ -412,22 +413,28 @@ var XmlManager = enchant.Class.create(Manager, {
 					(remaining_text.length || content[content.length - 1].type != "cp");
 			};
 
+			var calculateLineNumber = function(tag_name, next_index){
+				return split[tag_name].lineNumber + split[tag_name].texts[next_index].split("\n").length - 1;
+			};
+
 			var createObjFromChild = function(type, obj, elem, parent){	//DOMツリーをたどってタグをオブジェクト化する
 				if(!elem)
 					return obj;
 
 				var child_obj = squeezeValues(elem);
-				if(elem.tagName !== "scene" && typeof splited[elem.tagName] === "undefined"){
-					splited[elem.tagName] = {
-						texts : text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?>")),
-						next_index : 1
+				if(/*elem.tagName !== "scene" &&*/ typeof split[elem.tagName] === "undefined"){
+					var texts = text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?/?>"));
+					split[elem.tagName] = {
+						texts : texts,
+						lineNumber : texts[0].split(/[\n]/).length,
+						nextIndex : 1
 					};
 				}
 
 				if(elem.childElementCount !== 0){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
 					if(type !== "header" && elem.tagName !== "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
-						var searching_text = splited[elem.tagName].texts[splited[elem.tagName].next_index];
+						var searching_text = split[elem.tagName].texts[split[elem.tagName].nextIndex];
 						content.forEach(function(tag){
 							var result = searching_text.match(/(<\/?)([^\s>\/]+)/), result2 = searching_text.match(/>/);
 							if(result !== null && result2 !== null && result[2] == tag.type)
@@ -442,25 +449,39 @@ var XmlManager = enchant.Class.create(Manager, {
 						});
 
 						var remaining_text = searching_text.split("</" + elem.tagName + ">")[0];
-						if(notHaveTrailingCp(elem, remaining_text, content))		//終了タグの直前にcpが存在しなければ補完する
-							content.push({type : "cp", pos : remaining_text.length, parent : child_obj});
+						if(notHaveTrailingCp(elem, remaining_text, content)){		//終了タグの直前にcpが存在しなければ補完する
+							var line_num = calculateLineNumber(elem.tagName, split[elem.tagName].nextIndex);
+							line_num = line_num + remaining_text.split(/[\n]/).length - 1;
+							content.push({type : "cp", lineNumber : line_num, pos : remaining_text.length, parent : child_obj});
+						}
 					}
 					child_obj.children = content;
 				}
 
+				var split_obj = split[elem.tagName];
+				child_obj.lineNumber = split_obj.lineNumber;
+				if(split_obj.nextIndex < split_obj.texts.length)
+					split_obj.lineNumber = calculateLineNumber(elem.tagName, split_obj.nextIndex);
+
 				if(elem.tagName !== "scene")
-					++splited[elem.tagName].next_index;
+					++split[elem.tagName].nextIndex;
 
 				child_obj.type = elem.tagName;
 				if(typeof parent !== "undefined")
 					child_obj.parent = parent;
 
 				if(elem.textContent.length !== 0)
-					child_obj.text = elem.textContent.replace(/[\t\n\r]+/g, "");
+					child_obj.text = elem.textContent.replace(/[\t\r]+/g, "");
+				else
+					child_obj.text = "";
 
-                if(child_obj.type === "line" && !child_obj.children)  //子要素を持たないlineにcpタグを追加する
-                    child_obj.children = [{type : "cp", pos : child_obj.text.length, parent : child_obj}];
-                
+                if(child_obj.type === "line" && !child_obj.children){  //子要素を持たないlineにcpタグを追加する
+                	var split_obj2 = split["line"];
+                	//もうこの時点でsplit_obj2.nextIndexは次の要素を指している
+                	var line_num = calculateLineNumber("line", split_obj2.nextIndex - 1);
+                    child_obj.children = [{type : "cp", lineNumber : line_num, pos : child_obj.text.length, parent : child_obj}];
+                }
+
 				obj.push(child_obj);
 				return createObjFromChild(type, obj, elem.nextElementSibling, parent);
 			};
@@ -531,7 +552,7 @@ var XmlManager = enchant.Class.create(Manager, {
                 }
 			});
 
-			splited = {};
+			split = {};
 			contents = createObjFromChild("body", contents, header_elem.nextElementSibling, null);
 			var body = {type : "root", children : contents};
 
@@ -1699,7 +1720,7 @@ var TagManager = enchant.Class.create(Manager, {
             if(game._debug){
             	console.log(substituteTemplate(msg_tmpls.debugLogMessage, {
 					type : tag.type,
-					lineNum : this.cur_line_num,
+					lineNumber : tag.lineNumber,
 					column : this.interpreters["br"].line_text.length + this.cur_cursor_pos,
 					parentType : tag.parent.type
 				}));
