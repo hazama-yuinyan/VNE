@@ -13,9 +13,76 @@
     	<script type="text/javascript" src="VNE.js"></script>
         <script type="text/javascript" src="game.js"></script>
         <link rel="/style.css" type="text/css" />
+        <style type="text/css">
+        body{
+            margin: 0;
+            padding: 0;
+        }
+
+        #root{
+            width: 100%;
+        }
+
+        #tab_holder{
+            margin: 0;
+            padding: 0;
+        }
+
+        #tab_holder > a{
+            display: block; width: 6em; float: left;
+            margin: 0px 1px 0px 0px;
+            padding: 3px;
+            text-align: center;
+            border-right: solid 2px #333;
+            color: #111;
+            text-decoration: none;
+            background-color: #999;
+            width: 49%;
+        }
+
+        #game_console{
+            overflow: hidden;
+        }
+
+        #tab_holder > .activeTab{
+            background-color: #bbb;
+        }
+
+        div.tab{
+            border-top: solid 1px #999;
+            clear: left;
+        }
+
+        #source_code_viewer{
+            width: 100%;
+            height: 50%;
+            position: absolute;
+            display: block;
+            overflow: scroll;
+        }
+
+        #console_window{
+            width: 100%;
+            height: 50%;
+            position: absolute;
+            display: block;
+            overflow: scroll;
+        }
+        </style>
     </head>
     <body>
-    	<div id="enchant-stage"></div>
+        <div id="root">
+            <div id="tab_holder">
+                <a href="#" onclick="displayTab('enchant-stage'); return false;" class="gameTab activeTab tabButton">ゲーム</a>
+                <a href="#" onclick="displayTab('game_console'); return false;" class="consoleTab tabButton">コンソール</a>
+            </div>
+            <!-- id="enchant-stage"は予約されている。命名規則に合わなくても、変更はできない -->
+            <div id="enchant-stage" class="tab"></div>
+            <div id="game_console" class="tab">
+                <pre id="source_code_viewer"></pre>
+                <div id="console_window"></div>
+            </div>
+        </div>
     	<div id="ruler" style="display: hidden; position: absolute; font: bold large 'うずらフォント', 'MSゴシック'"></div>
     	<!-- options definition -->
     	<div id="options">

@@ -178,6 +178,19 @@ var MenuStates = enchant.Class.create({
             returnToMenu : function(operator){
                 this.system.reset();
                 operator.clearMenu();
+            },
+
+            openConsole : function(operator, selected_menu){
+            	var tab_holder = document.getElementById("tab_holder");
+            	if(!tab_holder.height){
+            		tab_holder.style.display = "block";
+            		displayTab("enchant-stage");
+            		selected_menu.text = "コンソールを隠す";
+            	}else{
+            		displayTab("enchant-stage");
+            		tab_holder.style.display = "none";
+            		selected_menu.text = "コンソールを表示";
+            	}
             }
 		});
 		

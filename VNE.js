@@ -174,6 +174,27 @@ function cssNameToPropertyName(cssName){
 }
 
 /**
+ * 指定されたタブのみをアクティブに変更する
+ */
+function displayTab(tab_name){
+	var tabs = document.getElementsByClassName("tab");
+	for(var i = 0; i < tabs.length; ++i)
+		tabs[i].style.display = "none";
+
+	var activate_tab = document.getElementById(tab_name);
+	activate_tab.style.display = "block";
+	
+	var tab_btns = document.getElementsByClassName("tabButton");
+	if(tab_name === "game_console" && tab_btns[1].classList.contains("activeTab")
+		|| tab_name === "enchant-stage" && tab_btns[0].classList.contains("activeTab")){
+		return;
+	}
+	
+	for(var j = 0; j < tab_btns.length; ++j)
+		tab_btns[j].classList.toggle("activeTab");
+}
+
+/**
  * プレースホルダー文字列をメッセージに含むエラークラス
  */
 var TemplateError = enchant.Class.create(Error, {
@@ -192,6 +213,7 @@ var SystemManager = enchant.Class.create(Group, {
 
 		var xml_manager = new XmlManager(xml_paths[0].file_name, this), msg_manager = new MessageManager(this, xml_manager);
 		var log_manager = new LogManager(this, xml_manager);
+		var console_manager = new ConsoleManager(this);
 		var path_header = xml_manager.getHeader("paths"), paths = xml_manager.getVarStore().getVar("paths");
 
 		game._debug = (xml_manager.getVarStore().getVar("settings.is_debug") == "true");
@@ -208,7 +230,8 @@ var SystemManager = enchant.Class.create(Group, {
 			log : log_manager,
 			input : new InputManager(this),
 			image : new ImageManager(this),
-			choices : new ChoicesManager(this)
+			choices : new ChoicesManager(this),
+			console : console_manager
 		};
 
 		if(!localStorage.getItem("save"))
@@ -223,10 +246,10 @@ var SystemManager = enchant.Class.create(Group, {
 		this.loadResources = function(path_header, paths){
 			var audio = new Audio();
 			var success_func = function(path){
-				console.log(substituteTemplate("{path} successfully loaded!", {path: path}));
+				console_manager.logFormatted("{path} successfully loaded!", {path: path});
 			};
 			var error_func = function(path){
-				console.log(substituteTemplate("Failed to load {path}", {path: path}));
+				console_manager.logFormatted("Failed to load {path}", {path: path});
 			};
 
 			for(var name in path_header){		//各種リソースファイルを読み込む
@@ -296,6 +319,12 @@ var SystemManager = enchant.Class.create(Group, {
         this.showNoticeLabel = function(text, tag_obj){
             tag_obj.should_be_front = true;
             managers.label.add(text, tag_obj, tag_obj.end_time);
+        };
+
+        this.makeAllManagerDisabled = function(){
+        	array.forEach(function(manager){
+        		manager.is_available = false;
+        	});
         };
 	},
 
@@ -368,6 +397,7 @@ var XmlManager = enchant.Class.create(Manager, {
 		Manager.call(this, system);
 
 		this.tag_manager = null;
+		this.console_manager = null;
 
 		var http_obj = new XMLHttpRequest();
 		var contents = [], headers = [], jump_table = {};
@@ -648,7 +678,9 @@ var XmlManager = enchant.Class.create(Manager, {
 			var result = expresso.evaluate(expr);
 			if(!result){
                 if(game._debug){
-                    console.log(expresso.stringifyErrors());
+                	if(!this.console_manager) this.console_manager = this.system.getManager("console");
+
+                    this.console_manager.log(expresso.stringifyErrors());
                 }
                 throw new TemplateError(msg_tmpls.errorInvalidExpression, {expr : expr});
     		}
@@ -1164,11 +1196,13 @@ var TagManager = enchant.Class.create(Manager, {
 
 				this.xml_manager = null;
                 this.msg_manager = null;
+                this.console_manager = null;
 			},
 
 			interpret : function(tag_obj){
 				if(!this.xml_manager) this.xml_manager = this.manager.system.getManager("xml");
                 if(!this.msg_manager) this.msg_manager = this.manager.msg_manager;
+                if(!this.console_manager) this.console_manager = this.manager.system.getManager("console");
 
 				var result = this.xml_manager.interpretExpression(tag_obj.expr);
 				if(result != "successful assignment"){
@@ -1176,7 +1210,7 @@ var TagManager = enchant.Class.create(Manager, {
 					this.manager.interpreters.br.addLineText(result.toString());
 				}else if(game._debug && result == "successful assignment"){
 					var var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
-					console.log('$' + var_name + " = " + this.xml_manager.getVarStore().getVar(var_name));
+					this.console_manager.log('$' + var_name + " = " + this.xml_manager.getVarStore().getVar(var_name));
 				}
 
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
@@ -1530,11 +1564,13 @@ var TagManager = enchant.Class.create(Manager, {
 				Interpreter.call(this, manager);
 
 				this.xml_manager = null;
+				this.console_manager = null;
 			},
 
 			interpret : function(tag_obj){
 				if(game._debug){		//デバッグモードのときのみこのタグを処理する
 					if(!this.xml_manager) this.xml_manager = this.manager.system.getManager("xml");
+					if(!this.console_manager) this.console_manager = this.manager.system.getManager("console");
 
 					var text = tag_obj.text;
 					if(tag_obj.children){	//子オブジェクトとして持っているVarタグを評価して置換しておく
@@ -1547,7 +1583,7 @@ var TagManager = enchant.Class.create(Manager, {
 						text = strs.join("");
 					}
 
-					console.log(text);
+					this.console_manager.log(text);
 				}
 
 				this.manager.next_text = this.manager.next_text.substring(tag_obj.text.length);
@@ -1593,6 +1629,7 @@ var TagManager = enchant.Class.create(Manager, {
 		this.xml_manager = xml_manager;
 		this.msg_manager = msg_manager;
 		this.log_manager = log_manager;
+		this.console_manager = null;
 
 		this.text_speed = xml_manager.getVarStore().getVar("options.text_speed");	//テキストの表示スピード。単位は[文字/frame]
 		this.next_text = "";														//現在のタグのテキスト
@@ -1746,12 +1783,14 @@ var TagManager = enchant.Class.create(Manager, {
 	interpret : function(tag){
 		try{
             if(game._debug){
-            	console.log(substituteTemplate(msg_tmpls.debugLogMessage, {
+            	if(!this.console_manager) this.console_manager = this.system.getManager("console");
+
+            	this.console_manager.logFormatted(msg_tmpls.debugLogMessage, {
 					type : tag.type,
 					lineNumber : tag.lineNumber,
-					column : tag.column,//this.interpreters["br"].line_text.length + this.cur_cursor_pos,
+					column : tag.column,
 					parentType : tag.parent.type
-				}));
+				});
             }
 			this.interpreters[tag.type].interpret(tag);
 			return tag;
@@ -2339,11 +2378,50 @@ var SoundManager = enchant.Class.create(Manager, {
 	}
 });
 
-/*var ConsoleManager = enchant.Class.create(Manager, {
+var ConsoleManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
+
+		this.source_code_viewer = document.getElementById("source_code_viewer");
+		this.game_console = document.getElementById("console_window");
+	},
+
+	setBreakPoint : function(line_num){
+
+	},
+
+	/**
+	 * console.log関数のラッパー。ゲームコンソールにログを出力するとともに、標準のconsoleにも出力をする
+	 */
+	log : function(content){
+		this.game_console.appendChild(document.createTextNode(content));
+		this.game_console.appendChild(document.createElement("br"));
+		console.log(content);
+	},
+
+	/**
+	 * console.log関数のラッパー。こちらは改行を自動で付け足さない。標準のコンソールには、改行付加で出力する
+	 */
+	logPlain : function(content){
+		this.game_console.appendChild(document.createTextNode(content));
+		console.log(content);
+	},
+
+	logFormatted : function(tmpl, values){
+		var formatted = substituteTemplate(tmpl, values);
+		this.log(formatted);
+	},
+
+	logFormattedPlain : function(tmpl, values){
+		var formatted = substituteTemplate(tmpl, values);
+		this.logPlain(formatted);
+	},
+
+	update : function(){
+		if(!this.is_available)
+			return;
 	}
-});*/
+});
 
 /**
  * InputManagerのリアクションを制御するクラス
@@ -2958,6 +3036,7 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 		enchant.DOMScene.call(this);
 
 		var system = new SystemManager(xml_paths);
+		var console_manager = system.getManager("console");
 		this.addChild(system);
 
 		this.backgroundColor = "#ebebeb";
@@ -2967,7 +3046,7 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 				system.update();
 			}catch(e){
 				if(game._debug){
-					console.log(e.message);
+					console_manager.log(e.message);
 				}/*else{
 					alert(e.message);
 				}*/

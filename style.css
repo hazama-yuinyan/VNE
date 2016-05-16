@@ -1,7 +1,9 @@
-/*The AGE Manual style sheet*/
+/*The VNE Manual style sheet*/
 
 
 
 body{
+	margin: 0;
+	padding: 0;
 	background: #001210;
 }
