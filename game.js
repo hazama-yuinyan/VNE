@@ -79,14 +79,19 @@
 
 
 window.onload = function(){
-	var reference_btns = document.getElementsByClassName("tabButton");
+	/*var reference_btns = document.getElementsByClassName("tabButton");
 	var tab_holder = document.getElementById("tab_holder");
 	var reference_rect = reference_btns[0].getBoundingClientRect();
 	// 動的にenchant.Gameインスタンスを作り直すと、状態の引き継ぎなどが面倒なので、あらかじめタブ表示領域を引いた高さでゲーム画面を生成する
-	var game_height = window.innerHeight - (reference_rect.bottom - reference_rect.top);
+	var game_height = window.innerHeight;//- (reference_rect.bottom - reference_rect.top);
+
+	var html_elem = document.documentElement;
+	html_elem.style.height = "100%";
+	var body_elem = document.body;
+	body_elem.style.height = "100%";*/
 
 	tab_holder.style.display = "none";
-	game = new enchant.Game(window.innerWidth, game_height);
+	game = new enchant.Game(window.innerWidth, window.innerHeight/*game_height*/);
 	game.fps = 30;
 	game.onload = function(){
 		var display = new Display([{

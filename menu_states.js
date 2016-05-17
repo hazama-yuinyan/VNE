@@ -181,15 +181,23 @@ var MenuStates = enchant.Class.create({
             },
 
             openConsole : function(operator, selected_menu){
-            	var tab_holder = document.getElementById("tab_holder");
+            	var reference_btns = document.getElementsByClassName("tabButton");
+				var tab_holder = document.getElementById("tab_holder");
+				var tab_content = document.getElementsByClassName("tabContent")[0];
             	if(!tab_holder.height){
-            		tab_holder.style.display = "block";
+            		tab_holder.style.display = "flex";
             		displayTab("enchant-stage");
             		selected_menu.text = "コンソールを隠す";
+            		var reference_rect = reference_btns[0].getBoundingClientRect();
+            		var game_height = window.innerHeight - (reference_rect.bottom - reference_rect.top);
+            		game.height = game_height;
+            		tab_content.style.height = game_height + "px";
             	}else{
             		displayTab("enchant-stage");
             		tab_holder.style.display = "none";
             		selected_menu.text = "コンソールを表示";
+            		game.height = innerHeight;
+            		tab_content.style.height = window.innerHeight + "px";
             	}
             }
 		});

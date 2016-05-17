@@ -189,7 +189,7 @@ function displayTab(tab_name){
 		|| tab_name === "enchant-stage" && tab_btns[0].classList.contains("activeTab")){
 		return;
 	}
-	
+
 	for(var j = 0; j < tab_btns.length; ++j)
 		tab_btns[j].classList.toggle("activeTab");
 }
@@ -2394,27 +2394,17 @@ var ConsoleManager = enchant.Class.create(Manager, {
 	 * console.log関数のラッパー。ゲームコンソールにログを出力するとともに、標準のconsoleにも出力をする
 	 */
 	log : function(content){
-		this.game_console.appendChild(document.createTextNode(content));
-		this.game_console.appendChild(document.createElement("br"));
-		console.log(content);
-	},
+		var elem = document.createElement("p");
+		elem.textContent = content
+		elem.classList.add("consoleLine");
+		this.game_console.appendChild(elem);
 
-	/**
-	 * console.log関数のラッパー。こちらは改行を自動で付け足さない。標準のコンソールには、改行付加で出力する
-	 */
-	logPlain : function(content){
-		this.game_console.appendChild(document.createTextNode(content));
 		console.log(content);
 	},
 
 	logFormatted : function(tmpl, values){
 		var formatted = substituteTemplate(tmpl, values);
 		this.log(formatted);
-	},
-
-	logFormattedPlain : function(tmpl, values){
-		var formatted = substituteTemplate(tmpl, values);
-		this.logPlain(formatted);
 	},
 
 	update : function(){
