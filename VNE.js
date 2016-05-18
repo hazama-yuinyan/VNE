@@ -195,6 +195,30 @@ function displayTab(tab_name){
 }
 
 /**
+ * ページ読み込み完了後にスクリプトを追加で読み込む
+ */
+function loadScriptLazily(script_path, callback){
+	var loaded = false;
+	var head = document.getElementsByTagName("head")[0];
+	var script_tag = document.createElement("script");
+	script_tag.src = script_path;
+	script_tag.onload = function(){
+		callback();
+	}
+	head.appendChild(script_tag);
+}
+
+function loadCssLazily(css_path){
+	var head = document.getElementsByTagName("head")[0];
+	var link_tag = document.createElement("link");
+	link_tag.rel = "stylesheet";
+	link_tag.type = "text/css";
+	link_tag.href = css_path;
+
+	head.appendChild(link_tag);
+}
+
+/**
  * プレースホルダー文字列をメッセージに含むエラークラス
  */
 var TemplateError = enchant.Class.create(Error, {

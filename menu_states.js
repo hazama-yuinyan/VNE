@@ -93,6 +93,7 @@ var MenuStates = enchant.Class.create({
 		var Menu = enchant.Class.create({
 			initialize : function(system){
 				this.system = system;
+				this.xml_manager = null;
 				this.menu = null;
 			},
 			
@@ -189,15 +190,37 @@ var MenuStates = enchant.Class.create({
             		displayTab("enchant-stage");
             		selected_menu.text = "コンソールを隠す";
             		var reference_rect = reference_btns[0].getBoundingClientRect();
-            		var game_height = window.innerHeight - (reference_rect.bottom - reference_rect.top);
+            		// -1するのは、ボーダーの幅を引くため
+            		var game_height = window.innerHeight - (reference_rect.bottom - reference_rect.top) - 1;
             		game.height = game_height;
             		tab_content.style.height = game_height + "px";
+
+            		var xml_manager = this.system.getManager("xml");
+            		var variable_store = xml_manager.getVarStore();
+            		var loaded_script = variable_store.getVar("settings.loaded_script");
+            		if(typeof loaded_script === "undefined"){
+            			variable_store.setVar("settings.loaded_script", true);
+            			loadScriptLazily("libs/prism_min.js", function(){
+            				Prism.highlightElement(document.getElementById("source_code_viewer"), true, null);
+            			});
+            			loadCssLazily("libs/prism.css");
+            		}
+
+            		var xhr = new XMLHttpRequest();
+            		xhr.onload = function(){
+            			var source_code_viewer = document.getElementById("source_code_viewer");
+            			source_code_viewer.textContent = xhr.responseText;
+            			if(typeof Prism !== "undefined")
+            				Prism.highlightElement(source_code_viewer, true, null);
+            		}
+            		xhr.open("get", "./sample.xml", false);
+            		xhr.send(null);
             	}else{
             		displayTab("enchant-stage");
             		tab_holder.style.display = "none";
             		selected_menu.text = "コンソールを表示";
-            		game.height = innerHeight;
-            		tab_content.style.height = window.innerHeight + "px";
+            		game.height = innerHeight - 1;
+            		tab_content.style.height = window.innerHeight - 1 + "px";
             	}
             }
 		});
