@@ -201,17 +201,17 @@ var MenuStates = enchant.Class.create({
             		if(typeof loaded_script === "undefined"){
             			variable_store.setVar("settings.loaded_script", true);
             			loadScriptLazily("libs/prism_min.js", function(){
-            				Prism.highlightElement(document.getElementById("source_code_viewer"), true, null);
+            				Prism.highlightAll(true, null);//Prism.highlightElement(document.getElementById("source_code_viewer"), true, null);
             			});
             			loadCssLazily("libs/prism.css");
             		}
 
             		var xhr = new XMLHttpRequest();
             		xhr.onload = function(){
-            			var source_code_viewer = document.getElementById("source_code_viewer");
-            			source_code_viewer.textContent = xhr.responseText;
+            			var source_code = document.getElementById("source_code");
+            			source_code.textContent = xhr.responseText;
             			if(typeof Prism !== "undefined")
-            				Prism.highlightElement(source_code_viewer, true, null);
+            				Prism.highlightAll(true, null);//Prism.highlightElement(source_code_viewer, true, null);
             		}
             		xhr.open("get", "./sample.xml", false);
             		xhr.send(null);

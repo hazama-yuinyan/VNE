@@ -798,6 +798,18 @@ var MessageManager = enchant.Class.create(Manager, {
 	initialize : function(system, xml_manager){
 		Manager.call(this, system);
 
+		var pre_line_text = "";
+
+		this.setPreLineText = function(line_text){
+			pre_line_text = line_text;
+		};
+
+		this.getPreLineText = function(){
+			var tmp = pre_line_text;
+			pre_line_text = "";
+			return tmp;
+		};
+
 		this.msgs = "";
 
 		this.msg_window = new enchant.DomLayer();
@@ -1081,7 +1093,7 @@ var TagManager = enchant.Class.create(Manager, {
 			},
 
 			addLineText : function(text){
-				this.line_text = this.line_text.concat(text);
+				this.line_text = this.msg_manager.getPreLineText().concat(text);
 			},
 
 			interpret : function(tag_obj){
@@ -1650,6 +1662,47 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
+		var RubyInterpreter = enchant.Class.create(Interpreter, {
+			initialize : function(manager){
+				Interpreter.call(this, manager);
+
+				this.msg_manager = null;
+			},
+
+			interpret : function(tag_obj){
+				if(!this.msg_manager) this.msg_manager = this.manager.system.getManager("message");
+
+				var content = tag_obj.content;
+				var ruby_tag = document.createElement("ruby");
+				var rp_open = document.createElement("rp"), rp_close = document.createElement("rp");
+				rp_open.textContent = "(", rp_close.textContent = ")";
+				var ruby_content = document.createElement("rt");
+				ruby_content.textContent = content;
+				ruby_tag.textContent = tag_obj.text;
+				
+				ruby_tag.appendChild(rp_open);
+				ruby_tag.appendChild(ruby_content);
+				ruby_tag.appendChild(rp_close);
+
+				this.msg_manager.appendChildNode(ruby_tag);
+
+				// カーソルポジションをリセットしたのち、brインタープリタ用にこのタグまでの行テキストをメッセージマネージャに知らせておく
+				var tag_end_pos = tag_obj.pos + tag_obj.text.length;
+				this.manager.cur_cursor_pos = 0;
+				this.msg_manager.setPreLineText(this.manager.next_text.slice(0, tag_end_pos));
+				this.manager.next_text = this.manager.next_text.substring(tag_end_pos);
+				this.skip_child = true;
+			},
+
+			postInterpret : function(){
+				this.manager.last_targeted_tag = null;
+			},
+
+			reset : function(){
+				this.msg_manager = this.manager.system.getManager("message");
+			}
+		});
+
 		this.xml_manager = xml_manager;
 		this.msg_manager = msg_manager;
 		this.log_manager = log_manager;
@@ -1683,7 +1736,8 @@ var TagManager = enchant.Class.create(Manager, {
 			log : new LogInterpreter(this),
 			menu : new MenuInterpreter(this),
 			scene : title_scene_interpreter,
-			minigame : new MinigameInterpreter(this)
+			minigame : new MinigameInterpreter(this),
+			ruby : new RubyInterpreter(this)
 		};
 	},
 
@@ -1905,7 +1959,7 @@ var LogManager = enchant.Class.create(Manager, {
 			if(tag.type == "br" || tag.type == "cp"){	//br,cpタグにたどり着いたら一行分のテキストをログウインドウに追加しておく
 				var new_span = document.createElement("span");
 				if(this.last_chara == tag.parent.chara){
-					new_span.style["text-indent"] = this.cur_indent_width + "px";
+					new_span.style.textIndent = this.cur_indent_width + "px";
 				}else{
 					var header = this.xml_manager.getHeader("profile", tag.parent.chara);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
 					var style = tag.style && tag.style.concat(header.style) || header.style;
