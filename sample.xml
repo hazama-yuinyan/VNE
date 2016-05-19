@@ -147,9 +147,9 @@
 			<log>デバッグモードか:<var expr="return $settings.is_debug"/></log>ちなつちゃんは結衣ちゃんが好き。<br/>
 			私はちなつちゃんが好き。<cp/>
 			その好きが、ただの好きと違うことに気付いたのは、恥ずかしながらつい最近のこと。<cp/>
-			あかりはほんっと<ruby content="うと">疎</ruby>いよなあ、と京子ちゃんにも言われるくらいには、<br/>
+			あかりはほんっと<ruby rtext="うと">疎</ruby>いよなあ、と京子ちゃんにも言われるくらいには、<br/>
 			私はそういうことに関してまったくと言っていいほどなにも知らなかった。<cp/>
-			応援しているはずの友達を好きになることがこんなにも<ruby content="つら">辛</ruby>いことなのだとも、<br/>
+			応援しているはずの友達を好きになることがこんなにも<ruby rtext="つら">辛</ruby>いことなのだとも、<br/>
 			なにも、知らなかったから。<cp/>
 		</narrative>
 		<choice enable_if="$settings.is_debug = true">
@@ -235,7 +235,7 @@
 			</narrative>
 			<line chara="chinatsu"><image id="chinatsu" frame="$chinatsu.バチコン☆" figure_pos="center"/>「あー残念。また今度ね」<image id="chinatsu" operation="remove"/><cp/></line>
 			<narrative>
-				京子ちゃんたちが部室の襖を開ける直前、囁かれたちなつちゃんの言葉。<cp/>
+				京子ちゃんたちが部室の<ruby rtext="ふすま">襖</ruby>を開ける直前、囁かれたちなつちゃんの言葉。<cp/>
 				もうそれだけで私はちなつちゃんに触れられる以上にドキドキとしてしまった。<cp/>
 			</narrative>
 			<line chara="kyouko"><image id="kyouko" frame="$kyouko.ぐいっ" figure_pos="left"/>「さて、今日もちなつちゃんを……」<cp/></line>

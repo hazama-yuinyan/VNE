@@ -77,7 +77,7 @@
 		<line name="snowman">
 			<image id="snowman" src="$paths.img_snowman" frame="$snowman.normal" figure_pos="center"/>Hello!ボクはSnowmanデス。<br/>
 			実は画面の前にいるキミにちょっと手伝ってもらいたいことがあるんだ。<cp/>
-			ボクの住んでるSnowman's Islandのお姫様が何者かによってさらわれちゃったんだ。<br/>
+			ボクの住んでる<ruby rtext="スノーマンズ アイランド">Snowman's Island</ruby>のお姫様が何者かによってさらわれちゃったんだ。<br/>
 			だから、キミにはボクと一緒にそのお姫様を探して助ける手伝いをして欲しい。<cp/>
 			してくれるよね？<image id="snowman" operation="remove"/><cp/>
 		</line>
@@ -155,7 +155,7 @@
 		
 		<scene id="食べ物">
 			<line name="snowman">
-				食べ物って言われても、今Snowman's Islandは飢饉に遭ってて雪以外何もないんだよ・・・<br/>
+				食べ物って言われても、今Snowman's Islandは<ruby rtext="ききん">飢饉</ruby>に遭ってて雪以外何もないんだよ・・・<br/>
 				むしろボクたちが食べ物を恵んでもらいたいぐらいさ。<cp/>
 			</line>
 			<line name="自分">いや、お前何でもくれるって言ったじゃん。</line>

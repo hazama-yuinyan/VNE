@@ -801,7 +801,7 @@ var MessageManager = enchant.Class.create(Manager, {
 		var pre_line_text = "";
 
 		this.setPreLineText = function(line_text){
-			pre_line_text = line_text;
+			pre_line_text = pre_line_text.concat(line_text);
 		};
 
 		this.getPreLineText = function(){
@@ -1093,7 +1093,7 @@ var TagManager = enchant.Class.create(Manager, {
 			},
 
 			addLineText : function(text){
-				this.line_text = this.msg_manager.getPreLineText().concat(text);
+				this.line_text = this.line_text.concat(this.msg_manager.getPreLineText().concat(text));
 			},
 
 			interpret : function(tag_obj){
@@ -1672,12 +1672,12 @@ var TagManager = enchant.Class.create(Manager, {
 			interpret : function(tag_obj){
 				if(!this.msg_manager) this.msg_manager = this.manager.system.getManager("message");
 
-				var content = tag_obj.content;
+				var rtext = tag_obj.rtext;
 				var ruby_tag = document.createElement("ruby");
 				var rp_open = document.createElement("rp"), rp_close = document.createElement("rp");
 				rp_open.textContent = "(", rp_close.textContent = ")";
 				var ruby_content = document.createElement("rt");
-				ruby_content.textContent = content;
+				ruby_content.textContent = rtext;
 				ruby_tag.textContent = tag_obj.text;
 				
 				ruby_tag.appendChild(rp_open);
@@ -1953,11 +1953,36 @@ var LogManager = enchant.Class.create(Manager, {
 	},
 	
 	add : function(tag, text){
+		var addLineTextToLog = (function(){
+			var new_span = document.createElement("span");
+			if(this.last_chara == tag.parent.chara){
+				new_span.style.textIndent = this.cur_indent_width + "px";
+			}else{
+				var header = this.xml_manager.getHeader("profile", tag.parent.chara);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
+				var style = tag.style && tag.style.concat(header.style) || header.style;
+				this.cur_child_tag = document.createElement("p");
+				this.log_window._element.appendChild(this.cur_child_tag);
+				this.cur_child_tag.style.cssText = this.xml_manager.replaceVars(style);
+					
+				if(this.isCharacterName(tag.parent.chara)){
+					var chara_name = this.chara_names[tag.parent.chara] + " ";
+					new_span.appendChild(document.createTextNode(chara_name));
+					setRulerStyle(this.cur_child_tag.style);
+					this.cur_indent_width = chara_name.getExpansion().width;
+				}else{
+					this.cur_indent_width = 0;
+				}
+			}
+			new_span.appendChild(document.createTextNode(this.line_text));
+			this.cur_child_tag.appendChild(new_span);
+			this.line_text = "";
+		}).bind(this);
+
 		if(typeof tag.pos !== "undefined"){
 			this.line_text = this.line_text.concat(text.substring(0, tag.pos));
 
-			if(tag.type == "br" || tag.type == "cp"){	//br,cpタグにたどり着いたら一行分のテキストをログウインドウに追加しておく
-				var new_span = document.createElement("span");
+			if(tag.type === "br" || tag.type === "cp"){	//br,cpタグにたどり着いたら一行分のテキストをログウインドウに追加しておく
+				/*var new_span = document.createElement("span");
 				if(this.last_chara == tag.parent.chara){
 					new_span.style.textIndent = this.cur_indent_width + "px";
 				}else{
@@ -1977,12 +2002,28 @@ var LogManager = enchant.Class.create(Manager, {
 					}
 				}
 				new_span.appendChild(document.createTextNode(this.line_text));
-				this.cur_child_tag.appendChild(new_span);
+				this.cur_child_tag.appendChild(new_span);*/
+				addLineTextToLog();
 				this.cur_child_tag.appendChild(document.createElement("br"));
-				this.line_text = "";
 				this.last_chara = tag.parent.chara;
+			}else if(tag.type === "ruby"){
+				addLineTextToLog();
+
+				var ruby_tag = document.createElement("ruby");
+				var rp_open = document.createElement("rp"), rp_close = document.createElement("rp");
+				rp_open.textContent = "(", rp_close.textContent = ")";
+				var ruby_content = document.createElement("rt");
+				
+				ruby_tag.textContent = tag.text;
+				ruby_content.textContent = tag.rtext;
+
+				ruby_tag.appendChild(rp_open);
+				ruby_tag.appendChild(ruby_content);
+				ruby_tag.appendChild(rp_close);
+
+				this.cur_child_tag.appendChild(ruby_tag);
 			}
-		}else if(tag.type == "scene" && tag.shows_title != "false"){
+		}else if(tag.type === "scene" && tag.shows_title !== "false"){
 			this.cur_child_tag = document.createElement("p");
 			this.cur_child_tag.appendChild(document.createTextNode(tag.title || tag.id));
 			this.cur_child_tag.style.cssText = "text-align: center; font: bold normal x-large sans-serif;";
