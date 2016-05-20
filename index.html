@@ -2,9 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, user-scalable=no" /> 
-        <meta name="apple-mobile-web-app-capable" content="yes" /> 
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" /> 
+        <!--<meta name="apple-mobile-web-app-capable" content="yes" />-->
+        <!--<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />-->
         <title>VNE Demo</title>
         <script type="text/javascript" src="enchant.min.js"></script>
         <script type="text/javascript" src="parser.js"></script>
@@ -81,8 +81,7 @@
         #source_code_viewer{
             position: absolute;
             display: block;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: auto;
             width: 100%;
             height: 50%;
             top: 0%;
@@ -93,12 +92,11 @@
         #console_window{
             position: absolute;
             display: block;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: auto;
             width: 100%;
             height: 50%;
             top: 50%;
-            box-sizing: border-boz;
+            box-sizing: border-box;
             -webkit-box-sizing: border-box;
         }
 
@@ -117,12 +115,10 @@
             <div class="tabContent">
                 <div id="enchant-stage" class="tab"></div>
                 <div id="game_console" style="display: none" class="tab">
-                    <div id="console_wrapper">
-                        <pre id="source_code_viewer" class="line-numbers language-markup">
-                            <code id="source_code" class="language-markup"></code>
-                        </pre>
-                        <div id="console_window"></div>
-                    </div>
+                    <pre id="source_code_viewer" class="line-numbers language-markup" data-src="./sample.xml">
+                        <code id="source_code" class="language-markup"></code>
+                    </pre>
+                    <div id="console_window"></div>
                 </div>
             </div>
         </div>

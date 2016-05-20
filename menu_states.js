@@ -197,11 +197,11 @@ var MenuStates = enchant.Class.create({
 
             		var xml_manager = this.system.getManager("xml");
             		var variable_store = xml_manager.getVarStore();
-            		var loaded_script = variable_store.getVar("settings.loaded_script");
-            		if(typeof loaded_script === "undefined"){
-            			variable_store.setVar("settings.loaded_script", true);
+            		var prism_loaded = variable_store.getVar("settings.prism_loaded");
+            		if(typeof prism_loaded === "undefined"){
+            			variable_store.setVar("settings.prism_loaded", true);
             			loadScriptLazily("libs/prism_min.js", function(){
-            				Prism.highlightAll(true, null);//Prism.highlightElement(document.getElementById("source_code_viewer"), true, null);
+            				Prism.highlightAll(false, null);//Prism.highlightElement(document.getElementById("source_code_viewer"), true, null);
             			});
             			loadCssLazily("libs/prism.css");
             		}
@@ -211,7 +211,7 @@ var MenuStates = enchant.Class.create({
             			var source_code = document.getElementById("source_code");
             			source_code.textContent = xhr.responseText;
             			if(typeof Prism !== "undefined")
-            				Prism.highlightAll(true, null);//Prism.highlightElement(source_code_viewer, true, null);
+            				Prism.highlightAll(false, null);
             		}
             		xhr.open("get", "./sample.xml", false);
             		xhr.send(null);

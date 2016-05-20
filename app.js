@@ -51,7 +51,7 @@ http.createServer(function(req, res){
 			break;
 
 		default:
-			console.log("Unknown file extension!");
+			console.log("Unknown file extension!; " + ext);
 			res.writeHead(404, {"Content-Type" : "text/plain"});
 			res.write("Unknown file extension!\n");
 			res.end();
