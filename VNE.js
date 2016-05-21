@@ -319,13 +319,13 @@ var SystemManager = enchant.Class.create(Group, {
 		
 		this.loadResources(path_header, paths);
 
-		var xhr = new XMLHttpRequest();
+		/*var xhr = new XMLHttpRequest();
 		xhr.onload = function(){
 			var content = xhr.responseText;
 			msg_tmpls = JSON.parse(content);
 		};
 		xhr.open("get", "./messages.json", false);
-		xhr.send(null);
+		xhr.send(null);*/
 
 		this.reset = function(){
 			array.forEach(function(manager){
@@ -523,16 +523,13 @@ var XmlManager = enchant.Class.create(Manager, {
 							var close_tag_name = "</" + tag.type + ">", end_tag = container_text_content.match(close_tag_name);
 							if(end_tag !== null){
 								container_text_content = container_text_content.slice(end_tag.index + close_tag_name.length);
-							}/*else{
-								// タグに囲まれていないテキストをコンテナタグのテキストにする
-								container_text = container_text.concat(before_tag_text);
-							}*/
+							}
 							container_text = container_text.concat(before_tag_text);
 						});
 
 						child_obj.text = container_text;
 						var remaining_text = container_text_content.split("</" + elem.tagName + ">")[0];
-						if(notHaveTrailingCp(elem, remaining_text, content)){		//終了タグの直前にcpが存在しなければ補完する
+						/*if(notHaveTrailingCp(elem, remaining_text, content)){		//終了タグの直前にcpが存在しなければ補完する
 							var line_num = calculateLineNumber(elem.tagName, split[elem.tagName].nextIndex);
 							// 1を減じるのは、分割した文字列の数より、改行の数が１個少ないため
 							line_num = line_num + remaining_text.split(/[\n]/).length - 1;
@@ -543,7 +540,7 @@ var XmlManager = enchant.Class.create(Manager, {
 								column : NaN,
 								parent : child_obj
 							});
-						}
+						}*/
 					}
 					child_obj.children = content;
 				}
@@ -573,7 +570,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				}
 
                 if(child_obj.type === "line" && !child_obj.children){  //子要素を持たないlineにcpタグを追加する
-                	var split_obj2 = split["line"];
+                	var split_obj2 = split.line;
                 	//もうこの時点でsplit_obj2.nextIndexは次の要素を指している
                 	var line_num = calculateLineNumber("line", split_obj2.nextIndex - 1);
                     child_obj.children = [{
@@ -688,14 +685,14 @@ var XmlManager = enchant.Class.create(Manager, {
 			var title = result[1], ids = result[2] && result[2].split(",");
 			var tmp_tbl = jump_table[title];
 			var tmp = contents[tmp_tbl.index];
-			if(!ids || ids[0] == undefined) return tmp;
+			if(!ids || typeof ids[0] === "undefined") return tmp;
 			return getSceneImpl(tmp.children, tmp_tbl.children, ids, 0);
 		};
 
 		this.getHeader = function(type_name, name){
 			var header_obj = null;
 			headers.every(function(header){
-				if(header.type == type_name && (name == undefined || header.name == name)){
+				if(header.type == type_name && (typeof name === "undefined" || header.name == name)){
 					header_obj = header;
 					return false;
 				}
@@ -1797,7 +1794,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 	isCharacterTag : function(tag){
 		var char_headers = this.xml_manager.getHeader("characters");
-		return (char_headers[tag.chara] != undefined);
+		return (typeof char_headers[tag.chara] != "undefined");
 	},
 
 	getNextTarget : function(tag){
@@ -1863,13 +1860,13 @@ var TagManager = enchant.Class.create(Manager, {
 		var data = JSON.parse(localStorage.getItem("save"))[index];
 		var scene = this.xml_manager.load(data);
     	var array = scene.children;
-		this.setNextTag((data.parent_index !== undefined) ? array[data.parent_index] : scene);
+		this.setNextTag((typeof data.parent_index !== "undefined") ? array[data.parent_index] : scene);
         return data;
 	},
 
 	restore : function(){
 		var data = this.load(0);		//一時保存領域からデータを復元する
-        if(data.child_index !== undefined){
+        if(typeof data.child_index !== "undefined"){
             var child_array = this.next_targeted_tag.children;
             this.next_targeted_tag = child_array[data.child_index]; //シーンの２つ子供の階層のタグをセットする
             for(var i = 0; i < data.child_index; ++i)              	//目的のタグの位置までテキストを削る
@@ -1956,8 +1953,8 @@ var LogManager = enchant.Class.create(Manager, {
 		this.log_window = new enchant.DomLayer();
 		this.log_window.width = game.width;
 		this.log_window.height = game.height;
-		this.log_window._element.style["text-decoration"] = "underline";
-		this.log_window._element.style["overflow"] = "hidden";
+		this.log_window._element.style.textDecoration = "underline";
+		this.log_window._element.style.overflow = "hidden";
 		this.log_window.backgroundColor = "rgba(128, 128, 128, 0.8)";
 
 		var dummy = "ダミー";
@@ -1971,7 +1968,7 @@ var LogManager = enchant.Class.create(Manager, {
 	},
 	
 	isCharacterName : function(str){
-		return (this.chara_names[str] != undefined);
+		return (typeof this.chara_names[str] !== "undefined");
 	},
 	
 	add : function(tag, text){
@@ -2657,8 +2654,8 @@ var Chooser = enchant.Class.create(ActionOperator, {
 		this.xml_manager = input_manager.system.getManager("xml");
 		this.tag_manager = input_manager.system.getManager("tag");
         var settings = this.xml_manager.getHeader("settings");
-        this.selected_se_path = settings["selected_se"];
-        this.selection_move_se_path = settings["selection_move_se"];
+        this.selected_se_path = settings.selected_se;
+        this.selection_move_se_path = settings.selection_move_se;
 		this.setStyle(this.choices[0].obj, this.choices[0].select_style);
 	},
 
@@ -2760,7 +2757,7 @@ var MenuOperator = enchant.Class.create(ActionOperator, {
 
 			this.choices_manager.clear();
 			this.inner_operator.msg_manager.makeMsgWindowVisible(true);	//非表示にしてあったメッセージウインドウを再度表示する
-			this.input_manager.setActionOperator(this.tag_manager.interpreters["br"].operator);
+			this.input_manager.setActionOperator(this.tag_manager.interpreters.br.operator);
 		};
 	},
 
@@ -2848,7 +2845,7 @@ var LogOperator = enchant.Class.create(ActionOperator, {
 	operateF : function(){
 		this.log_manager.activate(false);
 		this.msg_manager.makeMsgWindowVisible(true);
-		this.input_manager.setActionOperator(this.input_manager.system.getManager("tag").interpreters["br"].operator);
+		this.input_manager.setActionOperator(this.input_manager.system.getManager("tag").interpreters.br.operator);
 	},
 	
 	operateUp : function(){
