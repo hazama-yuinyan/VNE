@@ -144,8 +144,8 @@
 
 	<scene title="プロローグ">
 		<narrative>
-			<log>デバッグモードか:<var expr="return $settings.is_debug"/></log>ちなつちゃんは結衣ちゃんが好き。<br/>
-			私はちなつちゃんが好き。<cp/>
+			ちなつちゃんは結衣ちゃんが好き。<br/>
+			<log>デバッグモードか:<var expr="return $settings.is_debug"/></log>私はちなつちゃんが好き。<cp/>
 			その好きが、ただの好きと違うことに気付いたのは、恥ずかしながらつい最近のこと。<cp/>
 			あかりはほんっと<ruby rtext="うと">疎</ruby>いよなあ、と京子ちゃんにも言われるくらいには、<br/>
 			私はそういうことに関してまったくと言っていいほどなにも知らなかった。<cp/>
@@ -173,7 +173,7 @@
 			<line chara="chinatsu">「そう？ならいいんだけど……」<image id="chinatsu" operation="change" frame="$chinatsu.normal"/><cp/></line>
 			<narrative>
 				私は小さく笑いながら、ちなつちゃんの淹れたお茶に手を伸ばした。<cp/>
-				熱いお茶で冷えた手を温めながら、なんとかかんとか、バクバクしている心臓を落ち着ける。
+				熱いお茶で冷えた手を温めながら、なんとかかんとか、バクバクしている心臓を落ち着ける。<cp/>
 			</narrative>
 			<line chara="chinatsu">「なんかボーっとしてたから」<cp/></line>
 			<line chara="akari">「……ごめんねぇ」<cp/></line>

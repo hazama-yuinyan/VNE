@@ -228,6 +228,16 @@ var TemplateError = enchant.Class.create(Error, {
 	}
 });
 
+var msg_tmpls = {
+	"errorMissingTag" : "Expected \"{type}\" but there isn't such a tag.",
+	"errorMissingHeader" : "A header that is the type of {type} and named {name} is missing!",
+	"errorInvalidExpression" : "The expression \"{expr}\" is invalid!",
+	"errorUnknownTag" : "Unknown tag name {type}",
+	"errorMissingImageFile" : "An image file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
+	"errorMissingSoundFile" : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
+	"debugLogMessage" : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}"
+};
+
 /**
  * ゲーム全体の統括を行う。各オブジェクトの画面上に表示する実体のルートオブジェクトでもある。
  */
@@ -449,6 +459,7 @@ var XmlManager = enchant.Class.create(Manager, {
 		variable_store.setVar("display", {width : game.width, height : game.height}, true);
 		variable_store.setVar("cur_frame", 0, true);
 		this.next_updating_time = now.getTime() + 1000;
+		var _self = this;
 
 		http_obj.onload = function(){
 			var text = http_obj.responseText.replace(/[\t\r]+/g, ""), split = {};
@@ -495,22 +506,32 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(elem.childElementCount !== 0){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
 					if(type !== "header" && elem.tagName !== "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
-						var searching_text = split[elem.tagName].texts[split[elem.tagName].nextIndex].replace(/[\n]/g, "");
+						var container_text = "";
+						var container_text_content = split[elem.tagName].texts[split[elem.tagName].nextIndex].replace(/[\n]/g, "");
 						content.forEach(function(tag){
-							var result = searching_text.match(/(<\/?)([^\s>\/]+)/), result2 = searching_text.match(/>/);
-							if(result !== null && result2 !== null && result[2] == tag.type)
-								searching_text = searching_text.slice(result2.index + 1);
-							else
-								throw new TemplateError(msg_tmpls.errorMissingTag, {type : tag.type});
+							var result = container_text_content.match(/(<\/?)([^\s>\/]+)/), result2 = container_text_content.match(/>/);
+							var before_tag_text = container_text_content.substring(0, result.index);
+							if(result !== null && result2 !== null && result[2] == tag.type){
+								container_text_content = container_text_content.slice(result2.index + 1);
+							}else{
+								_self.console_manager.log(msg_tmpls.errorMissingTag, {type : tag.type});
+								throw new Error();
+							}
 
 							// ここでコンテナ要素の子要素の位置を設定するのは、下記の方法では、他のタグの影響を受けたカラム番号が記録されてしまうため
 							tag.pos = result.index;
-							var tag_name = "</" + tag.type + ">", end_tag = searching_text.match(tag_name);
-							if(end_tag !== null)
-								searching_text = searching_text.slice(end_tag.index + tag_name.length);
+							var close_tag_name = "</" + tag.type + ">", end_tag = container_text_content.match(close_tag_name);
+							if(end_tag !== null){
+								container_text_content = container_text_content.slice(end_tag.index + close_tag_name.length);
+							}/*else{
+								// タグに囲まれていないテキストをコンテナタグのテキストにする
+								container_text = container_text.concat(before_tag_text);
+							}*/
+							container_text = container_text.concat(before_tag_text);
 						});
 
-						var remaining_text = searching_text.split("</" + elem.tagName + ">")[0];
+						child_obj.text = container_text;
+						var remaining_text = container_text_content.split("</" + elem.tagName + ">")[0];
 						if(notHaveTrailingCp(elem, remaining_text, content)){		//終了タグの直前にcpが存在しなければ補完する
 							var line_num = calculateLineNumber(elem.tagName, split[elem.tagName].nextIndex);
 							// 1を減じるのは、分割した文字列の数より、改行の数が１個少ないため
@@ -543,10 +564,10 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(typeof parent !== "undefined")
 					child_obj.parent = parent;
 
-				if(elem.textContent.length !== 0){
+				if(elem.textContent.length !== 0 && elem.childElementCount === 0){
 					child_obj.text = elem.textContent.replace(/[\t\n\r]+/g, "");
 					child_obj.debugText = elem.textContent.replace(/[\r]/g, "");
-				}else{
+				}else if(elem.textContent.length === 0){
 					child_obj.text = "";
 					child_obj.debugText = "";
 				}
@@ -643,8 +664,10 @@ var XmlManager = enchant.Class.create(Manager, {
 			});
 
 			jump_table = createJumpTable(contents, {}, 0);
+			//_self.first_tag = contents[0];
 		};
 
+		// パフォーマンスに関する警告が出るが、syncにしないと他のマネージャクラスの初期化に影響が出るので、asyncにはできない
 		http_obj.open("get", url, false);
 		http_obj.send(null);
 		this.first_tag = contents[0];
@@ -1622,7 +1645,7 @@ var TagManager = enchant.Class.create(Manager, {
 					this.console_manager.log(text);
 				}
 
-				this.manager.next_text = this.manager.next_text.substring(tag_obj.text.length);
+				//this.manager.next_text = this.manager.next_text.substring(tag_obj.text.length);
 				this.manager.cur_cursor_pos = 0;
 				this.manager.skip_child = true;
 			},
@@ -1687,10 +1710,9 @@ var TagManager = enchant.Class.create(Manager, {
 				this.msg_manager.appendChildNode(ruby_tag);
 
 				// カーソルポジションをリセットしたのち、brインタープリタ用にこのタグまでの行テキストをメッセージマネージャに知らせておく
-				var tag_end_pos = tag_obj.pos + tag_obj.text.length;
 				this.manager.cur_cursor_pos = 0;
-				this.msg_manager.setPreLineText(this.manager.next_text.slice(0, tag_end_pos));
-				this.manager.next_text = this.manager.next_text.substring(tag_end_pos);
+				this.msg_manager.setPreLineText(this.manager.next_text.slice(0, tag_obj.pos) + tag_obj.text);
+				this.manager.next_text = this.manager.next_text.substring(tag_obj.pos);
 				this.skip_child = true;
 			},
 
@@ -1796,7 +1818,7 @@ var TagManager = enchant.Class.create(Manager, {
 	},
 
 	isInterpretableTag : function(tag){
-		return(this.interpreters[tag.type] != undefined);
+		return(typeof this.interpreters[tag.type] !== "undefined");
 	},
 
     setNextUpdateFrame : function(frame){
@@ -1982,27 +2004,6 @@ var LogManager = enchant.Class.create(Manager, {
 			this.line_text = this.line_text.concat(text.substring(0, tag.pos));
 
 			if(tag.type === "br" || tag.type === "cp"){	//br,cpタグにたどり着いたら一行分のテキストをログウインドウに追加しておく
-				/*var new_span = document.createElement("span");
-				if(this.last_chara == tag.parent.chara){
-					new_span.style.textIndent = this.cur_indent_width + "px";
-				}else{
-					var header = this.xml_manager.getHeader("profile", tag.parent.chara);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
-					var style = tag.style && tag.style.concat(header.style) || header.style;
-					this.cur_child_tag = document.createElement("p");
-					this.log_window._element.appendChild(this.cur_child_tag);
-					this.cur_child_tag.style.cssText = this.xml_manager.replaceVars(style);
-					
-					if(this.isCharacterName(tag.parent.chara)){
-						var chara_name = this.chara_names[tag.parent.chara] + " ";
-						new_span.appendChild(document.createTextNode(chara_name));
-						setRulerStyle(this.cur_child_tag.style);
-						this.cur_indent_width = chara_name.getExpansion().width;
-					}else{
-						this.cur_indent_width = 0;
-					}
-				}
-				new_span.appendChild(document.createTextNode(this.line_text));
-				this.cur_child_tag.appendChild(new_span);*/
 				addLineTextToLog();
 				this.cur_child_tag.appendChild(document.createElement("br"));
 				this.last_chara = tag.parent.chara;
