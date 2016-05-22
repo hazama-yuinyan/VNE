@@ -40,8 +40,7 @@
  */
 
 
-//TODO: 最新のenchant.jsに対応させる
-//		リファクタリングする
+//TODO: リファクタリングする
 
 enchant();
 
@@ -177,6 +176,12 @@ function cssNameToPropertyName(cssName){
  * 指定されたタブのみをアクティブに変更する
  */
 function displayTab(tab_name){
+	var tab_btns = document.getElementsByClassName("tabButton");
+	if(tab_name === "game_console" && tab_btns[1].classList.contains("activeTab")
+		|| tab_name === "enchant-stage" && tab_btns[0].classList.contains("activeTab")){
+		return;
+	}
+
 	var tabs = document.getElementsByClassName("tab");
 	for(var i = 0; i < tabs.length; ++i)
 		tabs[i].style.display = "none";
@@ -184,14 +189,13 @@ function displayTab(tab_name){
 	var activate_tab = document.getElementById(tab_name);
 	activate_tab.style.display = "block";
 	
-	var tab_btns = document.getElementsByClassName("tabButton");
-	if(tab_name === "game_console" && tab_btns[1].classList.contains("activeTab")
-		|| tab_name === "enchant-stage" && tab_btns[0].classList.contains("activeTab")){
-		return;
-	}
-
 	for(var j = 0; j < tab_btns.length; ++j)
 		tab_btns[j].classList.toggle("activeTab");
+
+	if(tab_name === "enchant-stage"){
+		var tab_holder = document.getElementById("tab_holder");
+		tab_holder.style.display = "none";
+	}
 }
 
 /**
@@ -208,6 +212,9 @@ function loadScriptLazily(script_path, callback){
 	head.appendChild(script_tag);
 }
 
+/**
+ * ページ読み込み完了後にCSSを追加で読み込む
+ */
 function loadCssLazily(css_path){
 	var head = document.getElementsByTagName("head")[0];
 	var link_tag = document.createElement("link");
@@ -229,13 +236,15 @@ var TemplateError = enchant.Class.create(Error, {
 });
 
 var msg_tmpls = {
-	"errorMissingTag" : "Expected \"{type}\" but there isn't such a tag.",
-	"errorMissingHeader" : "A header that is the type of {type} and named {name} is missing!",
-	"errorInvalidExpression" : "The expression \"{expr}\" is invalid!",
-	"errorUnknownTag" : "Unknown tag name {type}",
-	"errorMissingImageFile" : "An image file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
-	"errorMissingSoundFile" : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
-	"debugLogMessage" : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}"
+	errorMissingTag : "Expected \"{type}\" but there isn't such a tag.",
+	errorMissingHeader : "A header that is the type of {type} and named {name} is missing!",
+	errorInvalidExpression : "The expression \"{expr}\" is invalid!",
+	errorUnknownTag : "Unknown tag name {type}",
+	errorMissingImageFile : "An image file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
+	errorMissingSoundFile : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
+	debugLogMessage : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}",
+	succeedLoadingMessage : "{path} successfully loaded!",
+	failedLoadingMessage : "Failed to load {path}"
 };
 
 /**
@@ -280,10 +289,10 @@ var SystemManager = enchant.Class.create(Group, {
 		this.loadResources = function(path_header, paths){
 			var audio = new Audio();
 			var success_func = function(path){
-				console_manager.logFormatted("{path} successfully loaded!", {path: path});
+				console_manager.logFormatted(msg_tmpls.succeedLoadingMessage, {path: path});
 			};
 			var error_func = function(path){
-				console_manager.logFormatted("Failed to load {path}", {path: path});
+				console_manager.logFormatted(msg_tmpls.failedLoadingMessage, {path: path});
 			};
 
 			for(var name in path_header){		//各種リソースファイルを読み込む
@@ -318,14 +327,6 @@ var SystemManager = enchant.Class.create(Group, {
 		};
 		
 		this.loadResources(path_header, paths);
-
-		/*var xhr = new XMLHttpRequest();
-		xhr.onload = function(){
-			var content = xhr.responseText;
-			msg_tmpls = JSON.parse(content);
-		};
-		xhr.open("get", "./messages.json", false);
-		xhr.send(null);*/
 
 		this.reset = function(){
 			array.forEach(function(manager){
@@ -661,7 +662,6 @@ var XmlManager = enchant.Class.create(Manager, {
 			});
 
 			jump_table = createJumpTable(contents, {}, 0);
-			//_self.first_tag = contents[0];
 		};
 
 		// パフォーマンスに関する警告が出るが、syncにしないと他のマネージャクラスの初期化に影響が出るので、asyncにはできない
@@ -1794,7 +1794,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 	isCharacterTag : function(tag){
 		var char_headers = this.xml_manager.getHeader("characters");
-		return (typeof char_headers[tag.chara] != "undefined");
+		return (typeof char_headers[tag.chara] !== "undefined");
 	},
 
 	getNextTarget : function(tag){
@@ -3050,7 +3050,7 @@ var TimeIndependentVibrationEffect = enchant.Class.create(Effect, {
 		this.min_val = {x : min_x, y : min_y};				//最小値
 		this.max_val = {x : max_x, y : max_y};				//最大値
 		this.average_val = {x : (min_x + max_x) / 2, y : (min_y + max_y) / 2};
-		this.max_rate = max_rate;							//1回の更新で更新できる最大値
+		this.max_rate = max_rate;							//1回の更新で更新できる最大幅
 	},
 
 	update : function(){
@@ -3163,8 +3163,9 @@ var Display = enchant.Class.create(enchant.DOMScene, {
         //enchantに独自イベントを追加する
         enchant.Event.CLICKED = "Clicked";
         enchant.Event.HELD = "Held";
+        enchant.Event.TOUCHEDTWOFINGERS = "TouchedTwoFingers";
 
-        var touched = false, prev_touched_frame = 0, CLICK_FRAMES = 15;
+        var touched = false, prev_touched_frame = 0, CLICK_FRAMES = 15, touches = null;
 
 		this.addEventListener('touchstart', function(){
             prev_touched_frame = game.frame;
@@ -3173,7 +3174,10 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 
 		this.addEventListener('touchend', function(e){
 			if(touched){
-                if(game.frame - prev_touched_frame <= CLICK_FRAMES){
+				if(touches && touches.length === 2){
+					var event = new enchant.Event("TouchedTwoFingers");
+					system.dispatchEventAt(event, e.x, e.y);
+				}else if(game.frame - prev_touched_frame <= CLICK_FRAMES){
                     var event = new enchant.Event('Clicked');
                     system.dispatchEventAt(event, e.x, e.y);
                 }else{
@@ -3184,15 +3188,27 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 				touched = false;
 			}
 		});
+
+		// ネイティヴのTouch API。マルチタッチ情報を取得するため
+		this._element.addEventListener("touchstart", function(e){
+			touches = e.touches;
+		});
+		this._element.addEventListener("touchend", function(e){
+			touches = e.touches;
+		});
 		
 		game.replaceScene(this);
 	},
 
     onClicked : function(){
-        game.input.c = true;
+        game.input.d = true;
     },
 
     onHeld : function(){
-        game.input.d = true;
+        game.input.c = true;
+    },
+
+    onTouchedTwoFingers : function(){
+    	game.input.d = true;
     }
 });

@@ -131,10 +131,10 @@
 	
 	<scene title="main_menu" shows_title="false">
 		<menu initial_state="MainMenu">
-			<item x="centered" y="100" action="openNew" to="title:body">新しく始める</item>
-			<item x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</item>
-			<item x="centered" y="300" action="openOption" to="MenuOption">オプション</item>
-			<item x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</item>
+			<item x="centered" y="50" action="openNew" to="title:body">新しく始める</item>
+			<item x="centered" y="100" action="openLoad" to="MenuLoad">続きから始める</item>
+			<item x="centered" y="150" action="openOption" to="MenuOption">オプション</item>
+			<item x="centered" y="200" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</item>
 		</menu>
 	</scene>
 
@@ -1972,11 +1972,11 @@
 	
 	<scene title="menu" shows_title="false">
 		<menu initial_state="Menu">
-			<item x="$display.width - 200" y="100" action="openSave" to="MenuSave">セーブ</item>
-			<item x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</item>
-			<item x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</item>
-			<item x="$display.width - 200" y="250" action="returnToMenu">メニューへ戻る</item>
-			<item x="$display.width - 200" y="300" action="openConsole" enable_if="$settings.is_debug">コンソールを表示</item>
+			<item x="$display.width - 200" y="50" action="openSave" to="MenuSave">セーブ</item>
+			<item x="$display.width - 200" y="100" action="openLoad" to="MenuLoad">ロード</item>
+			<item x="$display.width - 200" y="150" action="openOption" to="MenuOption">オプション</item>
+			<item x="$display.width - 200" y="200" action="returnToMenu">メニューへ戻る</item>
+			<item x="$display.width - 200" y="250" action="openConsole" enable_if="$settings.is_debug">コンソールを表示</item>
 		</menu>
 	</scene>
 </Scinario>

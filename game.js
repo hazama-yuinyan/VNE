@@ -91,8 +91,11 @@ window.onload = function(){
 	body_elem.style.height = "100%";*/
 
 	try{
+		document.documentElement.style.width = window.innerWidth + "px";
+		document.documentElement.style.height = window.innerHeight + "px";
 		tab_holder.style.display = "none";
-		game = new enchant.Game(window.innerWidth, 320/*game_height*/);
+
+		game = new enchant.Game(568, 320);
 		game.fps = 30;
 		game.onload = function(){
 			var display = new Display([{
@@ -127,6 +130,17 @@ window.onload = function(){
 					this.input[type] = false;
 			});
 		}, game);
+
+		// viewportの余計な部分がスクロールで表示されないようにする
+		document.addEventListener("touchmove", function(e){
+			/*if(e.currentTarget == document){
+				e.preventDefault();
+				e.stopPropagation();
+				e.returnValue = false;
+				return false;
+			}*/
+			e.bubbles = false;
+		});
 		
 		game.start();
 

@@ -95,6 +95,7 @@ var MenuStates = enchant.Class.create({
 				this.system = system;
 				this.xml_manager = null;
 				this.menu = null;
+				this.console_initialized = false;
 			},
 			
 			prepare : function(tag_obj){
@@ -185,42 +186,43 @@ var MenuStates = enchant.Class.create({
             	var reference_btns = document.getElementsByClassName("tabButton");
 				var tab_holder = document.getElementById("tab_holder");
 				var tab_content = document.getElementsByClassName("tabContent")[0];
-            	if(!tab_holder.height){
-            		tab_holder.style.display = "flex";
-            		displayTab("enchant-stage");
-            		selected_menu.text = "コンソールを隠す";
-            		var reference_rect = reference_btns[0].getBoundingClientRect();
-            		// -1するのは、ボーダーの幅を引くため
-            		var game_height = window.innerHeight - (reference_rect.bottom - reference_rect.top) - 1;
-            		game.height = game_height;
-            		tab_content.style.height = game_height + "px";
 
-            		var xml_manager = this.system.getManager("xml");
-            		var variable_store = xml_manager.getVarStore();
-            		var prism_loaded = variable_store.getVar("settings.prism_loaded");
-            		if(typeof prism_loaded === "undefined"){
-            			variable_store.setVar("settings.prism_loaded", true);
-            			loadScriptLazily("libs/prism_min.js", function(){
-            				Prism.highlightAll(true, null);//Prism.highlightElement(document.getElementById("source_code_viewer"), true, null);
+            	tab_holder.style.display = "flex";
+            	displayTab("game_console");
+            	//selected_menu.text = "コンソールを隠す";
+            	var reference_rect = reference_btns[0].getBoundingClientRect();
+            	// -1するのは、ボーダーの幅を引くため
+            	var game_height = window.innerHeight - (reference_rect.bottom - reference_rect.top) - 1;
+            	//game.height = game_height;
+            	tab_content.style.height = game_height + "px";
+
+            	if(!this.console_initialized){
+            		loadScriptLazily("libs/prism_min.js", function(){
+            			Prism.highlightAll(true, function(){
+            				loader_layer.style.display = "none";
             			});
-            			loadCssLazily("libs/prism.css");
-            		}
+            		});
+            		loadCssLazily("libs/prism.css");
 
-            		var xhr = new XMLHttpRequest();
-            		xhr.onload = function(){
-            			var source_code = document.getElementById("source_code");
-            			source_code.textContent = xhr.responseText;
-            			if(typeof Prism !== "undefined")
-            				Prism.highlightAll(true, null);
-            		}
-            		xhr.open("get", "./sample.xml", false);
-            		xhr.send(null);
-            	}else{
-            		displayTab("enchant-stage");
-            		tab_holder.style.display = "none";
-            		selected_menu.text = "コンソールを表示";
-            		game.height = innerHeight - 1;
-            		tab_content.style.height = window.innerHeight - 1 + "px";
+            		var loader_layer = document.getElementById("loader_layer");
+            		var loader_image = document.getElementById("loader_image");
+            		var margin_left = (window.innerWidth - 568) / 2.0;
+            		loader_layer.style.left = margin_left + "px";
+            		loader_image.style.left = 234 + margin_left + "px";		// 244 = コンテンツ領域の幅 - ローダー画像の幅の半分
+            		loader_image.style.top = 105 + "px";					// 105 = コンテンツ領域の高さ / 2 - ローダー画像の高さの半分	
+            		loader_layer.style.display = "block";
+
+	            	var xhr = new XMLHttpRequest();
+	            	xhr.onload = function(){
+	            		var source_code = document.getElementById("source_code");
+	            		source_code.textContent = xhr.responseText;
+	            		if(typeof Prism !== "undefined")
+	            			Prism.highlightAll(true, null);
+	            	}
+	            	xhr.open("get", "./sample.xml", false);
+	            	xhr.send(null);
+            			
+            		this.console_initialized = true;
             	}
             }
 		});

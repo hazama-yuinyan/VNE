@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-height,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" /> 
-        <!--<meta name="apple-mobile-web-app-capable" content="yes" />-->
+        <meta name="viewport" content="width=device-width,user-scalable=0" /> 
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <!--<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />-->
         <title>VNE Demo</title>
         <script type="text/javascript" src="enchant.min.js"></script>
@@ -28,6 +28,7 @@
         #tab_holder{
             margin: 0;
             padding: 0;
+            width: 100%;
             height: auto;
             display: flex;
             display: -webkit-flex;
@@ -89,6 +90,20 @@
             -webkit-box-sizing: border-box;
         }
 
+        #loader_layer{
+            position: absolute;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 100%;
+            top: 0%;
+            z-index: 10;
+        }
+
+        #loader_image{
+            position: absolute;
+        }
+
         #console_window{
             position: absolute;
             display: block;
@@ -119,6 +134,10 @@
                         <code id="source_code" class="language-markup"></code>
                     </pre>
                     <div id="console_window"></div>
+
+                    <div id="loader_layer">
+                        <img id="loader_image" src="./gif-load.gif">
+                    </div>
                 </div>
             </div>
         </div>
