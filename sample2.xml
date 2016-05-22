@@ -74,7 +74,7 @@
 	</scene>
 	
 	<scene title="Prologue" shows_title="false">
-		<line name="snowman">
+		<line chara="snowman">
 			<image id="snowman" src="$paths.img_snowman" frame="$snowman.normal" figure_pos="center"/>Hello!ボクはSnowmanデス。<br/>
 			実は画面の前にいるキミにちょっと手伝ってもらいたいことがあるんだ。<cp/>
 			ボクの住んでる<ruby rtext="スノーマンズ アイランド">Snowman's Island</ruby>のお姫様が何者かによってさらわれちゃったんだ。<br/>
@@ -88,7 +88,7 @@
 		</choice>
 		
 		<scene id="refused1">
-			<line name="snowman">
+			<line chara="snowman">
 				<image id="snowman" src="$paths.img_snowman" frame="$snowman.normal" figure_pos="center"/>そういわずにさ～。そこを何とか頼むよ～。<br/>
 				もちろん、報酬は弾むよ！なにがいい？<br/>
 				キミの欲しい物を何でもあげるよ！<image id="snowman" operation="remove"/><cp/>
@@ -101,18 +101,18 @@
 		</scene>
 		
 		<scene id="IWantMoney">
-			<line name="snowman">現実的だね・・・。キミはもうちょっと夢を持ったほうがいいと思うよ・・・<cp/></line>
-			<line name="自分">
+			<line chara="snowman">現実的だね・・・。キミはもうちょっと夢を持ったほうがいいと思うよ・・・<cp/></line>
+			<line chara="自分">
 				世の中結局金なんだよ。お前もわかってんだろ、そんなことぐらい。<br/>
 				わかったらさっさとよこせよ！雪坊主野郎！<cp/>
 			</line>
-			<line name="snowman">
+			<line chara="snowman">
 				お金をあげたら本当にボクの手伝いをしてくれるんだね？<br/>
 				絶対だよ？約束だからね？<cp/>
 			</line>
-			<line name="自分">わかったから早くよこせよ！</line>
-			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<var expr="randInt(10000)"/>Gを手に入れた！</narrative>
-			<line name="自分">
+			<line chara="自分">わかったから早くよこせよ！<cp/></line>
+			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<var expr="randInt(10000)"/>Gを手に入れた！<cp/></narrative>
+			<line chara="自分">
 				（ハッハッハ、ちょろいなこいつ。<br/>
 				無くさないようにポケットに入れておこう）<var expr="$snowman_fondness : $snowman_fondness - 5"/><cp/>
 				<log>Snowmanの好感度：<var expr="return $snowman_fondness"/></log>
@@ -121,30 +121,30 @@
 		</scene>
 		
 		<scene id="IWantLove">
-			<line name="snowman">
+			<line chara="snowman">
 				愛・・・愛か・・・・・・・・・・・・<cp/>
 				ボクも欲しいかもしれない・・・<cp/>
 			</line>
-			<line name="自分">（こいつも苦労してんのか？）</line>
-			<line name="snowman">
+			<line chara="自分">（こいつも苦労してんのか？）<cp/></line>
+			<line chara="snowman">
 				ボクで良ければ抱きしめてあげるよ。<br/>
 				ホラ！<cp/>
 			</line>
-			<line name="自分">いや、遠慮しておくよ…</line>
-			<line name="snowman">遠慮しなくていいんだよ！ほら、C'mon!</line>
-			<line name="自分">
+			<line chara="自分">いや、遠慮しておくよ…<cp/></line>
+			<line chara="snowman">遠慮しなくていいんだよ！ほら、C'mon!<cp/></line>
+			<line chara="自分">
 				マジでいいから！<cp/>
 				<jump to="title:Prologue, ids:ok"/>
 			</line>
 		</scene>
 		
 		<scene id="IWantNothing">
-			<line name="snowman">
+			<line chara="snowman">
 				それは困るな～。世の中、ギブアンドテイクで成り立ってるのだよ。<br/>
 				見返りに何が欲しいか言ってくれないと何もできないじゃないか～。<cp/>
 			</line>
-			<line name="自分">そういわれても何も思い浮かばねえしな～。</line>
-			<line name="snowman">じゃあボクが何か良さそうなものを挙げるからその中から選んでよ。</line>
+			<line chara="自分">そういわれても何も思い浮かばねえしな～。<cp/></line>
+			<line chara="snowman">じゃあボクが何か良さそうなものを挙げるからその中から選んでよ。<cp/></line>
 			<choice>
 				<a to="title: Prologue, ids: IWantMoney">お金</a>
 				<b to="title: Prologue, ids: IWantLove">愛情</b>
@@ -154,30 +154,30 @@
 		</scene>
 		
 		<scene id="食べ物">
-			<line name="snowman">
+			<line chara="snowman">
 				食べ物って言われても、今Snowman's Islandは<ruby rtext="ききん">飢饉</ruby>に遭ってて雪以外何もないんだよ・・・<br/>
 				むしろボクたちが食べ物を恵んでもらいたいぐらいさ。<cp/>
 			</line>
-			<line name="自分">いや、お前何でもくれるって言ったじゃん。</line>
-			<line name="snowman">そうはいっても限度ってものがあるよ。</line>
-			<line name="自分">使えねえやつ！</line>
+			<line chara="自分">いや、お前何でもくれるって言ったじゃん。<cp/></line>
+			<line chara="snowman">そうはいっても限度ってものがあるよ。<cp/></line>
+			<line chara="自分">使えねえやつ！<cp/></line>
 		</scene>
 		
 		<scene id="ok">
-			<line name="snowman">よし、じゃあ早速出発しよう。</line>
-			<line name="自分">は？出発するってどこへ。</line>
-			<line name="snowman">そんなの、お姫様がさらわれた敵の城に決まってるじゃないか！</line>
-			<line name="自分">
+			<line chara="snowman">よし、じゃあ早速出発しよう。<cp/></line>
+			<line chara="自分">は？出発するってどこへ。<cp/></line>
+			<line chara="snowman">そんなの、お姫様がさらわれた敵の城に決まってるじゃないか！<cp/></line>
+			<line chara="自分">
 				（もうお姫様の居場所わかってんのかよ・・・<br/>
 				なら俺いらなくね？）<cp/>
 				もうお姫様の居場所わかってんの？<cp/>
 				お前確か、『一緒にお姫様の居場所を探して助ける手伝いをしてほしい』とかいってなかったっけか？<cp/>
 			</line>
-			<line name="snowman">
+			<line chara="snowman">
 				え？ああ、言ったよ。でも、まさかまったく当てもなく闇雲に探しに行くわけないじゃないか～。<br/>
 				キミにはお城の中のどこにお姫様がいるかを探す手伝いをしてほしいんだよ。<cp/>
 			</line>
-			<line name="自分">
+			<line chara="自分">
 				あ、ああ、そう・・・<cp/>
 				（なんか引っかかる言い方だな・・・<br/>
 				もしかしてこいつ、姫の居場所の見当が付いていなければ助けにいかないつもりだったのか？）<cp/>
@@ -186,57 +186,57 @@
 				――――――<br/>
 				――――――<cp/>
 			</narrative>
-			<line name="snowman">よし、じゃあ車に乗って！</line>
-			<line name="自分">は？車？</line>
-			<line name="snowman">そうだよ、車。<pause time="250"/>Car。<pause time="500"/>もしかして知らない？</line>
-			<line name="自分">
+			<line chara="snowman">よし、じゃあ車に乗って！<cp/></line>
+			<line chara="自分">は？車？<cp/></line>
+			<line chara="snowman">そうだよ、車。<pause time="250"/>Car。<pause time="500"/>もしかして知らない？<cp/></line>
+			<line chara="自分">
 				いや、知ってるけどさ・・・<cp/>
 				（世界観的に馬とかじゃねえの？）<cp/>
 			</line>
-			<line name="snowman">乗ったね？よし、出発～！</line>
+			<line chara="snowman">乗ったね？よし、出発～！<cp/></line>
 		</scene>
 	</scene>
 	
 	<scene title="OutsideOfTheCastle" shows_title="false">
-		<narrative>キキーッ</narrative>
-		<line name="snowman">よし、着いた。</line>
-		<line name="自分">
+		<narrative>キキーッ<cp/></narrative>
+		<line chara="snowman">よし、着いた。<cp/></line>
+		<line chara="自分">
 			（いや、着いたけど、目の前に頑丈そうな城壁があるんだが・・・）<cp/>
 			で、こっからどうするわけ？<cp/>
 		</line>
-		<line name="snowman">え？なにが？</line>
-		<line name="自分">
+		<line chara="snowman">え？なにが？<cp/></line>
+		<line chara="自分">
 			いや、まだここ城の外だろ？<br/>
 			姫を探すには中に入らなきゃダメだよな？<br/>
 			中にはどうやって入るんだって話。<cp/>
 		</line>
-		<line name="snowman">それはキミが見つけるんだよ。</line>
-		<line name="自分">は？</line>
-		<line name="snowman">
+		<line chara="snowman">それはキミが見つけるんだよ。<cp/></line>
+		<line chara="自分">は？<cp/></line>
+		<line chara="snowman">
 			そのためにキミを連れてきたんだからね。<br/>
 			ただ付いてきただけなんて許さないよ。<cp/>
 		</line>
-		<line name="自分">（いや、別に俺は付いてきたくて付いてきたんじゃないんだけど・・・）</line>
-		<line name="snowman">なんだいその顔は？不満そうだね？</line>
-		<line name="自分">いや、別にそういうわけじゃ・・・</line>
-		<line name="snowman">
+		<line chara="自分">（いや、別に俺は付いてきたくて付いてきたんじゃないんだけど・・・）<cp/></line>
+		<line chara="snowman">なんだいその顔は？不満そうだね？<cp/></line>
+		<line chara="自分">いや、別にそういうわけじゃ・・・<cp/></line>
+		<line chara="snowman">
 			そう。じゃあ、早く探してよ。<br/>
 			早く探さないと日が暮れちゃうよ。<cp/>
 			あ、そうだ！<br/>
 			どこかに隠し通路とかあるかもしれないから、<br/>
 			二人で手分けして探そう。<cp/>
 		</line>
-		<line name="自分">
+		<line chara="自分">
 			それはありがたい提案だ。<cp/>
 			（なんで俺がこんな事しなきゃいけないんだ・・・）<cp/>
 		</line>
-		<line name="snowman">じゃあ、ボクはあっちを探してくるからキミはこっちの方をお願い。</line>
-		<line name="自分">あいよ。</line>
+		<line chara="snowman">じゃあ、ボクはあっちを探してくるからキミはこっちの方をお願い。<cp/></line>
+		<line chara="自分">あいよ。<cp/></line>
 		<narrative>
 			――――――<br/>
 			――――――<cp/>
 		</narrative>
-		<line name="自分">
+		<line chara="自分">
 			アイツと別れてから１時間近く経つが、隠し通路どころか城内に通じる門すら見つからないぞ。<br/>
 			一体この城はどういう構造をしてるんだ。<cp/>
 			そもそも、この城、いわゆるキャッスルじゃなくて日本の城みたいだし・・・<br/>
@@ -264,17 +264,17 @@
 				<sound src="$paths.se_gasagasa" operation="once"/>ガサガサ<br/>
 				ガサガサ<cp/>
 			</narrative>
-			<line name="自分">・・ん？なんだ？</line>
+			<line chara="自分">・・ん？なんだ？<cp/></line>
 			<narrative>
 				<sound id="BGM" src="$paths.in_danger" operation="loop" is_bgm="true"/><sound src="$paths.se_gasagasa" operation="once"/>ガサガサ<br/>
 				ガサガサ<cp/>
 				<image id="bear" src="$paths.img_bear" frame="$bear.normal" figure_pos="center"/><effect name="RandomVibration" target="display" end_time="10" amplitude_x="10" amplitude_y="10" max_rate="3" sync="true"/>バッ！<cp/>
 			</narrative>
-			<line name="bear">がおー<cp/></line>
-			<line name="自分">うっわ、熊だ！</line>
-			<narrative>野生の熊が襲いかかってきた！<var expr="$flags.has_fight_with_bear : true"/></narrative>
+			<line chara="bear">がおー<cp/></line>
+			<line chara="自分">うっわ、熊だ！<cp/></line>
+			<narrative>野生の熊が襲いかかってきた！<var expr="$flags.has_fight_with_bear : true"/><cp/></narrative>
 			<scene id="FightWithBear">
-				<narrative>あなたはどうしますか？</narrative>
+				<narrative>あなたはどうしますか？<cp/></narrative>
 				<choice>
 					<a to="title:OutsideOfTheCastle, ids:ToLeft, Attack">戦う</a>
 					<b to="title:OutsideOfTheCastle, ids:ToLeft, Defence">防御する</b>
@@ -296,14 +296,14 @@
 					<image id="bear" operation="remove"/>
 					<jump to="title:DeadEnd"/>
 				</scene>
-				<line name="自分" enable_if="$bear_HP &gt; 5">どうだ！やったか？</line>
-				<line name="bear" enable_if="$bear_HP &gt; 5">ガオー！</line>
-				<line name="自分" enable_if="$bear_HP &gt; 5">まだか</line>
+				<line chara="自分" enable_if="$bear_HP &gt; 5">どうだ！やったか？<co/></line>
+				<line chara="bear" enable_if="$bear_HP &gt; 5">ガオー！<cp/></line>
+				<line chara="自分" enable_if="$bear_HP &gt; 5">まだか<cp/></line>
 				<jump to="title:OutsideOfTheCastle, ids:ToLeft, FightWithBear"/>
 			</scene>
 			
 			<scene id="Defence">
-				<line name="自分">（ここは防御だ。次のターンの攻撃にかけよう）</line>
+				<line chara="自分">（ここは防御だ。次のターンの攻撃にかけよう）<cp/></line>
 				<narrative>
 					熊の攻撃！<br/>
 					あなたは<var expr="$rand : randInt(2); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
@@ -318,22 +318,22 @@
 			</scene>
 			
 			<scene id="Run">
-				<line name="自分">（くっ・・・もうだめだ。逃げよう！）</line>
+				<line chara="自分">（くっ・・・もうだめだ。逃げよう！）<cp/></line>
 				<jump enable_if="rand() &gt; 0.3" to="title:OutsideOfTheCastle, ids:ToLeft, RunAway!"/>
-				<narrative>逃げ切れなかった。</narrative>
-				<line name="自分">くそっ・・こいつ思った以上に素早い・・・！</line>
-				<line name="bear">がおーーーーー！</line>
+				<narrative>逃げ切れなかった。<cp/></narrative>
+				<line chara="自分">くそっ・・こいつ思った以上に素早い・・・！<cp/></line>
+				<line chara="bear">がおーーーーー！<cp/></line>
 				<narrative>
 					熊の攻撃！<br/>
 					あなたは<var expr="$rand : randInt(100); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
 					<jump enable_if="$main_HP &lt; 0" to="title:DeadEnd"/>
 				</narrative>
-				<line name="自分">くそっ、まともに食らっちまったぜ・・・</line>
+				<line chara="自分">くそっ、まともに食らっちまったぜ・・・<cp/></line>
 				<jump to="title:OutsideOfTheCastle, ids:ToLeft, FightWithBear"/>
 			</scene>
 			
 			<scene id="Win">
-				<line name="自分">
+				<line chara="自分">
 					<sound id="BGM" operation="stop"/><sound src="$paths.win" operation="once" sync="true"/><image id="bear" operation="remove"/>ふっ、口ほどにもないやつめ。<br/>
 					俺様の強さを思い知ったか！わっはっは<cp/>
 				</line>
@@ -344,7 +344,7 @@
 			</scene>
 			
 			<scene id="RunAway!">
-				<line name="自分">
+				<line chara="自分">
 					<sound id="BGM" operation="stop"/><image id="bear" operation="remove"/><text speed="0.5">はあ・・はあ・・</text><cp/>
 					何とか逃げ切れたみたいだな。だが、熊ごとき相手に尻尾を巻いて逃げ出すなんて俺様としたことが・・<br/>
 					不覚だった・・！<cp/>
@@ -366,7 +366,7 @@
 				前を向いても横を向いてもそこにあるのは城壁だけ。<br/>
 				おまけに、この城壁はどちらも優に20mはありそうな代物で、そのせいで日光は遮られまだ真昼間だというのに薄暗い。<cp/>
 			</narrative>
-			<line name="自分">
+			<line chara="自分">
 				（このクソ高い城壁のせいでものすごい圧迫感を感じる・・・<br/>
 				仮にこの道が正解だとしても、城内に入る前に萎縮して逃げ出しちまいそうな雰囲気だぜ…）<cp/>	
 			</line>
@@ -375,11 +375,11 @@
 				この異質な世界で唯一頼れそうな仲間(?)とわかれた寂寥感とこの異様な雰囲気とが相まって孤独感を促進していた。<br/>
 				あんな変な奴でも、いなければいないで寂しいもんなんだな。<cp/>
 				と、そのときだった。<cp/>
-				ヒュー<sound src="$paths.se_falling" operation="once"/>ドカーン<sound src="$paths.se_explo_b" operation="once"/>
+				ヒュー<sound src="$paths.se_falling" operation="once"/>ドカーン<sound src="$paths.se_explo_b" operation="once"/><cp/>
 			</narrative>
-			<line name="自分">うえええ、ちょっ！爆発なんて聞いてねえよ！…え、なんなの？マジで命かけなきゃいけない系でぃすか、これは！</line>
-			<narrative>ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/></narrative>
-			<line name="自分">やばいやばいやばいって！こんな時にあいつは何してんだよ、くそ・・！</line>
+			<line chara="自分">うえええ、ちょっ！爆発なんて聞いてねえよ！…え、なんなの？マジで命かけなきゃいけない系でぃすか、これは！<cp/></line>
+			<narrative>ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/><cp/></narrative>
+			<line chara="自分">やばいやばいやばいって！こんな時にあいつは何してんだよ、くそ・・！<cp/></line>
 			<narrative>
 				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/><br/>
 				<pause time="1000"/>
@@ -391,16 +391,16 @@
 				ヒュー<sound src="$paths.se_falling" operation="once"/>ドーン<sound src="$paths.se_explo_s" operation="once"/>
 				ドカーン<sound src="$paths.se_explo_b" operation="once"/><cp/>
 				<text speed="0.25">…………</text><cp/>
-				ドーン<sound src="$paths.se_explo_s" operation="once"/>
+				ドーン<sound src="$paths.se_explo_s" operation="once"/><cp/>
 			</narrative>
-			<line name="自分">ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</line>
-			<line name="snowman">遅れちゃってごめん！他の用事が立て込んじゃっててなかなかこっちに来れなかったんだよ。</line>
-			<line name="自分">ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</line>
-			<line name="snowman">……大丈夫？</line>
-			<line name="自分">ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ</line>
-			<line name="snowman">……どうやら大丈夫じゃなさそうだね。そう言えばこっちの方で花火みたいな音がしてたけどあれは一体--</line>
-			<narrative>ドカーン<sound src="$paths.se_explo_b" operation="once"/></narrative>
-			<line name="snowman">なるほど、これのせいか。こいつの直撃を受けて放心状態に陥っちゃってるわけか。まあ無理もないよね。</line>
+			<line chara="自分">ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ<cp/></line>
+			<line chara="snowman">遅れちゃってごめん！他の用事が立て込んじゃっててなかなかこっちに来れなかったんだよ。<cp/></line>
+			<line chara="自分">ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ<cp/></line>
+			<line chara="snowman">……大丈夫？<cp/></line>
+			<line chara="自分">ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ<cp/></line>
+			<line chara="snowman">……どうやら大丈夫じゃなさそうだね。そう言えばこっちの方で花火みたいな音がしてたけどあれは一体--<cp/></line>
+			<narrative>ドカーン<sound src="$paths.se_explo_b" operation="once"/><cp/></narrative>
+			<line chara="snowman">なるほど、これのせいか。こいつの直撃を受けて放心状態に陥っちゃってるわけか。まあ無理もないよね。<cp/></line>
 		</scene>
 		
 		<scene id="ToRight">
@@ -413,20 +413,20 @@
 				そんなことをぼんやりとした頭で考えている自分に気づいて苦笑してしまった。<br/>
 				なんだかんだ言って、この状況を楽しんでいる自分がいるのだ。<br/>
 				いや、この訳のわからん世界でやけになってこの状況を楽しもうとしているだけかもしれないが・・<cp/>
-				と、突然左手の城壁が途切れ小さな閂が備わった門が現れた。<cp/>
+				と、突然左手の城壁が途切れ小さな<ruby rtext="かんぬき">閂</ruby>が備わった門が現れた。<cp/>
 			</narrative>
-			<line name="自分">お、これは俺の時代が来た予感</line>
+			<line chara="自分">お、これは俺の時代が来た予感<cp/></line>
 			<narrative>
 				今にもスキップしだしそうなほど高揚した気分を何とか抑えつつ、<br/>
 				巨大な秘密を内に秘めた頑健なベールを解き放つべく閂に手をかけたら・・・<cp/>
 			</narrative>
-			<line name="自分">ぐぬ・・・ぐぬぬぬ・・・</line>
+			<line chara="自分">ぐぬ・・・ぐぬぬぬ・・・<cp/></line>
 			<narrative>
 				いくら踏ん張って渾身の力を込めて閂を引っ張ってみた所でそいつはびくともしなかった。<br/>
 				まるで俺をあざ笑うかのようにそこに鎮座するだけだ。<br/>
 				どうしても諦め切れない俺は、何度も何度も果敢に閂に挑戦を挑んだが、そのたびに無慈悲に突っぱねられるだけだった。<cp/>
 			</narrative>
-			<line name="自分">くっそ、他を探せって言うのかよ・・・</line>
+			<line chara="自分">くっそ、他を探せって言うのかよ・・・<cp/></line>
 			<narrative>
 				10分ばかりの閂との格闘の末、握力がなくなりかけて不戦敗を喫した俺はついに元きた道を戻ることにした。<br/>
 				その道中も目に入るのは地の果てまで続くような真っ白な城壁だけ。覗き穴の一つすら見当たらない。<br/>
@@ -439,7 +439,7 @@
 	</scene>
 	
 	<scene title="Ending1" shows_title="false">
-		<line name="snowman">
+		<line chara="snowman">
 			キミに頼もうとしたボクが馬鹿だったよ。<br/>
 			他の人を探すことにしよう。<cp/>
 		</line>
@@ -453,7 +453,7 @@
 	</scene>
 	
 	<scene title="DeadEnd" shows_title="false">
-		<line name="自分">
+		<line chara="自分">
 			<sound src="$paths.got_down" operation="once"/>あれ、おかしいな・・なんだか意識が朦朧と・・・<br/>
 			・・・・・・・・・・・<br/>
 			・・・・・・・・・・・<cp/>
@@ -472,6 +472,7 @@
 			<b x="$display.width - 200" y="150" action="openLoad" to="MenuLoad">ロード</b>
 			<c x="$display.width - 200" y="200" action="openOption" to="MenuOption">オプション</c>
 			<d x="$display.width - 200" y="250" action="returnToMenu">メニューへ戻る</d>
+			<e x="$display.width - 200" y="300" action="openConsole" enable_if="$settings.is_debug">コンソールを表示</e>
 		</menu>
 	</scene>
 </Scinario>
