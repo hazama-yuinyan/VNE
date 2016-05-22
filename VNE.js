@@ -244,7 +244,8 @@ var msg_tmpls = {
 	errorMissingSoundFile : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
 	debugLogMessage : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}",
 	succeedLoadingMessage : "{path} successfully loaded!",
-	failedLoadingMessage : "Failed to load {path}"
+	failedLoadingMessage : "Failed to load {path}",
+	unknownResourceType : "Unknown resource type found; {0}"
 };
 
 /**
@@ -320,7 +321,7 @@ var SystemManager = enchant.Class.create(Group, {
 						break;
 
 					default:
-						throw new TemplateError("Unknown resource type found; {0}", [path]);
+						console_manager.log(msg_tmpls.unknownResourceType, [path]);
 					}
 				}
 			}

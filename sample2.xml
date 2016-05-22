@@ -25,20 +25,20 @@
  			<color name="bear">rgb(20, 20, 20)</color>
  		</colors>
 		<paths>
-			<path name="br_icon">images/br_icon.png</path>
-			<path name="cp_icon">images/cp_icon.png</path>
-			<path name="select">sounds/select.ogg</path>
-			<path name="item_get">sounds/clear2.mp3</path>
-			<path name="win">sounds/clear1.mp3</path>
-			<path name="got_down">sounds/jingle20.mp3</path>
-			<path name="in_danger">sounds/loop03.mp3</path>
-			<path name="op_jingle">sounds/jingle19.mp3</path>
-			<path name="se_gasagasa">sounds/gasagasa.ogg</path>
-			<path name="se_falling">sounds/FallA@11.ogg</path>
-			<path name="se_explo_b">sounds/ExplosionB@11St.ogg</path>
-			<path name="se_explo_s">sounds/ExplosionC@11.ogg</path>
-			<path name="img_snowman">images/snowman.png</path>
-			<path name="img_bear">images/bear.png</path>
+			<path kind="image" name="br_icon">images/br_icon.png</path>
+			<path kind="image" name="cp_icon">images/cp_icon.png</path>
+			<path kind="sound" name="select">sounds/select.ogg</path>
+			<path kind="sound" name="item_get">sounds/clear2.mp3</path>
+			<path kind="sound" name="win">sounds/clear1.mp3</path>
+			<path kind="sound" name="got_down">sounds/jingle20.mp3</path>
+			<path kind="bgm" name="in_danger">sounds/loop03.mp3</path>
+			<path kind="bgm" name="op_jingle">sounds/jingle19.mp3</path>
+			<path kind="sound" name="se_gasagasa">sounds/gasagasa.ogg</path>
+			<path kind="sound" name="se_falling">sounds/FallA@11.ogg</path>
+			<path kind="sound" name="se_explo_b">sounds/ExplosionB@11St.ogg</path>
+			<path kind="sound" name="se_explo_s">sounds/ExplosionC@11.ogg</path>
+			<path kind="image" name="img_snowman">images/snowman.png</path>
+			<path kind="image" name="img_bear">images/bear.png</path>
 		</paths>
 		<settings>
 			<setting name="br_icon">$paths.br_icon</setting>
