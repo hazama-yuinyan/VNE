@@ -3143,6 +3143,9 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 		enchant.DOMScene.call(this);
 
 		var system = new SystemManager(xml_paths);
+		// 高さを基準にズーム倍率をセットする
+		//system.scaleX = window.innerHeight / 320;
+		//system.scaleY = window.innerHeight / 320;
 		var console_manager = system.getManager("console");
 		this.addChild(system);
 
@@ -3154,9 +3157,7 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 			}catch(e){
 				if(game._debug){
 					console_manager.log(e.message);
-				}/*else{
-					alert(e.message);
-				}*/
+				}
 			}
 		});
 

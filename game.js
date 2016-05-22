@@ -95,7 +95,8 @@ window.onload = function(){
 		document.documentElement.style.height = window.innerHeight + "px";
 		tab_holder.style.display = "none";
 
-		game = new enchant.Game(568, 320);
+		var game_width = window.innerHeight / 9 * 16;
+		game = new enchant.Game(game_width, window.innerHeight);
 		game.fps = 30;
 		game.onload = function(){
 			var display = new Display([{

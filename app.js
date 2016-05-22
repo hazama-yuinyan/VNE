@@ -42,6 +42,10 @@ http.createServer(function(req, res){
 			content_type = "image/jpeg";
 			break;
 
+		case "gif":
+			content_type = "image/gif";
+			break;
+
 		case "xml":
 			content_type = "text/xml";
 			break;
