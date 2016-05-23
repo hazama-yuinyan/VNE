@@ -79,17 +79,6 @@
 
 
 window.onload = function(){
-	/*var reference_btns = document.getElementsByClassName("tabButton");
-	var tab_holder = document.getElementById("tab_holder");
-	var reference_rect = reference_btns[0].getBoundingClientRect();
-	// 動的にenchant.Gameインスタンスを作り直すと、状態の引き継ぎなどが面倒なので、あらかじめタブ表示領域を引いた高さでゲーム画面を生成する
-	var game_height = window.innerHeight;//- (reference_rect.bottom - reference_rect.top);
-
-	var html_elem = document.documentElement;
-	html_elem.style.height = "100%";
-	var body_elem = document.body;
-	body_elem.style.height = "100%";*/
-
 	try{
 		document.documentElement.style.width = window.innerWidth + "px";
 		document.documentElement.style.height = window.innerHeight + "px";
@@ -133,17 +122,6 @@ window.onload = function(){
 			});
 		}, game);
 
-		// viewportの余計な部分がスクロールで表示されないようにする
-		document.addEventListener("touchmove", function(e){
-			/*if(e.currentTarget == document){
-				e.preventDefault();
-				e.stopPropagation();
-				e.returnValue = false;
-				return false;
-			}*/
-			e.bubbles = false;
-		});
-		
 		game.start();
 
 		displayTab("enchant-stage");
