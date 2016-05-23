@@ -95,8 +95,9 @@ window.onload = function(){
 		document.documentElement.style.height = window.innerHeight + "px";
 		tab_holder.style.display = "none";
 
-		var game_width = window.innerHeight / 9 * 16;
-		game = new enchant.Game(game_width, window.innerHeight);
+		game = new enchant.Game(568, 320);
+		// 高さを基準とした拡大率を算出する
+		game.scale = window.innerHeight / 320;
 		game.fps = 30;
 		game.onload = function(){
 			var display = new Display([{
