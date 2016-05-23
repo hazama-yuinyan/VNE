@@ -531,18 +531,6 @@ var XmlManager = enchant.Class.create(Manager, {
 
 						child_obj.text = container_text;
 						var remaining_text = container_text_content.split("</" + elem.tagName + ">")[0];
-						/*if(notHaveTrailingCp(elem, remaining_text, content)){		//終了タグの直前にcpが存在しなければ補完する
-							var line_num = calculateLineNumber(elem.tagName, split[elem.tagName].nextIndex);
-							// 1を減じるのは、分割した文字列の数より、改行の数が１個少ないため
-							line_num = line_num + remaining_text.split(/[\n]/).length - 1;
-							content.push({
-								type : "cp",
-								lineNumber : line_num,
-								pos : remaining_text.length,
-								column : NaN,
-								parent : child_obj
-							});
-						}*/
 					}
 					child_obj.children = content;
 				}
@@ -3154,7 +3142,7 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 				system.update();
 			}catch(e){
 				if(game._debug){
-					console_manager.log(e.message);
+					console_manager.log(e.message + "\n" + e.stack);
 				}
 			}
 		});
@@ -3211,3 +3199,32 @@ var Display = enchant.Class.create(enchant.DOMScene, {
     	game.input.d = true;
     }
 });
+
+var SplashScreen = enchant.Class.create(enchant.DOMScene, {
+	initialize : function(display_objs){
+		enchant.DOMScene.call(this);
+
+		this.backgroundColor = "#eee";
+
+		var text = "画面をタッチしてください";
+		var label = new enchant.Label(text);
+		label.font = "normal large serif";
+		label.color = "#000";
+		label.textAlign = "center";
+		
+		setRulerStyle("font: normal large serif");
+		var expansion = text.getExpansion();
+		label.moveTo(568 / 2 - expansion.width / 2, 320 / 2 - expansion.height / 2);
+
+		this.addChild(label);
+
+		this.addEventListener("touchend", function(e){
+			var dummy_audio = enchant.WebAudioSound.load("sounds/silence.wav");
+			dummy_audio.play();
+
+			var display = new Display(display_objs);
+		});
+
+		game.replaceScene(this);
+	}
+})

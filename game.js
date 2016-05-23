@@ -77,6 +77,7 @@
  * 
  */
 
+var game = null;
 
 window.onload = function(){
 	try{
@@ -89,7 +90,7 @@ window.onload = function(){
 		game.scale = window.innerHeight / 320;
 		game.fps = 30;
 		game.onload = function(){
-			var display = new Display([{
+			var splash_screen = new SplashScreen([{
 				file_name : "./sample.xml",
 				title : "ノベルゲームサンプル",
 				description : "ゆるゆりのSSを原作としたノベルゲームのサンプルです"
