@@ -27,16 +27,16 @@
 		<paths>
 			<path kind="image" name="br_icon">images/br_icon.png</path>
 			<path kind="image" name="cp_icon">images/cp_icon.png</path>
-			<path kind="sound" name="select">sounds/select.ogg</path>
+			<path kind="sound" name="select">sounds/select.m4a</path>
 			<path kind="sound" name="item_get">sounds/clear2.mp3</path>
 			<path kind="sound" name="win">sounds/clear1.mp3</path>
 			<path kind="sound" name="got_down">sounds/jingle20.mp3</path>
 			<path kind="bgm" name="in_danger">sounds/loop03.mp3</path>
 			<path kind="bgm" name="op_jingle">sounds/jingle19.mp3</path>
-			<path kind="sound" name="se_gasagasa">sounds/gasagasa.ogg</path>
-			<path kind="sound" name="se_falling">sounds/FallA@11.ogg</path>
-			<path kind="sound" name="se_explo_b">sounds/ExplosionB@11St.ogg</path>
-			<path kind="sound" name="se_explo_s">sounds/ExplosionC@11.ogg</path>
+			<path kind="sound" name="se_gasagasa">sounds/gasagasa.m4a</path>
+			<path kind="sound" name="se_falling">sounds/FallA@11.m4a</path>
+			<path kind="sound" name="se_explo_b">sounds/ExplosionB@11St.m4a</path>
+			<path kind="sound" name="se_explo_s">sounds/ExplosionC@11.m4a</path>
 			<path kind="image" name="img_snowman">images/snowman.png</path>
 			<path kind="image" name="img_bear">images/bear.png</path>
 		</paths>

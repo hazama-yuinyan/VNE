@@ -85,6 +85,8 @@ window.onload = function(){
 		document.documentElement.style.height = window.innerHeight + "px";
 		tab_holder.style.display = "none";
 
+		enchant.ENV.USE_WEBADUIO = true;
+
 		game = new enchant.Game(568, 320);
 		// 高さを基準とした拡大率を算出する
 		game.scale = window.innerHeight / 320;

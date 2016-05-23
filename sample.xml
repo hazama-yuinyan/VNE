@@ -31,20 +31,20 @@
 		<paths>
 			<path kind="image" name="br_icon">images/br_icon.png</path>
 			<path kind="image" name="cp_icon">images/cp_icon.png</path>
-			<path kind="sound" name="select">sounds/select.ogg</path>
-			<path kind="bgm" name="bgm1">sounds/christmas_time_for_you-m.ogg</path>
+			<path kind="sound" name="select">sounds/select.wav</path>
+			<path kind="bgm" name="bgm1">sounds/christmas_time_for_you-m.wav</path>
 			<path kind="bgm" name="bgm2">sounds/tampi01.mp3</path>
 			<path kind="bgm" name="bgm3">sounds/tamsugisa.mp3</path>
 			<path kind="bgm" name="ed">sounds/tamhe06.mp3</path>
-			<path kind="sound" name="se_door">sounds/doorclose1.ogg</path>
-			<path kind="sound" name="se_dosun">sounds/dosun.ogg</path>
-			<path kind="sound" name="se_heart_beat">sounds/HeartSingle@8.ogg</path>
+			<path kind="sound" name="se_door">sounds/doorclose1.wav</path>
+			<path kind="sound" name="se_dosun">sounds/dosun.wav</path>
+			<path kind="sound" name="se_heart_beat">sounds/HeartSingle@8.wav</path>
 			<path kind="sound" name="se_croud">sounds/city-background_loop.mp3</path>
-			<path kind="sound" name="se_strong_wind_l">sounds/WindA@08.ogg</path>
-			<path kind="sound" name="se_strong_wind_s">sounds/WindD@11.ogg</path>
+			<path kind="sound" name="se_strong_wind_l">sounds/WindA@08.wav</path>
+			<path kind="sound" name="se_strong_wind_s">sounds/WindD@11.wav</path>
 			<path kind="sound" name="se_mp_vibe">sounds/vibrator_mono.mp3</path>
-			<path kind="sound" name="se_mp_close">sounds/MobileA@08.ogg</path>
-			<path kind="sound" name="se_switch">sounds/SwitchF00@11.ogg</path>
+			<path kind="sound" name="se_mp_close">sounds/MobileA@08.wav</path>
+			<path kind="sound" name="se_switch">sounds/SwitchF00@11.wav</path>
 			<path kind="sound" name="se_chime">sounds/chime1s.mp3</path>
 			<path kind="image" name="img_kyouko">images/kyouko.jpg</path>
 			<path kind="image" name="img_akari">images/akari.jpg</path>

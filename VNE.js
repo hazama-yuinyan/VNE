@@ -244,7 +244,7 @@ var msg_tmpls = {
 	errorMissingSoundFile : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
 	debugLogMessage : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}",
 	succeedLoadingMessage : "{path} successfully loaded!",
-	failedLoadingMessage : "Failed to load {path}",
+	failedLoadingMessage : "Failed to load {path}; {msg}",
 	unknownResourceType : "Unknown resource type found; {0}"
 };
 
@@ -289,11 +289,12 @@ var SystemManager = enchant.Class.create(Group, {
 		
 		this.loadResources = function(path_header, paths){
 			var audio = new Audio();
-			var success_func = function(path){
+			var success_func = function(path, e){
 				console_manager.logFormatted(msg_tmpls.succeedLoadingMessage, {path: path});
+				game.assets[path] = e.target;
 			};
-			var error_func = function(path){
-				console_manager.logFormatted(msg_tmpls.failedLoadingMessage, {path: path});
+			var error_func = function(path, e){
+				console_manager.logFormatted(msg_tmpls.failedLoadingMessage, {path: path, msg: e.message});
 			};
 
 			for(var name in path_header){		//各種リソースファイルを読み込む
@@ -3219,8 +3220,11 @@ var SplashScreen = enchant.Class.create(enchant.DOMScene, {
 		this.addChild(label);
 
 		this.addEventListener("touchend", function(e){
-			var dummy_audio = enchant.WebAudioSound.load("sounds/silence.wav");
-			dummy_audio.play();
+			var dummy_audio = enchant.WebAudioSound.load("sounds/silence.m4a", "audio/aac", function(e){
+				e.target.play();
+			}, function(e){
+				console.log("エラー: 音声の初期化に失敗");
+			});
 
 			var display = new Display(display_objs);
 		});

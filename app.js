@@ -30,6 +30,10 @@ http.createServer(function(req, res){
 			content_type = "audio/wav";
 			break;
 
+		case "m4a":
+			content_type = "audio/aac";
+			break;
+
 		case "mp3":
 			content_type = "audio/mpeg";
 			break;
