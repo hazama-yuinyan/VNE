@@ -495,7 +495,7 @@ var XmlManager = enchant.Class.create(Manager, {
 					return obj;
 
 				var child_obj = squeezeValues(elem);
-				if(/*elem.tagName !== "scene" &&*/ typeof split[elem.tagName] === "undefined"){
+				if(typeof split[elem.tagName] === "undefined"){
 					var texts = text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?/?>"));
 					var lines = texts[0].split("\n");
 					split[elem.tagName] = {
@@ -969,7 +969,7 @@ var MessageManager = enchant.Class.create(Manager, {
 	makeMsgWindowVisible : function(is_visible){
 		this.msg_window.visible = is_visible;
 		this.chara_name_window.visible = (this.msg_window.y == 0 || this.chara_name_window.text.length == 0) ? false : this.msg_window.visible;
-		this.tag_manager.makeBrIconVisible(this.msg_window.visible);
+		//this.tag_manager.makeBrIconVisible(this.msg_window.visible);
 	},
 
 	setCurTextY : function(pos){
@@ -1761,16 +1761,16 @@ var TagManager = enchant.Class.create(Manager, {
     	this.is_available = true;
     },
 
-	makeBrIconVisible : function(is_visible){
+	/*makeBrIconVisible : function(is_visible){
 		var icon = this.interpreters['br'].icon;
 		if(!icon)
 			return;
 
 		if(!is_visible)
-			this.system.removeChild(icon.obj);
+			icon.obj._style.display = "none";
 		else
-			this.system.addChild(icon.obj);
-	},
+			icon.obj._style.display = "inline";
+	},*/
 
 	setNextTag : function(tag){
 		if(!tag)
@@ -2733,7 +2733,8 @@ var MenuOperator = enchant.Class.create(ActionOperator, {
 		this.setState(tag_obj.initial_state, tag_obj);
 
 		this.setInputManager = function(input_manager){
-			this.inner_operator.setInputManager(input_manager);
+			// もうinner_operator.setInputManagerは呼ばれている
+			//this.inner_operator.setInputManager(input_manager);
 			this.inner_operator.msg_manager.makeMsgWindowVisible(false);	//メニューが表示されてる間は、メッセージウインドウは非表示にしておく
 		};
 
@@ -3220,7 +3221,7 @@ var SplashScreen = enchant.Class.create(enchant.DOMScene, {
 		this.addChild(label);
 
 		this.addEventListener("touchend", function(e){
-			var dummy_audio = enchant.WebAudioSound.load("sounds/silence.m4a", "audio/aac", function(e){
+			var dummy_audio = enchant.WebAudioSound.load("sounds/silence.wav", "audio/wav", function(e){
 				e.target.play();
 			}, function(e){
 				console.log("エラー: 音声の初期化に失敗");

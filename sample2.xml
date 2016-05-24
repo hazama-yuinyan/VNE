@@ -399,7 +399,7 @@
 			<line chara="snowman">……大丈夫？<cp/></line>
 			<line chara="自分">ﾜｰ、ﾊﾅﾋﾞｶﾞｲｯﾊﾟｲﾀﾞｰ、ｳﾚｼｲﾅｰ<cp/></line>
 			<line chara="snowman">……どうやら大丈夫じゃなさそうだね。そう言えばこっちの方で花火みたいな音がしてたけどあれは一体--<cp/></line>
-			<narrative>ドカーン<sound src="$paths.se_explo_b" operation="once"/><cp/></narrative>
+			<narrative><text style="font: normal xx-large serif">ドカーン</text><sound src="$paths.se_explo_b" operation="once"/><cp/></narrative>
 			<line chara="snowman">なるほど、これのせいか。こいつの直撃を受けて放心状態に陥っちゃってるわけか。まあ無理もないよね。<cp/></line>
 		</scene>
 		

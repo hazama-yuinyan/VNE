@@ -49,7 +49,8 @@ var MenuStates = enchant.Class.create({
 						data_index : i,
 						title : title,
 						saved_time : saves[i].saved_time,
-						text : "slot" + i
+						text : "slot" + i,
+						action : "load"
 					});
 				}
 
@@ -59,7 +60,8 @@ var MenuStates = enchant.Class.create({
 						data_index : 1,
 						title : "untitled",
 						saved_time : "unknown",
-						text : "No save data is available"
+						text : "No save data is available",
+						action : "load"
 					});
 				}
 
@@ -80,7 +82,8 @@ var MenuStates = enchant.Class.create({
 						title : paths[i].title,
 						description : paths[i].description,
 						text : paths[i].title,
-						file_name : paths[i].file_name
+						file_name : paths[i].file_name,
+						actiom : "loadFile"
 					});
 				}
 				operator.setState(selected_menu.to, {type : "choices", children : children});
@@ -127,7 +130,8 @@ var MenuStates = enchant.Class.create({
 							data_index : i,
 							title : "untitled",
 							saved_time : "unknown",
-							text : "slot" + i
+							text : "slot" + i,
+							action : "save"
 						});
 					}else{
 						var title = saves[i].scene_str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)/)[1];
@@ -136,7 +140,8 @@ var MenuStates = enchant.Class.create({
 							data_index : i,
 							title : title,
 							saved_time : saves[i].saved_time,
-							text : "slot" + i
+							text : "slot" + i,
+							action : "save"
 						});
 					}
 				}
@@ -155,7 +160,8 @@ var MenuStates = enchant.Class.create({
 						data_index : i,
 						title : title,
 						saved_time : saves[i].saved_time,
-						text : "slot" + i
+						text : "slot" + i,
+						action : "load"
 					});
 				}
 
@@ -165,7 +171,8 @@ var MenuStates = enchant.Class.create({
 						data_index : 1,
 						title : "untitled",
 						saved_time : "unknown",
-						text : "No save data is available"
+						text : "No save data is available",
+						action : "load"
 					});
 				}
 
@@ -340,6 +347,9 @@ var MenuStates = enchant.Class.create({
 				info_window.font = "bold x-large serif";
 				
 				this.updateInfoWindow = function(operator){
+					if(operator.inner_operator.cur_index === 0)
+						return;
+
 					while(info_window._element.firstChild)
 						info_window._element.removeChild(info_window._element.firstChild);
 
@@ -496,6 +506,9 @@ var MenuStates = enchant.Class.create({
 				info_window.font = "bold x-large serif";
 				
 				this.updateInfoWindow = function(operator){
+					if(operator.inner_operator.cur_index === 0)
+						return;
+					
 					while(info_window._element.firstChild)
 						info_window._element.removeChild(info_window._element.firstChild);
 
