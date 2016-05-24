@@ -122,7 +122,7 @@ var ExpressoMin = enchant.Class.create({
                 }
                 
                 m.g.tuple.forEach(function(val, index){
-                    if(!store.addVar(var_list[index], val)){
+                    if(!store.setVar(var_list[index], val)){
                         throw new Error("The left operand of assignment must be a variable! Do you really intend to assign something to " +
     				        var_list[index] + "? Or you just forget the $ sign before the name.");
                     }
