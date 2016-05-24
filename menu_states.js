@@ -83,7 +83,7 @@ var MenuStates = enchant.Class.create({
 						description : paths[i].description,
 						text : paths[i].title,
 						file_name : paths[i].file_name,
-						actiom : "loadFile"
+						action : "loadFile"
 					});
 				}
 				operator.setState(selected_menu.to, {type : "choices", children : children});
@@ -97,8 +97,8 @@ var MenuStates = enchant.Class.create({
 			initialize : function(system){
 				this.system = system;
 				this.xml_manager = null;
+				this.console_manager = null;
 				this.menu = null;
-				this.console_initialized = false;
 			},
 			
 			prepare : function(tag_obj){
@@ -190,6 +190,8 @@ var MenuStates = enchant.Class.create({
             },
 
             openConsole : function(operator, selected_menu){
+            	if(!this.console_manager) this.console_manager = this.system.getManager("console");
+
             	var reference_btns = document.getElementsByClassName("tabButton");
 				var tab_holder = document.getElementById("tab_holder");
 				var tab_content = document.getElementsByClassName("tabContent")[0];
@@ -203,7 +205,7 @@ var MenuStates = enchant.Class.create({
             	//game.height = game_height;
             	tab_content.style.height = game_height + "px";
 
-            	if(!this.console_initialized){
+            	if(!this.console_manager.console_initialized){
             		loadScriptLazily("libs/prism_min.js", function(){
             			Prism.highlightAll(true, function(){
             				loader_layer.style.display = "none";
@@ -229,7 +231,7 @@ var MenuStates = enchant.Class.create({
 	            	xhr.open("get", "./sample.xml", false);
 	            	xhr.send(null);
             			
-            		this.console_initialized = true;
+            		this.console_manager.console_initialized = true;
             	}
             }
 		});
@@ -562,7 +564,7 @@ var MenuStates = enchant.Class.create({
 				if(this.success_se_path)
 					this.sound_manager.add({src : this.success_se_path, operation : "once", sync : "true"});
 
-                xml_manager.getVarStore().addVar("file_paths", this.menu.children, true);
+                xml_manager.getVarStore().setVar("file_paths", this.menu.children, true);
                 this.system.reset();
 				operator.clearMenu();
 				var path_header = xml_manager.getHeader("paths"), paths = xml_manager.getVarStore().getVar("paths");

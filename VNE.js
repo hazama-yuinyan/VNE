@@ -2491,6 +2491,7 @@ var ConsoleManager = enchant.Class.create(Manager, {
 
 		this.source_code_viewer = document.getElementById("source_code_viewer");
 		this.game_console = document.getElementById("console_window");
+		this.console_initialized = false;
 	},
 
 	setBreakPoint : function(line_num){
@@ -2517,6 +2518,15 @@ var ConsoleManager = enchant.Class.create(Manager, {
 	update : function(){
 		if(!this.is_available)
 			return;
+	},
+
+	reset : function(){
+		this.console_initialized = false;
+		var range = document.createRange(), range2 = document.createRange();
+		range.selectNodeContents(this.source_code_viewer);
+		range2.selectNodeContents(this.game_console);
+		range.deleteContents();
+		range2.deleteContents();
 	}
 });
 

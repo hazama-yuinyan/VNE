@@ -62,10 +62,10 @@
 	
 	<scene title="main_menu" shows_title="false">
 		<menu initial_state="MainMenu">
-			<a x="centered" y="100" action="openNew" to="title:body">新しく始める</a>
-			<b x="centered" y="200" action="openLoad" to="MenuLoad">続きから始める</b>
-			<c x="centered" y="300" action="openOption" to="MenuOption">オプション</c>
-			<d x="centered" y="400" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</d>
+			<a x="centered" y="50" action="openNew" to="title:body">新しく始める</a>
+			<b x="centered" y="100" action="openLoad" to="MenuLoad">続きから始める</b>
+			<c x="centered" y="150" action="openOption" to="MenuOption">オプション</c>
+			<d x="centered" y="200" action="openFile" to="MenuFile" enable_if="$file_paths.length > 1">他のストーリーを選択する</d>
 		</menu>
 	</scene>
 	
