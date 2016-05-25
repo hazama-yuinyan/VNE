@@ -191,6 +191,7 @@ var MenuStates = enchant.Class.create({
 
             openConsole : function(operator, selected_menu){
             	if(!this.console_manager) this.console_manager = this.system.getManager("console");
+            	if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
 
             	var reference_btns = document.getElementsByClassName("tabButton");
 				var tab_holder = document.getElementById("tab_holder");
@@ -204,6 +205,27 @@ var MenuStates = enchant.Class.create({
             	var game_height = window.innerHeight - (reference_rect.bottom - reference_rect.top) - 1;
             	//game.height = game_height;
             	tab_content.style.height = game_height + "px";
+
+            	var var_store = this.xml_manager.getVarStore();
+            	var variable_tree = document.getElementById("variable_tree");
+            	var range = document.createRange();
+            	range.selectNodeContents(variable_tree);
+            	range.deleteContents();
+            	var_store.enumerateVars(function(name, variable){
+            		if(typeof variable === "object"){
+            			for(var name2 in variable){
+            				if(variable.hasOwnProperty(name2)){
+            					var element = document.createElement("li");
+            					element.textContent = name + "." + name2 + " = " + variable[name2];
+            					variable_tree.appendChild(element);
+            				}
+            			}
+            		}else{
+            			var element = document.createElement("li");
+            			element.textContent = name + " = " + variable;
+            			variable_tree.appendChild(element);
+            		}
+            	});
 
             	if(!this.console_manager.console_initialized){
             		loadScriptLazily("libs/prism_min.js", function(){

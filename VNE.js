@@ -3228,15 +3228,15 @@ var SplashScreen = enchant.Class.create(enchant.DOMScene, {
 		var expansion = text.getExpansion();
 		label.moveTo(568 / 2 - expansion.width / 2, 320 / 2 - expansion.height / 2);
 
-		this.addChild(label);
+		var _self = this;
+		var dummy_audio = enchant.WebAudioSound.load("sounds/silence.wav", "audio/wav", function(e){
+			_self.addChild(label);
+		}, function(e){
+			console.log("エラー: 音声の初期化に失敗")
+		});
 
 		this.addEventListener("touchend", function(e){
-			var dummy_audio = enchant.WebAudioSound.load("sounds/silence.wav", "audio/wav", function(e){
-				e.target.play();
-			}, function(e){
-				console.log("エラー: 音声の初期化に失敗");
-			});
-
+			dummy_audio.play();
 			var display = new Display(display_objs);
 		});
 

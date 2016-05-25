@@ -41,6 +41,13 @@ var VarStore = enchant.Class.create({
         		delete store[name];
         	}
         };
+
+        this.enumerateVars = function(func){
+        	for(var name in store){
+        		if(store.hasOwnProperty(name))
+        			func(name, store[name]);
+        	}
+        };
     }
 });
 
