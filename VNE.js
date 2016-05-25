@@ -989,14 +989,15 @@ var MessageManager = enchant.Class.create(Manager, {
 			setRulerStyle(this.chara_name_window._domManager.style);
 			var expansion = this.chara_name_window.text.getExpansion();
 			this.chara_name_window.width = expansion.idealWidth;
-            if(typeof charaname_window_height === "undefined")
+            if(isNaN(charaname_window_height))
                 this.chara_name_window.height = expansion.height;
             else
                 this.chara_name_window.height = charaname_window_height;
             
 			this.chara_name_window.updateBoundArea();
             // expansion.boundingHeightは"縁"を含めたテキストノードの有効範囲なので、縁も含めた実効範囲を出すにはこうする
-            this.chara_name_window.y = this.msg_window.y - expansion.boundingHeight;
+            var bounding_height = isNaN(charaname_window_height) ? expansion.boundingHeight : charaname_window_height;
+            this.chara_name_window.y = this.msg_window.y - bounding_height;
 		}else{
 			this.chara_name_window.text = "";
 			this.chara_name_window.visible = false;

@@ -48,11 +48,11 @@
 		</settings>
 		<profile name="narrative" style="border: outset 3px $black; border-radius: 0px; color: $black; background-color: $white; font: normal large serif;"/>
 		<profile name="narrativef" style="border: outset 3px $black; color: $black; background-color: rgba(128, 128, 128, 0.6); font: normal x-large serif;"/>
-		<profile name="自分" style="border: outset 3px $自分.color; border-radius: 10px; color: $自分.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;"/>
-		<profile name="snowman" style="border: outset 3px $snowman.color; border-radius: 10px; color: $snowman.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;">
+		<profile name="自分" style="border: outset 3px $自分.color; border-radius: 10px; color: $自分.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;" charaname_window_height="23"/>
+		<profile name="snowman" style="border: outset 3px $snowman.color; border-radius: 10px; color: $snowman.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;" charaname_window_height="23">
 			<frame name="normal">0</frame>
 		</profile>
-		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;">
+		<profile name="bear" style="border: outset 3px $bear.color; color: $bear.color; background-color: $gray; font: normal large 'うずらフォント', sans-serif;" charaname_window_height="23">
 			<frame name="normal">0</frame>
 		</profile>
 		<style name="title" x="centered" y="$msg_window.y/2" width="adjust" style="background-color: transparent; font: bold xx-large 'うずらフォント', serif;"/>
