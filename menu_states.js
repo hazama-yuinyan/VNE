@@ -216,7 +216,6 @@ var MenuStates = enchant.Class.create({
             		var loader_layer = document.getElementById("loader_layer");
             		var loader_image = document.getElementById("loader_image");
             		var margin_left = (window.innerWidth - 568) / 2.0;
-            		loader_layer.style.left = margin_left + "px";
             		loader_image.style.left = 234 + margin_left + "px";		// 244 = コンテンツ領域の幅 - ローダー画像の幅の半分
             		loader_image.style.top = 105 + "px";					// 105 = コンテンツ領域の高さ / 2 - ローダー画像の高さの半分	
             		loader_layer.style.display = "block";
