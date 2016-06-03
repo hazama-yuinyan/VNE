@@ -1872,10 +1872,10 @@ var TagManager = enchant.Class.create(Manager, {
 		if(this.is_available && this.cur_cursor_pos !== 0){
 			var goal_tag = this.next_targeted_tag;
 			while(goal_tag.type !== "cp" && goal_tag.type !== "br")
-				goal_tag = this.getNextTarget();
+				goal_tag = this.getNextTarget(goal_tag);
 
 			this.is_available = true;
-			while(this.next_targeted_tag.lineNumber <= goal_tag.lineNumber && this.cur_cursor_pos <= goal_tag.pos){
+			while(this.next_targeted_tag.lineNumber <= goal_tag.lineNumber && this.cur_cursor_pos + 1 <= goal_tag.column){
 				var diff = this.next_targeted_tag.pos - this.cur_cursor_pos;
 				this.msg_manager.pushText(this.next_text.substr(this.cur_cursor_pos, diff));
 				this.cur_cursor_pos = this.next_targeted_tag.pos;
