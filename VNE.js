@@ -1868,6 +1868,29 @@ var TagManager = enchant.Class.create(Manager, {
 		this.last_target_in_last_scene = null;
 	},
 
+	trySkippingToCp : function(){
+		if(this.is_available && this.cur_cursor_pos !== 0){
+			var goal_tag = this.next_targeted_tag;
+			while(goal_tag.type !== "cp" && goal_tag.type !== "br")
+				goal_tag = this.getNextTarget();
+
+			this.is_available = true;
+			while(this.next_targeted_tag.lineNumber <= goal_tag.lineNumber && this.cur_cursor_pos <= goal_tag.pos){
+				var diff = this.next_targeted_tag.pos - this.cur_cursor_pos;
+				this.msg_manager.pushText(this.next_text.substr(this.cur_cursor_pos, diff));
+				this.cur_cursor_pos = this.next_targeted_tag.pos;
+				this.msg_manager.update();	// updateしてテキストをメッセージウインドウに反映させる
+
+				this.next_updating_frame = -1;	// 次の更新フレームを無視して先に進めるためのhack
+				this.update();
+			}
+
+			return true;
+		}
+
+		return false;
+	},
+
 	interpret : function(tag){
 		try{
             if(game._debug){
@@ -2366,7 +2389,8 @@ var ImageManager = enchant.Class.create(Manager, {
 	},
 
 	update : function(){
-		if(!this.is_availbale){return;}
+		if(!this.is_availbale)
+			return;
 
 		this.imgs.forEach(function(img){
 			if(img.end_time != 0 && img.end_time <= game.frame)
@@ -2566,6 +2590,9 @@ var StoryAdvancer = enchant.Class.create(ActionOperator, {
 	operateA : function(){
 		if(!this.msg_manager.msgWindowIsVisible())
 			return;		//メッセージウインドウが非表示の間はストーリーを進行させない
+
+		if(this.tag_manager.trySkippingToCp())	// cpタグに到達する前なら、そこまで飛ばせるか試してみる
+			return;
 
 		this.tag_manager.is_available = true;
 	},
@@ -2952,7 +2979,8 @@ var EffectManager = enchant.Class.create(Manager, {
 	},
 
 	update : function(){
-		if(!this.is_available){return;}
+		if(!this.is_available)
+			return;
 
 		this.effects = this.effects.filter(function(effect){
 			if(effect.end_time != 0 && game.frame > effect.end_time){
