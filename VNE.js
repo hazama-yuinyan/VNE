@@ -1186,6 +1186,7 @@ var TagManager = enchant.Class.create(Manager, {
 				this.last_text_speed = 0;
 				this.tag_start_pos = -1;
 				this.cur_tag_child = null;
+				this.last_next_text = null;
 				this.xml_manager = null;
 				this.msg_manager = null;
 				this.tag = null;
@@ -1209,13 +1210,15 @@ var TagManager = enchant.Class.create(Manager, {
 
                 this.tag_start_pos = this.manager.cur_cursor_pos;
 				this.tag = tag_obj;
+				this.last_next_text = this.manager.next_text;
+				this.manager.next_text = tag_obj.text;
 			},
 
 			postInterpret : function(){
 				if(this.manager.cur_cursor_pos == this.tag_start_pos + this.tag.text.length){
 					this.manager.text_speed = this.last_text_speed || this.manager.text_speed;
 					this.manager.interpreters.br.addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
-					this.manager.next_text = this.manager.next_text.substring(this.manager.cur_cursor_pos);
+					this.manager.next_text = this.last_next_text;//this.manager.next_text.substring(this.manager.cur_cursor_pos);
 					this.manager.cur_cursor_pos = 0;
 					this.cur_tag_child = null;
 					this.manager.last_targeted_tag = null;
