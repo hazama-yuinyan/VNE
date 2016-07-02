@@ -3,6 +3,8 @@
 
 ×サウンド周りの改修
   -- iPhone5Sで音が鳴るようにする(6Sだと大丈夫)
+  -- Macbookで実行すると、wavファイルの読み込みに失敗する(Failed to set the 'buffer' property on 'AudioBufferSourceNode': The provided value is not of type 'AudioBuffer'.
+TypeError: Failed to set the 'buffer' property on 'AudioBufferSourceNode': The provided value is not of type 'AudioBuffer'.というメッセージが出てしまう)
 ・テストコードの作成
 ・移動系のエフェクトはTLを使用するように改造する
 ・トランジションの追加

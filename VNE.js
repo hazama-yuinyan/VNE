@@ -2446,8 +2446,21 @@ var SoundManager = enchant.Class.create(Manager, {
         // undefinedエラーが発生してしまう。生の値を直接セットするhack
 		new_sound.obj._volume = Math.min(Math.max(volume, 0), 1);
 
-		if(tag.is_bgm || tag.operation == "loop")
-			new_sound.obj.loop = true;
+		if(tag.is_bgm || tag.operation == "loop"){
+			if(new_sound.obj.src){
+				new_sound.obj.src.loop = true;
+			}else{
+				new_sound.obj._element.addEventListener("ended", function(){
+					//new_sound.obj.duration = 0.0;
+					this.pause();
+					this.currentTime = 0.0;
+					this.play();
+				});
+			}
+		}else{
+			if(new_sound.obj.src)
+				new_sound.obj.src.loop = false;
+		}
 
 		if(tag.is_bgm){
 			if(this.cur_bgm){		//前のBGMを停止させる
