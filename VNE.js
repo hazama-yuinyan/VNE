@@ -245,7 +245,9 @@ var msg_tmpls = {
 	debugLogMessage : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}",
 	succeedLoadingMessage : "{path} successfully loaded!",
 	failedLoadingMessage : "Failed to load {path}; {msg}",
-	unknownResourceType : "Unknown resource type found; {0}"
+	unknownResourceType : "Unknown resource type found; {0}",
+	loadingSound : "Loading a sound '{path}'...",
+	loadingBgm : "Loading a bgm '{path}'..."
 };
 
 /**
@@ -304,6 +306,9 @@ var SystemManager = enchant.Class.create(Group, {
 					switch(path_obj.kind){
 					case "sound":
 						var mime_type = "audio/" + enchant.Core.findExt(path);
+						if(game._debug)
+							console_manager.logFormatted(msg_tmpls.loadingSound, {path: path});
+
 						game.assets[path] = enchant.WebAudioSound.load(path, mime_type, success_func.bind(null, path), error_func.bind(null, path));
 						break;
 
@@ -313,6 +318,9 @@ var SystemManager = enchant.Class.create(Group, {
 							path_header[name].value = path;
 							paths[name] = path;
 						}
+
+						if(game._debug)
+							console_manager.logFormatted(msg_tmpls.loadingBgm, {path: path});
 
 						game.assets[path] = enchant.DOMSound.load(path, null, success_func.bind(null, path), error_func.bind(null, path));
 						break;
@@ -2418,6 +2426,7 @@ var SoundManager = enchant.Class.create(Manager, {
 
 		this.sounds = [];
 		this.xml_manager = null;
+		this.audio_holder;
 		this.cur_bgm = null;
 	},
 	
@@ -2432,12 +2441,13 @@ var SoundManager = enchant.Class.create(Manager, {
 
 	add : function(tag, volume){
 		if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
-
+		if(!this.audio_holder) this.audio_holder = document.querySelector("#audio_holder");
 		var file_name = this.xml_manager.replaceVars(tag.src);
 		var new_sound = {
 			type : "sound",
 			obj : game.assets[file_name].clone(),
-			effects : []
+			effects : [],
+			loop : false
 		};
 		if(!new_sound.obj)
 			throw new SyntaxError(substituteTemplate(msg_tmpls.errorMissingSoundFile, {fileName : file_name}));
@@ -2447,16 +2457,20 @@ var SoundManager = enchant.Class.create(Manager, {
 		new_sound.obj._volume = Math.min(Math.max(volume, 0), 1);
 
 		if(tag.is_bgm || tag.operation == "loop"){
-			if(new_sound.obj.src){
+			new_sound.loop = true;
+			/*if(new_sound.obj.src){
 				new_sound.obj.src.loop = true;
 			}else{
-				new_sound.obj._element.addEventListener("ended", function(){
+				if(!new_sound.obj._element.parentElement)
+					this.audio_holder.appendChild(new_sound.obj._element);
+				
+				new_sound.obj._element.loop = true;
+				/*new_sound.obj._element.addEventListener("ended", function(){
 					//new_sound.obj.duration = 0.0;
-					this.pause();
 					this.currentTime = 0.0;
 					this.play();
 				});
-			}
+			}*/
 		}else{
 			if(new_sound.obj.src)
 				new_sound.obj.src.loop = false;
@@ -2520,9 +2534,9 @@ var SoundManager = enchant.Class.create(Manager, {
 		});
 
 		this.sounds = this.sounds.filter(function(sound){
-			return sound.obj.loop;
+			return sound.loop;
 		});
-		this.is_available = false;
+		this.is_available = this.sounds.count !== 0;
 	}
 });
 
