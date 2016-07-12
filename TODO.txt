@@ -17,3 +17,4 @@ TypeError: Failed to set the 'buffer' property on 'AudioBufferSourceNode': The p
 ・上記と関連して他言語対応及びその関連のAPI実装
 ・BGMが連続で鳴らない
 ・sample.xml1568,1569行目のlabelタグ以降、テキストがずれる
+× sceneタグのlineNumberが大幅にずれるのを修正する

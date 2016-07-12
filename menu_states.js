@@ -244,12 +244,12 @@ var MenuStates = enchant.Class.create({
 
 	            	var xhr = new XMLHttpRequest();
 	            	xhr.onload = function(){
-	            		var source_code = document.getElementById("source_code");
+	            		var source_code = document.getElementById("source_code_viewer");
 	            		source_code.textContent = xhr.responseText;
 	            		if(typeof Prism !== "undefined")
 	            			Prism.highlightAll(true, null);
 	            	}
-	            	xhr.open("get", "./sample.xml", false);
+	            	xhr.open("get", "./sample2.xml", false);
 	            	xhr.send(null);
             			
             		this.console_manager.console_initialized = true;

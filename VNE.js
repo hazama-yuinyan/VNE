@@ -514,6 +514,18 @@ var XmlManager = enchant.Class.create(Manager, {
 					};
 				}
 
+				var split_obj = split[elem.tagName];
+				child_obj.lineNumber = split_obj.lineNumber;
+				child_obj.column = split_obj.column;
+				if(split_obj.nextIndex < split_obj.texts.length){
+					var tag_pos = {column : 0};
+					split_obj.lineNumber = calculateLineNumber(elem.tagName, split_obj.nextIndex, tag_pos);
+					split_obj.column = tag_pos.column;
+				}
+
+				if(elem.tagName === "scene")	//sceneタグは入れ子になるので、子オブジェクトを探す前にnextIndexをインクリメントする
+					++split["scene"].nextIndex;
+
 				if(elem.childElementCount !== 0){
 					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
 					if(type !== "header" && elem.tagName !== "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
@@ -544,15 +556,6 @@ var XmlManager = enchant.Class.create(Manager, {
 					child_obj.children = content;
 				}
 
-				var split_obj = split[elem.tagName];
-				child_obj.lineNumber = split_obj.lineNumber;
-				child_obj.column = split_obj.column;
-				if(split_obj.nextIndex < split_obj.texts.length){
-					var tag_pos = {column : 0};
-					split_obj.lineNumber = calculateLineNumber(elem.tagName, split_obj.nextIndex, tag_pos);
-					split_obj.column = tag_pos.column;
-				}
-
 				if(elem.tagName !== "scene")
 					++split[elem.tagName].nextIndex;
 
@@ -568,7 +571,7 @@ var XmlManager = enchant.Class.create(Manager, {
 					child_obj.debugText = "";
 				}
 
-                if(child_obj.type === "line" && !child_obj.children){  //子要素を持たないlineにcpタグを追加する
+                /*if(child_obj.type === "line" && !child_obj.children){  //子要素を持たないlineにcpタグを追加する
                 	var split_obj2 = split.line;
                 	//もうこの時点でsplit_obj2.nextIndexは次の要素を指している
                 	var line_num = calculateLineNumber("line", split_obj2.nextIndex - 1);
@@ -579,7 +582,7 @@ var XmlManager = enchant.Class.create(Manager, {
                     	column : NaN,
                     	parent : child_obj
                     }];
-                }
+                }*/
 
 				obj.push(child_obj);
 				return createObjFromChild(type, obj, elem.nextElementSibling, parent);
@@ -1937,7 +1940,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 		var next_tag = this.next_targeted_tag;
 		if(!this.isInterpretableTag(next_tag)){
-			if(this.next_text.length == next_tag.text.length && this.cur_cursor_pos == 0){
+			if(this.next_text.length == next_tag.text.length && this.cur_cursor_pos === 0){
 				this.msg_manager.setStyle(next_tag);				//新しいタグに入ったらウインドウのスタイルを変更する
 				this.msg_manager.setPosition(next_tag);				//必要に応じて位置を調整する
 			}
@@ -1949,7 +1952,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 			this.setNextTag(this.getNextTarget(next_tag));
 		}else{
-			if(next_tag.pos && this.cur_cursor_pos != next_tag.pos){
+			if(next_tag.pos && this.cur_cursor_pos !== next_tag.pos){
 				this.msg_manager.pushText(this.next_text.substring(this.cur_cursor_pos, this.cur_cursor_pos + 1));
 				++this.cur_cursor_pos;
 			}else{
