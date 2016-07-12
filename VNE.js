@@ -571,19 +571,6 @@ var XmlManager = enchant.Class.create(Manager, {
 					child_obj.debugText = "";
 				}
 
-                /*if(child_obj.type === "line" && !child_obj.children){  //子要素を持たないlineにcpタグを追加する
-                	var split_obj2 = split.line;
-                	//もうこの時点でsplit_obj2.nextIndexは次の要素を指している
-                	var line_num = calculateLineNumber("line", split_obj2.nextIndex - 1);
-                    child_obj.children = [{
-                    	type : "cp",
-                    	lineNumber : line_num,
-                    	pos :  child_obj.text.length,
-                    	column : NaN,
-                    	parent : child_obj
-                    }];
-                }*/
-
 				obj.push(child_obj);
 				return createObjFromChild(type, obj, elem.nextElementSibling, parent);
 			};
