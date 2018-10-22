@@ -208,7 +208,7 @@ function loadScriptLazily(script_path, callback){
 	script_tag.src = script_path;
 	script_tag.onload = function(){
 		callback();
-	}
+	};
 	head.appendChild(script_tag);
 }
 
@@ -780,6 +780,10 @@ var XmlManager = enchant.Class.create(Manager, {
 			options.forEach(function(option){
 				variable_store.setVar("options." + option.name, option.value);
 			}, this);
+        };
+
+        this.getUrl = function(){
+        	return url;
         };
         
         this.loadOptions();

@@ -59,7 +59,7 @@ var ExpressoMin = enchant.Class.create({
 		var parser = new Parse.Parser();
 	    this.variable_store = variable_store;
         function rand(max){
-            return (max) ? Math.random() * max : Math.random();
+            return max ? Math.random() * max : Math.random();
         }
         
         function randInt(max){

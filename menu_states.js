@@ -228,14 +228,9 @@ var MenuStates = enchant.Class.create({
             	});
 
             	if(!this.console_manager.console_initialized){
-            		loadScriptLazily("libs/prism_min.js", function(){
-            			Prism.highlightAll(true, function(){
-            				loader_layer.style.display = "none";
-            			});
-            		});
-            		loadCssLazily("libs/prism.css");
+            		
 
-            		var loader_layer = document.getElementById("loader_layer");
+	            	var loader_layer = document.getElementById("loader_layer");
             		var loader_image = document.getElementById("loader_image");
             		var margin_left = (window.innerWidth - 568) / 2.0;
             		loader_image.style.left = 234 + margin_left + "px";		// 244 = コンテンツ領域の幅 - ローダー画像の幅の半分
@@ -244,12 +239,17 @@ var MenuStates = enchant.Class.create({
 
 	            	var xhr = new XMLHttpRequest();
 	            	xhr.onload = function(){
-	            		var source_code = document.getElementById("source_code_viewer");
+	            		var source_code = document.getElementById("source_code");
 	            		source_code.textContent = xhr.responseText;
-	            		if(typeof Prism !== "undefined")
-	            			Prism.highlightAll(true, null);
+	            		
+	            		loadCssLazily("libs/prism.css");
+	            		loadScriptLazily("libs/prism_min.js", function(){
+	            			Prism.highlightAll(true, function(){
+	            				loader_layer.style.display = "none";
+	            			});
+	            		});
 	            	}
-	            	xhr.open("get", "./sample2.xml", false);
+	            	xhr.open("get", this.xml_manager.getUrl(), false);
 	            	xhr.send(null);
             			
             		this.console_manager.console_initialized = true;

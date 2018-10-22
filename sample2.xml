@@ -296,7 +296,7 @@
 					<image id="bear" operation="remove"/>
 					<jump to="title:DeadEnd"/>
 				</scene>
-				<line chara="自分" enable_if="$bear_HP &gt; 5">どうだ！やったか？<co/></line>
+				<line chara="自分" enable_if="$bear_HP &gt; 5">どうだ！やったか？<cp/></line>
 				<line chara="bear" enable_if="$bear_HP &gt; 5">ガオー！<cp/></line>
 				<line chara="自分" enable_if="$bear_HP &gt; 5">まだか<cp/></line>
 				<jump to="title:OutsideOfTheCastle, ids:ToLeft, FightWithBear"/>

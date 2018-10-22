@@ -1550,7 +1550,7 @@
 		<scene id="走れちなつ！">
 			<line chara="chinatsu">「……」<cp/></line>
 			<narrativef>
-				はあ、<pause time="1000"/>はあ。<sound id="bgm" src="$paths.bgm1" is_bgm="true"/><br/>
+				はあ、<pause time="1000"/>はあ。<sound id="BGM" src="$paths.bgm1" operation="loop" is_bgm="true"/><br/>
 				私は走っていた。<br/>
 				あかりちゃんに背中を押されて、結衣先輩の家へ。<br/>
 				いつのまにか雪が降り始めていて、走って温まったはずの身体をも冷ましていってしまう。<br/>
@@ -1614,7 +1614,7 @@
 			<narrativef>
 				切らした息のままそう言って、一方的に電話を切った。<br/>
 				雨のような雪はいよいよ強くなっていた。<cp/>
-				<sound id="bgm" operation="stop"/>
+				<sound id="BGM" operation="stop"/>
 				<text speed="0.75">―――――</text><br/>
 				<text speed="0.75">―――――</text><cp/>
 			</narrativef>
