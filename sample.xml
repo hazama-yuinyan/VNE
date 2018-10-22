@@ -2,7 +2,7 @@
 
 
 
-<Scinario xmlns="http://funprogramming.ojaru.jp/namespaces/VNE">
+<Scenario xmlns="http://funprogramming.ojaru.jp/namespaces/VNE">
 	<header>
 		<variables>
 			<var name="black">rgb(0, 0, 0)</var>
@@ -1979,4 +1979,4 @@
 			<item x="$display.width - 200" y="250" action="openConsole" enable_if="$settings.is_debug">コンソールを表示</item>
 		</menu>
 	</scene>
-</Scinario>
+</Scenario>
