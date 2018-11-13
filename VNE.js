@@ -242,6 +242,7 @@ var msg_tmpls = {
 	errorUnknownTag : "Unknown tag name {type}",
 	errorMissingImageFile : "An image file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
 	errorMissingSoundFile : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
+	errorUnknownOperation : "Unknown operation: {operation}",
 	debugLogMessage : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}",
 	succeedLoadingMessage : "{path} successfully loaded!",
 	failedLoadingMessage : "Failed to load {path}; {msg}",
@@ -1240,7 +1241,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var ExprInterpreter = enchant.Class.create(Interpreter, {
+		var EvalInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1254,12 +1255,12 @@ var TagManager = enchant.Class.create(Manager, {
                 if(!this.msg_manager) this.msg_manager = this.manager.msg_manager;
                 if(!this.console_manager) this.console_manager = this.manager.system.getManager("console");
 
-				var result = this.xml_manager.interpretExpression(tag_obj.value);
+				var result = this.xml_manager.interpretExpression(tag_obj.expr);
 				if(result != "successful assignment"){
 					this.msg_manager.pushText(result);
 					this.manager.interpreters.br.addLineText(result.toString());
 				}else if(game._debug && result == "successful assignment"){
-					var var_name = tag_obj.value.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
+					var var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
 					this.console_manager.log('$' + var_name + " = " + this.xml_manager.getVarStore().getVar(var_name));
 				}
 
@@ -1499,13 +1500,15 @@ var TagManager = enchant.Class.create(Manager, {
 
 				if(tag_obj.operation == "remove"){
 					this.label_manager.remove(tag_obj.id);
-				}else{
+				}else if(tag_obj.operation == "add" || typeof tag_obj.operation === "undefined"){
 					var new_label = this.label_manager.add(tag_obj.text, tag_obj, parseInt(tag_obj.end_time));
 					if(tag_obj.effect)
 						this.manager.interpreters.effect.createEffect(tag_obj, new_label);
 
 					if(tag_obj.sync)
 						this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));
+				}else{
+					throw new TemplateError(msg_tmpls.errorUnknownOperation, {operation: tag_obj.operation});
 				}
 
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
@@ -1544,7 +1547,7 @@ var TagManager = enchant.Class.create(Manager, {
 					this.image_manager.remove(tag_obj.id);
 				}else if(tag_obj.operation == "change"){
 					this.image_manager.change(tag_obj.id, tag_obj);
-				}else{
+				}else if(tag_obj.operation == "add" || typeof(tag_obj.operation === "undefined")){
                     if(!tag_obj.target && tag_obj.parent.type == "line") //lineタグの内部にあってtarget属性が明示されていなければ、自動補完する
                         tag_obj['target'] = tag_obj.parent.chara;
                     
@@ -1554,6 +1557,8 @@ var TagManager = enchant.Class.create(Manager, {
 
 					if(tag_obj.sync)
 						this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));
+				}else{
+					throw new TemplateError(msg_tmpls.errorUnknownOperation, {operation: tag_obj.operation});
 				}
 
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
@@ -1589,10 +1594,12 @@ var TagManager = enchant.Class.create(Manager, {
 					this.sound_manager.remove(tag_obj.id);
 				}else if(tag_obj.operation == "change"){
 					this.sound_manager.change(tag_obj.id, tag_obj);
-				}else{
+				}else if(tag_obj.operation == "loop" || tag_obj.operation == "once"){
 					var var_store = this.xml_manager.getVarStore();
 					var vol = tag_obj.is_bgm ? var_store.getVar("options.sound_bgm") : var_store.getVar("options.sound_se");
 					this.sound_manager.add(tag_obj, vol * (parseFloat(tag_obj.vol) || 1));
+				}else{
+					throw new TemplateError(msg_tmpls.errorUnknownOperation, {operation: tag_obj.operation});
 				}
 
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
@@ -1739,7 +1746,7 @@ var TagManager = enchant.Class.create(Manager, {
 			cp : br_cp_interpreter,
 			pause : new PauseInterpreter(this),
 			text : new TextInterpreter(this),
-			expr : new ExprInterpreter(this),
+			eval : new EvalInterpreter(this),
 			choice : new ChoiceInterpreter(this),
 			label : new LabelInterpreter(this),
 			image : new ImageInterpreter(this),

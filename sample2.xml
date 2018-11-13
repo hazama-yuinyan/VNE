@@ -111,11 +111,11 @@
 				絶対だよ？約束だからね？<cp/>
 			</line>
 			<line chara="自分">わかったから早くよこせよ！<cp/></line>
-			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<expr value="randInt(10000)"/>Gを手に入れた！<cp/></narrative>
+			<narrative><sound src="$paths.item_get" operation="once"/>あなたは<eval expr="randInt(10000)"/>Gを手に入れた！<cp/></narrative>
 			<line chara="自分">
 				（ハッハッハ、ちょろいなこいつ。<br/>
-				無くさないようにポケットに入れておこう）<expr value="$snowman_fondness : $snowman_fondness - 5"/><cp/>
-				<log>Snowmanの好感度：<expr value="return $snowman_fondness"/></log>
+				無くさないようにポケットに入れておこう）<eval expr="$snowman_fondness : $snowman_fondness - 5"/><cp/>
+				<log>Snowmanの好感度：<eval expr="return $snowman_fondness"/></log>
 				<jump to="title:Prologue, ids:ok"/>
 			</line>
 		</scene>
@@ -272,7 +272,7 @@
 			</narrative>
 			<line chara="bear">がおー<cp/></line>
 			<line chara="自分">うっわ、熊だ！<cp/></line>
-			<narrative>野生の熊が襲いかかってきた！<expr value="$flags.has_fight_with_bear : true"/><cp/></narrative>
+			<narrative>野生の熊が襲いかかってきた！<eval expr="$flags.has_fight_with_bear : true"/><cp/></narrative>
 			<scene id="FightWithBear">
 				<narrative>あなたはどうしますか？<cp/></narrative>
 				<choice>
@@ -285,11 +285,11 @@
 			<scene id="Attack">
 				<narrative>
 					あなたは素手で熊に襲いかかった！<br/>
-					熊に<expr value="$rand : randInt(100); $bear_HP : $bear_HP - $rand;  $rand"/>のダメージ！<cp/>
-					<log>熊の体力:<expr value="$bear_HP"/></log>
+					熊に<eval expr="$rand : randInt(100); $bear_HP : $bear_HP - $rand;  $rand"/>のダメージ！<cp/>
+					<log>熊の体力:<eval expr="$bear_HP"/></log>
 					<jump enable_if="$bear_HP &lt; 0" to="title:OutsideOfTheCastle, ids:ToLeft, Win"/>
 					熊の反撃！<br/>
-					あなたは<expr value="$rand : randInt(10); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
+					あなたは<eval expr="$rand : randInt(10); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
 				</narrative>
 				<scene id="lose" enable_if="$main_HP &lt; 0">
 					<sound id="BGM" operation="stop"/>
@@ -306,8 +306,8 @@
 				<line chara="自分">（ここは防御だ。次のターンの攻撃にかけよう）<cp/></line>
 				<narrative>
 					熊の攻撃！<br/>
-					あなたは<expr value="$rand : randInt(2); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
-					<log>自分の体力:<expr value="$main_HP"/></log>
+					あなたは<eval expr="$rand : randInt(2); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
+					<log>自分の体力:<eval expr="$main_HP"/></log>
 					<scene id="lose" enable_if="$main_HP &lt; 0">
 						<sound id="BGM" operation="stop"/>
 						<image id="bear" operation="remove"/>
@@ -325,7 +325,7 @@
 				<line chara="bear">がおーーーーー！<cp/></line>
 				<narrative>
 					熊の攻撃！<br/>
-					あなたは<expr value="$rand : randInt(100); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
+					あなたは<eval expr="$rand : randInt(100); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
 					<jump enable_if="$main_HP &lt; 0" to="title:DeadEnd"/>
 				</narrative>
 				<line chara="自分">くそっ、まともに食らっちまったぜ・・・<cp/></line>
@@ -401,6 +401,7 @@
 			<line chara="snowman">……どうやら大丈夫じゃなさそうだね。そう言えばこっちの方で花火みたいな音がしてたけどあれは一体--<cp/></line>
 			<narrative><text style="font: normal xx-large serif">ドカーン</text><sound src="$paths.se_explo_b" operation="once"/><cp/></narrative>
 			<line chara="snowman">なるほど、これのせいか。こいつの直撃を受けて放心状態に陥っちゃってるわけか。まあ無理もないよね。<cp/></line>
+			<jump to="GoodEnd(Temp)" />
 		</scene>
 		
 		<scene id="ToRight">
