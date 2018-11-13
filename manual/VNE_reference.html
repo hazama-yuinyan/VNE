@@ -440,7 +440,7 @@
       </tfoot>
       <tr>
         <th>タグ名</th><th>title</th><th>scene</th><th>narrative</th><th>narrativef</th><th>line</th><th>br/cp</th>
-        <th>pause</th><th>text</th><th>var</th><th>choice</th><th>menu</th><th>jump</th><th>effect</th><th>label</th><th>image</th>
+        <th>pause</th><th>text</th><th>expr</th><th>choice</th><th>menu</th><th>jump</th><th>effect</th><th>label</th><th>image</th>
         <th>sound</th><th>log</th><th>ruby</th>
       </tr>
       </thead>
@@ -544,7 +544,7 @@
         <td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td class="ta">○</td><td>×</td><td>×</td><td>×</td>
   	  </tr>
       <tr>
-      	<td>expr</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td class="ta">○</td>
+      	<td>value</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td class="ta">○</td>
         <td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td><td>×</td>
   	  </tr>
       <tr>
@@ -769,14 +769,14 @@
     </section>
 
     <section class="tag_explanation">
-      <h3>var</h3>
+      <h3>expr</h3>
       <p>
         ユーザー定義変数の制御を行います。ユーザー定義変数については後述します。
       </p>
       <div>
         <h4>使用例</h4>
         <pre class="brush: xml">
-          &lt;narrative&gt;現在の時間は&lt;var expr="$now.hours"/&gt;:&lt;var expr="$now.mins"/&gt;です。&lt;/narrative&gt;
+          &lt;narrative&gt;現在の時間は&lt;expr value="$now.hours"/&gt;:&lt;expr value="$now.mins"/&gt;です。&lt;/narrative&gt;
         </pre>
       </div>
     </section>
@@ -858,9 +858,9 @@
         <h4>応用例</h4>
         <p>上の例では、毎回jumpタグが有効になってしまうために無限ループに陥ってしまいましたが、enable_if属性と組み合わせることでいわゆるforやwhileループのような制御構造を実現することができます。</p>
         <pre class="brush: xml">
-          &lt;var expr="$a : 10"/&gt;
+          &lt;expr value="$a : 10"/&gt;
           &lt;scene title="テスト1"&gt;
-            &lt;var expr="$a : $a - 1"/&gt;
+            &lt;expr value="$a : $a - 1"/&gt;
             &lt;jump to="title:テスト1" enable_if="$a > 0"/&gt;
             ...
           &lt;/scene&gt;
@@ -938,12 +938,12 @@
       <h3>log</h3>
       <p>
         ブラウザのコンソールにテキストを出力します。このタグはheaderのsettingsでis_debugをtrueにしてデバッグモードにした時のみ有効になります。<br>
-        このタグはvarタグを子要素に持つことができます。
+        このタグはexprタグを子要素に持つことができます。
       </p>
       <div>
         <h4>使用例</h4>
         <pre class="brush: xml">
-          &lt;log&gt;現在の主人公のHPは&lt;var expr="$hero_HP"/&gt;です。&lt;/log&gt;
+          &lt;log&gt;現在の主人公のHPは&lt;expr value="$hero_HP"/&gt;です。&lt;/log&gt;
         </pre>
       </div>
     </section>
@@ -1158,9 +1158,9 @@
     </section>
 
     <section id="property_expr" class="property_explanation">
-      <h3>expr</h3>
+      <h3>value</h3>
       <p>
-        varタグにおいて処理すべきExpressoの式を定義します。
+        exprタグにおいて処理すべきExpressoの式を定義します。
       </p>
     </section>
 

@@ -628,9 +628,7 @@ var XmlManager = enchant.Class.create(Manager, {
                             break;
         
                         case "variables" :
-                        case "flags" :
-                            variable_store.setVar([(header.type == "flags") ? "flags." : "", name].join(""),
-                                (text.search(/^\d*.?\d*$/) != -1) ? parseFloat(value) : value);
+                            variable_store.setVar(name, (text.search(/^\d*.?\d*$/) != -1) ? parseFloat(value) : value);
                             break;
                             
                         case "profile" :
@@ -1242,7 +1240,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var VarInterpreter = enchant.Class.create(Interpreter, {
+		var ExprInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1256,12 +1254,12 @@ var TagManager = enchant.Class.create(Manager, {
                 if(!this.msg_manager) this.msg_manager = this.manager.msg_manager;
                 if(!this.console_manager) this.console_manager = this.manager.system.getManager("console");
 
-				var result = this.xml_manager.interpretExpression(tag_obj.expr);
+				var result = this.xml_manager.interpretExpression(tag_obj.value);
 				if(result != "successful assignment"){
 					this.msg_manager.pushText(result);
 					this.manager.interpreters.br.addLineText(result.toString());
 				}else if(game._debug && result == "successful assignment"){
-					var var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
+					var var_name = tag_obj.value.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
 					this.console_manager.log('$' + var_name + " = " + this.xml_manager.getVarStore().getVar(var_name));
 				}
 
@@ -1741,7 +1739,7 @@ var TagManager = enchant.Class.create(Manager, {
 			cp : br_cp_interpreter,
 			pause : new PauseInterpreter(this),
 			text : new TextInterpreter(this),
-			"var" : new VarInterpreter(this),
+			expr : new ExprInterpreter(this),
 			choice : new ChoiceInterpreter(this),
 			label : new LabelInterpreter(this),
 			image : new ImageInterpreter(this),
