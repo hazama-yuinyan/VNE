@@ -217,7 +217,7 @@ var ExpressoMin = enchant.Class.create({
         this.stringifyErrors = function(){
             var errors = parser.errors, str = "";
             errors.forEach(function(error){
-                str += "An error occurred in " + error.cause + " : " + error.msg + "\n";
+                str += `An error occurred in ${error.cause} : ${error.msg}\n`;
             });
                 
             return str;
@@ -248,7 +248,7 @@ var ExpressoMin = enchant.Class.create({
 	        }else if(m = str.match(/^\\(\S+)/)){                               //other string
 	        	tokens.push({type : "escaped_string", value : m[1]});
 	        }else{
-	        	throw new Error("Unknown token found in " + str);
+	        	throw new Error(`Unknown token found in ${str}`);
 	        }
 	        str = str.substring(m[0].length);
 	    }

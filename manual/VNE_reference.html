@@ -906,6 +906,9 @@
         </pre>
         <p>ラベルのテキストにリンクを埋め込んだ例。Webブラウザ上で動くゲームならではの強みですね。</p>
       </div>
+      <div>
+        <p>※labelタグは必ずsceneタグの直下に配置してください。さもないと、テキストが正しく表示されなくなります。</p>
+      </div>
     </section>
 
     <section class="tag_explanation">
@@ -956,7 +959,7 @@
       <div>
         <h4>使用例</h4>
         <pre class="brush: xml">
-          &lt;narrative&gt;雨の月曜日はいつも&lt;ruby rtext=&quot;ゆううつ&quot;&gt;憂鬱だ&lt;/ruby&gt;&lt;/narrative&gt;
+          &lt;narrative&gt;雨の月曜日はいつも&lt;ruby rtext=&quot;ゆううつ&quot;&gt;憂鬱&lt;/ruby&gt;だ&lt;/narrative&gt;
         </pre>
       </div>
     </section>
@@ -1012,7 +1015,8 @@
       <h3>x</h3>
       <p>
         ラベルや画像などのX座標を設定します。具体的な数値をベタ書きするほか、特殊なキーワードとして"centered"が用意されています。<br>
-        "centered"を指定すると、ラベルや画像の中心がゲーム画面の中心に位置するようにVNEが自動的にX座標（"y"属性に設定した場合はY座標）を設定します。
+        "centered"を指定すると、ラベルや画像の中心がゲーム画面の中心に位置するようにVNEが自動的にX座標（"y"属性に設定した場合はY座標）を設定します。<br>
+        なお、"centered"を使用する場合は、widthを"adjust"にしておかないと、表示がずれる原因になります。
       </p>
     </section>
 
@@ -1026,7 +1030,7 @@
     <section id="property_width" class="property_explanation">
       <h3>width</h3>
       <p>
-        ラベルの幅を指定します。デフォルト値は300pxです。この属性を省略した場合、ラベルの内容が300pxに満たない場合余計な余白部分が表示されてしまい見た目を損ねる可能性があります。<br>
+        ラベルの幅を指定します。デフォルト値は300pxです。この属性を省略した場合、ラベルの内容が300pxに満たないと余計な余白部分が表示されてしまい、見た目を損ねる可能性があります。<br>
         そのため、ラベルの内容にラベル自体の幅を合わせるためのキーワードとして"adjust"が用意されています。
       </p>
     </section>
@@ -1045,6 +1049,13 @@
       <p>
         この属性に"true"が設定されていると、そのタグの処理が完全に終わるまで次のタグに制御が移らないようになります。<br>
         具体的にはend_time属性付きのlabelの場合なら、end_timeによってそのラベルオブジェクトがディスプレイから消えるまで次のタグの処理が行われなくなります。
+      </p>
+    </section>
+
+    <section id="property_end_time" class="property_explanation">
+      <h3>end_time</h3>
+      <p>
+        ラベルなどの効果が切れるまでのフレーム数をセットします。省略すれば、remove命令などで明示的に削除しない限り、画面上から消えることはなくなります。
       </p>
     </section>
 

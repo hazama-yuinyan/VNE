@@ -43,6 +43,9 @@ var MenuStates = enchant.Class.create({
 				var children = [], saves = JSON.parse(localStorage.getItem("save"));
 
 				for(var i = 1; i < saves.length; ++i){
+					if(!saves[i])
+						continue;
+
 					var title = saves[i].scene_str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)/)[1];
 					children.push({
 						type : "save" + i,
@@ -124,7 +127,7 @@ var MenuStates = enchant.Class.create({
 				var children = [{type: "item", action: "returnToPopupMenu", to: "Menu", text: "戻る"}], saves = JSON.parse(localStorage.getItem("save"));
 
 				for(var i = 1; i <= 5; ++i){
-					if(i >= saves.length){
+					if(!saves[i] || i > saves.length){
 						children.push({
 							type : "save" + i,
 							data_index : i,
@@ -154,6 +157,9 @@ var MenuStates = enchant.Class.create({
 				var children = [{type: "item", action: "returnToPopupMenu", to: "Menu", text: "戻る"}], saves = JSON.parse(localStorage.getItem("save"));
 
 				for(var i = 1; i < saves.length; ++i){
+					if(!saves[i])
+						continue;
+
 					var title = saves[i].scene_str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)/)[1];
 					children.push({
 						type : "save" + i,

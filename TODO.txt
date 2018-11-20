@@ -15,6 +15,7 @@ TypeError: Failed to set the 'buffer' property on 'AudioBufferSourceNode': The p
 ・サウンドのロードタイミングについて、本編内での参照箇所に基づいて最適化を行うようにする
 ・高度なデバッグ機能の提供(プログラミング言語のビジュアルデバッガーのような機能; ソースコードと実行箇所の対応など)
 ・上記と関連して他言語対応及びその関連のAPI実装
-・BGMが連続で鳴らない
-・sample.xml1568,1569行目のlabelタグ以降、テキストがずれる
+×BGMが連続で鳴らない
+×sample.xml1568,1569行目のlabelタグ以降、テキストがずれる
 × sceneタグのlineNumberが大幅にずれるのを修正する
+・sample.xml 1567行目でクリックしてタグスキップをすると、無限ループに陥る

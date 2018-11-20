@@ -3,7 +3,7 @@
  * 
  * game.js
  *
- * Copyright (c) HAZAMA
+ * Copyright (c) train12
  * http://funprogramming.ojaru.jp
  * Licensed under the GPL Version 3 licenses
  *
@@ -101,9 +101,9 @@ window.onload = function(){
 				title : "アドベンチャーゲームサンプル",
 				description : "オリジナルキャラクターを使用した簡単なアドベンチャーゲームのサンプルです"
 			},{
-				file_name : "./AGE_reference.xml",
-				title : "AGEリファレンス",
-				description : "AGEの紹介や特徴、使い方などが解説されています"
+				file_name : "./VNE_reference.xml",
+				title : "VNEリファレンス",
+				description : "VNEの紹介や特徴、使い方などが解説されています"
 			}]);
 		};
 		

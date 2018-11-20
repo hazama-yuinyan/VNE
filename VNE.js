@@ -3,7 +3,7 @@
  *
  * VNE.js
  *
- * Copyright (c) HAZAMA
+ * Copyright (c) train12
  * http://funprogramming.ojaru.jp
  * Licensed under the GPL Version 3 licenses
  *
@@ -745,7 +745,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				if(scene.id)
 					ids.push(scene.id);
 			}
-			var save_data = {scene_str : ["title:", scene.title.replace(/ /g, "\\s"), ",ids:", ids.reverse()].join("")};
+			var save_data = {scene_str : `title:${scene.title.replace(/ /g, "\\s")},ids:${ids.reverse()}`};
 			return save_data;
 		};
 
@@ -777,7 +777,7 @@ var XmlManager = enchant.Class.create(Manager, {
         
         this.updateOptions = function(options){
 			options.forEach(function(option){
-				variable_store.setVar("options." + option.name, option.value);
+				variable_store.setVar(`options.${option.name}`, option.value);
 			}, this);
         };
 
@@ -953,14 +953,14 @@ var MessageManager = enchant.Class.create(Manager, {
 			this.initial_text_y = this.msg_window.y + this.msg_window._element.clientTop;
 		}
 
-        if(this.msg_window.y + this.msg_window._element.offsetHeight != game.height){    //メッセージウインドウの大きさを微調整する
+        if(this.msg_window.y + this.msg_window._domManager.element.offsetHeight != game.height){    //メッセージウインドウの大きさを微調整する
 			var margin_height = game.height - this.msg_window.y;
-			this.msg_window.height = margin_height + (this.msg_window.height - this.msg_window._element.offsetHeight);
+			this.msg_window.height = margin_height + (this.msg_window.height - this.msg_window._domManager.element.offsetHeight);
 			this.xml_manager.getVarStore().setVar("msg_window.height", this.msg_window.height, true);
 		}
 
-		if(this.msg_window._element.offsetWidth != game.width){
-			this.msg_window.width = game.width + (this.msg_window.width - this.msg_window._element.offsetWidth);
+		if(this.msg_window._domManager.element.offsetWidth != game.width){
+			this.msg_window.width = game.width + (this.msg_window.width - this.msg_window._domManager.element.offsetWidth);
 			this.xml_manager.getVarStore().setVar("msg_window.width", this.msg_window.width, true);
 		}
 
@@ -1261,7 +1261,7 @@ var TagManager = enchant.Class.create(Manager, {
 					this.manager.interpreters.br.addLineText(result.toString());
 				}else if(game._debug && result == "successful assignment"){
 					var var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
-					this.console_manager.log('$' + var_name + " = " + this.xml_manager.getVarStore().getVar(var_name));
+					this.console_manager.log(`$${var_name} = ${this.xml_manager.getVarStore().getVar(var_name)}`);
 				}
 
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
@@ -1470,7 +1470,7 @@ var TagManager = enchant.Class.create(Manager, {
 
 				var target = this.interpretTarget(tag_obj.target);
 				this.createEffect(tag_obj, target);
-				if(tag_obj.sync)
+				if(tag_obj.sync === "true")
 					this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));
 
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
@@ -1505,7 +1505,7 @@ var TagManager = enchant.Class.create(Manager, {
 					if(tag_obj.effect)
 						this.manager.interpreters.effect.createEffect(tag_obj, new_label);
 
-					if(tag_obj.sync)
+					if(tag_obj.sync === "true")
 						this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));
 				}else{
 					throw new TemplateError(msg_tmpls.errorUnknownOperation, {operation: tag_obj.operation});
@@ -1555,7 +1555,7 @@ var TagManager = enchant.Class.create(Manager, {
 					if(tag_obj.effect)
 						this.manager.interpreters.effect.createEffect(tag_obj, new_img);
 
-					if(tag_obj.sync)
+					if(tag_obj.sync === "true")
 						this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));
 				}else{
 					throw new TemplateError(msg_tmpls.errorUnknownOperation, {operation: tag_obj.operation});
@@ -2004,7 +2004,7 @@ var LogManager = enchant.Class.create(Manager, {
 				var header = this.xml_manager.getHeader("profile", tag.parent.chara);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
 				var style = tag.style && tag.style.concat(header.style) || header.style;
 				this.cur_child_tag = document.createElement("p");
-				this.log_window._element.appendChild(this.cur_child_tag);
+				this.log_window._domManager.element.appendChild(this.cur_child_tag);
 				this.cur_child_tag.style.cssText = this.xml_manager.replaceVars(style);
 					
 				if(this.isCharacterName(tag.parent.chara)){
@@ -2066,12 +2066,12 @@ var LogManager = enchant.Class.create(Manager, {
 			this.system.removeChild(this.log_window);
 		
 		this.is_available = is_available;
-		this.log_window._element.scrollTop = this.log_window._element.scrollHeight - this.log_window._element.clientHeight;
+		this.log_window._element.scrollTop = this.log_window._domManager.element.scrollHeight - this.log_window._domManager.element.clientHeight;
 	},
 	
 	scroll : function(num_lines){
 		var scroll_size = num_lines * this.line_height;
-		this.log_window._element.scrollTop = this.log_window._element.scrollTop + scroll_size;
+		this.log_window._domManager.element.scrollTop = this.log_window._domManager.element.scrollTop + scroll_size;
 	},
 	
 	update : function(){
@@ -2380,7 +2380,7 @@ var ImageManager = enchant.Class.create(Manager, {
 	interpret : function(type, size, expr){
 		if(expr.search(/^center$|^left$|^right$/) != -1){	//立ち絵用の位置設定
 			if(expr != "left" && expr != "right" && expr != "center")
-				throw new Error("The value of \"figure_pos\" must be \"left\", \"right\" or \"center\"");
+				throw new Error('The value of "figure_pos" must be "left", "right" or "center"');
 
 			if(type == "x"){
 				return Math.floor((expr == "center") ? game.width / 2 - size / 2 :
@@ -2476,7 +2476,7 @@ var SoundManager = enchant.Class.create(Manager, {
 		}
 
 		if(tag.is_bgm){
-			if(this.cur_bgm){		//前のBGMを停止させる
+			if(this.cur_bgm){		//前のBGMを停止させる // stop the previous BGM
 				this.cur_bgm.stop();
 				this.sounds.forEach(function(sound, index, array){
 					if(sound.obj == this.cur_bgm){
@@ -2495,7 +2495,7 @@ var SoundManager = enchant.Class.create(Manager, {
 
 		if(tag.id){
 			new_sound['id'] = tag.id;
-			this.xml_manager.getVarStore().setVar("sounds." + tag.id, tag.id, true);
+			this.xml_manager.getVarStore().setVar(`sounds.${tag.id}`, tag.id, true);
 		}
 		this.sounds.push(new_sound);
 		if(!this.is_availble)
@@ -2506,7 +2506,7 @@ var SoundManager = enchant.Class.create(Manager, {
 		var var_store = this.xml_manager.getVarStore();
 		this.sounds.forEach(function(sound){
 			if(sound.id == id){
-				if(tag_obj.vol){	//サウンドのボリュームを変更する
+				if(tag_obj.vol){	//サウンドのボリュームを変更する //change the volume of the sound
 					var vol = (this.cur_bgm == sound.obj) ? var_store.getVar("options.sound_bgm") : var_store.getVar("options.sound_se");
 					sound.obj.volume = Math.min(Math.max(0, vol * parseFloat(tag_obj.vol)), 1);
 				}
@@ -2517,7 +2517,7 @@ var SoundManager = enchant.Class.create(Manager, {
 	remove : function(id){
 		this.sounds.forEach(function(sound, index, array){
 			if(sound.id == id){
-				this.xml_manager.getVarStore().removeVar("sounds." + id);
+				this.xml_manager.getVarStore().removeVar(`sounds.${id}`);
 				sound.obj.stop();
 				delete array[index];
 			}
@@ -2554,6 +2554,7 @@ var ConsoleManager = enchant.Class.create(Manager, {
 
 	/**
 	 * console.log関数のラッパー。ゲームコンソールにログを出力するとともに、標準のconsoleにも出力をする
+	 * Wrapper around the console.log function. It outputs to the game console and the standard console.
 	 */
 	log : function(content){
 		var elem = document.createElement("p");
@@ -2648,7 +2649,7 @@ var StoryAdvancer = enchant.Class.create(ActionOperator, {
 			width : "adjust",
 			style : "font: bold large serif;"
 		};
-		this.input_manager.system.showNoticeLabel(["自動テキスト送り ", (this.do_auto_text_scrolling) ? "ON" : "OFF"].join(""), notice_label);
+		this.input_manager.system.showNoticeLabel(`自動テキスト送り ${this.do_auto_text_scrolling ? "ON" : "OFF"}`, notice_label);
 	},
 
 	operateD : function(){
@@ -2989,7 +2990,7 @@ var EffectManager = enchant.Class.create(Manager, {
 	add : function(effect){
 		if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
 
-		this.xml_manager.getVarStore().setVar("effects." + effect.id, effect.id, true);
+		this.xml_manager.getVarStore().setVar(`effects.${effect.id}`, effect.id, true);
 		this.effects.push(effect);
 		if(!this.is_available)
 			this.is_available = true;
@@ -2998,7 +2999,7 @@ var EffectManager = enchant.Class.create(Manager, {
 	remove : function(id){
 		this.effects.forEach(function(effect, index, array){
 			if(effect.id == id){
-				this.xml_manager.getVarStore().removeVar("effects." + id);
+				this.xml_manager.getVarStore().removeVar(`effects.${id}`);
 				if(effect.postEffect)
 					effect.postEffect();
 
@@ -3185,7 +3186,7 @@ var MoveEffect = enchant.Class.create(Effect, {
 		this.target.obj.x += this.xml_manager.interpretExpression(this.vector.x);
 		this.target.obj.y += this.xml_manager.interpretExpression(this.vector.y);
 
-		var width = this.target.obj._element.offsetWidth, height = this.target.obj._element.offsetHeight;
+		var width = this.target.obj._domManager.element.offsetWidth, height = this.target.obj._domManager.element.offsetHeight;
 		if(this.remove_when_out && (this.target.obj.x < -width || this.target.obj.x > game.width ||
 				this.target.obj.y < -height || this.target.obj.y > game.height)){	//画面外に出たら自動的に削除する
 			this.obj_manager.remove(this.target.id);
@@ -3212,7 +3213,7 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 				system.update();
 			}catch(e){
 				if(game._debug){
-					console_manager.log(e.message + "\n" + e.stack);
+					console_manager.log(`${e.message}\n${e.stack}`);
 				}
 			}
 		});

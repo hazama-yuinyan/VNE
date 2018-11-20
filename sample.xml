@@ -1565,8 +1565,10 @@
 				きっと結衣先輩自身は気付いていないだろうけど、ずっと見ていた私は、結衣先輩が<br/>
 				無意識のうちに京子先輩ばかりを見ていることは、ちゃんとわかっていた。<br/>
 				<text speed="0.5" style="color: $chinatsu.color; font: italic large serif">だけど。</text><cp/>
-				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『ちなつちゃんなら大丈夫だよぉ』</label>
-				<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『結衣ちゃんだって、ちなつちゃんのこと大好きだもん』</label>
+			</narrativef>
+			<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『ちなつちゃんなら大丈夫だよぉ』</label>
+			<label x="centered" y="centered" width="adjust" effect="FadeIn" rate="0.05" style="font: bold xx-large 'うずらフォント';" end_time="60" should_be_front="true" sync="true">『結衣ちゃんだって、ちなつちゃんのこと大好きだもん』</label>
+			<narrativef>	
 				あかりちゃんがそう言ってくれるから、私は信じていられた。<br/>
 				結衣先輩のこと。<br/>
 				結衣先輩が好きな自分のことを。<cp/>
@@ -1951,7 +1953,8 @@
 		<pause time="10000"/>
 		
 		<label id="credit6" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			立ち絵：&lt;a href=&quot;http://yuruyuri.com/blog/archives/886&quot;&gt;ゆるゆり公式配布の&lt;/a&gt;&lt;a href=&quot;http://yuruyuri.com/blog/archives/1380&quot;&gt;ツイッター用アイコン集&lt;/a&gt;
+			立ち絵：&lt;a href=&quot;http://yuruyuri.com/blog/archives/886&quot;&gt;ゆるゆり公式配布の&lt;/a&gt;&lt;br&gt;
+			&lt;a href=&quot;http://yuruyuri.com/blog/archives/1380&quot;&gt;ツイッター用アイコン集&lt;/a&gt;
 		</label>
 		<pause time="3000"/>
 		<effect name="Move" id="credit_roll6" target="$labels.credit6" vx="0" vy="2" remove_when_out="true"/>
@@ -1959,7 +1962,7 @@
 		
 		<label id="credit7" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
 			Produced by &lt;a href=&quot;http://funprogramming.ojaru.jp&quot;&gt;AGE(AdventureGameEngine)&lt;/a&gt;&lt;br&gt;
-								copyright : HAZAMA
+			copyright : HAZAMA
 		</label>
 		<pause time="3000"/>
 		<effect name="Move" id="credit_roll7" target="$labels.credit7" vx="0" vy="2" remove_when_out="true"/>
