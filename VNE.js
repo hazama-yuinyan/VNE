@@ -87,7 +87,7 @@ String.prototype.getExpansion = function(){
 	while(c = e.lastChild)
 		e.removeChild(c);
 
-    e.textContent = this;
+    e.innerHTML = this;
     // 計算で出した幅きっかりだと、縦に詰まったような表示になることがあるため、表示に適した幅も出す
     // プラス10するのは、メインメニューの項目が改行されないようにするため
     var expansion = {width : e.clientWidth, idealWidth: e.clientWidth + 5, height : e.clientHeight, boundingWidth: e.offsetWidth, boundingHeight: e.offsetHeight};
@@ -1869,7 +1869,7 @@ var TagManager = enchant.Class.create(Manager, {
 		var data = this.load(0);		//一時保存領域からデータを復元する
         if(typeof data.child_index !== "undefined"){
             var child_array = this.next_targeted_tag.children;
-            this.next_targeted_tag = child_array[data.child_index]; //シーンの２つ子供の階層のタグをセットする
+            this.next_targeted_tag = child_array[data.child_index]; //シーンの2つ子供の階層のタグをセットする
             for(var i = 0; i < data.child_index; ++i)              	//目的のタグの位置までテキストを削る
                 this.next_text = this.next_text.substring(child_array[i].pos);
         }
@@ -1887,7 +1887,7 @@ var TagManager = enchant.Class.create(Manager, {
 			this.is_available = true;
 			while(this.next_targeted_tag.lineNumber <= goal_tag.lineNumber && this.cur_cursor_pos + 1 <= goal_tag.column){
 				var diff = this.next_targeted_tag.pos - this.cur_cursor_pos;
-				this.msg_manager.pushText(this.next_text.substr(this.cur_cursor_pos, diff));
+				this.msg_manager.pushText((diff < 0) ? this.next_text.substr(this.cur_cursor_pos) : this.next_text.substr(this.cur_cursor_pos, diff));
 				this.cur_cursor_pos = this.next_targeted_tag.pos;
 				this.msg_manager.update();	// updateしてテキストをメッセージウインドウに反映させる
 

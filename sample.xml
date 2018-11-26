@@ -916,7 +916,7 @@
 		</narrative>
 		<line chara="akari">「お、お姉ちゃん？」<cp/></line>	
 		<line chara="akane">
-			「嘘吐くことはね、自分を守るために必要なことなんだから、しかたないの。<br/>
+			「嘘<ruby rtext="つ">吐</ruby>くことはね、自分を守るために必要なことなんだから、しかたないの。<br/>
 			本当に大切なとき、ちゃんと正直にいられればいいんだから、あかりは大丈夫」<cp/>
 		</line>
 		<narrative>
@@ -1187,7 +1187,7 @@
 				ホワイトクリスマス。<br/>
 				ちなつちゃんは、会ったときどんな顔をするだろうか。<br/>
 				枕元に置いてあったプレゼントもそのままに、私は顔を洗って用意を済ませる。<br/>
-				緊張は、してない。<br/>
+				緊張は、してない。<cp/>
 				だけど、不安だった。不安で、ちなつちゃんに会うことが怖かった。<br/>
 				その不安や恐怖を拭うように、冷たい水で頭を冷やす。<br/>
 				行ってきます、と家を出たのは約束の時間より、だいぶ早い時間だった。<br/>
@@ -1243,7 +1243,7 @@
 			<line chara="akari">「ほんとだねぇ」<cp/></line>
 			<narrative>
 				俯きがちに、ちなつちゃんの横顔を盗み見る。<br/>
-				その楽しそうな顔に、私はほっとした。<br/>
+				その楽しそうな顔に、私はほっとした。<cp/>
 				本当は、結衣ちゃんといたかったはずなのに。<br/>
 				けれどあかりのそんな考えは、ちなつちゃんの手の冷たさでどこかへと飛ばされてしまった。<cp/>
 			</narrative>
@@ -1258,7 +1258,7 @@
 			<line chara="akari">「……えへへ」<cp/></line>
 			<line chara="chinatsu">「どうしたの、あかりちゃん？」<cp/></line>
 			<narrative>
-				急に笑い出した私に、ちなつちゃんが怪訝そうな目を向ける。<br/>
+				急に笑い出した私に、ちなつちゃんが<ruby rtext="けげん">怪訝</ruby>そうな目を向ける。<br/>
 				私は「ううん」と首を振って、握る手の力をちょっとだけ強めてみた。<cp/>
 				ちなつちゃんが、すぐ隣にいる。<br/>
 				たぶん、今までよりもずっと近くに、ちなつちゃんがいる。<br/>
@@ -1293,7 +1293,7 @@
 			<line chara="chinatsu">「あ、ごめんちょっとトイレ行って来る」<cp/></line>
 			<line chara="akari">「うん、いってらっしゃい」<cp/></line>
 			<narrative>
-				お昼も過ぎて、歩きつかれた私たちは駅前のワックに戻って腰を落ち着けていた。<br/>
+				お昼も過ぎて、歩きつかれた私たちは駅前のワックに戻って腰を落ち着けていた。<cp/>
 				普段は人の少ない時間帯のはずなのに、クリスマスのせいか人がたくさんいて、<br/>
 				店内は暖房のせいもあり少しむっとしていた。<cp/>
 			</narrative>
@@ -1304,12 +1304,13 @@
 				<text style="color: $kyouko.color; font: normal large 'うずらフォント';">『件名：クリスマスパーティー！</text><br/>
 				<text style="color: $kyouko.color; font: normal large 'うずらフォント';">本文：いま結衣の家いるんだけどあかりも来れたら来いよー！』</text><cp/>
 				ぱたん、とメールごと携帯を閉じた。<br/>
-				京子ちゃん、結衣ちゃん家で暇だって騒いでるのかなぁ、なんてぼんやり考えた。<br/>
+				京子ちゃん、結衣ちゃん家で暇だって騒いでるのかなぁ、<br/>
+				なんてぼんやり考えた。<br/>
 				きっと同じようなメールがちなつちゃんにも届いてるはずだ。<cp/>
 				ちなつちゃんのことが好きだった。<br/>
 				たぶんもう、どうしようもないくらい。<cp/>
 				それならあかりは、ちなつちゃんがメールを見て「行きたい」と言ってほしい。<br/>
-				結衣ちゃんのとこに行きたいと、ちなつちゃんがそう言えば私は「うん、行こっか」と言って<br/>
+				結衣ちゃんのとこに行きたいと、ちなつちゃんがそう言えば私は「うん、行こっか」と言って<cp/>
 				ちなつちゃんを結衣ちゃんのところにかえせてしまえるはずだ。<br/>
 				なのに、戻ってきたちなつちゃんはなにも言わなかった。<cp/>
 			</narrative>
@@ -1335,20 +1336,20 @@
 			<line chara="chinatsu">「あ、でも」<cp/></line>
 			<narrative>
 				とりあえずというように歩き出しながら、ちなつちゃんが思い出したように言った。<br/>
-				自然と繋がる手。<br/>
+				自然と繋がる手。<cp/>
 				私の手を握って、ちなつちゃんが「買いたいものあるかも」と。<cp/>
 			</narrative>
 			<line chara="akari">「買いたいもの？」<cp/></line>
 			<line chara="chinatsu">「うん、みんなにプレゼント！」<cp/></line>
 			<narrative>
-				そういえば、あかりもなにも買っていなかった。<br/>
+				そういえば、あかりもなにも買っていなかった。<cp/>
 				小学生の頃はお小遣いなんてなかったし、プレゼントだって贈られる側だったから<br/>
 				考えもつかなかったのだ。<cp/>
 			</narrative>
 			<line chara="chinatsu">「せっかくあかりちゃんと遊ぶんだからあかりちゃんにも選ぶの手伝ってもらいたいなって」<cp/></line>
 			<narrative>
 				付き合ってくれる？とちなつちゃんが言うから、私はこくんと頷いた。<br/>
-				京子ちゃんのメールと、結衣ちゃんのことが頭を過ったけれど。<cp/>
+				京子ちゃんのメールと、結衣ちゃんのことが頭を<ruby rtext="よぎ">過</ruby>ったけれど。<cp/>
 				あかりはひどいね。<br/>
 				自分の決心さえ、曲げそうになってしまっている。<br/>
 				ちなつちゃんと繋いだこの手を離したくなんてない。<cp/>
@@ -1372,9 +1373,9 @@
 			<line chara="akari">「え、どれ……ってちなつちゃん、それはこわいよ！」<cp/></line>
 			<line chara="chinatsu">「京子先輩なら喜びそうだと思ったんだけどなあ」<cp/></line>
 			<narrative>
-				さっき一度だけ覗いた雑貨屋さん。<br/>
+				さっき一度だけ覗いた雑貨屋さん。<cp/>
 				落ち着いた雰囲気のお店だなぁという第一印象とは裏腹に、ごちゃごちゃと珍しいものが<br/>
-				たくさん置かれていて楽しかった。<br/>
+				たくさん置かれていて楽しかった。<cp/>
 				可愛いものや面白いものもいっぱいで、京子ちゃんたちと一緒に来たらもっと楽しいかな、なんて考えて。<cp/>
 			</narrative>
 			<line chara="akari">「……」<cp/></line>
@@ -1385,7 +1386,7 @@
 			</narrative>
 			<line chara="chinatsu">「あっ」<cp/></line>
 			<narrative>
-				いつのまにか奥まで行ってしまっていたちなつちゃんの声が聞こえて、はっと顔を上げた。<br/>
+				いつのまにか奥まで行ってしまっていたちなつちゃんの声が聞こえて、はっと顔を上げた。<cp/>
 				ちなつちゃんに駆け寄ると、「これ、あかりちゃんに合いそうじゃない？」と私の手に<br/>
 				何かを乗せた。<cp/>
 				<pause time="500"/>クマの、付け耳。<cp/>
@@ -1403,13 +1404,13 @@
 				そう言って満足そうに笑うちなつちゃんに。<br/>
 				私は少しだけ、泣きそうになってしまった。<cp/>
 				ちなつちゃんが「さ、次はー」と私から視線を逸らしてくれてよかった。<br/>
-				クマさんの耳をとる振りをして、ごしごしと目許をこすった。<cp/>
+				クマさんの耳をとる振りをして、ごしごしと<ruby rtext="めもと">目許</ruby>をこすった。<cp/>
 				<text speed="0.5">あかりは、ちなつちゃんに。</text><cp/>
 			</narrative>
 			<line chara="chinatsu">「うーん……」<cp/></line>
 			<narrative>
 				次のコーナーに移って悩むように唸っていたちなつちゃんが、ふと私を見た。<br/>
-				「あかりちゃん」と名前を呼ぶ。<br/>
+				「あかりちゃん」と名前を呼ぶ。<cp/>
 				結衣ちゃんのプレゼントかな。なんとなく、そう思った。<cp/>
 			</narrative>
 			<line chara="chinatsu">「……なにが、いいかな」<cp/></line>
@@ -1436,14 +1437,14 @@
 			<line chara="akari">「えへへ……そっかぁ」<cp/></line>
 			<narrative>
 				ちなつちゃんがほかほかしたように言って、私も笑う。<br/>
-				大事そうに抱えた袋に、ぼんやり思った。<br/>
+				大事そうに抱えた袋に、ぼんやり思った。<cp/>
 				やっぱりちなつちゃんは本当に結衣ちゃんのことが好きなんだなぁ、なんて。<cp/>
 				また曇りかけてきた空。<br/>
 				さっきからしきりにちなつちゃんは時間を気にしているようだった。<br/>
-				もうそろそろ、暗くなってしまう。<br/>
-				もうすぐで帰らなくちゃいけない時間。それでもまだ、時間はある。<cp/>
+				もうそろそろ、暗くなってしまう。<cp/>
+				もうすぐで帰らなくちゃいけない時間。それでもまだ、時間はある。<br/>
 				ちなつちゃんだって、京子ちゃんからのメールに気付いていないはずがない。<br/>
-				今買ったプレゼントだって、すぐに結衣ちゃんに渡したいはずだ。<br/>
+				今買ったプレゼントだって、すぐに結衣ちゃんに渡したいはずだ。<cp/>
 				もう、帰ろっか。<br/>
 				私がそう言えば、ちなつちゃんだって結衣ちゃんのところに行ける。<cp/>
 				なのに、声が出なかった。<cp/>
@@ -1460,7 +1461,7 @@
 				びっくりして、ちなつちゃんを見た。<br/>
 				ちなつちゃんは照れたように笑っていた。<cp/>
 				開けた手からことんと出てきたのは、もちろんクマさんの付け耳でもなんでもなかった。<br/>
-				淡い赤色の花を模した髪留め。<br/>
+				淡い赤色の花を模した髪留め。<cp/>
 				「あかりちゃんは使わないかもしれないけど」とちなつちゃんは言って。<cp/>
 			</narrative>
 			<line chara="chinatsu">「その裏に書いてある言葉、気に入っちゃって」<cp/></line>
@@ -1486,7 +1487,7 @@
 			<line chara="chinatsu">「だけど、断っちゃった」<cp/></line>
 			<narrative>
 				きっと、あの電話の後結衣ちゃんは念のためにちなつちゃんに電話をかけたのだ。<br/>
-				でも結衣ちゃんのことだから、「あかりからだめらしいって聞いて」<br/>
+				でも結衣ちゃんのことだから、「あかりからだめらしいって聞いて」<cp/>
 				そんな言い方をしたんだろう。<br/>
 				それでちなつちゃんも。<cp/>
 			</narrative>
@@ -1494,7 +1495,7 @@
 			<line chara="akari">「……ちなつちゃん、あかり」<cp/></line>
 			<line chara="chinatsu">「私ね、あかりちゃんに逃げちゃったの。ごめんね」<cp/></line>
 			<narrative>
-				<sound id="croud_noise" src="$paths.se_croud" operation="loop"/><sound id="bgm" src="$paths.bgm2" is_bgm="true"/>ごめんね。<cp/>
+				<sound id="croud_noise" src="$paths.se_croud" operation="loop"/><sound id="bgm" src="$paths.bgm2" operation="loop" is_bgm="true"/>ごめんね。<cp/>
 				<pause time="250"/>ちなつちゃんのその言葉は。<br/>
 				すーっと私の中に吸い込まれて、溜息を吐くように沈んでいった。<cp/>
 				今さら、行かないでなんて。<br/>
@@ -1553,7 +1554,7 @@
 				はあ、<pause time="1000"/>はあ。<sound id="BGM" src="$paths.bgm1" operation="loop" is_bgm="true"/><br/>
 				私は走っていた。<br/>
 				あかりちゃんに背中を押されて、結衣先輩の家へ。<br/>
-				いつのまにか雪が降り始めていて、走って温まったはずの身体をも冷ましていってしまう。<br/>
+				いつのまにか雪が降り始めていて、走って温まったはずの身体をも冷ましていってしまう。<cp/>
 				胸の前に抱えた結衣先輩と、それから京子先輩へのプレゼントがカチャカチャと音をたてる。<br/>
 				あかりちゃんが背中を押してくれるから、私はいつまでも結衣先輩が好きな私でいられた。<br/>
 				今は、あかりちゃんは、いない。少しだけ感じた、あかりちゃんの手の温かさも、<br/>
@@ -1581,14 +1582,14 @@
 				雪が目に入って、少しの痛み。<br/>
 				それでも私の足は止められない。<br/>
 				京子先輩なんていつもいつも、面倒臭いし結衣先輩に迷惑ばっかりかけてるし――！<br/>
-				ついこの間の、私の言葉。<br/>
+				ついこの間の、私の言葉。<cp/>
 				京子先輩に対しての、苛立ちや妬みがきっと、爆発してしまった瞬間。<br/>
 				けれど本当にあんなふうに思われているのは、私なんだと思う。<br/>
 				結衣先輩にも、京子先輩にも、たぶん、あかりちゃんにも。<cp/>
 				あかりちゃんは<pause time="500"/>でも、どんなときでも私の味方でいてくれた。<br/>
 				私がどんなに嫌な子でも、ずっとずっと傍にいて笑ってくれていて。<br/>
 				私はそんなあかりちゃんに、離れてほしくなかった。<br/>
-				ずっと一番近くに、いてほしかった。<br/>
+				ずっと一番近くに、いてほしかった。<cp/>
 				あかりちゃんは結衣先輩のことを相談してくれるのが嬉しいんだぁと、<br/>
 				一度、そんなことを言ってくれたときがある。<br/>
 				あかり、なんでも協力するからね。<br/>
@@ -1597,7 +1598,7 @@
 				結衣先輩をずっとずっと好きでいなくちゃいけないし――<pause time="500"/><cp/>
 				今日はクリスマス。<br/>
 				奇跡なんて、起こるわけもないけど。<br/>
-				あかりちゃんの「いってらっしゃい」が、私を急かした。<br/>
+				あかりちゃんの「いってらっしゃい」が、私を急かした。<cp/>
 				走りながら、ポケットを探る。<br/>
 				取り出した携帯を開け、感覚の無い指で結衣先輩の番号を押した。<br/>
 				もうすっかり覚えてしまっているのだ。<br/>
@@ -1683,7 +1684,7 @@
 				立ち上がって、足を確認する。少しずつ積もっていた雪のおかげか、痛みのわりには<br/>
 				怪我は一つもない。<br/>
 				なんて悪運よ。<cp/>
-				最低……。 ――ちなつちゃん？<sound id="bgm" src="$paths.bgm1" is_bgm="true"/><br/>
+				最低……。 ――ちなつちゃん？<sound id="bgm" src="$paths.bgm1" operation="loop" is_bgm="true"/><br/>
 				ぼそりと呟いた私の声と、別の声が重なった。<cp/>
 				ばっと顔を上げた。<br/>
 				あかりちゃんが、いた。あまりにもぼろぼろな私に、神様が同情でもして幻でも<br/>
@@ -1826,7 +1827,7 @@
 			</line>
 			<line chara="chinatsu">「……もう、いいよ」<cp/></line>
 			<narrative>
-				<sound src="$paths.bgm2" is_bgm="true"/>
+				<sound src="$paths.bgm2" operation="loop" is_bgm="true"/>
 				それ以上、<pause time="500"/>なにも言わないで。<cp/>
 				お願いだから、<pause time="500"/>なにも言わないで。<cp/>
 				いよいよ、わからなくなってしまった。<br/>
@@ -1928,7 +1929,7 @@
 		<pause time="10000"/>
 		
 		<label id="credit3" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			演出：HAZAMA
+			演出：train12
 		</label>
 		<pause time="3000"/>
 		<effect name="Move" id="credit_roll3" target="$labels.credit3" vx="0" vy="2" remove_when_out="true"/>
@@ -1936,7 +1937,7 @@
 		
 		<label id="credit4" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
 			音楽：&lt;a href=&quot;http://www.tam-music.com/&quot;&gt;TAM Music Factory&lt;/a&gt;さま&lt;br&gt;
-			HAZAMA(一部)
+			train12(一部)
 		</label>
 		<pause time="3000"/>
 		<effect name="Move" id="credit_roll4" target="$labels.credit4" vx="0" vy="2" remove_when_out="true"/>
@@ -1946,7 +1947,7 @@
 			効果音：&lt;a href=&quot;http://www.tam-music.com/&quot;&gt;TAM Music Factory&lt;/a&gt;さま&lt;br&gt;
 			&lt;a href=&quot;http://wwl.s-t-t.com/&quot;&gt;WEB WAVE LIB&lt;/a&gt;さま&lt;br&gt;
 			&lt;a href=&quot;http://sfx-g.net/index.html&quot;&gt;効果音g&lt;/a&gt;さま&lt;br&gt;
-			HAZAMA
+			train12
 		</label>
 		<pause time="3000"/>
 		<effect name="Move" id="credit_roll5" target="$labels.credit5" vx="0" vy="2" remove_when_out="true"/>
@@ -1961,8 +1962,8 @@
 		<pause time="10000"/>
 		
 		<label id="credit7" x="centered" y="0" width="adjust" effect="FadeIn" rate="0.05" style="font: normal x-large serif;">
-			Produced by &lt;a href=&quot;http://funprogramming.ojaru.jp&quot;&gt;AGE(AdventureGameEngine)&lt;/a&gt;&lt;br&gt;
-			copyright : HAZAMA
+			Produced by &lt;a href=&quot;http://funprogramming.ojaru.jp&quot;&gt;VNE(Visual Novel game Engine)&lt;/a&gt;&lt;br&gt;
+			copyright : train12
 		</label>
 		<pause time="3000"/>
 		<effect name="Move" id="credit_roll7" target="$labels.credit7" vx="0" vy="2" remove_when_out="true"/>
@@ -1978,7 +1979,7 @@
 			<item x="$display.width - 200" y="50" action="openSave" to="MenuSave">セーブ</item>
 			<item x="$display.width - 200" y="100" action="openLoad" to="MenuLoad">ロード</item>
 			<item x="$display.width - 200" y="150" action="openOption" to="MenuOption">オプション</item>
-			<item x="$display.width - 200" y="200" action="returnToMenu">メニューへ戻る</item>
+			<item x="$display.width - 200" y="200" action="returnToMenu">メニューに戻る</item>
 			<item x="$display.width - 200" y="250" action="openConsole" enable_if="$settings.is_debug">コンソールを表示</item>
 		</menu>
 	</scene>
