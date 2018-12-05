@@ -1210,16 +1210,17 @@ var TagManager = enchant.Class.create(Manager, {
 				}
 
                 this.tag_start_pos = this.manager.cur_cursor_pos;
+                this.manager.cur_cursor_pos = 0;
 				this.tag = tag_obj;
 				this.last_next_text = this.manager.next_text;
 				this.manager.next_text = tag_obj.text;
 			},
 
 			postInterpret : function(){
-				if(this.manager.cur_cursor_pos == this.tag_start_pos + this.tag.text.length){
+				if(this.manager.cur_cursor_pos == /*this.tag_start_pos +*/ this.tag.text.length){
 					this.manager.text_speed = this.last_text_speed || this.manager.text_speed;
 					this.manager.interpreters.br.addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
-					this.manager.next_text = this.last_next_text;//this.manager.next_text.substring(this.manager.cur_cursor_pos);
+					this.manager.next_text = this.last_next_text.substring(this.tag_start_pos);
 					this.manager.cur_cursor_pos = 0;
 					this.cur_tag_child = null;
 					this.manager.last_targeted_tag = null;
@@ -1886,13 +1887,17 @@ var TagManager = enchant.Class.create(Manager, {
 
 			this.is_available = true;
 			while(this.next_targeted_tag.lineNumber <= goal_tag.lineNumber && this.cur_cursor_pos + 1 <= goal_tag.column){
+				var cur_tag = this.next_targeted_tag;
 				var diff = this.next_targeted_tag.pos - this.cur_cursor_pos;
-				this.msg_manager.pushText((diff < 0) ? this.next_text.substr(this.cur_cursor_pos) : this.next_text.substr(this.cur_cursor_pos, diff));
-				this.cur_cursor_pos = this.next_targeted_tag.pos;
+				let substring = (diff < 0) ? this.next_text.substr(this.cur_cursor_pos) : this.next_text.substr(this.cur_cursor_pos, diff);
+				this.msg_manager.pushText(substring);
+				this.cur_cursor_pos = (diff < 0) ? this.next_targeted_tag.pos + this.next_text.length : this.next_targeted_tag.pos;
 				this.msg_manager.update();	// updateしてテキストをメッセージウインドウに反映させる
 
-				this.next_updating_frame = -1;	// 次の更新フレームを無視して先に進めるためのhack
-				this.update();
+				do{
+					this.next_updating_frame = -1;	// 次の更新フレームを無視して先に進めるためのhack
+					this.update();
+				}while(cur_tag == this.next_targeted_tag && this.last_targeted_tag != null)
 			}
 
 			return true;
