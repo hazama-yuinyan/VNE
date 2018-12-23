@@ -55,7 +55,7 @@ function randInt(max){
  * @returns {Object}
  */
 function setNonExistentProperties(dest, source){
-	for(var property in source){
+	for(const property in source){
 		if(source.hasOwnProperty(property) && !dest.hasOwnProperty(property))
 			dest[property] = source[property];
 	}
@@ -69,7 +69,7 @@ function setNonExistentProperties(dest, source){
  * @returns コピーされたJSオブジェクト
  */
 function clone(obj){
-    var tmp = setNonExistentProperties({}, obj);
+    const tmp = setNonExistentProperties({}, obj);
     return tmp;
 }
 
@@ -82,15 +82,15 @@ function clone(obj){
  *                   boundingHeight: 縁を除いた高さ
  */
 String.prototype.getExpansion = function(){
-	var e = document.getElementById("ruler");
-	var c;
+	const e = document.getElementById("ruler");
+	let c;
 	while(c = e.lastChild)
 		e.removeChild(c);
 
     e.innerHTML = this;
     // 計算で出した幅きっかりだと、縦に詰まったような表示になることがあるため、表示に適した幅も出す
     // プラス10するのは、メインメニューの項目が改行されないようにするため
-    var expansion = {width : e.clientWidth, idealWidth: e.clientWidth + 5, height : e.clientHeight, boundingWidth: e.offsetWidth, boundingHeight: e.offsetHeight};
+    const expansion = {width : e.clientWidth, idealWidth: e.clientWidth + 5, height : e.clientHeight, boundingWidth: e.offsetWidth, boundingHeight: e.offsetHeight};
 	e.innerHTML = "";
 	return expansion;
 };
@@ -100,7 +100,7 @@ String.prototype.getExpansion = function(){
  * @param style {Object} or {string} SystemManager.interpretStyleの結果オブジェクト
  */
 function setRulerStyle(style){
-	var elem = document.getElementById("ruler");
+	const elem = document.getElementById("ruler");
     if(typeof(style) === "object"){
         // 参照で渡されたオブジェクトを変更して以下の4プロパティを元のオブジェクトに追加してしまわないよう、オブジェクトを複製する
         style = clone(style);
@@ -110,12 +110,12 @@ function setRulerStyle(style){
         style.whiteSpace = "noWrap";
         style.lineHeight = 1;
         
-        for(var s in style){
+        for(const s in style){
             if(s !== "width" && s !== "height" && s !== "display")
                 elem.style[s] = style[s];
         }
     }else if(typeof(style) === "string"){
-        var new_style = "visibility: hidden; position: absolute; white-space: noWrap; line-height: 1; " + style;
+        const new_style = "visibility: hidden; position: absolute; white-space: noWrap; line-height: 1; " + style;
         elem.setAttribute("style", new_style);
     }
 }
@@ -124,7 +124,7 @@ function setRulerStyle(style){
  * 引数の配列内からidに合致するオブジェクトを探しだす
  */
 function getObjById(array, id){
-	var result = null;
+	let result = null;
 	array.every(function(obj){
 		if(obj.id == id){
 			result = obj;
@@ -144,7 +144,7 @@ function isInArea(obj, x, y){
 	if(!obj.visible)
 		return false;
 
-	var width = obj.width || obj._domManager.element.offsetWidth, height = obj.height || obj._domManager.element.offsetHeight;
+	const width = obj.width || obj._domManager.element.offsetWidth, height = obj.height || obj._domManager.element.offsetHeight;
     return(obj.x <= x && x < obj.x + width && obj.y <= y && y < obj.y + height);
 }
 
@@ -165,8 +165,8 @@ function substituteTemplate(tmpl, values){
  * @returns {string} 変換されたプロパティ名
  */
 function cssNameToPropertyName(cssName){
-	var res = cssName.replace(/^[a-zA-Z]+(?:-([a-zA-Z]+))+/g, function(whole_match, after_hyphen){
-		var pos_after_hyphen = whole_match.indexOf(after_hyphen);
+	const res = cssName.replace(/^[a-zA-Z]+(?:-([a-zA-Z]+))+/g, function(whole_match, after_hyphen){
+		const pos_after_hyphen = whole_match.indexOf(after_hyphen);
 		return whole_match.substr(0, pos_after_hyphen - 1) + after_hyphen.charAt(0).toUpperCase() + after_hyphen.substr(1);
 	});
 	return res;
@@ -176,24 +176,24 @@ function cssNameToPropertyName(cssName){
  * 指定されたタブのみをアクティブに変更する
  */
 function displayTab(tab_name){
-	var tab_btns = document.getElementsByClassName("tabButton");
+	const tab_btns = document.getElementsByClassName("tabButton");
 	if(tab_name === "game_console" && tab_btns[1].classList.contains("activeTab")
 		|| tab_name === "enchant-stage" && tab_btns[0].classList.contains("activeTab")){
 		return;
 	}
 
-	var tabs = document.getElementsByClassName("tab");
-	for(var i = 0; i < tabs.length; ++i)
+	const tabs = document.getElementsByClassName("tab");
+	for(let i = 0; i < tabs.length; ++i)
 		tabs[i].style.display = "none";
 
-	var activate_tab = document.getElementById(tab_name);
+	const activate_tab = document.getElementById(tab_name);
 	activate_tab.style.display = "block";
 	
-	for(var j = 0; j < tab_btns.length; ++j)
+	for(let j = 0; j < tab_btns.length; ++j)
 		tab_btns[j].classList.toggle("activeTab");
 
 	if(tab_name === "enchant-stage"){
-		var tab_holder = document.getElementById("tab_holder");
+		const tab_holder = document.getElementById("tab_holder");
 		tab_holder.style.display = "none";
 	}
 }
@@ -202,9 +202,9 @@ function displayTab(tab_name){
  * ページ読み込み完了後にスクリプトを追加で読み込む
  */
 function loadScriptLazily(script_path, callback){
-	var loaded = false;
-	var head = document.getElementsByTagName("head")[0];
-	var script_tag = document.createElement("script");
+	const loaded = false;
+	const head = document.getElementsByTagName("head")[0];
+	const script_tag = document.createElement("script");
 	script_tag.src = script_path;
 	script_tag.onload = function(){
 		callback();
@@ -216,8 +216,8 @@ function loadScriptLazily(script_path, callback){
  * ページ読み込み完了後にCSSを追加で読み込む
  */
 function loadCssLazily(css_path){
-	var head = document.getElementsByTagName("head")[0];
-	var link_tag = document.createElement("link");
+	const head = document.getElementsByTagName("head")[0];
+	const link_tag = document.createElement("link");
 	link_tag.rel = "stylesheet";
 	link_tag.type = "text/css";
 	link_tag.href = css_path;
@@ -228,14 +228,14 @@ function loadCssLazily(css_path){
 /**
  * プレースホルダー文字列をメッセージに含むエラークラス
  */
-var TemplateError = enchant.Class.create(Error, {
+const TemplateError = enchant.Class.create(Error, {
 	initialize : function(tmpl, values){
 		var no_placeholder = substituteTemplate(tmpl, values);
 		Error.call(this, no_placeholder);
 	}
 });
 
-var msg_tmpls = {
+const msg_tmpls = {
 	errorMissingTag : "Expected \"{type}\" but there isn't such a tag.",
 	errorMissingHeader : "A header that is the type of {type} and named {name} is missing!",
 	errorInvalidExpression : "The expression \"{expr}\" is invalid!",
@@ -243,6 +243,7 @@ var msg_tmpls = {
 	errorMissingImageFile : "An image file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
 	errorMissingSoundFile : "A sound file named {fileName} is missing! Please make sure that the file name or variable name is valid. Or if it is a variable name, please verify that a \"$\" sign is placed before it.",
 	errorUnknownOperation : "Unknown operation: {operation}",
+	errorInvalidJumpString : "Jump strings must be in form 'title:xxx(, ids:yyy)', but actual string was {actual}.",
 	debugLogMessage : "Currently working on a(n) {type} tag at line {lineNumber} : {column} inside {parentType}",
 	succeedLoadingMessage : "{path} successfully loaded!",
 	failedLoadingMessage : "Failed to load {path}; {msg}",
@@ -254,20 +255,20 @@ var msg_tmpls = {
 /**
  * ゲーム全体の統括を行う。各オブジェクトの画面上に表示する実体のルートオブジェクトでもある。
  */
-var SystemManager = enchant.Class.create(Group, {
+const SystemManager = enchant.Class.create(Group, {
 	initialize : function(xml_paths){
 		enchant.Group.call(this);
 
-		var xml_manager = new XmlManager(xml_paths[0].file_name, this), msg_manager = new MessageManager(this, xml_manager);
-		var log_manager = new LogManager(this, xml_manager);
-		var console_manager = new ConsoleManager(this);
-		var path_header = xml_manager.getHeader("paths"), paths = xml_manager.getVarStore().getVar("paths");
+		const xml_manager = new XmlManager(xml_paths[0].file_name, this), msg_manager = new MessageManager(this, xml_manager);
+		const log_manager = new LogManager(this, xml_manager);
+		const console_manager = new ConsoleManager(this);
+		const path_header = xml_manager.getHeader("paths"), paths = xml_manager.getVarStore().getVar("paths");
 
 		game._debug = (xml_manager.getVarStore().getVar("settings.is_debug") == "true");
 		xml_manager.getVarStore().setVar("file_paths", xml_paths);
 		xml_manager.addDefaultOptions({auto_scroll_delta : 60, sound_bgm : 0.5, sound_se : 0.5, sound_ope : 0.5, text_speed : 0.5});
 
-		var managers = {
+		const managers = {
 			xml : xml_manager,
 			message : msg_manager,
 			tag : new TagManager(this, xml_manager, msg_manager, log_manager),
@@ -284,29 +285,29 @@ var SystemManager = enchant.Class.create(Group, {
 		if(!localStorage.getItem("save"))
 			localStorage.setItem("save", JSON.stringify([]));
 
-		var array = [];
-		for(var name in managers){
+		const array = [];
+		for(const name in managers){
 			if(managers.hasOwnProperty(name))
 				array.push(managers[name]);
 		}
 		
 		this.loadResources = function(path_header, paths){
-			var audio = new Audio();
-			var success_func = function(path, e){
+			const audio = new Audio();
+			const success_func = function(path, e){
 				console_manager.logFormatted(msg_tmpls.succeedLoadingMessage, {path: path});
 				game.assets[path] = e.target;
 			};
-			var error_func = function(path, e){
+			const error_func = function(path, e){
 				console_manager.logFormatted(msg_tmpls.failedLoadingMessage, {path: path, msg: e.message});
 			};
 
-			for(var name in path_header){		//各種リソースファイルを読み込む
+			for(const name in path_header){		//各種リソースファイルを読み込む
 				if(name !== "type" && path_header.hasOwnProperty(name)){
-					var path_obj = path_header[name];
-					var path = path_obj.value;
+					const path_obj = path_header[name];
+					const path = path_obj.value;
 					switch(path_obj.kind){
 					case "sound":
-						var mime_type = "audio/" + enchant.Core.findExt(path);
+						const mime_type = "audio/" + enchant.Core.findExt(path);
 						if(game._debug)
 							console_manager.logFormatted(msg_tmpls.loadingSound, {path: path});
 
@@ -346,7 +347,7 @@ var SystemManager = enchant.Class.create(Group, {
 		};
 		
 		this.setManager = function(name, manager){
-			var prev_manager = managers.xml, index = array.indexOf(prev_manager);
+			const prev_manager = managers.xml, index = array.indexOf(prev_manager);
 			managers[name] = manager;
 			array.splice(index, 1, manager);
 		};
@@ -376,13 +377,13 @@ var SystemManager = enchant.Class.create(Group, {
 
 	interpretStyle : function(str){		//CSS形式で記述されたスタイル指定文字列を解析してプロパティー名をキー、その設定を値とするオブジェクトに変換する
 		str = this.getManager("xml").replaceVars(str);
-        var style = {};
+        const style = {};
 		while(str){
-			var result;
+			let result;
 			if(result = str.match(/^[ \t]+/)){
 
 			}else if((result = str.match(/^([\w\-]+)\s*:\s*([^;]+);?/)) && result[1] !== "position"){
-                var property_name = cssNameToPropertyName(result[1]);
+                const property_name = cssNameToPropertyName(result[1]);
 				style[property_name] = result[2];
 			}
 
@@ -405,8 +406,8 @@ var SystemManager = enchant.Class.create(Group, {
      * 引数で与えられた位置にある一番手前のオブジェクトにイベントを発行する
      */
     dispatchEventAt : function(e, x, y){
-        for(var nodes = this.childNodes, i = nodes.length - 1; i >= 0; --i){
-            var node = nodes[i];
+        for(let nodes = this.childNodes, i = nodes.length - 1; i >= 0; --i){
+            const node = nodes[i];
             if(isInArea(node, x, y)){
                 node.dispatchEvent(e);
                 return;
@@ -420,7 +421,7 @@ var SystemManager = enchant.Class.create(Group, {
      * indexの次の位置にnodeを挿入する
      */
     insertChildAfter : function(node, index){
-        var ref = this.childNodes[index];
+        const ref = this.childNodes[index];
         this.insertBefore(node, ref);
     }
 });
@@ -428,7 +429,7 @@ var SystemManager = enchant.Class.create(Group, {
 /**
  * 各機能を取り扱うManagerの基底クラス
  */
-var Manager = enchant.Class.create({
+const Manager = enchant.Class.create({
 	initialize : function(system){
 		this.is_available = true;	//このManagerが有効かどうか。falseの間は、updateを呼ばれても何もしない
 		this.system = system;		//SystemManagerへの参照
@@ -438,16 +439,16 @@ var Manager = enchant.Class.create({
 /**
  * Xmlを取り扱う
  */
-var XmlManager = enchant.Class.create(Manager, {
+const XmlManager = enchant.Class.create(Manager, {
 	initialize : function(url, system){
 		Manager.call(this, system);
 
 		this.tag_manager = null;
 		this.console_manager = null;
 
-		var http_obj = new XMLHttpRequest();
+		const http_obj = new XMLHttpRequest();
 		var contents = [], headers = [], jump_table = {};
-		var variable_store = new VarStore(), now = new Date(), expresso = new ExpressoMin(variable_store);
+		let variable_store = new VarStore(), now = new Date(), expresso = new ExpressoMin(variable_store);
 		variable_store.setVar("time", {		//predefined変数を追加する
 			year : now.getFullYear(),
 			month : now.getMonth() + 1,
@@ -471,42 +472,42 @@ var XmlManager = enchant.Class.create(Manager, {
 		variable_store.setVar("display", {width : game.width, height : game.height}, true);
 		variable_store.setVar("cur_frame", 0, true);
 		this.next_updating_time = now.getTime() + 1000;
-		var _self = this;
+		const _self = this;
 
 		http_obj.onload = function(){
-			var text = http_obj.responseText.replace(/[\t\r]+/g, ""), split = {};
-			var total_num_lines = text.split(/[\n]/).length - 1;
+			let text = http_obj.responseText.replace(/[\t\r]+/g, ""), split = {};
+			const total_num_lines = text.split(/[\n]/).length - 1;
             
-			var squeezeValues = function(elem){		//この要素のアトリビュートをすべて絞り出す
-				var obj = {};
-				for(var attrs = elem.attributes, i = 0; i < attrs.length; ++i)
+			const squeezeValues = function(elem){		//この要素のアトリビュートをすべて絞り出す
+				const obj = {};
+				for(let attrs = elem.attributes, i = 0; i < attrs.length; ++i)
 					obj[attrs[i].name] = attrs[i].value;
 
 				return obj;
 			};
 
-			var notHaveTrailingCp = function(elem, remaining_text, content){
+			const notHaveTrailingCp = function(elem, remaining_text, content){
 				// タグの末尾にcpタグがないのは、まだテキストが続いているか、最後のタグがcpタグでない場合
 				return elem.tagName.search(/label|log|text|menu|choice/) == -1 &&
 					(remaining_text.length && remaining_text.search(/[^\s]/) !== -1 || content[content.length - 1].type !== "cp");
 			};
 
-			var calculateLineNumber = function(tag_name, next_index, tag_pos){
-				var lines = split[tag_name].texts[next_index].split("\n");
+			const calculateLineNumber = function(tag_name, next_index, tag_pos){
+				const lines = split[tag_name].texts[next_index].split("\n");
 				if(tag_pos)
 					tag_pos.column = lines[lines.length - 1].length + 1;	// +1するのは、単位を文字数ではなく、文字目にするため
 				
 				return split[tag_name].lineNumber + lines.length - 1;
 			};
 
-			var createObjFromChild = function(type, obj, elem, parent){	//DOMツリーをたどってタグをオブジェクト化する
+			const createObjFromChild = function(type, obj, elem, parent){	//DOMツリーをたどってタグをオブジェクト化する
 				if(!elem)
 					return obj;
 
-				var child_obj = squeezeValues(elem);
+				const child_obj = squeezeValues(elem);
 				if(typeof split[elem.tagName] === "undefined"){
-					var texts = text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?/?>"));
-					var lines = texts[0].split("\n");
+					const texts = text.split(new RegExp("<" + elem.tagName + "(?: [^>]+)?/?>"));
+					const lines = texts[0].split("\n");
 					split[elem.tagName] = {
 						texts : texts,
 						lineNumber : lines.length,
@@ -515,11 +516,11 @@ var XmlManager = enchant.Class.create(Manager, {
 					};
 				}
 
-				var split_obj = split[elem.tagName];
+				const split_obj = split[elem.tagName];
 				child_obj.lineNumber = split_obj.lineNumber;
 				child_obj.column = split_obj.column;
 				if(split_obj.nextIndex < split_obj.texts.length){
-					var tag_pos = {column : 0};
+					const tag_pos = {column : 0};
 					split_obj.lineNumber = calculateLineNumber(elem.tagName, split_obj.nextIndex, tag_pos);
 					split_obj.column = tag_pos.column;
 				}
@@ -528,13 +529,13 @@ var XmlManager = enchant.Class.create(Manager, {
 					++split["scene"].nextIndex;
 
 				if(elem.childElementCount !== 0){
-					var content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
+					const content = createObjFromChild(type, [], elem.firstElementChild, child_obj);
 					if(type !== "header" && elem.tagName !== "scene"){    //scene以外のコンテナ要素の子要素の位置を記録する
-						var container_text = "";
-						var container_text_content = split[elem.tagName].texts[split[elem.tagName].nextIndex].replace(/[\n]/g, "");
+						let container_text = "";
+						let container_text_content = split[elem.tagName].texts[split[elem.tagName].nextIndex].replace(/[\n]/g, "");
 						content.forEach(function(tag){
-							var result = container_text_content.match(/(<\/?)([^\s>\/]+)/), result2 = container_text_content.match(/>/);
-							var before_tag_text = container_text_content.substring(0, result.index);
+							const result = container_text_content.match(/(<\/?)([^\s>\/]+)/), result2 = container_text_content.match(/>/);
+							const before_tag_text = container_text_content.substring(0, result.index);
 							if(result !== null && result2 !== null && result[2] == tag.type){
 								container_text_content = container_text_content.slice(result2.index + 1);
 							}else{
@@ -544,7 +545,7 @@ var XmlManager = enchant.Class.create(Manager, {
 
 							// ここでコンテナ要素の子要素の位置を設定するのは、下記の方法では、他のタグの影響を受けたカラム番号が記録されてしまうため
 							tag.pos = result.index;
-							var close_tag_name = "</" + tag.type + ">", end_tag = container_text_content.match(close_tag_name);
+							const close_tag_name = "</" + tag.type + ">", end_tag = container_text_content.match(close_tag_name);
 							if(end_tag !== null){
 								container_text_content = container_text_content.slice(end_tag.index + close_tag_name.length);
 							}
@@ -576,7 +577,7 @@ var XmlManager = enchant.Class.create(Manager, {
 				return createObjFromChild(type, obj, elem.nextElementSibling, parent);
 			};
 
-			var createJumpTable = function(objs, table, index){		//sceneオブジェクトのインデックスを記録したハッシュテーブルを作成する
+			const createJumpTable = function(objs, table, index){		//sceneオブジェクトのインデックスを記録したハッシュテーブルを作成する
 				if(index == objs.length)
 					return table;
 
@@ -593,14 +594,14 @@ var XmlManager = enchant.Class.create(Manager, {
 				return createJumpTable(objs, table, index + 1);
 			};
 
-			var xml = http_obj.responseXML, doc = xml.documentElement;
-			var header_elem = doc.getElementsByTagName("header")[0];
+			const xml = http_obj.responseXML, doc = xml.documentElement;
+			const header_elem = doc.getElementsByTagName("header")[0];
 
 			headers = createObjFromChild("header", [], header_elem.firstElementChild, undefined);
 
 			headers.forEach(function(header, index, array){		//ヘッダー部分の要素をオブジェクトの形に変換する
                 if(header.type.search(/profile|style/) == -1 || header.children){
-                    var original = array[index];
+                    const original = array[index];
                     array[index] = {type : header.type};
                     if(header.type == "profile"){
                         array[index].name = original.name;
@@ -611,7 +612,7 @@ var XmlManager = enchant.Class.create(Manager, {
                     }
                     
                     header.children.forEach(function(child){
-                        var name = child.name, value = child.text;
+                        const name = child.name, value = child.text;
                         if(header.type === "paths")
                         	array[index][name] = {kind: child.kind, value: child.text};
                         else
@@ -642,7 +643,7 @@ var XmlManager = enchant.Class.create(Manager, {
 
 			split = {};
 			contents = createObjFromChild("body", contents, header_elem.nextElementSibling, null);
-			var body = {type : "root", children : contents};
+			const body = {type : "root", children : contents};
 
 			contents.forEach(function(content){
 				content.parent = body;
@@ -660,24 +661,27 @@ var XmlManager = enchant.Class.create(Manager, {
 			this.tag_manager.setNextTag(this.first_tag);
 		};
 
-		var getSceneImpl = function(objs, table, ids, level){
-			var tmp_tbl = table[ids[level]];
-			var tmp = objs[tmp_tbl.index];
+		const getSceneImpl = function(objs, table, ids, level){
+			const tmp_tbl = table[ids[level]];
+			const tmp = objs[tmp_tbl.index];
 			if(level == ids.length - 1) return tmp;
 			return getSceneImpl(tmp.children, tmp_tbl.children, ids, level + 1);
 		};
 
 		this.getScene = function(str){
-			var result = str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)(?:,ids:((?:[^,]+,?)+))?/);
-			var title = result[1], ids = result[2] && result[2].split(",");
-			var tmp_tbl = jump_table[title];
-			var tmp = contents[tmp_tbl.index];
+			const result = str.replace(/\s/g, "").replace(/\\s/g, " ").match(/title:([^,]+)(?:,ids:((?:[^,]+,?)+))?/);
+			if(!result)
+				throw new TemplateError(msg_tmpls.errorInvalidJumpString, {actual: str});
+
+			const title = result[1], ids = result[2] && result[2].split(",");
+			const tmp_tbl = jump_table[title];
+			const tmp = contents[tmp_tbl.index];
 			if(!ids || typeof ids[0] === "undefined") return tmp;
 			return getSceneImpl(tmp.children, tmp_tbl.children, ids, 0);
 		};
 
 		this.getHeader = function(type_name, name){
-			var header_obj = null;
+			let header_obj = null;
 			headers.every(function(header){
 				if(header.type == type_name && (typeof name === "undefined" || header.name == name)){
 					header_obj = header;
@@ -697,7 +701,7 @@ var XmlManager = enchant.Class.create(Manager, {
 			return variable_store;
 		};
 
-		var replaceVarImpl = function(str, name){
+		const replaceVarImpl = function(str, name){
 			return variable_store.getVar(name);
 		};
 
@@ -706,7 +710,7 @@ var XmlManager = enchant.Class.create(Manager, {
 		};
 
 		this.interpretExpression = function(expr){
-			var result = expresso.evaluate(expr);
+			const result = expresso.evaluate(expr);
 			if(!result){
                 if(game._debug){
                 	if(!this.console_manager) this.console_manager = this.system.getManager("console");
@@ -720,7 +724,7 @@ var XmlManager = enchant.Class.create(Manager, {
 
 		this.setCurrentTimeToVarStore = function(){
 			if(game.currentTime >= this.next_updating_time){	//$now.millis以外はほぼ1秒ごとに更新する
-				var now = new Date();
+				const now = new Date();
 				variable_store.setVar("now", {
 					year : now.getFullYear(),
 					month : now.getMonth() + 1,
@@ -738,31 +742,31 @@ var XmlManager = enchant.Class.create(Manager, {
 
 		this.save = function(tag){
 			this.saveOptions();
-			var scene = tag;
+			let scene = tag;
 			for(; scene.type != "scene"; scene = scene.parent) ;
-			var ids = [];
+			const ids = [];
 			for(; !scene.title; scene = scene.parent){
 				if(scene.id)
 					ids.push(scene.id);
 			}
-			var save_data = {scene_str : `title:${scene.title.replace(/ /g, "\\s")},ids:${ids.reverse()}`};
+			const save_data = {scene_str : `title:${scene.title.replace(/ /g, "\\s")},ids:${ids.reverse()}`};
 			return save_data;
 		};
 
 		this.saveOptions = function(){
-			var options = variable_store.getVar("options");
+			const options = variable_store.getVar("options");
 			localStorage.setItem("options", JSON.stringify(options));
 		};
 
 		this.load = function(data){
 			this.loadOptions();
-			var scene = this.getScene(data.scene_str);
+			const scene = this.getScene(data.scene_str);
 			this.is_available = false;
             return scene;
 		};
 
 		this.loadOptions = function(){
-			var options = JSON.parse(localStorage.getItem("options"));
+			const options = JSON.parse(localStorage.getItem("options"));
 			variable_store.setVar("options", options);
 		};
 
@@ -770,8 +774,8 @@ var XmlManager = enchant.Class.create(Manager, {
 			if(!variable_store.getVar("options"))
 				variable_store.setVar("options", {});
 
-			var old_options = variable_store.getVar("options");
-			var new_options = setNonExistentProperties(old_options, options);
+			const old_options = variable_store.getVar("options");
+			const new_options = setNonExistentProperties(old_options, options);
 			variable_store.setVar("options", new_options);
 		};
         
@@ -805,18 +809,18 @@ var XmlManager = enchant.Class.create(Manager, {
  * メッセージウインドウに表示するテキストも管理していてそのテキストは一旦キューに追加した後、updateを呼ばれた際に
  * メッセージウインドウに追加するようになっている。
  */
-var MessageManager = enchant.Class.create(Manager, {
+const MessageManager = enchant.Class.create(Manager, {
 	initialize : function(system, xml_manager){
 		Manager.call(this, system);
 
-		var pre_line_text = "";
+		let pre_line_text = "";
 
 		this.setPreLineText = function(line_text){
 			pre_line_text = pre_line_text.concat(line_text);
 		};
 
 		this.getPreLineText = function(){
-			var tmp = pre_line_text;
+			const tmp = pre_line_text;
 			pre_line_text = "";
 			return tmp;
 		};
@@ -891,15 +895,15 @@ var MessageManager = enchant.Class.create(Manager, {
 	},
 
 	setStyle : function(tag){
-		var style = tag.style || this.xml_manager.getHeader("profile", tag.chara).style;
-		var style_obj = this.system.interpretStyle(style);
+		const style = tag.style || this.xml_manager.getHeader("profile", tag.chara).style;
+		const style_obj = this.system.interpretStyle(style);
 
-        for(var s in style_obj){
+        for(let s in style_obj){
         	if(s === "width" || s === "height" || s === "left" || s === "top")
         		continue;
 
         	if(s === "backgroundColor"){		//メッセージウインドウの背景は自動で透かす
-        		var rgb = style_obj[s].match(/(\d+)(?!\.)|(\d+\.\d+)/g);
+        		const rgb = style_obj[s].match(/(\d+)(?!\.)|(\d+\.\d+)/g);
         		if(rgb.length !== 4){
         			rgb[3] = 0.6;
         			style_obj[s] = "rgba(" + rgb.join(",") + ")";
@@ -928,11 +932,11 @@ var MessageManager = enchant.Class.create(Manager, {
         // ここで反映させるのはfontの値だけでいい
 		setRulerStyle("font: " + this.cur_text_appending_element.style.font);
 		this.cur_text_appending_element = this.msg_window._element;
-        var is_line_empty = (text.length === 0);
+        const is_line_empty = (text.length === 0);
         if(is_line_empty)
 			text = "ダミー";
 
-		var expansion = text.getExpansion();
+		const expansion = text.getExpansion();
         if(is_line_empty)
 			expansion.width = 0;
 
@@ -954,7 +958,7 @@ var MessageManager = enchant.Class.create(Manager, {
 		}
 
         if(this.msg_window.y + this.msg_window._domManager.element.offsetHeight != game.height){    //メッセージウインドウの大きさを微調整する
-			var margin_height = game.height - this.msg_window.y;
+			const margin_height = game.height - this.msg_window.y;
 			this.msg_window.height = margin_height + (this.msg_window.height - this.msg_window._domManager.element.offsetHeight);
 			this.xml_manager.getVarStore().setVar("msg_window.height", this.msg_window.height, true);
 		}
@@ -983,12 +987,12 @@ var MessageManager = enchant.Class.create(Manager, {
 
 	makeCharaNameWindowVisible : function(is_visible, tag){
 		if(is_visible){
-			var chara_names = this.xml_manager.getHeader("characters");
-            var charaname_window_height = this.xml_manager.getHeader("profile", tag.chara).charaname_window_height;
+			const chara_names = this.xml_manager.getHeader("characters");
+            const charaname_window_height = this.xml_manager.getHeader("profile", tag.chara).charaname_window_height;
 			this.chara_name_window.text = chara_names[tag.chara];
 			this.chara_name_window.visible = true;
 			setRulerStyle(this.chara_name_window._domManager.style);
-			var expansion = this.chara_name_window.text.getExpansion();
+			const expansion = this.chara_name_window.text.getExpansion();
 			this.chara_name_window.width = expansion.idealWidth;
             if(isNaN(charaname_window_height))
                 this.chara_name_window.height = expansion.height;
@@ -997,7 +1001,7 @@ var MessageManager = enchant.Class.create(Manager, {
             
 			this.chara_name_window.updateBoundArea();
             // expansion.boundingHeightは"縁"を含めたテキストノードの有効範囲なので、縁も含めた実効範囲を出すにはこうする
-            var bounding_height = isNaN(charaname_window_height) ? expansion.boundingHeight : charaname_window_height;
+            const bounding_height = isNaN(charaname_window_height) ? expansion.boundingHeight : charaname_window_height;
             this.chara_name_window.y = this.msg_window.y - bounding_height;
 		}else{
 			this.chara_name_window.text = "";
@@ -1028,7 +1032,7 @@ var MessageManager = enchant.Class.create(Manager, {
 /**
  * 各種タグの解釈・管理を行う
  */
-var TagManager = enchant.Class.create(Manager, {
+const TagManager = enchant.Class.create(Manager, {
 	initialize : function(system, xml_manager, msg_manager, log_manager){
 		Manager.call(this, system);
 
@@ -1040,13 +1044,13 @@ var TagManager = enchant.Class.create(Manager, {
          * 各インタプリタは必ずinterpretとpostInterpretを実装しなければなりません。
          * postInterpret内でmanager.last_targeted_tagをnullにしない限り、永遠にpostInterpretが呼ばれ続けることに注意してください。
          */
-		var Interpreter = enchant.Class.create({
+		const Interpreter = enchant.Class.create({
 			initialize : function(manager){
 				this.manager = manager;
 			}
 		});
 
-		var TitleSceneInterpreter = enchant.Class.create(Interpreter, {
+		const TitleSceneInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1066,9 +1070,9 @@ var TagManager = enchant.Class.create(Manager, {
 				if(tag_obj.id || tag_obj.shows_title == "false")
 					return;
 
-				var text = (tag_obj.type == "title") ? tag_obj.text : tag_obj.title;
-				var title_style = tag_obj.style || this.xml_manager.getHeader("style", (tag_obj.type == "title") ? "title" : "sub-title");
-				var end_time = parseInt(tag_obj.end_time || title_style.end_time || 60);
+				const text = (tag_obj.type == "title") ? tag_obj.text : tag_obj.title;
+				const title_style = tag_obj.style || this.xml_manager.getHeader("style", (tag_obj.type == "title") ? "title" : "sub-title");
+				const end_time = parseInt(tag_obj.end_time || title_style.end_time || 60);
 				if(tag_obj.type == "title" || tag_obj.sync)
 					this.manager.setNextUpdateFrame(game.frame + end_time);
 
@@ -1089,7 +1093,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var BrCpInterpreter = enchant.Class.create(Interpreter, {
+		const BrCpInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager, msg_manager){
 				Interpreter.call(this, manager);
 
@@ -1119,8 +1123,8 @@ var TagManager = enchant.Class.create(Manager, {
 					this.is_clearing_on_next = true;	//InputManagerの処理が終わって次にこのクラスが有効になるまで実際にテキストを消去しない
 
 				this.addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
-				var diff_pos = this.msg_manager.getDiffTextPos(this.line_text);		//本文1行の高さと幅を取得する
-				var icon_tag = {x : diff_pos.width.toString() , y : this.msg_manager.cur_text_y.toString(), id : "icon"};
+				const diff_pos = this.msg_manager.getDiffTextPos(this.line_text);		//本文1行の高さと幅を取得する
+				const icon_tag = {x : diff_pos.width.toString() , y : this.msg_manager.cur_text_y.toString(), id : "icon"};
 				this.msg_manager.setCurTextY((tag_obj.type == "cp") ? this.msg_manager.initial_text_y : this.msg_manager.cur_text_y + diff_pos.height);
 				this.line_text = "";
 				this.manager.next_text = this.manager.next_text.slice(this.manager.cur_cursor_pos);
@@ -1162,13 +1166,13 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var PauseInterpreter = enchant.Class.create(Interpreter, {
+		const PauseInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 			},
 
 			interpret : function(tag_obj){
-				var millisecs_per_frame = 1000 / game.fps;
+				const millisecs_per_frame = 1000 / game.fps;
 				this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.time) / millisecs_per_frame);
 				this.manager.interpreters['br'].addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
 				this.manager.next_text = this.manager.next_text.substring(this.manager.cur_cursor_pos);
@@ -1180,7 +1184,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var TextInterpreter = enchant.Class.create(Interpreter, {
+		const TextInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1203,7 +1207,7 @@ var TagManager = enchant.Class.create(Manager, {
 				}
 
 				if(tag_obj.style){
-					var new_elem = document.createElement("span");
+					const new_elem = document.createElement("span");
 					new_elem.setAttribute("style", this.xml_manager.replaceVars(tag_obj.style));
 					this.cur_tag_child = this.msg_manager.appendChildNode(new_elem);
 					this.msg_manager.setTextAppendingElem(this.cur_tag_child);
@@ -1217,7 +1221,7 @@ var TagManager = enchant.Class.create(Manager, {
 			},
 
 			postInterpret : function(){
-				if(this.manager.cur_cursor_pos == /*this.tag_start_pos +*/ this.tag.text.length){
+				if(this.manager.cur_cursor_pos >= this.tag.text.length){
 					this.manager.text_speed = this.last_text_speed || this.manager.text_speed;
 					this.manager.interpreters.br.addLineText(this.manager.next_text.substring(0, this.manager.cur_cursor_pos));
 					this.manager.next_text = this.last_next_text.substring(this.tag_start_pos);
@@ -1242,7 +1246,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var EvalInterpreter = enchant.Class.create(Interpreter, {
+		const EvalInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1256,12 +1260,12 @@ var TagManager = enchant.Class.create(Manager, {
                 if(!this.msg_manager) this.msg_manager = this.manager.msg_manager;
                 if(!this.console_manager) this.console_manager = this.manager.system.getManager("console");
 
-				var result = this.xml_manager.interpretExpression(tag_obj.expr);
+				let result = this.xml_manager.interpretExpression(tag_obj.expr);
 				if(result != "successful assignment"){
 					this.msg_manager.pushText(result);
 					this.manager.interpreters.br.addLineText(result.toString());
 				}else if(game._debug && result == "successful assignment"){
-					var var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
+					let var_name = tag_obj.expr.match(/\$([^\s\(\)\+\-\*\/\^=:;!%]+)/)[1];
 					this.console_manager.log(`$${var_name} = ${this.xml_manager.getVarStore().getVar(var_name)}`);
 				}
 
@@ -1279,7 +1283,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var ChoiceInterpreter = enchant.Class.create(Interpreter, {
+		const ChoiceInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1294,7 +1298,7 @@ var TagManager = enchant.Class.create(Manager, {
 				if(!this.input_manager) this.input_manager = this.manager.system.getManager("input");
 				if(!this.xml_manager) this.xml_manager = this.manager.system.getManager("xml");
 
-				var original_styles = this.choices_manager.add(tag_obj);
+				let original_styles = this.choices_manager.add(tag_obj);
 				this.operator = new Chooser(this.choices_manager.choices, original_styles);
 				this.input_manager.is_available = true;
 				this.input_manager.setActionOperator(this.operator);
@@ -1302,9 +1306,9 @@ var TagManager = enchant.Class.create(Manager, {
 			},
 
 			postInterpret : function(){
-				var selected_choice = this.choices_manager.choices[this.operator.cur_index];
+				let selected_choice = this.choices_manager.choices[this.operator.cur_index];
 				if(selected_choice.to){
-					var jump_to_tag = this.xml_manager.getScene(selected_choice.to);
+					let jump_to_tag = this.xml_manager.getScene(selected_choice.to);
 					this.manager.setNextTag(jump_to_tag);
 					this.manager.last_targeted_tag = null;
 				}
@@ -1317,7 +1321,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var MenuInterpreter = enchant.Class.create(Interpreter, {
+		const MenuInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1342,7 +1346,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var JumpInterpreter = enchant.Class.create(Interpreter, {
+		const JumpInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1360,8 +1364,14 @@ var TagManager = enchant.Class.create(Manager, {
 			},
 
 			postInterpret : function(){
+				if(!this.jump_to_tag){
+					this.manager.last_targeted_tag = null;
+					return;
+				}
+
 				this.manager.setNextTag(this.jump_to_tag);
 				this.manager.last_targeted_tag = null;
+				this.jump_to_tag = null;
 			},
 			
 			reset : function(){
@@ -1369,7 +1379,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var EffectInterpreter = enchant.Class.create(Interpreter, {
+		const EffectInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1385,7 +1395,7 @@ var TagManager = enchant.Class.create(Manager, {
 				if(!this.system) this.system = this.manager.system;
 				if(!this.effect_manager) this.effect_manager = this.manager.system.getManager("effect");
 
-				var effect = undefined;
+				let effect = undefined;
 				switch(tag_obj.name || tag_obj.effect){
 				case "OpacityChange":
 					effect = new OpacityChangeEffect(target.obj, parseFloat(tag_obj.value));
@@ -1445,14 +1455,14 @@ var TagManager = enchant.Class.create(Manager, {
 			},
 
 			interpretTarget : function(expr){
-				var result;
+				let result;
 				if(expr == "display"){
 					return {obj : this.manager.system, effects : []};
 				}else if(expr == "msg_window"){
 					return {obj : this.msg_manager.msg_window, effects : []};
 				}else if(result = expr.match(/\$([^\s]+)/)){
-					var tokens = result[1].split("\.");
-					var array = (tokens[0] == "labels") ? this.label_manager.labels :
+					let tokens = result[1].split("\.");
+					let array = (tokens[0] == "labels") ? this.label_manager.labels :
 						(tokens[0] == "imgs") ? this.image_manager.imgs : this.sound_manager.sounds;
 					return getObjById(array, tokens[1]);
 				}else{
@@ -1469,7 +1479,7 @@ var TagManager = enchant.Class.create(Manager, {
                 if(tag_obj.enable_if && !this.xml_manager.interpretExpression(tag_obj.enable_if))
 					return;
 
-				var target = this.interpretTarget(tag_obj.target);
+				let target = this.interpretTarget(tag_obj.target);
 				this.createEffect(tag_obj, target);
 				if(tag_obj.sync === "true")
 					this.manager.setNextUpdateFrame(game.frame + parseInt(tag_obj.end_time));
@@ -1484,7 +1494,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var LabelInterpreter = enchant.Class.create(Interpreter, {
+		const LabelInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1502,7 +1512,7 @@ var TagManager = enchant.Class.create(Manager, {
 				if(tag_obj.operation == "remove"){
 					this.label_manager.remove(tag_obj.id);
 				}else if(tag_obj.operation == "add" || typeof tag_obj.operation === "undefined"){
-					var new_label = this.label_manager.add(tag_obj.text, tag_obj, parseInt(tag_obj.end_time));
+					const new_label = this.label_manager.add(tag_obj.text, tag_obj, parseInt(tag_obj.end_time));
 					if(tag_obj.effect)
 						this.manager.interpreters.effect.createEffect(tag_obj, new_label);
 
@@ -1527,7 +1537,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var ImageInterpreter = enchant.Class.create(Interpreter, {
+		const ImageInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1552,7 +1562,7 @@ var TagManager = enchant.Class.create(Manager, {
                     if(!tag_obj.target && tag_obj.parent.type == "line") //lineタグの内部にあってtarget属性が明示されていなければ、自動補完する
                         tag_obj['target'] = tag_obj.parent.chara;
                     
-					var new_img = this.image_manager.add(tag_obj, parseInt(tag_obj.end_time));
+					const new_img = this.image_manager.add(tag_obj, parseInt(tag_obj.end_time));
 					if(tag_obj.effect)
 						this.manager.interpreters.effect.createEffect(tag_obj, new_img);
 
@@ -1576,7 +1586,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var SoundInterpreter = enchant.Class.create(Interpreter, {
+		const SoundInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1596,8 +1606,8 @@ var TagManager = enchant.Class.create(Manager, {
 				}else if(tag_obj.operation == "change"){
 					this.sound_manager.change(tag_obj.id, tag_obj);
 				}else if(tag_obj.operation == "loop" || tag_obj.operation == "once"){
-					var var_store = this.xml_manager.getVarStore();
-					var vol = tag_obj.is_bgm ? var_store.getVar("options.sound_bgm") : var_store.getVar("options.sound_se");
+					const var_store = this.xml_manager.getVarStore();
+					const vol = tag_obj.is_bgm ? var_store.getVar("options.sound_bgm") : var_store.getVar("options.sound_se");
 					this.sound_manager.add(tag_obj, vol * (parseFloat(tag_obj.vol) || 1));
 				}else{
 					throw new TemplateError(msg_tmpls.errorUnknownOperation, {operation: tag_obj.operation});
@@ -1617,7 +1627,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var LogInterpreter = enchant.Class.create(Interpreter, {
+		const LogInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1630,9 +1640,9 @@ var TagManager = enchant.Class.create(Manager, {
 					if(!this.xml_manager) this.xml_manager = this.manager.system.getManager("xml");
 					if(!this.console_manager) this.console_manager = this.manager.system.getManager("console");
 
-					var text = tag_obj.text;
+					let text = tag_obj.text;
 					if(tag_obj.children){	//子オブジェクトとして持っているVarタグを評価して置換しておく
-						var strs = [tag_obj.text], last_tag_pos = 0;
+						let strs = [tag_obj.text], last_tag_pos = 0;
 						tag_obj.children.forEach(function(tag){
 							strs.splice(-1, 1, strs[strs.length - 1].substr(last_tag_pos, tag.pos),
 									this.xml_manager.interpretExpression(tag.expr), strs[strs.length - 1].substr(tag.pos));
@@ -1658,7 +1668,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 		
-		var MinigameInterpreter = enchant.Class.create(Interpreter, {
+		const MinigameInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 				
@@ -1684,7 +1694,7 @@ var TagManager = enchant.Class.create(Manager, {
 			}
 		});
 
-		var RubyInterpreter = enchant.Class.create(Interpreter, {
+		const RubyInterpreter = enchant.Class.create(Interpreter, {
 			initialize : function(manager){
 				Interpreter.call(this, manager);
 
@@ -1694,11 +1704,11 @@ var TagManager = enchant.Class.create(Manager, {
 			interpret : function(tag_obj){
 				if(!this.msg_manager) this.msg_manager = this.manager.system.getManager("message");
 
-				var rtext = tag_obj.rtext;
-				var ruby_tag = document.createElement("ruby");
-				var rp_open = document.createElement("rp"), rp_close = document.createElement("rp");
+				const rtext = tag_obj.rtext;
+				const ruby_tag = document.createElement("ruby");
+				const rp_open = document.createElement("rp"), rp_close = document.createElement("rp");
 				rp_open.textContent = "(", rp_close.textContent = ")";
-				var ruby_content = document.createElement("rt");
+				const ruby_content = document.createElement("rt");
 				ruby_content.textContent = rtext;
 				ruby_tag.textContent = tag_obj.text;
 				
@@ -1739,8 +1749,8 @@ var TagManager = enchant.Class.create(Manager, {
 		this.last_target_in_last_scene = null;                                      //menuに入る前のlast_targeted_tagのオブジェクト
         this.cur_line_num = 0;                                                      //現在の行数（デバッグ用）
 
-		var br_cp_interpreter = new BrCpInterpreter(this, msg_manager);
-		var title_scene_interpreter = new TitleSceneInterpreter(this);
+		const br_cp_interpreter = new BrCpInterpreter(this, msg_manager);
+		const title_scene_interpreter = new TitleSceneInterpreter(this);
 		this.interpreters = {
 			title : title_scene_interpreter,
 			br : br_cp_interpreter,
@@ -1764,7 +1774,7 @@ var TagManager = enchant.Class.create(Manager, {
 
     reset : function(){
     	this.xml_manager = this.system.getManager("xml");
-    	for(var name in this.interpreters){
+    	for(const name in this.interpreters){
     		if(this.interpreters.hasOwnProperty(name) && this.interpreters[name].reset)
 				this.interpreters[name].reset();
     	}
@@ -1795,7 +1805,7 @@ var TagManager = enchant.Class.create(Manager, {
 	},
 
 	isCharacterTag : function(tag){
-		var char_headers = this.xml_manager.getHeader("characters");
+		const char_headers = this.xml_manager.getHeader("characters");
 		return (typeof char_headers[tag.chara] !== "undefined");
 	},
 
@@ -1807,7 +1817,7 @@ var TagManager = enchant.Class.create(Manager, {
 		if(!tag.parent)
 			return null;
 
-		var array = tag.parent.children, index = array.indexOf(tag);
+		const array = tag.parent.children, index = array.indexOf(tag);
 		if(index + 1 >= array.length){
 			this.skip_child = true;
 			return this.getNextTarget(tag.parent);
@@ -1826,16 +1836,16 @@ var TagManager = enchant.Class.create(Manager, {
     },
 
 	save : function(index){
-		var save_data = this.xml_manager.save(this.next_targeted_tag), saves = JSON.parse(localStorage.getItem("save"));
+		const save_data = this.xml_manager.save(this.next_targeted_tag), saves = JSON.parse(localStorage.getItem("save"));
 		if(index != 0){
 			save_data = saves[0];
 		}else{
-			var scene = this.next_targeted_tag.parent;
+			let scene = this.next_targeted_tag.parent;
 			for(; scene.parent && scene.type != "scene"; scene = scene.parent) ;
-			var array = scene.children;
+			const array = scene.children;
 			if(this.next_targeted_tag.type.search(/scene|title/) == -1){
                 if(this.isInterpretableTag(this.next_targeted_tag)){
-    				var child_array = this.next_targeted_tag.parent.children;
+    				const child_array = this.next_targeted_tag.parent.children;
     				save_data['parent_index'] = array.indexOf(this.next_targeted_tag.parent);
     				save_data['child_index'] = child_array.indexOf(this.next_targeted_tag);
 			    }else{
@@ -1859,19 +1869,19 @@ var TagManager = enchant.Class.create(Manager, {
 		if(index != 0)
 			this.system.reset();
 
-		var data = JSON.parse(localStorage.getItem("save"))[index];
-		var scene = this.xml_manager.load(data);
-    	var array = scene.children;
+		const data = JSON.parse(localStorage.getItem("save"))[index];
+		const scene = this.xml_manager.load(data);
+    	const array = scene.children;
 		this.setNextTag((typeof data.parent_index !== "undefined") ? array[data.parent_index] : scene);
         return data;
 	},
 
 	restore : function(){
-		var data = this.load(0);		//一時保存領域からデータを復元する
+		const data = this.load(0);		//一時保存領域からデータを復元する
         if(typeof data.child_index !== "undefined"){
-            var child_array = this.next_targeted_tag.children;
+            const child_array = this.next_targeted_tag.children;
             this.next_targeted_tag = child_array[data.child_index]; //シーンの2つ子供の階層のタグをセットする
-            for(var i = 0; i < data.child_index; ++i)              	//目的のタグの位置までテキストを削る
+            for(let i = 0; i < data.child_index; ++i)              	//目的のタグの位置までテキストを削る
                 this.next_text = this.next_text.substring(child_array[i].pos);
         }
 
@@ -1881,15 +1891,15 @@ var TagManager = enchant.Class.create(Manager, {
 
 	trySkippingToCp : function(){
 		if(this.is_available && this.cur_cursor_pos !== 0){
-			var goal_tag = this.next_targeted_tag;
+			let goal_tag = this.next_targeted_tag;
 			while(goal_tag.type !== "cp" && goal_tag.type !== "br")
 				goal_tag = this.getNextTarget(goal_tag);
 
 			this.is_available = true;
 			while(this.next_targeted_tag.lineNumber <= goal_tag.lineNumber && this.cur_cursor_pos + 1 <= goal_tag.column){
-				var cur_tag = this.next_targeted_tag;
-				var diff = this.next_targeted_tag.pos - this.cur_cursor_pos;
-				let substring = (diff < 0) ? this.next_text.substr(this.cur_cursor_pos) : this.next_text.substr(this.cur_cursor_pos, diff);
+				const cur_tag = this.next_targeted_tag;
+				const diff = this.next_targeted_tag.pos - this.cur_cursor_pos;
+				const substring = (diff < 0) ? this.next_text.substr(this.cur_cursor_pos) : this.next_text.substr(this.cur_cursor_pos, diff);
 				this.msg_manager.pushText(substring);
 				this.cur_cursor_pos = (diff < 0) ? this.next_targeted_tag.pos + this.next_text.length : this.next_targeted_tag.pos;
 				this.msg_manager.update();	// updateしてテキストをメッセージウインドウに反映させる
@@ -1897,7 +1907,7 @@ var TagManager = enchant.Class.create(Manager, {
 				do{
 					this.next_updating_frame = -1;	// 次の更新フレームを無視して先に進めるためのhack
 					this.update();
-				}while(cur_tag == this.next_targeted_tag && this.last_targeted_tag != null)
+				}while(this.next_targeted_tag == cur_tag && this.last_targeted_tag != null)
 			}
 
 			return true;
@@ -1939,7 +1949,7 @@ var TagManager = enchant.Class.create(Manager, {
 				return;		//last_targeted_tagがnullになっていなければ、まだ処理すべきことがあるのでこの先に進まない
 		}
 
-		var next_tag = this.next_targeted_tag;
+		let next_tag = this.next_targeted_tag;
 		if(!this.isInterpretableTag(next_tag)){
 			if(this.next_text.length == next_tag.text.length && this.cur_cursor_pos === 0){
 				this.msg_manager.setStyle(next_tag);				//新しいタグに入ったらウインドウのスタイルを変更する
@@ -1971,7 +1981,7 @@ var TagManager = enchant.Class.create(Manager, {
 /**
  * テキストログの管理を行うクラス。
  */
-var LogManager = enchant.Class.create(Manager, {
+const LogManager = enchant.Class.create(Manager, {
 	initialize : function(system, xml_manager){
 		Manager.call(this, system);
 		
@@ -1986,7 +1996,7 @@ var LogManager = enchant.Class.create(Manager, {
 		this.log_window._element.style.overflow = "hidden";
 		this.log_window.backgroundColor = "rgba(128, 128, 128, 0.8)";
 
-		var dummy = "ダミー";
+		const dummy = "ダミー";
 		this.log_window.font = "normal large serif";
 		setRulerStyle(this.log_window._style);
 		this.line_height = dummy.getExpansion().height;
@@ -2001,19 +2011,19 @@ var LogManager = enchant.Class.create(Manager, {
 	},
 	
 	add : function(tag, text){
-		var addLineTextToLog = (function(){
-			var new_span = document.createElement("span");
+		const addLineTextToLog = (function(){
+			const new_span = document.createElement("span");
 			if(this.last_chara == tag.parent.chara){
 				new_span.style.textIndent = this.cur_indent_width + "px";
 			}else{
-				var header = this.xml_manager.getHeader("profile", tag.parent.chara);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
-				var style = tag.style && tag.style.concat(header.style) || header.style;
+				const header = this.xml_manager.getHeader("profile", tag.parent.chara);	//新しい親要素に入ったのでp要素を作りCSS設定を変える
+				const style = tag.style && tag.style.concat(header.style) || header.style;
 				this.cur_child_tag = document.createElement("p");
 				this.log_window._domManager.element.appendChild(this.cur_child_tag);
 				this.cur_child_tag.style.cssText = this.xml_manager.replaceVars(style);
 					
 				if(this.isCharacterName(tag.parent.chara)){
-					var chara_name = this.chara_names[tag.parent.chara] + " ";
+					const chara_name = this.chara_names[tag.parent.chara] + " ";
 					new_span.appendChild(document.createTextNode(chara_name));
 					setRulerStyle(this.cur_child_tag.style);
 					this.cur_indent_width = chara_name.getExpansion().width;
@@ -2036,10 +2046,10 @@ var LogManager = enchant.Class.create(Manager, {
 			}else if(tag.type === "ruby"){
 				addLineTextToLog();
 
-				var ruby_tag = document.createElement("ruby");
-				var rp_open = document.createElement("rp"), rp_close = document.createElement("rp");
+				const ruby_tag = document.createElement("ruby");
+				const rp_open = document.createElement("rp"), rp_close = document.createElement("rp");
 				rp_open.textContent = "(", rp_close.textContent = ")";
-				var ruby_content = document.createElement("rt");
+				const ruby_content = document.createElement("rt");
 				
 				ruby_tag.textContent = tag.text;
 				ruby_content.textContent = tag.rtext;
@@ -2075,7 +2085,7 @@ var LogManager = enchant.Class.create(Manager, {
 	},
 	
 	scroll : function(num_lines){
-		var scroll_size = num_lines * this.line_height;
+		const scroll_size = num_lines * this.line_height;
 		this.log_window._domManager.element.scrollTop = this.log_window._domManager.element.scrollTop + scroll_size;
 	},
 	
@@ -2088,7 +2098,7 @@ var LogManager = enchant.Class.create(Manager, {
 /**
  * 選択肢の表示を管理するクラス。is_availableがtrueのときに画面に表示されている選択肢を全消去する
  */
-var ChoicesManager = enchant.Class.create(Manager, {
+const ChoicesManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
 
@@ -2107,8 +2117,9 @@ var ChoicesManager = enchant.Class.create(Manager, {
 		if(!this.label_manager) this.label_manager = this.system.getManager("label");
 		if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
 
-		var choice_header = this.xml_manager.getHeader("style", "choice"), num_choices = tag_objs.children.length, original_styles = [];
-		var max = this.xml_manager.getVarStore().getVar("msg_window.y") / num_choices, y = 0;
+		const choice_header = this.xml_manager.getHeader("style", "choice"), num_choices = tag_objs.children.length, original_styles = [];
+		const max = this.xml_manager.getVarStore().getVar("msg_window.y") / num_choices;
+		let y = 0;
         if(choice_header.style.search("cursor") == -1)
             choice_header.style = "cursor: pointer; ".concat(choice_header.style);
 
@@ -2124,7 +2135,7 @@ var ChoicesManager = enchant.Class.create(Manager, {
 			}
 			choice['id'] = choice.type;
             choice['should_be_front'] = true;
-			var new_choice = this.label_manager.add(choice.text, choice, 0);
+			const new_choice = this.label_manager.add(choice.text, choice, 0);
 			new_choice.obj.index = index;
 			if(choice.to)
 				new_choice['to'] = choice.to;
@@ -2161,7 +2172,7 @@ var ChoicesManager = enchant.Class.create(Manager, {
 /**
  * ラベルを管理するクラス。end_timeに0をセットするとremoveを呼んで明示的に消去しなければ、いつまでも画面に残ることになる
  */
-var LabelManager = enchant.Class.create(Manager, {
+const LabelManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
 
@@ -2182,7 +2193,7 @@ var LabelManager = enchant.Class.create(Manager, {
 		if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
 		if(!this.effect_manager) this.effect_manager = this.system.getManager("effect");
 
-		var label = new enchant.Label(text);
+		const label = new enchant.Label(text);
 		label.moveTo(this.interpret("x", text, tag.x, tag.style), this.interpret("y", text, tag.y, tag.style));
 		//label.width = this.interpret("width", text, tag.width, tag.style);
 		this.setStyle(label, tag.style);
@@ -2190,11 +2201,11 @@ var LabelManager = enchant.Class.create(Manager, {
         
         // ラベルの幅と高さを設定する
         setRulerStyle(tag.style);
-        var bound = text.getExpansion();
+        const bound = text.getExpansion();
 		label.width = bound.idealWidth;
 		label.height = bound.height;
 
-		var new_label = {
+		const new_label = {
 			type : "label",
 			obj : label,
 			end_time : (!end_time) ? 0 : game.frame + end_time,
@@ -2234,9 +2245,9 @@ var LabelManager = enchant.Class.create(Manager, {
 	},
 
 	setStyle : function(label, str){
-		var styles = this.system.interpretStyle(str);
+		const styles = this.system.interpretStyle(str);
 
-		for(var s in styles){
+		for(const s in styles){
 			this.system.setStyleOnEnchantObject(label, s, styles[s]);
 		}
 	},
@@ -2281,7 +2292,7 @@ var LabelManager = enchant.Class.create(Manager, {
 /**
  * 画面上に表示する画像を管理するクラス。end_timeに0をセットするとremoveを呼んで明示的に消去しなければいつまでも画面に残ることになる
  */
-var ImageManager = enchant.Class.create(Manager, {
+const ImageManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
 
@@ -2303,12 +2314,12 @@ var ImageManager = enchant.Class.create(Manager, {
 		if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
 		if(!this.effect_manager) this.effect_manager = this.system.getManager("effect");
 
-		var profile = this.xml_manager.getHeader("profile", tag.target), file_name = this.xml_manager.replaceVars(tag.src || profile && profile.src);
-		var img = game.assets[file_name];
+		const profile = this.xml_manager.getHeader("profile", tag.target), file_name = this.xml_manager.replaceVars(tag.src || profile && profile.src);
+		const img = game.assets[file_name];
 		if(!img)
 			throw new SyntaxError(substituteTemplate(msg_tmpls.errorMissingIamgeFile, {fileName : file_name}));
 
-		var new_img = {
+		const new_img = {
 			type : "image",
 			obj : new enchant.Sprite(parseInt(profile.frame_width) || img.width || img._element.width
 				, parseInt(profile.frame_height) || img.height || img._element.height),
@@ -2318,7 +2329,7 @@ var ImageManager = enchant.Class.create(Manager, {
 		new_img.obj.image = img;
 		new_img.obj.moveTo(this.interpret("x", new_img.obj.width, tag.x || tag.figure_pos), this.interpret("y", new_img.obj.height, tag.y || tag.figure_pos));
 		if(tag.figure_pos){
-			var figure_index = (tag.figure_pos == "left") ? 0 :
+			const figure_index = (tag.figure_pos == "left") ? 0 :
 				(tag.figure_pos == "right") ? 1 : 2;
 			new_img['figure_index'] = figure_index;
 			if(this.figures[figure_index])
@@ -2360,7 +2371,7 @@ var ImageManager = enchant.Class.create(Manager, {
 	},
 
 	removeWithObj : function(obj){
-		var index = this.imgs.indexOf(obj);
+		const index = this.imgs.indexOf(obj);
 		delete this.imgs[index];
 	},
 
@@ -2424,7 +2435,7 @@ var ImageManager = enchant.Class.create(Manager, {
 /**
  * サウンドを管理するクラス
  */
-var SoundManager = enchant.Class.create(Manager, {
+const SoundManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
 
@@ -2446,8 +2457,8 @@ var SoundManager = enchant.Class.create(Manager, {
 	add : function(tag, volume){
 		if(!this.xml_manager) this.xml_manager = this.system.getManager("xml");
 		if(!this.audio_holder) this.audio_holder = document.querySelector("#audio_holder");
-		var file_name = this.xml_manager.replaceVars(tag.src);
-		var new_sound = {
+		const file_name = this.xml_manager.replaceVars(tag.src);
+		const new_sound = {
 			type : "sound",
 			obj : game.assets[file_name].clone(),
 			effects : [],
@@ -2508,11 +2519,11 @@ var SoundManager = enchant.Class.create(Manager, {
 	},
 
 	change : function(id, tag_obj){
-		var var_store = this.xml_manager.getVarStore();
+		const var_store = this.xml_manager.getVarStore();
 		this.sounds.forEach(function(sound){
 			if(sound.id == id){
 				if(tag_obj.vol){	//サウンドのボリュームを変更する //change the volume of the sound
-					var vol = (this.cur_bgm == sound.obj) ? var_store.getVar("options.sound_bgm") : var_store.getVar("options.sound_se");
+					const vol = (this.cur_bgm == sound.obj) ? var_store.getVar("options.sound_bgm") : var_store.getVar("options.sound_se");
 					sound.obj.volume = Math.min(Math.max(0, vol * parseFloat(tag_obj.vol)), 1);
 				}
 			}
@@ -2544,7 +2555,7 @@ var SoundManager = enchant.Class.create(Manager, {
 	}
 });
 
-var ConsoleManager = enchant.Class.create(Manager, {
+const ConsoleManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
 
@@ -2562,7 +2573,7 @@ var ConsoleManager = enchant.Class.create(Manager, {
 	 * Wrapper around the console.log function. It outputs to the game console and the standard console.
 	 */
 	log : function(content){
-		var elem = document.createElement("p");
+		const elem = document.createElement("p");
 		elem.textContent = content
 		elem.classList.add("consoleLine");
 		this.game_console.appendChild(elem);
@@ -2571,7 +2582,7 @@ var ConsoleManager = enchant.Class.create(Manager, {
 	},
 
 	logFormatted : function(tmpl, values){
-		var formatted = substituteTemplate(tmpl, values);
+		const formatted = substituteTemplate(tmpl, values);
 		this.log(formatted);
 	},
 
@@ -2582,7 +2593,7 @@ var ConsoleManager = enchant.Class.create(Manager, {
 
 	reset : function(){
 		this.console_initialized = false;
-		var range = document.createRange(), range2 = document.createRange();
+		const range = document.createRange(), range2 = document.createRange();
 		range.selectNodeContents(this.source_code_viewer);
 		range2.selectNodeContents(this.game_console);
 		range.deleteContents();
@@ -2593,7 +2604,7 @@ var ConsoleManager = enchant.Class.create(Manager, {
 /**
  * InputManagerのリアクションを制御するクラス
  */
-var ActionOperator = enchant.Class.create({
+const ActionOperator = enchant.Class.create({
 	initialize : function(){
 		this.input_manager = null;
 	}
@@ -2602,7 +2613,7 @@ var ActionOperator = enchant.Class.create({
 /**
  * 通常時のストーリー進行を司るクラス
  */
-var StoryAdvancer = enchant.Class.create(ActionOperator, {
+const StoryAdvancer = enchant.Class.create(ActionOperator, {
 	initialize : function(){
 		ActionOperator.call(this);
 
@@ -2647,7 +2658,7 @@ var StoryAdvancer = enchant.Class.create(ActionOperator, {
 			this.tag_manager.is_available = true;
 		}
 
-		var notice_label = {
+		const notice_label = {
 			x : "centered",
 			y : this.msg_manager.msg_window._element.clientTop.toString(),
 			end_time : 60,
@@ -2676,7 +2687,7 @@ var StoryAdvancer = enchant.Class.create(ActionOperator, {
 /**
  * 選択肢が表示されたときの動作を制御するクラス
  */
-var Chooser = enchant.Class.create(ActionOperator, {
+const Chooser = enchant.Class.create(ActionOperator, {
 	initialize : function(choices, original_styles){
 		ActionOperator.call(this);
 
@@ -2689,10 +2700,10 @@ var Chooser = enchant.Class.create(ActionOperator, {
 		this.tag_manager = null;
 		this.selected_se_path = null;
 
-		var self = this;
-		for(var i = choices.length - 1; i >= 0; --i){
+		const self = this;
+		for(let i = choices.length - 1; i >= 0; --i){
 			choices[i].obj.onClicked = function(){
-				var index = this.index;
+				const index = this.index;
 
 				if(index != self.cur_index)
 					self.selectChoiceAt(index);
@@ -2703,9 +2714,9 @@ var Chooser = enchant.Class.create(ActionOperator, {
 	},
 
 	setStyle : function(label, str){
-		var styles = this.input_manager.system.interpretStyle(str);
+		const styles = this.input_manager.system.interpretStyle(str);
 
-		for(var s in styles){
+		for(const s in styles){
 			this.input_manager.system.setStyleOnEnchantObject(label, s, styles[s]);
 		}
 	},
@@ -2716,7 +2727,7 @@ var Chooser = enchant.Class.create(ActionOperator, {
 		this.sound_manager = input_manager.system.getManager("sound");
 		this.xml_manager = input_manager.system.getManager("xml");
 		this.tag_manager = input_manager.system.getManager("tag");
-        var settings = this.xml_manager.getHeader("settings");
+        const settings = this.xml_manager.getHeader("settings");
         this.selected_se_path = settings.selected_se;
         this.selection_move_se_path = settings.selection_move_se;
 		this.setStyle(this.choices[0].obj, this.choices[0].select_style);
@@ -2728,7 +2739,7 @@ var Chooser = enchant.Class.create(ActionOperator, {
 	},
 
 	selectChoiceAt : function(index){
-		var last = this.cur_index;
+		const last = this.cur_index;
 		this.cur_index = index;
 		this.updateChoices(last);
 	},
@@ -2758,7 +2769,7 @@ var Chooser = enchant.Class.create(ActionOperator, {
 	},
 
 	operateUp : function(){
-		var new_index = this.cur_index - 1;
+		const new_index = this.cur_index - 1;
 		this.selectChoiceAt((new_index < 0) ? this.choices.length - 1 : new_index);
         if(this.selection_move_se_path){
         	this.sound_manager.add({
@@ -2770,7 +2781,7 @@ var Chooser = enchant.Class.create(ActionOperator, {
 	},
 
 	operateDown : function(){
-		var new_index = this.cur_index + 1;
+		const new_index = this.cur_index + 1;
 		this.selectChoiceAt((new_index == this.choices.length) ? 0 : new_index);
         if(this.selection_move_se_path){
         	this.sound_manager.add({
@@ -2785,7 +2796,7 @@ var Chooser = enchant.Class.create(ActionOperator, {
 /**
  * セーブ・ロード画面でのユーザー入力を制御するクラス
  */
-var MenuOperator = enchant.Class.create(ActionOperator, {
+const MenuOperator = enchant.Class.create(ActionOperator, {
 	initialize : function(tag_obj, states, system){
 		ActionOperator.call(this);
 
@@ -2795,7 +2806,7 @@ var MenuOperator = enchant.Class.create(ActionOperator, {
 		this.msg_manager = system.getManager("message");
 		this.tag_manager = system.getManager("tag");
 		this.states = states;
-		var back = new enchant.Sprite(game.width, game.height), self = this;
+		const back = new enchant.Sprite(game.width, game.height), self = this;
 		back.backgroundColor = "rgba(0, 0, 0, 0.5)";
 		back.onClicked = function(){
 			self.operateD();
@@ -2831,7 +2842,7 @@ var MenuOperator = enchant.Class.create(ActionOperator, {
 
 		this.cur_state = this.states[state_name];
 		if(tag_obj){
-			var original_styles = this.choices_manager.add(tag_obj);
+			const original_styles = this.choices_manager.add(tag_obj);
 			this.inner_operator = new Chooser(this.choices_manager.choices, original_styles);
 			this.inner_operator.setInputManager(this.input_manager);
 		}
@@ -2891,7 +2902,7 @@ var MenuOperator = enchant.Class.create(ActionOperator, {
 /**
  * テキストログ画面でのユーザーインプットを制御するクラス
  */
-var LogOperator = enchant.Class.create(ActionOperator, {
+const LogOperator = enchant.Class.create(ActionOperator, {
 	initialize : function(){
 		ActionOperator.call(this);
 		
@@ -2924,7 +2935,7 @@ var LogOperator = enchant.Class.create(ActionOperator, {
 /**
  * ユーザーからの入力を管理するクラス
  */
-var InputManager = enchant.Class.create(Manager, {
+const InputManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
 
@@ -2979,7 +2990,7 @@ var InputManager = enchant.Class.create(Manager, {
 /**
  * エフェクトマネージャー
  */
-var EffectManager = enchant.Class.create(Manager, {
+const EffectManager = enchant.Class.create(Manager, {
 	initialize : function(system){
 		Manager.call(this, system);
 
@@ -3041,7 +3052,7 @@ var EffectManager = enchant.Class.create(Manager, {
  * エフェクトの基底クラス
  * end_timeに0をセットすると、明示的にEffectManagerのremoveEffectを呼び出して削除しなければ、そのエフェクトはいつまでも効果が持続することになる
  */
-var Effect = enchant.Class.create({
+const Effect = enchant.Class.create({
 	initialize : function(time_to_end_affecting){
 		this.end_time = time_to_end_affecting;
 	}
@@ -3050,7 +3061,7 @@ var Effect = enchant.Class.create({
 /**
  * だんだんオブジェクトを出現させるエフェクト。opacityプロパティーを持ったものならなんにでも適用できる
  */
-var FadeInEffect = enchant.Class.create(Effect, {
+const FadeInEffect = enchant.Class.create(Effect, {
 	initialize : function(target, time_to_end_affecting, increasing_rate){
 		Effect.call(this, time_to_end_affecting);
 
@@ -3068,7 +3079,7 @@ var FadeInEffect = enchant.Class.create(Effect, {
 /**
  * だんだんオブジェクトを消していくエフェクト。opacityプロパティーを持ったものならなんにでも適用できる
  */
-var FadeOutEffect = enchant.Class.create(Effect, {
+const FadeOutEffect = enchant.Class.create(Effect, {
 	initialize : function(target, time_to_end_affecting, decreasing_rate){
 		Effect.call(this, time_to_end_affecting);
 
@@ -3086,7 +3097,7 @@ var FadeOutEffect = enchant.Class.create(Effect, {
 /**
  * オブジェクトを一定間隔で点滅させるエフェクト
  */
-var FlickerEffect = enchant.Class.create(Effect, {
+const FlickerEffect = enchant.Class.create(Effect, {
 	initialize : function(target, time_to_end_affecting, delta_time, delta_frame){
 		Effect.call(this, time_to_end_affecting);
 
@@ -3106,7 +3117,7 @@ var FlickerEffect = enchant.Class.create(Effect, {
 /**
  * 特定の座標を最小値から最大値の間で行ったり来たりするように更新するクラス。x,yプロパティーを持つものならなんにでも適用できる
  */
-var TimeIndependentVibrationEffect = enchant.Class.create(Effect, {
+const TimeIndependentVibrationEffect = enchant.Class.create(Effect, {
 	initialize : function(target, min_x, max_x, min_y, max_y, max_rate, time_to_end_affecting){
 		Effect.call(this, time_to_end_affecting);
 
@@ -3119,7 +3130,7 @@ var TimeIndependentVibrationEffect = enchant.Class.create(Effect, {
 	},
 
 	update : function(){
-		var diff_x = randInt(this.max_rate), diff_y = randInt(this.max_rate);
+		const diff_x = randInt(this.max_rate), diff_y = randInt(this.max_rate);
 		this.target.x += ((this.target.x >= this.average_val.x) ? -diff_x : diff_x);
 		this.target.y += ((this.target.y >= this.average_val.y) ? -diff_y : diff_y);
 	},
@@ -3132,7 +3143,7 @@ var TimeIndependentVibrationEffect = enchant.Class.create(Effect, {
 /**
  * オブジェクトの透明度を変更するエフェクト
  */
-var OpacityChangeEffect = enchant.Class.create(Effect, {
+const OpacityChangeEffect = enchant.Class.create(Effect, {
 	initialize : function(target, value){
 		Effect.call(this, game.frame + 1);
 
@@ -3149,7 +3160,7 @@ var OpacityChangeEffect = enchant.Class.create(Effect, {
 /**
  * オブジェクトの表示・非表示を切り替えるエフェクト。enchant.Entity.visibleを使ってます。
  */
-var VisibilityChangeEffect = enchant.Class.create(Effect, {
+const VisibilityChangeEffect = enchant.Class.create(Effect, {
 	initialize : function(target, is_visible){
 		Effect.call(this, game.frame + 1);
 
@@ -3166,7 +3177,7 @@ var VisibilityChangeEffect = enchant.Class.create(Effect, {
 /**
  * オブジェクトを移動させるエフェクト。x,yプロパティーを持つものなら何でも適用できる
  */
-var MoveEffect = enchant.Class.create(Effect, {
+const MoveEffect = enchant.Class.create(Effect, {
 	initialize : function(xml_manager, obj_manager, target, time_to_end_affecting, remove_when_out, vector, acceleration){
 		Effect.call(this, time_to_end_affecting);
 
@@ -3191,7 +3202,7 @@ var MoveEffect = enchant.Class.create(Effect, {
 		this.target.obj.x += this.xml_manager.interpretExpression(this.vector.x);
 		this.target.obj.y += this.xml_manager.interpretExpression(this.vector.y);
 
-		var width = this.target.obj._domManager.element.offsetWidth, height = this.target.obj._domManager.element.offsetHeight;
+		const width = this.target.obj._domManager.element.offsetWidth, height = this.target.obj._domManager.element.offsetHeight;
 		if(this.remove_when_out && (this.target.obj.x < -width || this.target.obj.x > game.width ||
 				this.target.obj.y < -height || this.target.obj.y > game.height)){	//画面外に出たら自動的に削除する
 			this.obj_manager.remove(this.target.id);
@@ -3203,12 +3214,12 @@ var MoveEffect = enchant.Class.create(Effect, {
 /**
  * ゲーム画面の実体。
  */
-var Display = enchant.Class.create(enchant.DOMScene, {
+const Display = enchant.Class.create(enchant.DOMScene, {
 	initialize : function(xml_paths){
 		enchant.DOMScene.call(this);
 
-		var system = new SystemManager(xml_paths);
-		var console_manager = system.getManager("console");
+		const system = new SystemManager(xml_paths);
+		const console_manager = system.getManager("console");
 		this.addChild(system);
 
 		this.backgroundColor = "#ebebeb";
@@ -3238,13 +3249,13 @@ var Display = enchant.Class.create(enchant.DOMScene, {
 		this.addEventListener('touchend', function(e){
 			if(touched){
 				if(touches && touches.length === 2){
-					var event = new enchant.Event("TouchedTwoFingers");
+					const event = new enchant.Event("TouchedTwoFingers");
 					system.dispatchEventAt(event, e.x, e.y);
 				}else if(game.frame - prev_touched_frame <= CLICK_FRAMES){
-                    var event = new enchant.Event('Clicked');
+                    const event = new enchant.Event('Clicked');
                     system.dispatchEventAt(event, e.x, e.y);
                 }else{
-                    var event = new enchant.Event('Held');
+                    const event = new enchant.Event('Held');
                     system.dispatchEventAt(event, e.x, e.y);
                 }
 
@@ -3276,24 +3287,24 @@ var Display = enchant.Class.create(enchant.DOMScene, {
     }
 });
 
-var SplashScreen = enchant.Class.create(enchant.DOMScene, {
+const SplashScreen = enchant.Class.create(enchant.DOMScene, {
 	initialize : function(display_objs){
 		enchant.DOMScene.call(this);
 
 		this.backgroundColor = "#eee";
 
-		var text = "画面をタッチしてください";
-		var label = new enchant.Label(text);
+		const text = "画面をタッチしてください";
+		const label = new enchant.Label(text);
 		label.font = "normal large serif";
 		label.color = "#000";
 		label.textAlign = "center";
 		
 		setRulerStyle("font: normal large serif");
-		var expansion = text.getExpansion();
+		const expansion = text.getExpansion();
 		label.moveTo(568 / 2 - expansion.width / 2, 320 / 2 - expansion.height / 2);
 
-		var _self = this;
-		var dummy_audio = enchant.WebAudioSound.load("sounds/silence.wav", "audio/wav", function(e){
+		const _self = this;
+		const dummy_audio = enchant.WebAudioSound.load("sounds/silence.wav", "audio/wav", function(e){
 			_self.addChild(label);
 		}, function(e){
 			console.log("エラー: 音声の初期化に失敗")
@@ -3301,7 +3312,7 @@ var SplashScreen = enchant.Class.create(enchant.DOMScene, {
 
 		this.addEventListener("touchend", function(e){
 			dummy_audio.play();
-			var display = new Display(display_objs);
+			const display = new Display(display_objs);
 		});
 
 		game.replaceScene(this);

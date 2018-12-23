@@ -272,7 +272,7 @@
 			</narrative>
 			<line chara="bear">がおー<cp/></line>
 			<line chara="自分">うっわ、熊だ！<cp/></line>
-			<narrative>野生の熊が襲いかかってきた！<eval expr="$flags.has_fight_with_bear : true"/><cp/></narrative>
+			<narrative>野生の熊が襲いかかってきた！<eval expr="$flags.has_fight_with_bear : true"/><eval expr="$bear_HP : 30" /><cp/></narrative>
 			<scene id="FightWithBear">
 				<narrative>あなたはどうしますか？<cp/></narrative>
 				<choice>
@@ -287,18 +287,20 @@
 					あなたは素手で熊に襲いかかった！<br/>
 					熊に<eval expr="$rand : randInt(100); $bear_HP : $bear_HP - $rand;  $rand"/>のダメージ！<cp/>
 					<log>熊の体力:<eval expr="$bear_HP"/></log>
-					<jump enable_if="$bear_HP &lt; 0" to="title:OutsideOfTheCastle, ids:ToLeft, Win"/>
+					<jump enable_if="$bear_HP &lt;= 0" to="title:OutsideOfTheCastle, ids:ToLeft, Win"/>
 					熊の反撃！<br/>
 					あなたは<eval expr="$rand : randInt(10); $main_HP : $main_HP - $rand; $rand"/>のダメージを受けた！<cp/>
 				</narrative>
-				<scene id="lose" enable_if="$main_HP &lt; 0">
+				<scene id="lose" enable_if="$main_HP &lt;= 0">
 					<sound id="BGM" operation="stop"/>
 					<image id="bear" operation="remove"/>
 					<jump to="title:DeadEnd"/>
 				</scene>
-				<line chara="自分" enable_if="$bear_HP &gt; 5">どうだ！やったか？<cp/></line>
-				<line chara="bear" enable_if="$bear_HP &gt; 5">ガオー！<cp/></line>
-				<line chara="自分" enable_if="$bear_HP &gt; 5">まだか<cp/></line>
+				<scene id="Confirm" enable_if="$bear_HP &gt; 5">
+					<line chara="自分">どうだ！やったか？<cp/></line>
+					<line chara="bear">ガオー！<cp/></line>
+					<line chara="自分">まだか<cp/></line>
+				</scene>
 				<jump to="title:OutsideOfTheCastle, ids:ToLeft, FightWithBear"/>
 			</scene>
 			
@@ -401,7 +403,7 @@
 			<line chara="snowman">……どうやら大丈夫じゃなさそうだね。そう言えばこっちの方で花火みたいな音がしてたけどあれは一体--<cp/></line>
 			<narrative><text style="font: normal xx-large serif">ドカーン</text><sound src="$paths.se_explo_b" operation="once"/><cp/></narrative>
 			<line chara="snowman">なるほど、これのせいか。こいつの直撃を受けて放心状態に陥っちゃってるわけか。まあ無理もないよね。<cp/></line>
-			<jump to="GoodEnd(Temp)" />
+			<jump to="title:GoodEnd(Temp)" />
 		</scene>
 		
 		<scene id="ToRight">
@@ -455,7 +457,7 @@
 	
 	<scene title="DeadEnd" shows_title="false">
 		<line chara="自分">
-			<sound src="$paths.got_down" operation="once"/>あれ、おかしいな・・なんだか意識が朦朧と・・・<br/>
+			<sound src="$paths.got_down" operation="once"/>あれ、おかしいな・・なんだか意識が<ruby rtext="もうろう">朦朧</ruby>と・・・<br/>
 			・・・・・・・・・・・<br/>
 			・・・・・・・・・・・<cp/>
 		</line>
@@ -465,6 +467,10 @@
 	</scene>
 	
 	<scene title="GoodEnd(Temp)" shows_title="true">
+		<narrative>
+			こうして俺たちは、城の中に攻め入ることができたというわけだな。
+		</narrative>
+		<jump to="title:main_menu"/>
 	</scene>
 	
 	<scene title="menu" shows_title="false">
